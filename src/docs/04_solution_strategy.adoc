@@ -1,8 +1,6 @@
 [[section-solution-strategy]]
 == Solution Strategy
 
-
-[role="arc42help"]
 ****
 
 Here the main principles of our project are listed below:
