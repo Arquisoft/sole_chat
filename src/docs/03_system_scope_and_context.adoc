@@ -25,12 +25,15 @@ Various options:
 
 [role="arc42help"]
 ****
-.Contents
-Specification of *all* communication partners (users, IT-systems, ...) with explanations of domain specific inputs and outputs or interfaces.
-Optionally you can add domain specific formats or communication protocols.
+.CONTENTS
+First of all, we have to describe the communication partners that are, mainly, the users.
+The users are going to be those who want to communicate between them in a safety and efficient environment. For example, members of an enterprise that need to send requests at a very high speed and in the most safety way. In that case they would prefer a decentralized chat than a centralized one.
+It can be independent users, like friends, not only enterprise members.
 
-.Motivation
-All stakeholders should understand which data are exchanged with the environment of the system.
+.MOTIVATION
+In the environment of the system only “basic information” of each user is going to be shared, like the user name or the e-mail address.
+Critical information like bank credentials or ID is not going to be visible (and probably not necessary in any part of the program).
+
 
 .Form
 All kinds of diagrams that show the system as a black box and specify the domain interfaces to communication partners.
