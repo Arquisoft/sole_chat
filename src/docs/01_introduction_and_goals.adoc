@@ -26,16 +26,14 @@ A more complete list of the requirements can be found at: https://github.com/Arq
 === Quality Goals
 
 |===
-|Priority |Quality goal 
+|Priority |Quality goal |Scenario
 
-|1 |It should be secure, having no vulnerability points
+|1 |Performance |The application should work properly with at least 100 users working concurrently.
 
-|2 |Be easy-to-use by users with low computing knowledge
+|2 |Availability |The data that a user has shared with a friend should be always available when one of them wants to access them (altough the other has no connection)
 
-|3 |It should be a user-friendly application
+|3 |Usability |A user with no special knowledge about computing should be able to use the application with any problems and with no external information.
 |===
-
-A more complete list of the quality goals can be found at: https://labra.solid.community/public/SoftwareArchitecture/AssignmentDescription/
 
 === Stakeholders
 
