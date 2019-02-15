@@ -1,8 +1,9 @@
 [[requirement-document]]
 == Requirements Document
 
-Our main goal in this project is to create a decentralized social network, in which the users will be able to chat, call one another and share pictures or videos with their friends.
-
+Requirements analysis is critical to the success or failure of a systems or software project. This is why we decided to add this document.
+This requirements are actionable, measurable, testable, traceable, 
+and defined clearly.
 === Requirements Overview
 
 |===
@@ -10,13 +11,48 @@ Our main goal in this project is to create a decentralized social network, in wh
 
 |Build a decentralized application.
 
-|Every user needs a to previously have a solid pod.
+|Every user needs a to have a solid pod.
 
 |The solid pod must be use to login in and identify a user.
 
+|A user can be friends with other users
 
-|There can exist group chats.
+|The friends are made in the solid pod
+
+|All the data is stored in the users solid pod
+
+|Files of up to 1MB can be sent in the chats
+
+|Image files of .jpeg .png .jpg and .gif extension are supported to be sent
+
+|Video files of .mp4 .mov and .flv extension are supported to be sent
+
+|Text files are also supported to be sent of .txt extension
+
+|A chat can be initiated in the users pod
+
+|The user controls who is allowed to see or write in their chat
+
+|Group chats are supported
+
+|A message once the sent button is pressed cannot be edited
+
+|A message once the sent button is pressed cannot be deleted
+
+|Another user must have no control of a user chat aka they cannot make any modification in who is allowed to see the chat
+
+|A user that is not a friend of the user cannot be allowed in the chat
+
+|For two different users to chat they must be solid pod friends 
+
+|It must be supported for a user to have up to 50 friends
+
+|It must be supported for a groupchat to have up to 20 members
+
+|Links and emojis must be supported to be sent in the groupchat
+
+|Up to 140 character must be supported to be sent in a single text in the chat.
+
+|A user must login to be able to use the chat 
+
 |===
-
-
-
