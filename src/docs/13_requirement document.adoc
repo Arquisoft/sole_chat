@@ -1,0 +1,22 @@
+[[requirement-document]]
+== Requirements Document
+
+Our main goal in this project is to create a decentralized social network, in which the users will be able to chat, call one another and share pictures or videos with their friends.
+
+=== Requirements Overview
+
+|===
+|Requirement 
+
+|Build a decentralized application.
+
+|Every user needs a to previously have a solid pod.
+
+|The solid pod must be use to login in and identify a user.
+
+
+|There can exist group chats.
+|===
+
+
+
