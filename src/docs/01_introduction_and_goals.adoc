@@ -14,7 +14,7 @@ Our main goal in this project is to create a decentralized social network, in wh
 
 |3 |The users can share pictures and videos with their friends
 
-|4 |There can exist group chats
+|4 |There can exist group chats.
 |===
 
 A more complete list of the requirements can be found at: https://labra.solid.community/public/SoftwareArchitecture/AssignmentDescription/
