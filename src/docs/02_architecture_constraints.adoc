@@ -19,11 +19,11 @@
 |===
 |Constraints |Description
 
-|Cost | The team will not have dedicated economic resources for the project. Must rely on free tools for the development of the application.
+|Cost | The team will not have allocated economic resources for the project. Must rely on free tools for the development of the application.
 
 |Time | Team members will have limited time to develop this project resulting on a lower development pace.
 
-|Meetings | The team will not have an office or space suited for meetings. Apart from the weekly laboratory meeting, team members will do all the comunications through online platforms.
+|Meetings | The team will not have an office or space dedicated for meetings. Apart from the weekly laboratory meeting, team members will do all the comunications through online platforms.
 |===
 
 === 2.3 Social Constraints
