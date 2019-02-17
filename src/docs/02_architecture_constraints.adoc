@@ -1,19 +1,38 @@
 [[section-architecture-constraints]]
-== Architecture Constraints
+== 2 Architecture Constraints
+
+=== 2.1 Technical Constraints
+.Table Technical Constraints
+|===
+|Constraints |Description
+
+|Programming Language | The team will use JavaScript as the programming language for building the application.
+
+|Framework | Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.
+
+|Solid Platform | Users' decentralized data will be stored in private 'pods' that lie within the solid platform.
+|===
 
 
-[role="arc42help"]
-****
-.Contents
-Any requirement that constrains software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
+=== 2.2 Organizational Constraints
+.Table Organizational Constraints
+|===
+|Constraints |Description
 
-.Motivation
-Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
-Constraints must always be dealt with; they may be negotiable, though.
+|Cost | The team will not have dedicated economic resources for the project. Must rely on free tools for the development of the application.
 
-.Form
-Simple tables of constraints with explanations.
-If needed you can subdivide them into
-technical constraints, organizational and political constraints and
-conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
-****
+|Time | Team members will have limited time to develop this project resulting on a lower development pace.
+
+|Meetings | The team will not have an office or space suited for meetings. Apart from the weekly laboratory meeting, team members will do all the comunications through online platforms.
+|===
+
+=== 2.3 Social Constraints
+.Table Social Constraints
+|===
+|Constraints |Description
+
+|Internationalization | The application will aim for the global market, hence, it must be adapted to different languages and social aspects of each society.
+
+|Conventions | The product will be user-oriented, conventions regarding the user interaction must be carefully implemented.
+
+|===
