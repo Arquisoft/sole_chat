@@ -8,4 +8,6 @@ Linked Data: Linked data is a method for publishing structured data using vocabu
 
 JavaScript: Object-oriented computer programming language commonly used to create interactive effects within web browsers.
 
+Angular: Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.
+
 MORE INFO: helpForDocumentation/glossary
