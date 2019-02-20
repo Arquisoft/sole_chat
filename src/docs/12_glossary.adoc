@@ -10,4 +10,6 @@ JavaScript: Object-oriented computer programming language commonly used to creat
 
 Angular: Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.
 
+Pod: In Solid, name given to profiles.
+
 MORE INFO: helpForDocumentation/glossary
