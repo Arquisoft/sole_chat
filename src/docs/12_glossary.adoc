@@ -1,6 +1,11 @@
 [[section-glossary]]
-== Glossary
+== GLOSARY
+Descentralized communication: It doesn´t exist a central node. All group members have access to the same number of communication channels.
 
-TODO: define the most important domain and technical terms
+Solid: A proposed set of conventions and tools for building decentralized social applications based on Linked Data principles.
+
+Linked Data: Linked data is a method for publishing structured data using vocabularies that can be connected together and interpreted by machines.
+
+JavaScript: Object-oriented computer programming language commonly used to create interactive effects within web browsers.
 
 MORE INFO: helpForDocumentation/glossary
