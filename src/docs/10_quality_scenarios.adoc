@@ -9,6 +9,12 @@ TODO: create quality tree with quality scenarios as leafs
 
 === Quality Scenarios
 
-TODO: specify quality requirements using quality scenarios
-
-MORE INFO: helpForDocumentation/qualityScenarios
+|===
+|*ref*|*quality attribute*|*quality scenario*| priority
+|1|||
+|2|||
+|3|||
+|4|||
+|5|||
+|6|||
+|===
