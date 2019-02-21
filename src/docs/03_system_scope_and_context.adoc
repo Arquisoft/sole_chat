@@ -18,22 +18,21 @@ Critical information like bank credentials or ID is not going to be visible (and
 
 === Technical Context
 
-[role="arc42help"]
-****
-.Contents
-Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.
+Our application will be a web application, for it to be decentralized, the data will be stored in the Pods of the users. So our application should be connected to the internet.
 
-.Motivation
-Many stakeholders make architectural decision based on the technical interfaces between the system and its context. Especially infrastructure or hardware designers decide these technical interfaces.
+The users will communicate with one another through URLs, that is, through the internet, without the need of a central place to store the data.
 
-.Form
-E.g. UML deployment diagram describing channels to neighboring systems,
-together with a mapping table showing the relationships between channels and input/output.
+In this way, two users will communicate through internet, using their respective Pods.
 
-****
+.Technical context diagram
+image::images/technical_diagram.png[Technical context diagram]
 
-**<Diagram or Table>**
+|===
+|Object |Description
 
-**<optionally: Explanation of technical interfaces>**
+|UserX Computer |Represents a user X, more precisely, the computer of user X, that wants to access the application.
 
-**<Mapping Input/Output to Channels>**
+|UserX Pod |Represents the Pod of user X, this Pod is a Solid Pod and will be the place where the data from user X are stored.
+
+|internet / https |This means the two users will communicate using internet with the HTTPS protocol.
+|===
