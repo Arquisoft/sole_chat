@@ -1,0 +1,32 @@
+Introduction
+
+.Motivation
+The domain interfaces and technical interfaces to communication partners are among your system's most critical aspects. Make sure that you completely understand them.
+
+.Form
+Various options:
+
+* Context diagrams
+* Lists of communication partners and their interfaces.
+****
+
+
+[role="arc42help"]
+****
+.Contents
+Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.
+
+.Motivation
+Many stakeholders make architectural decision based on the technical interfaces between the system and its context. Especially infrastructure or hardware designers decide these technical interfaces.
+
+.Form
+E.g. UML deployment diagram describing channels to neighboring systems,
+together with a mapping table showing the relationships between channels and input/output.
+
+****
+
+**<Diagram or Table>**
+
+**<optionally: Explanation of technical interfaces>**
+
+**<Mapping Input/Output to Channels>**
