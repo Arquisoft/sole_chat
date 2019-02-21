@@ -11,10 +11,10 @@ TODO: create quality tree with quality scenarios as leafs
 
 |===
 |*ref*|*quality attribute*|*quality scenario*| priority
-|1|||
-|2|||
-|3|||
-|4|||
-|5|||
-|6|||
+|1|performance |a user must receive a message in less than 30 seconds |high
+|2| availability|a user must be notified when a message is not sent in under 30 seconds|high
+|3|availability|if there is an error accesing the database the application must function as planned without any distrubance to the system|high
+|4|scalability|the application must support up to 50 users concurrently|medium
+|5|availability|a user can search up to 100 last messages |medium
+|6|compatibility|the application must function with the solid platform|high
 |===
