@@ -1,5 +1,6 @@
-body {
+html {
     overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .bodyWrapper {
@@ -71,4 +72,29 @@ h3 {
 
 .currentChatContent {
     flex-grow: 1;
+}
+
+.currentChatInput{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 3em;
+}
+
+#inputMessage {
+    height: 2em;
+    border: 1px solid rgb(233, 233, 233);
+    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    border-radius: 9999px;
+    flex-grow: 1;
+    margin-right: 2em;
+}
+
+#submitMessage {
+    border: none;
+    height:  2em;
+    width: 2em;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    background-color: #ffc107;
 }
