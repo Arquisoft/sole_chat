@@ -8,9 +8,9 @@ This decentralized chat is based on the Solid pod. The limitations we will have 
 
 === Business Context
 
-First of all, we have to describe the communication partners that are, mainly, the users.
+Communication partners are, mainly, the users.
 The users are going to be those who want to communicate between them in a safety and efficient environment. For example, members of an enterprise that need to send requests at a very high speed and in the most safety way. In that case they would prefer a decentralized chat than a centralized one.
-It can be independent users, like friends, not only enterprise members.
+It can be independent users, like friends (not only enterprise members).
 
 
 In the environment of the system only “basic information” of each user is going to be shared, like the user name or the e-mail address.
