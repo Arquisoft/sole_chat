@@ -12,6 +12,8 @@ Server: Program or device that provides functionality for other programs or devi
 
 Client: An individual system that accesses the information and programs stored on a server as part of a network environment.
 
+Client-Server Architecture: Computing model in which the server hosts, delivers and manages most of the resources and services to be consumed by the client.
+
 JavaScript: Object-oriented computer programming language commonly used to create interactive effects within web browsers.
 
 Angular: Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.
