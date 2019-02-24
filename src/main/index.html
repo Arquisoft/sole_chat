@@ -15,19 +15,20 @@
     You are logged in as <span id="user"></span>.
     <button>Log out</button>
   </p>
-  <p>
-    <label for="profile">Profile:</label>
-    <input id="profile">
-    <button id="view">View</button>
-  </p>
-  <dl id="viewer">
-    <dt>Full name</dt>
-    <dd id="fullName"></dd>
-    <dt>Friends</dt>
-    <dd>
-      <ul id="friends"></ul>
-    </dd>
-  </dl>
+  
+
+
+  <div id="messages">
+    
+    
+  </div>
+
+
+  <input type="text" id="content">
+  <input type="button" onclick="sendMessage()" value="Send">
+
+ 
+  <script src="scripts/userInSession.js"></script>
   <script src="scripts/jquery.js"></script>
   <script src="scripts/solid-auth-client.bundle.js"></script>
   <script src="scripts/rdflib.min.js"></script>
