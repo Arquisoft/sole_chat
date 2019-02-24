@@ -10,6 +10,8 @@ API(Application Programming Interface): Software intermediary that allows two ap
 
 Server: Program or device that provides functionality for other programs or devices (clients).
 
+Client: An individual system that accesses the information and programs stored on a server as part of a network environment.
+
 JavaScript: Object-oriented computer programming language commonly used to create interactive effects within web browsers.
 
 Angular: Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.
