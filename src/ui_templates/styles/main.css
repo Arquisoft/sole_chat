@@ -610,6 +610,10 @@ ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li
 	margin-bottom: 20px;
 }
 
+.offers {
+	height: 7em;
+}
+
 /* ==========================================================================
    MEDIA QUERIES
    ========================================================================== */
