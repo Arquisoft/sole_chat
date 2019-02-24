@@ -1,0 +1,13 @@
+.bodyWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 5em 2em;
+}
+
+.recentChats {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 16px rgba(28, 46, 56, 0.274);
+    padding: 1em;
+}
