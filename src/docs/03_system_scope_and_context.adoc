@@ -16,6 +16,10 @@ It can be independent users, like friends (not only enterprise members).
 In the environment of the system only “basic information” of each user is going to be shared, like the user name or the e-mail address.
 Critical information like bank credentials or ID is not going to be visible (and probably not necessary in any part of the program).
 
+.Business context diagram
+image::images/businessContextDiagram.png[Business context diagram]
+
+
 === Technical Context
 
 Our application will be a web application, for it to be decentralized, the data will be stored in the Pods of the users. So our application should be connected to the internet.
