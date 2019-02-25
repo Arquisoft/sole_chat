@@ -6,6 +6,14 @@ Solid: A proposed set of conventions and tools for building decentralized social
 
 Linked Data: Linked data is a method for publishing structured data using vocabularies that can be connected together and interpreted by machines.
 
+API(Application Programming Interface): Software intermediary that allows two applications to communicate to each other.
+
+Server: Program or device that provides functionality for other programs or devices (clients).
+
+Client: An individual system that accesses the information and programs stored on a server as part of a network environment.
+
+Client-Server Architecture: Computing model in which the server hosts, delivers and manages most of the resources and services to be consumed by the client.
+
 JavaScript: Object-oriented computer programming language commonly used to create interactive effects within web browsers.
 
 Angular: Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.
