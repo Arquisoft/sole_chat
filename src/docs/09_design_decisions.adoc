@@ -1,6 +1,9 @@
 [[section-design-decisions]]
 == Design Decisions
+Here we state the more important design decisions that have been taken in this project.
 
-TODO: record important, expensive, large scale or risky architecture decisions.
+=== JavaScript as programming language
+As stated in section 4, we will use JavaScript programming language to develop our application. The majority of the code and information that can be found about Solid uses JavaScript. That is the main reason why we decided to work with this programming language, as it is easier to adapt Solid to it.
 
-MORE INFO: helpForDocumentation/designDecisions
+=== Use Angular framework to build the application
+In the documentation of Solid there exists some help regarding the implementation of Solid applications using Angular or React. From these two, we decided to use Angular, as we found it a more complete framework.
