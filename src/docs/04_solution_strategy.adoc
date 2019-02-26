@@ -1,14 +1,9 @@
 [[section-solution-strategy]]
 == Solution Strategy
 
-****
-
 Here the main principles of our project are listed below:
 
 * 1. Implement a Model-View-Controller architectural pattern. The MVC design pattern decouples these major components allowing for efficient code reuse and parallel development. 
 * 2. Develop the application mainly with JavaScript programming languaje and using Solid as Backend data container decupling each user personal data from others.
 * 3. Use of design patterns but limiting the complexity of the implementation.
 * 4. The application is going to be Peer to Peer in order to keep personal information confidential.
-
-
-****

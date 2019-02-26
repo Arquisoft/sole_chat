@@ -22,3 +22,4 @@
 |Angular |Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.
 
 |Pod |In Solid, name given to profiles.
+|===
