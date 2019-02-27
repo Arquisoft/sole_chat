@@ -1,20 +1,21 @@
 class UserInSession {
 	constructor(session) {
-        this.session = session;
-        
-		this.webId = this.session.webId;
-
+		this.webId = session.webId;
+		console.log(this.webId)
+		this.name;
+		
 	}
 
-	 async loadProfile() {
-       this.name=await this.getName();
-       // console.log(name);
-       return await name;
-        
-        
+	async loadProfile() {
+		console.log("Loading profile...0%");
+		this.name = await this.getProfileAttribute('name');
+		console.log("Profile ["+this.name+ "] loaded 100%");
+		
 	}
 
-	async getName() {
+
+
+	async getProfileAttribute(campo) {
 		const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
 
 		// Set up a local data store and associated data fetcher
@@ -22,13 +23,9 @@ class UserInSession {
 
 		const fetcher = new $rdf.Fetcher(store);
 
-		// Load the person's data into the store
+	
+		await fetcher.load(this.webId);
 
-		var person = this.webId;
-		await fetcher.load(person);
-		const fullName = store.any($rdf.sym(person), FOAF('name'));
-       
-        return  fullName.value;
-       
+		return  store.any($rdf.sym(this.webId), FOAF(campo)).value;
 	}
 }

@@ -13,12 +13,8 @@ solid.auth.trackSession((session) => {
 	$('#login').toggle(!loggedIn);
 	$('#logout').toggle(loggedIn);
 	if (loggedIn) {
-		
 		user = new UserInSession(session);
-		user.loadProfile().then((value) => {
-      $('#user').text(value);
-		});
-		
+		user.loadProfile().then(()=>{$('#user').text(user.name)});
 	}
 });
 
@@ -53,8 +49,10 @@ $('#view').click(async function loadProfile() {
 });
 
 
-function sendMessage(){
-  $('#messages').append('<p>').append(($('#content').val()+" : "+user.name 
-  +" ["+ new Date().toLocaleTimeString()+"]"));
-  $('#content').val("");
+
+function sendMessage() {
+	$('#messages')
+		.append('<p>')
+		.append($('#content').val() + ' : ' + user.name + ' [' + new Date().toLocaleTimeString() + ']');
+	$('#content').val('');
 }
