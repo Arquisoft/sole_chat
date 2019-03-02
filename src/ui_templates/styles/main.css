@@ -94,7 +94,8 @@ body {
 }
 .navbar-inverse {
 	background-color: #fff;
-	border-color: #fff;
+	/* border-color: #fff; */
+	border: none;
 }
 .navbar-inverse .navbar-nav > li > a {
 	color: #000;
