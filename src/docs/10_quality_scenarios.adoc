@@ -6,7 +6,7 @@ TODO: record all the quality requirements of the application
 === Quality Tree
 
 .Quality Tree
-image::images/qualityAttributesTree.png[Quality Tree]
+image::qualityAttributesTree.png[Quality Tree]
 
 === Quality Scenarios
 

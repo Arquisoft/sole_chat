@@ -17,7 +17,7 @@ In the environment of the system only “basic information” of each user is go
 Critical information like bank credentials or ID is not going to be visible (and probably not necessary in any part of the program).
 
 .Business context diagram
-image::images/businessContextDiagram.png[Business context diagram]
+image::businessContextDiagram.png[Business context diagram]
 
 
 === Technical Context
@@ -29,7 +29,7 @@ The users will communicate with one another through URLs, that is, through the i
 In this way, two users will communicate through internet, using their respective Pods.
 
 .Technical context diagram
-image::images/technical_diagram.png[Technical context diagram]
+image::technical_diagram.png[Technical context diagram]
 
 |===
 |Object |Description
