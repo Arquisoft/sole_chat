@@ -6,12 +6,9 @@
 |===
 |Constraints |Description
 
-|Programming Language | The team will use JavaScript as the programming language for building the application.
-
-|Framework | Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.
-
 |Solid Platform | Users' decentralized data will be stored in private 'pods' that lie within the solid platform.
 |===
+
 
 
 === 2.2 Organizational Constraints
