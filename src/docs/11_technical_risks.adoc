@@ -1,6 +1,14 @@
 [[section-technical-risks]]
 == Risks and Technical Debts
+Regarding this project we should bear in mind some technical risks that could difficult the task of implementing this application.
 
-TODO: create a list of technical risks or debts ordered by priority
+|===
+|Priority |Risk |Measures to mitigate it
 
-MORE INFO: helpForDocumentation/technicalRisks
+|1 |The developers have never worked with Solid |They will do research about it, using the official webpage and SOlid chat and all the information available
+
+|2 |The developers are not familiar with JavaScript |All of them will look for information and try to get familiar with this language in order to take advantage of it to implement the application
+
+|3 |The developers have never used Angular |All of them will watch videos and find information in order to learn the capabilities of this framework
+|===
+

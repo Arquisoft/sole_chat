@@ -1,5 +1,6 @@
 [[section-design-decisions]]
 == Design Decisions
+Here we state the more important design decisions that have been taken in this project.
 
 |===
 |*Design Desicions*|*Description*
