@@ -1,12 +1,14 @@
 [[section-quality-scenarios]]
 == Quality Requirements
 
-TODO: record all the quality requirements of the application
+Quality requirement is a common term in project management. It is defined as the condition used to assess the conformance of the project by validating the acceptability of an attribute or characteristic for the quality of a particular result.
+Our quality requirements are going to be the following:
 
 === Quality Tree
 
 .Quality Tree
 image::qualityAttributesTree.png[Quality Tree]
+This is the Quality Tree that represents our quality requirements (hacer reseña).
 
 === Quality Scenarios
 
