@@ -100,8 +100,10 @@ export class RdfService {
       let oldFieldValue = this.getOldFieldValue(field, oldProfileData);
 
       // if there's no existing home phone number or email address, we need to add one, then add the link for hasTelephone or hasEmail
-      if(!oldFieldValue && fieldValue && (field === 'phone' || field==='email')) {
+      if(!oldFieldValue && fieldValue && (field === 'phone' || field==='email')) {          
         this.addNewLinkedField(field, insertions, predicate, fieldValue, why, me);
+      } else if (field=="message") {
+        this.addNewLinkedMessage(insertions, predicate, fieldValue, why, me);
       } else {
 
         //Add a value to be updated
@@ -144,6 +146,30 @@ export class RdfService {
     //Set the type (defaults to Home/Personal for now) and insert it into the pod as well
     //Todo: Make this dynamic
     let type = field === 'phone' ? $rdf.literal('Home') : $rdf.literal('Personal');
+    insertions.push($rdf.st(newSubject, VCARD('type'), type, why));
+
+    //Add a link in #me to the email/phone number (by id)
+    insertions.push($rdf.st(me, newPredicate, newSubject, why));
+  }
+
+  private addNewLinkedMessage(insertions, predicate, fieldValue, why, me: any) {
+    //Field is the field in the form we'll call it message.
+    let field = 'message';
+    //let newId = field + ':' + Date.now();
+    let newId = field + ':123456';
+
+    //Get a new subject, using the new ID
+    let newSubject = $rdf.sym(this.session.webId.split('#')[0] + '#' + newId);
+
+    //Set new predicate
+    let newPredicate = $rdf.sym(VCARD('isMessage'));
+
+    //Add the new message to the pod
+    insertions.push($rdf.st(newSubject, predicate, fieldValue, why));
+
+    //Set the type (defaults to Home/Personal for now) and insert it into the pod as well
+    //Todo: Make this dynamic
+    let type = $rdf.literal('Message');
     insertions.push($rdf.st(newSubject, VCARD('type'), type, why));
 
     //Add a link in #me to the email/phone number (by id)
@@ -282,6 +308,17 @@ export class RdfService {
     return '';
   }
 
+  //Function to get email. This returns only the first email, which is temporary
+  getMessage = () => {
+    const linkedUri = this.getValueFromVcard('isMessage');
+
+    if (linkedUri) {
+      return this.getValueFromVcard('value', linkedUri);
+    }
+
+    return '';
+  }
+
   //Function to get phone number. This returns only the first phone number, which is temporary. It also ignores the type.
   getPhone = () => {
     const linkedUri = this.getValueFromVcard('hasTelephone');
@@ -308,6 +345,7 @@ export class RdfService {
         image: this.getValueFromVcard('hasPhoto'),
         address: this.getAddress(),
         email: this.getEmail(),
+        message: this.getMessage(),
       };
     } catch (error) {
       console.log(`Error fetching data: ${error}`);
