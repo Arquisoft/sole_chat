@@ -16,10 +16,6 @@ It can be independent users, like friends (not only enterprise members).
 In the environment of the system only “basic information” of each user is going to be shared, like the user name or the e-mail address.
 Critical information like bank credentials or ID is not going to be visible (and probably not necessary in any part of the program).
 
-.Business context diagram
-image::images/businessContextDiagram.png[Business context diagram]
-
-
 === Technical Context
 
 Our application will be a web application, for it to be decentralized, the data will be stored in the Pods of the users. So our application should be connected to the internet.
@@ -29,14 +25,18 @@ The users will communicate with one another through URLs, that is, through the i
 In this way, two users will communicate through internet, using their respective Pods.
 
 .Technical context diagram
-image::images/technical_diagram.png[Technical context diagram]
+image::technical_diagram.png[Technical context diagram]
 
 |===
 |Object |Description
 
-|UserX Computer |Represents a user X, more precisely, the computer of user X, that wants to access the application.
+|Solid |Represents the server in which all the Solid pods are stored
 
-|UserX Pod |Represents the Pod of user X, this Pod is a Solid Pod and will be the place where the data from user X are stored.
+|Pod_UserX |Represents the Pod of user X, this Pod is a Solid Pod and it will contain all the data from the given user
 
-|internet / https |This means the two users will communicate using internet with the HTTPS protocol.
+|DeChat_Application |Represents our web application, that will be the place from which the users will be able to communicate with each other
+
+|UserX |Represents a user that is using the application
+
+|internet / https |This means the communication will be made using internet with the HTTPS protocol.
 |===

@@ -1,23 +1,25 @@
 [[section-glossary]]
 == GLOSARY
-Descentralized communication: It doesn´t exist a central node. All group members have access to the same number of communication channels.
+|===
+|Term |Definition
 
-Solid: A proposed set of conventions and tools for building decentralized social applications based on Linked Data principles.
+|Descentralized communication |It doesn´t exist a central node. All group members have access to the same number of communication channels.
 
-Linked Data: Linked data is a method for publishing structured data using vocabularies that can be connected together and interpreted by machines.
+|Solid |A proposed set of conventions and tools for building decentralized social applications based on Linked Data principles.
 
-API(Application Programming Interface): Software intermediary that allows two applications to communicate to each other.
+|Linked Data |Linked data is a method for publishing structured data using vocabularies that can be connected together and interpreted by machines.
 
-Server: Program or device that provides functionality for other programs or devices (clients).
+|API(Application Programming Interface) |Software intermediary that allows two applications to communicate to each other.
 
-Client: An individual system that accesses the information and programs stored on a server as part of a network environment.
+|Server |Program or device that provides functionality for other programs or devices (clients).
 
-Client-Server Architecture: Computing model in which the server hosts, delivers and manages most of the resources and services to be consumed by the client.
+|Client |An individual system that accesses the information and programs stored on a server as part of a network environment.
 
-JavaScript: Object-oriented computer programming language commonly used to create interactive effects within web browsers.
+|Client-Server Architecture |Computing model in which the server hosts, delivers and manages most of the resources and services to be consumed by the client.
 
-Angular: Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.
+|JavaScript |Object-oriented computer programming language commonly used to create interactive effects within web browsers.
 
-Pod: In Solid, name given to profiles.
+|Angular |Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.
 
-MORE INFO: helpForDocumentation/glossary
+|Pod |In Solid, name given to profiles.
+|===

@@ -1,6 +1,12 @@
 [[section-design-decisions]]
 == Design Decisions
+Here we state the more important design decisions that have been taken in this project.
 
-TODO: record important, expensive, large scale or risky architecture decisions.
+|===
+|*Design Desicions*|*Description*
+|Programming Language | The team will use JavaScript as the programming language for building the application.
+
+|Framework | Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.
+|===
 
 MORE INFO: helpForDocumentation/designDecisions
