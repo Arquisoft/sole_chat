@@ -1,6 +1,7 @@
 html {
     overflow-y: hidden;
     overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .bodyWrapper {
@@ -11,6 +12,7 @@ html {
 }
 
 h3 {
+    font-family: "Circular";
     margin: 0;
 }
 
@@ -38,7 +40,11 @@ h3 {
     flex-direction: row;
     align-items: center;
     flex-wrap: nowrap;
-    margin: 1.8em 0;
+    margin: 2.5em 0;
+}
+
+.chatName {
+    font-family: "Circular";
 }
 
 .chatImage {
@@ -47,8 +53,8 @@ h3 {
 
 .chatImage img {
     object-fit: cover;
-    height: 2em;
-    width: 2em;
+    height: 3em;
+    width: 3em;
     border-radius: 50%;
     box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
 }
@@ -98,6 +104,10 @@ h3 {
     margin-bottom: 1.5em;
 }
 
+.messageContent {
+    margin-bottom: 0.5em;
+}
+
 .messageTime {
     text-align: end;
 }
@@ -139,6 +149,10 @@ h3 {
     font-weight: bolder;
 }
 
+@font-face {
+    font-family: "Circular";
+    src: url(../fonts/CircularStd-Black.otf);
+}
 /* @media(max-width: 800px) {
     html {
         overflow-y: scroll;
