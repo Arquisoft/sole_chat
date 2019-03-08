@@ -117,6 +117,12 @@
   font-size: 24px;
   margin-top:8px;
   margin-bottom: 2px;
+} 
+
+.topnav .menu-item a {
+  font-size: 24px;
+  margin-top:8px;
+  margin-bottom: 2px;
 }
 
 .topnav .profile-menu {

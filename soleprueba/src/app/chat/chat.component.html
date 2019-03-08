@@ -1,0 +1,14 @@
+<div class="currentChatContent">
+  <div class="message sent">
+    <div class="messageContent" name="messageContent">
+      {{messageContent}}
+    </div>
+    <div class="messageTime">12:40</div>
+  </div>
+
+  <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
+    <input type="text" name="message" [(ngModel)]="message"/>
+    <input type="submit" value="↩︎" id="submitMessage"/>
+  </form>
+
+</div>
