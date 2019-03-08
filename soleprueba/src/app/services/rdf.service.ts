@@ -69,6 +69,10 @@ export class RdfService {
     return this.getValueFromNamespace(node, VCARD, webId);
   };
 
+  getValue = (node: string) => {
+    return this.getValueFromVcard(node, this.session.webId);
+  };
+
   /**
    * Gets a node that matches the specified pattern using the FOAF onthology
    * @param {string} node FOAF predicate to apply to the $rdf.any()
@@ -102,8 +106,6 @@ export class RdfService {
       // if there's no existing home phone number or email address, we need to add one, then add the link for hasTelephone or hasEmail
       if(!oldFieldValue && fieldValue && (field === 'phone' || field==='email')) {          
         this.addNewLinkedField(field, insertions, predicate, fieldValue, why, me);
-      } else if (field=="message") {
-        this.addNewLinkedMessage(insertions, predicate, fieldValue, why, me);
       } else {
 
         //Add a value to be updated
@@ -152,17 +154,23 @@ export class RdfService {
     insertions.push($rdf.st(me, newPredicate, newSubject, why));
   }
 
-  private addNewLinkedMessage(insertions, predicate, fieldValue, why, me: any) {
-    //Field is the field in the form we'll call it message.
-    let field = 'message';
-    //let newId = field + ':' + Date.now();
-    let newId = field + ':123456';
+  public addNewLinkedMessage(form) {
+    const insertions = [];
+    const deletions = [];
+    const me = $rdf.sym(this.session.webId);
+    const doc = $rdf.NamedNode.fromValue(this.session.webId.split('#')[0]);
+    let field = "message";
+    let predicate = VCARD(this.getFieldName(field));
+    let fieldValue = this.getFieldValue(form, field);
+    let why = doc;
+
+    let newId = field + ':' + Date.now();
 
     //Get a new subject, using the new ID
     let newSubject = $rdf.sym(this.session.webId.split('#')[0] + '#' + newId);
 
     //Set new predicate
-    let newPredicate = $rdf.sym(VCARD('isMessage'));
+    let newPredicate = $rdf.sym(VCARD('newMessage'));
 
     //Add the new message to the pod
     insertions.push($rdf.st(newSubject, predicate, fieldValue, why));
@@ -174,6 +182,19 @@ export class RdfService {
 
     //Add a link in #me to the email/phone number (by id)
     insertions.push($rdf.st(me, newPredicate, newSubject, why));
+
+    //Update existing values
+    if(insertions.length > 0 || deletions.length > 0) {
+      this.updateManager.update(deletions, insertions, (response, success, message) => {
+        if(success) {
+          this.toastr.success('Your Solid profile has been successfully updated', 'Success!');
+          form.form.markAsPristine();
+          form.form.markAsTouched();
+        } else {
+          this.toastr.error('Message: '+ message, 'An error has occurred');
+        }
+      });
+    }
   }
 
   private getUriForField(field, me): string {
@@ -308,23 +329,20 @@ export class RdfService {
     return '';
   }
 
-  //Function to get email. This returns only the first email, which is temporary
-  getMessage = () => {
-    const linkedUri = this.getValueFromVcard('isMessage');
-
-    if (linkedUri) {
-      return this.getValueFromVcard('value', linkedUri);
-    }
-
-    return '';
-  }
-
   //Function to get phone number. This returns only the first phone number, which is temporary. It also ignores the type.
   getPhone = () => {
     const linkedUri = this.getValueFromVcard('hasTelephone');
 
     if(linkedUri) {
       return this.getValueFromVcard('value', linkedUri).split('tel:+')[1];
+    }
+  };
+
+  getMessage = () => {
+    const linkedUri = this.getValueFromVcard('newMessage');
+
+    if(linkedUri) {
+      return this.getValueFromVcard('message', linkedUri);
     }
   };
 
