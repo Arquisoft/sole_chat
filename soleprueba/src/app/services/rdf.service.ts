@@ -69,8 +69,8 @@ export class RdfService {
     return this.getValueFromNamespace(node, VCARD, webId);
   };
 
-  getValue = (node: string) => {
-    return this.getValueFromVcard(node, this.session.webId);
+  getArray = (node: string) => {
+    return this.getArrayFromNamespace(node, VCARD, this.session.webId);
   };
 
   /**
@@ -154,7 +154,7 @@ export class RdfService {
     insertions.push($rdf.st(me, newPredicate, newSubject, why));
   }
 
-  public addNewLinkedMessage(form) {
+  public addNewLinkedMessage(form) : String {
     const insertions = [];
     const deletions = [];
     const me = $rdf.sym(this.session.webId);
@@ -186,15 +186,12 @@ export class RdfService {
     //Update existing values
     if(insertions.length > 0 || deletions.length > 0) {
       this.updateManager.update(deletions, insertions, (response, success, message) => {
-        if(success) {
-          this.toastr.success('Your Solid profile has been successfully updated', 'Success!');
-          form.form.markAsPristine();
-          form.form.markAsTouched();
-        } else {
+        if(!success) {
           this.toastr.error('Message: '+ message, 'An error has occurred');
-        }
+        } 
       });
-    }
+    } 
+    return this.getMessage();
   }
 
   private getUriForField(field, me): string {
@@ -339,8 +336,8 @@ export class RdfService {
   };
 
   getMessage = () => {
-    const linkedUri = this.getValueFromVcard('newMessage');
-
+    let array = this.getArray('newMessage');
+    const linkedUri = array[array.length - 1];
     if(linkedUri) {
       return this.getValueFromVcard('message', linkedUri);
     }
@@ -363,7 +360,6 @@ export class RdfService {
         image: this.getValueFromVcard('hasPhoto'),
         address: this.getAddress(),
         email: this.getEmail(),
-        message: this.getMessage(),
       };
     } catch (error) {
       console.log(`Error fetching data: ${error}`);
@@ -382,5 +378,9 @@ export class RdfService {
       return store.value;
     }
     return '';
+  }
+
+  private getArrayFromNamespace(node: string, namespace: any, webId?: string): string | any {
+    return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
   }
 }

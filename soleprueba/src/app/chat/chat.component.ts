@@ -32,6 +32,7 @@ export class ChatComponent implements OnInit {
       if (profile) {
         this.profile = profile;
         this.auth.saveOldUserData(profile);
+        this.messageContent = this.rdf.getMessage();
       }
 
       this.loadingProfile = false;
@@ -44,8 +45,8 @@ export class ChatComponent implements OnInit {
   async onSubmit () {
     if (!this.chatForm.invalid) {
       try {
-        await this.rdf.addNewLinkedMessage(this.chatForm);
-        this.messageContent = this.rdf.getMessage();
+        this.messageContent = await this.rdf.addNewLinkedMessage(this.chatForm);
+        window.location.reload();
       } catch (err) {
         console.log(`Error: ${err}`);
       }
