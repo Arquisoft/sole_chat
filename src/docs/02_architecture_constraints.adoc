@@ -7,6 +7,9 @@
 |Constraints |Description
 
 |Solid Platform | Users' decentralized data will be stored in private 'pods' that lie within the solid platform.
+|Platform | Users must access our app regardless of their operating system (like MacOS,Windows, or Linux)
+|Browser | Users must be able to access Sole dechat from any updated browser (like Chrome, Firefox or Opera)
+|Open Source | The application must be developed with open source license in this instance the MIT license
 |===
 
 
