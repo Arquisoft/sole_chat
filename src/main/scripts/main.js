@@ -10,17 +10,17 @@ const popupUri = 'popup.html';
 $('#login  button').click(() => solid.auth.popupLogin({ popupUri }));
 $('#logout button').click(() => solid.auth.logout());
 
+//save the user logged
+var user;
 // Update components to match the user's login status
-solid.auth.trackSession(session => {
-  const loggedIn = !!session;
-  $('#login').toggle(!loggedIn);
-  $('#logout').toggle(loggedIn);
-  if (loggedIn) {
-    $('#user').text(session.webId);
-    // Use the user's WebID as default profile
-    if (!$('#profile').val())
-      $('#profile').val(session.webId);
-  }
+solid.auth.trackSession((session) => {
+	const loggedIn = !!session;
+	$('#login').toggle(!loggedIn);
+	$('#logout').toggle(loggedIn);
+	if (loggedIn) {
+		user = new UserInSession(session);
+		user.loadProfile().then(()=>{$('#user').text(user.name)});
+	}
 });
 
 $('#view').click(async function loadProfile() {
@@ -29,13 +29,13 @@ $('#view').click(async function loadProfile() {
   const fetcher = new $rdf.Fetcher(store);
   const VCARD = new $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 
-  // Load the person's data into the store
-  const person = $('#profile').val();
-  await fetcher.load(person);
+	// Load the person's data into the store
+	const person = $('#profile').val();
+	await fetcher.load(person);
 
-  // Display their details
-  const fullName = store.any($rdf.sym(person), FOAF('name'));
-  $('#fullName').text(fullName && fullName.value);
+	// Display their details
+	const fullName = store.any($rdf.sym(person), FOAF('name'));
+	$('#fullName').text(fullName && fullName.value);
 
   // Display their friends
   const friends = store.each($rdf.sym(person), FOAF('knows'));
@@ -52,6 +52,15 @@ $('#view').click(async function loadProfile() {
 
 
 });
+
+
+
+function sendMessage() {
+	$('#messages')
+		.append('<p>')
+		.append($('#content').val() + ' : ' + user.name + ' [' + new Date().toLocaleTimeString() + ']');
+	$('#content').val('');
+}
 
 $('#view').click(async function writeMessage() {
   kb = UI.store;
