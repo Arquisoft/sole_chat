@@ -17,3 +17,6 @@ Explain how messaging works between components //to do
 
 === _User Interface_
 Describe the impression of the interface 
+
+=== _Persistency_ 
+Relies on Solid Platform
