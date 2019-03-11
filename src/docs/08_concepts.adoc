@@ -11,3 +11,6 @@ Cross-cutting concepts in aspect-oriented software development, are aspects of a
 Message
 Pod
 Client //to do
+
+=== _Communication_
+Explain how messaging works between components //to do
