@@ -33,6 +33,7 @@ A more complete list of the requirements can be found at: https://github.com/Arq
 |2 |Availability |The data that a user has shared with a friend should be always available when one of them wants to access them (altough the other has no connection)
 
 |3 |Usability |A user with no special knowledge about computing should be able to use the application with any problems and with no external information.
+|4 |Testability |Developement team must test any new implementation in less than a week
 |===
 
 === Stakeholders
