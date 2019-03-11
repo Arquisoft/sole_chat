@@ -7,4 +7,7 @@ Cross-cutting concepts in aspect-oriented software development, are aspects of a
 === _Domain Model_
 //include and explain UML diagram
 
-=== _Domain Model_
+=== _Domain Concept_
+Message
+Pod
+Client //to do
