@@ -15,8 +15,9 @@ Client //to do
 === _Communication_
 Explain how messaging works between components //to do
 
-=== _User Interface_
-Describe the impression of the interface 
+=== _User Interface_ 
+Our interface in order to be intuitive and easy to use, it has different colors (also prepared for blind-color people), as a first view everything seems to be clean and easy to understand. It also has a good contrast, the chat is familiar and confortable for the person who is using it.
+It has internal coherence and a clear hierarchy, is efficiency, giving more priority to the most important things.
 
 === _Persistency_ 
-Relies on Solid Platform
+Persistence refers to the characteristic of state that outlives the process that created it, our proyect relies on the Solid Platform so the persistence is provided by Solid.
