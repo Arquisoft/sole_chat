@@ -14,3 +14,6 @@ Client //to do
 
 === _Communication_
 Explain how messaging works between components //to do
+
+=== _User Interface_
+Describe the impression of the interface 
