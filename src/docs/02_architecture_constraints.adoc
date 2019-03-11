@@ -10,6 +10,7 @@
 |Platform | Users must access our app regardless of their operating system (like MacOS,Windows, or Linux)
 |Browser | Users must be able to access Sole dechat from any updated browser (like Chrome, Firefox or Opera)
 |Open Source | The application must be developed with open source license in this instance the MIT license
+|Documentation | We must use arc42 templates written with .adoc extension
 |===
 
 
@@ -24,6 +25,7 @@
 |Time | Team members will have limited time to develop this project resulting on a lower development pace.
 
 |Meetings | The team will not have an office or space dedicated for meetings. Apart from the weekly laboratory meeting, team members will do all the comunications through online platforms.
+
 |===
 
 === 2.3 Social Constraints
