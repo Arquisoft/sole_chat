@@ -1,10 +1,22 @@
 [[section-concepts]]
 == Cross-cutting Concepts
 
-TODO: Describe regulations and solutions that are relevant in multiple parts of the system (domain models, patterns...)
+Cross-cutting concepts in aspect-oriented software development, are aspects of a program that affect other concerns. When an application has different components some of these may rely in others these cannot be categorized in a existing section either in the design or implementation aspect. These concepts rely too much in other parts to be its own category. In pur application these concepts are:
 
-=== _<Concept 1n>_
 
-TODO: explain concept n
+=== _Domain Model_
+//include and explain UML diagram
 
-MORE INFO: helpForDocumentation/concepts
+=== _Domain Concept_
+Message
+Pod
+Client //to do
+
+=== _Communication_
+Explain how messaging works between components //to do
+
+=== _User Interface_
+Describe the impression of the interface 
+
+=== _Persistency_ 
+Relies on Solid Platform

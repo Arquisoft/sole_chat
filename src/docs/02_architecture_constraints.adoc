@@ -6,12 +6,13 @@
 |===
 |Constraints |Description
 
-|Programming Language | The team will use JavaScript as the programming language for building the application.
-
-|Framework | Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.
-
 |Solid Platform | Users' decentralized data will be stored in private 'pods' that lie within the solid platform.
+|Platform | Users must access our app regardless of their operating system (like MacOS,Windows, or Linux)
+|Browser | Users must be able to access Sole dechat from any updated browser (like Chrome, Firefox or Opera)
+|Open Source | The application must be developed with open source license in this instance the MIT license
+|Documentation | We must use arc42 templates written with .adoc extension
 |===
+
 
 
 === 2.2 Organizational Constraints
@@ -24,6 +25,7 @@
 |Time | Team members will have limited time to develop this project resulting on a lower development pace.
 
 |Meetings | The team will not have an office or space dedicated for meetings. Apart from the weekly laboratory meeting, team members will do all the comunications through online platforms.
+
 |===
 
 === 2.3 Social Constraints
