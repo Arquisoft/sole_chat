@@ -6,7 +6,11 @@ body {
 	line-height: 1.4;
 }
 
-
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
 
 ::-moz-selection {
  background: #f2c2c9;
@@ -18,7 +22,9 @@ body {
 	color: #a4003a;
 	text-shadow: none;
 }
-
+/*
+ * A better looking default horizontal rule
+ */
 
 hr {
 	display: block;
@@ -39,11 +45,16 @@ hr {
 img {
 	vertical-align: middle;
 }
-
+/*
+ * Allow only vertical resizing of textareas.
+ */
 
 textarea {
 	resize: vertical;
 }
+/* ==========================================================================
+   General styles
+   ========================================================================== */
 
 html, body {
 	height: 100%;
@@ -83,7 +94,8 @@ body {
 }
 .navbar-inverse {
 	background-color: #fff;
-	border-color: #fff;
+	/* border-color: #fff; */
+	border: none;
 }
 .navbar-inverse .navbar-nav > li > a {
 	color: #000;
@@ -135,7 +147,7 @@ h2 {
 h3 {
 	font-size: 26px;
 }
-
+/* Paragraph & Typographic */
 p {
 	line-height: 28px;
 	margin-bottom: 20px;
@@ -223,7 +235,9 @@ a:before, a:after {
 	background: #f5f5f5;
 }
 
-
+/* ==========================================================================
+   Wrap Sections
+   ========================================================================== */
 
 #headerwrap {
 	margin-top: -50px;
@@ -460,6 +474,9 @@ ul.social-buttons li a {
 ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li a:active {
 	color: #ffbf00;
 }
+/* ==========================================================================
+   Box Sections
+   ========================================================================== */
 
 .white h1 {
 	color: #999;
@@ -468,7 +485,9 @@ ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li
 	padding-top: 25px;
 }
 
-
+/* ==========================================================================
+   Image Mask
+   ========================================================================== */
 
 .grid figure {
 	margin: 0;
@@ -592,6 +611,22 @@ ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li
 	margin-bottom: 20px;
 }
 
+.offers {
+	height: 7em;
+}
+
+.documentation {
+	margin-bottom: 2em;
+}
+
+.navbar {
+	box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
+}
+
+/* ==========================================================================
+   MEDIA QUERIES
+   ========================================================================== */
+
 
 @media screen and (max-width:1050px), screen and (max-device-width:1050px) {
 body .header {
@@ -599,6 +634,7 @@ body .header {
 }
 }
 
+/*ipad portrait*/
 @media only screen and (min-device-width:768px) and (max-device-width : 1024px) and (orientation : portrait) {
 .header {
 	background-attachment: scroll;
