@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Deployment View</title>
+<title>Requirements Document</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -435,49 +435,106 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#section-deployment-view">Deployment View</a>
-<ul class="sectlevel2">
-<li><a href="#_infrastructure_level_1">Infrastructure Level 1</a></li>
-<li><a href="#_infrastructure_level_2">Infrastructure Level 2</a></li>
-</ul>
-</li>
+<li><a href="#requirement-document">Requirements Document</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="section-deployment-view">Deployment View</h2>
+<h2 id="requirement-document">Requirements Document</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO: the technical infrastructure used to execute the system</p>
+<p>Requirements analysis is critical to the success or failure of a systems or software project. This is why we decided to add this document.
+This requirements are actionable, measurable, testable, traceable,
+and defined clearly.</p>
 </div>
-<div class="paragraph">
-<p>TODO: mapping of (software) building blocks to that infrastructure elements</p>
-</div>
-<div class="sect2">
-<h3 id="_infrastructure_level_1">Infrastructure Level 1</h3>
-<div class="paragraph">
-<p>TODO: describe the first infrastructure level</p>
-</div>
-<div class="paragraph">
-<p>TODO: overview diagram</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_infrastructure_level_2">Infrastructure Level 2</h3>
-<div class="paragraph">
-<p>TODO: internal structure of (some) infrastructure elements from level 1.</p>
-</div>
-<div class="paragraph">
-<p>MORE INFO: helpForDocumentation/deploymentView</p>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Build a decentralized application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every user needs a to have a solid pod.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The solid pod must be use to login in and identify a user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user can be friends with other users</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The friends are made in the solid pod</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All the data is stored in the users solid pod</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Files of up to 1MB can be sent in the chats</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Image files of .jpeg .png .jpg and .gif extension are supported to be sent</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Video files of .mp4 .mov and .flv extension are supported to be sent</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Text files are also supported to be sent of .txt extension</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A chat can be initiated in the users pod</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user controls who is allowed to see or write in their chat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Group chats are supported</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message once the sent button is pressed cannot be edited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message once the sent button is pressed cannot be deleted</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Another user must have no control of a user chat aka they cannot make any modification in who is allowed to see the chat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user that is not a friend of the user cannot be allowed in the chat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For two different users to chat they must be solid pod friends</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It must be supported for a user to have up to 50 friends</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It must be supported for a groupchat to have up to 20 members</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Links and emojis must be supported to be sent in the groupchat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up to 140 character must be supported to be sent in a single text in the chat.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user must login to be able to use the chat</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-03-12 00:11:02 +0100
+Last updated 2019-03-12 20:02:56 +0100
 </div>
 </div>
 </body>
