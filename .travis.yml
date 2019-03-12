@@ -1,4 +1,20 @@
 language: node_js
+sudo: false
 node_js:
-- "stable"
-after_success: npm run coverage
+  - 10
+
+addons:
+  chrome: stable
+
+cache:
+  directories:
+    - ./node_modules
+
+install:
+  - npm install
+  
+script:
+  - npm run test -- --watch=false --browsers=ChromeHeadlessNoSandbox
+
+after_success:
+  - npm run coverage
