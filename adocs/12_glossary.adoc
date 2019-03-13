@@ -3,7 +3,7 @@
 |===
 |Term |Definition
 
-|Descentralized communication |It doesn´t exist a central node. All group members have access to the same number of communication channels.
+|Decentralized communication |It doesn´t exist a central node. All group members have access to the same number of communication channels.
 
 |Solid |A proposed set of conventions and tools for building decentralized social applications based on Linked Data principles.
 
@@ -22,4 +22,12 @@
 |Angular |Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.
 
 |Pod |In Solid, name given to profiles.
+
+|Travis CI | Hosted, distributed continuous integration service used to build and test software projects hosted at GitHub.
+
+|Continuous integration | Practice of merging in small code changes frequently.
+
+|RDF | Stands for Resource Description Framework and is a standard for data interchange, developed and agreed upon by W3C.
+
+
 |===
