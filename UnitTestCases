@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCase>
+<selenese>
+	<command>open</command>
+	<target><![CDATA[http://localhost:8090/login?logout]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[name=username]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>type</command>
+	<target><![CDATA[name=username]]></target>
+	<value><![CDATA[wegrh]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[name=password]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>type</command>
+	<target><![CDATA[name=password]]></target>
+	<value><![CDATA[q]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Password:'])[1]/following::button[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[name=username]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>type</command>
+	<target><![CDATA[name=username]]></target>
+	<value><![CDATA[pablo@uniovi.es]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[name=password]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>type</command>
+	<target><![CDATA[name=password]]></target>
+	<value><![CDATA[admin123]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Password:'])[1]/following::button[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Ver Usuarios'])[1]/following::span[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Idioma'])[1]/following::span[2]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[//body]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[link=Desconectar]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Idioma'])[1]/preceding::img[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Select ID Provider'])[1]/following::div[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Login with Solid Identity'])[1]/preceding::h1[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Select ID Provider'])[1]/following::button[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Login with Solid Identity'])[1]/following::div[2]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Select ID Provider'])[1]/following::div[6]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Inrupt'])[1]/following::button[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[id=username]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>type</command>
+	<target><![CDATA[id=username]]></target>
+	<value><![CDATA[Paferpe]]></value>
+</selenese>
+<selenese>
+	<command>type</command>
+	<target><![CDATA[id=password]]></target>
+	<value><![CDATA[Crispelayo69.]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[id=login]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Menu Item 3'])[1]/following::img[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Login with Solid Identity'])[1]/following::div[2]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[id=a0e6a5c6daf1]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Solid Community'])[1]/following::button[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[id=login]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[xpath=(.//*[normalize-space(text()) and normalize-space(.)='Solid'])[1]/following::i[1]]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[name=message]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+<selenese>
+	<command>type</command>
+	<target><![CDATA[name=message]]></target>
+	<value><![CDATA[Prueba]]></value>
+</selenese>
+<selenese>
+	<command>click</command>
+	<target><![CDATA[id=submitMessage]]></target>
+	<value><![CDATA[]]></value>
+</selenese>
+</TestCase>
