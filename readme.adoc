@@ -20,24 +20,23 @@ using the https://arc42.org/[arc42] templates.
 The source documents are located at
  https://github.com/Arquisoft/dechat_en2b/tree/master/src/docs[src/docs].
 
-Using https://maven.apache.org/[Maven] and the
+Using Angular and the
 https://asciidoctor.org/[AsciiDoctor plugin] it is possible to generate
-the documentation running:
+the documentation running previously having installed the gulp plugin in angular:
 
 ----
-mvn generate-resources
+gulp
 ----
 
 == Compile and run
 
-The skeleton project is a simple
- https://spring.io/projects/spring-boot[Spring-boot] application which can be run as:
+The project is a simple application which can be run as:
 
 ----
- mvn spring-boot:run
+ ng serve -o
 ----
 
-Once executed, the application should be available at: http://localhost:8080
+Once executed, the application should be available at: http://localhost:4200
 
 == Testing
 
@@ -57,19 +56,7 @@ mvn test
 
 == Site documentation
 
-The https://github.com/Arquisoft/dechat_en2b/tree/master/pom.xml[pom.xml] file
- has also been configured to generate site project documentation running:
-
-----
-mvn site
-----
-
-
-
-
-
-
-
+The https://arquisoft.github.io/dechat_en2b/docs[documentation] is available here
 
 
 
