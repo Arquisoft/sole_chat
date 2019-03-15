@@ -77,3 +77,18 @@ public class UntitledTestCase {
     driver.close();
     // ERROR: Caught exception [ERROR: Unsupported command [selectWindow | win_ser_local | ]]
   }
+  
+  
+   @Test
+  public void testSendingMessages() throws Exception {
+    driver.get("http://localhost:4200/card");
+    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Solid'])[1]/following::i[1]")).click();
+    driver.findElement(By.name("message")).click();
+    driver.findElement(By.name("message")).clear();
+    driver.findElement(By.name("message")).sendKeys("Test message");
+    driver.findElement(By.name("message")).sendKeys(Keys.ENTER);
+    driver.findElement(By.name("message")).click();
+    driver.findElement(By.name("message")).clear();
+    driver.findElement(By.name("message")).sendKeys("Test message 2");
+    driver.findElement(By.name("message")).sendKeys(Keys.ENTER);
+  }
