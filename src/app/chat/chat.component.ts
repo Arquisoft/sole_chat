@@ -5,6 +5,9 @@ import { RdfService } from '../services/rdf.service';
 import { AuthService } from '../services/solid.auth.service';
 import { ActivatedRoute } from '@angular/router';
 
+//Methods defined in js files
+declare function createFolder(path, folder): any;
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -45,7 +48,8 @@ export class ChatComponent implements OnInit {
   async onSubmit () {
     if (!this.chatForm.invalid) {
       try {
-        this.messageContent = await this.rdf.addNewLinkedMessage(this.chatForm);
+        createFolder("https://ajunque9.solid.community/public","CreadoDesdeAngular");
+        //this.messageContent = await this.rdf.addNewLinkedMessage(this.chatForm);
         window.location.reload();
       } catch (err) {
         console.log(`Error: ${err}`);
