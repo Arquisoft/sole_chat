@@ -1,20 +1,28 @@
-language: node_js
+dist: trusty
 sudo: false
+ 
+language: node_js
 node_js:
   - 10
-
+ 
 addons:
-  chrome: stable
-
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+      
 cache:
   directories:
-    - ./node_modules
+    - $HOME/.npm
 
 install:
-  - npm install
-  
+  - npm ci
+ 
 script:
-  - npm run test -- --watch=false --browsers=ChromeHeadlessNoSandbox
-
+  - npm run setup:install
+  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+  - npm run docs:build
+  
 after_success:
   - npm run coverage

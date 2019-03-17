@@ -6,6 +6,9 @@ import { AuthService } from '../services/solid.auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { FileManagerService} from '../services/file-manager.service';
 
+//Methods defined in js files
+declare function createFolder(path, folder): any;
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
