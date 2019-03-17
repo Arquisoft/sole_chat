@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable, from } from 'rxjs';
 import { RdfService } from './rdf.service';
 import { SolidProvider } from '../models/solid-provider.model';
+
 declare let solid: any;
 
 interface SolidSession {
@@ -53,6 +54,8 @@ export class AuthService {
     } catch (error) {
       console.log(`Error: ${error}`);
     }
+
+    // fileManager.guardarAlgoEnElPod();
   }
 
   /*

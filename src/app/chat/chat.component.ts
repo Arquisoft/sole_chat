@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { RdfService } from '../services/rdf.service';
 import { AuthService } from '../services/solid.auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { FileManagerService} from '../services/file-manager.service';
 
 //Methods defined in js files
 declare function createFolder(path, folder): any;
@@ -21,11 +22,14 @@ export class ChatComponent implements OnInit {
 
   @ViewChild('f') chatForm: NgForm;
 
-  constructor(private rdf: RdfService, private auth: AuthService) {}
+  constructor(private rdf: RdfService, private auth: AuthService,private fileManager: FileManagerService) {
+  
+  }
 
   ngOnInit() {
     this.loadingProfile = true;
     this.loadProfile();
+
   }
 
   async loadProfile() {
@@ -46,15 +50,7 @@ export class ChatComponent implements OnInit {
   }
 
   async onSubmit () {
-    if (!this.chatForm.invalid) {
-      try {
-        createFolder("https://ajunque9.solid.community/public","CreadoDesdeAngular");
-        //this.messageContent = await this.rdf.addNewLinkedMessage(this.chatForm);
-        window.location.reload();
-      } catch (err) {
-        console.log(`Error: ${err}`);
-      }
-    }
+      this.fileManager.saveSomethingInThePOD();
   }
 
 }
