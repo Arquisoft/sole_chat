@@ -1,4 +1,8 @@
 <div class="currentChatContent">
+  <p>Friend: 
+    <span id="friend">javi</span>
+  </p>
+
   <div class="message sent">
     <div class="messageContent" name="messageContent">
       {{messageContent}}
@@ -6,8 +10,15 @@
     <div class="messageTime">12:40</div>
   </div>
 
+  <div class="message received">
+    <div class="messageContent" name="messageReceived">
+        {{messageReceived}}
+    </div>
+    <div class="messageTime">12:50</div>
+  </div>
+
   <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
-    <input type="text" name="message" [(ngModel)]="message"/>
+    <input type="text" id="message" name="message" [(ngModel)]="message"/>
     <input type="submit" value="↩︎" id="submitMessage"/>
   </form>
 

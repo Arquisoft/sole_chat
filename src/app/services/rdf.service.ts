@@ -47,6 +47,10 @@ export class RdfService {
     this.getSession();
   }
 
+  getWebID = async() => {
+    return this.session.webId;
+  };
+
   /**
    * Fetches the session from Solid, and store results in localStorage
    */
@@ -383,4 +387,5 @@ export class RdfService {
   private getArrayFromNamespace(node: string, namespace: any, webId?: string): string | any {
     return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
   }
+
 }
