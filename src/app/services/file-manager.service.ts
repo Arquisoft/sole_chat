@@ -87,4 +87,23 @@ export class FileManagerService {
 
 		return lastMessage;
 	}
+
+	async retrieveLastMessageReceived(friend) {
+		var direction = "https://" + friend + ".solid.community/public/mensajes.json";
+		var lastMessage : String = "";
+
+		await fileManager.readFile(direction).then(
+			(body) => {
+				var object = JSON.parse(body);
+				var size = object.mensajes.length;
+				if (size > 0)
+					lastMessage = object.mensajes[size - 1];
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+
+		return lastMessage;
+	}
 }

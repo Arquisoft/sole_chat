@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit {
   profile: SolidProfile;
   loadingProfile: Boolean;
   messageContent: String = "";
+  messageReceived: String = "";
 
   @ViewChild('f') chatForm: NgForm;
 
@@ -31,6 +32,7 @@ export class ChatComponent implements OnInit {
     this.loadingProfile = true;
     this.loadProfile();
     this.getLastMessage();
+    this.getMessageReceived();
   }
 
   async loadProfile() {
@@ -51,8 +53,14 @@ export class ChatComponent implements OnInit {
 
   async getLastMessage() {
     var res = await this.fileManager.retrieveLastMessage();
-    console.log(res);
     this.messageContent = res;
+  }
+
+  async getMessageReceived() {
+    var friend = (<HTMLInputElement>document.getElementById("friend")).textContent;
+    console.log(friend);
+    var res = await this.fileManager.retrieveLastMessageReceived(friend);
+    this.messageReceived = res;
   }
 
   async onSubmit () {
