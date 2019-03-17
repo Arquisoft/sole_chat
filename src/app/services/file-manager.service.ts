@@ -1,57 +1,90 @@
 import { Injectable } from '@angular/core';
 import * as fileManager from 'solid-file-client';
+import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
 
 @Injectable({
 	providedIn: 'root'
 })
-export class FileManagerService {
-	constructor() {}
 
-	async saveSomethingInThePOD() {
+export class FileManagerService {
+	constructor() { }
+
+	async saveSomethingInThePOD(message) {
+		let direction: String;
+
 		await fileManager.popupLogin().then((webId) => {
 			console.log('Logged in as ' + webId);
+			direction = webId.split("/profile")[0] + "/public/messages.json";
 		});
 
-		var direccion = 'https://javi.solid.community/public/mensajes.json';
+		var baseContent = {
+			messages: [
 
-		/*
-await fileManager.updateFile(direccion,"Si la verdad que es una mierda")
-.then( fileCreated => {
-  console.log(`Created file ${fileCreated}.`);
-}, err => console.log(err) );*/
-
-		var fileContent = {
-			mensajes: [
-				'Hola este es el primer mensaje',
-				'Hola este el segundo',
-				'Hola este es el tercero'
 			]
 		};
-		/*
-await fileManager.deleteFile( direccion ).then( response => {
-  alert( direccion+" successfully deleted" )
-}, err => console.log(direccion+" not deleted : "+err) );
-*/
 
-		/*
-  await fileManager.fetchAndParse(direccion).then(object => {
-    console.log(object); 
-    
-}, err => console.log(err) );*/
-
-		await fileManager.readFile(direccion).then(
+		await fileManager.readFile(direction).then(
 			(body) => {
-				var object = JSON.parse(body);
-				object.mensajes.push('Mensaje ' + object.mensajes.length);
+				this.updateFile(body, direction, message);
+			},
+			(err) => {
+				if (err.includes("Not Found")) {
+					fileManager.createFile(direction, JSON.stringify(baseContent)).then(
+						(fileCreated) => {
+							console.log(`Created file ${fileCreated}.`);
+						});
 
-				fileManager.updateFile(direccion, JSON.stringify(object)).then(
-					(fileCreated) => {
-						console.log(`Created file ${fileCreated}.`);
-					},
-					(err) => console.log(err)
-				);
+					fileManager.readFile(direction).then(
+						(body) => {
+							this.updateFile(body, direction, message);
+						},
+						(err) => {
+							console.log(err);
+						}
+					);
+				} else {
+					console.log(err)
+				}
+
+			}
+		);
+	}
+
+	updateFile(body, direction, message) {
+		var object = JSON.parse(body);
+		//object.messages.push('Message ' + object.menssages.length);
+		object.messages.push(message);
+
+		fileManager.updateFile(direction, JSON.stringify(object)).then(
+			(fileUpdated) => {
+				console.log(`Updated file ${fileUpdated}.`);
 			},
 			(err) => console.log(err)
 		);
+
+		window.location.reload();
+	}
+
+	async retrieveLastMessage() {
+		var direction;
+		var lastMessage : String = "";
+
+		await fileManager.popupLogin().then((webId) => {
+			direction = webId.split("/profile")[0] + "/public/messages.json";
+		});
+
+		await fileManager.readFile(direction).then(
+			(body) => {
+				var object = JSON.parse(body);
+				var size = object.messages.length;
+				if (size > 0)
+					lastMessage = object.messages[size - 1];
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+
+		return lastMessage;
 	}
 }

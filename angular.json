@@ -32,9 +32,7 @@
             ],
             "scripts": [
               "node_modules/solid-auth-client/dist-lib/solid-auth-client.bundle.js",
-              "src/assets/js/libs/rdflib.min.js",
-              "src/assets/js/libs/ApiHandler.js",
-              "src/assets/js/libs/folderUtils.js"
+              "src/assets/js/libs/rdflib.min.js"
             ]
           },
           "configurations": {

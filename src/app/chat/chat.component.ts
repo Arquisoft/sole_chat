@@ -5,6 +5,7 @@ import { RdfService } from '../services/rdf.service';
 import { AuthService } from '../services/solid.auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { FileManagerService} from '../services/file-manager.service';
+import { windowWhen } from 'rxjs/operators';
 
 //Methods defined in js files
 declare function createFolder(path, folder): any;
@@ -29,7 +30,7 @@ export class ChatComponent implements OnInit {
   ngOnInit() {
     this.loadingProfile = true;
     this.loadProfile();
-
+    this.getLastMessage();
   }
 
   async loadProfile() {
@@ -39,7 +40,6 @@ export class ChatComponent implements OnInit {
       if (profile) {
         this.profile = profile;
         this.auth.saveOldUserData(profile);
-        this.messageContent = this.rdf.getMessage();
       }
 
       this.loadingProfile = false;
@@ -49,8 +49,15 @@ export class ChatComponent implements OnInit {
 
   }
 
+  async getLastMessage() {
+    var res = await this.fileManager.retrieveLastMessage();
+    console.log(res);
+    this.messageContent = res;
+  }
+
   async onSubmit () {
-      this.fileManager.saveSomethingInThePOD();
+    var message = (<HTMLInputElement>document.getElementById("message")).value;
+    this.fileManager.saveSomethingInThePOD(message);
   }
 
 }
