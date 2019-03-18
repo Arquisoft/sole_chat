@@ -1,4 +1,4 @@
-<div class="currentChatContent">
+<div class="currentChatContent" >
   <div>
     <p>Friend:
       <span id="friend">{{friend}}</span>
@@ -16,6 +16,12 @@
   <div class="message received">
     <div class="messageContent" name="messageReceived">
       {{messageReceived}}
+    </div>
+    <div class="messageTime">12:50</div>
+  </div>
+  <div class="message sent" *ngFor="let mess of dummymess">
+    <div class="messageContent" name="message dummy">
+      {{mess.content}}
     </div>
     <div class="messageTime">12:50</div>
   </div>
