@@ -22,7 +22,7 @@ install:
 script:
   - npm run setup:install
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
-  - npm run docs:build
+  
   
 after_success:
   - npm run coverage
