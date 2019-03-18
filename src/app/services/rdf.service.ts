@@ -7,6 +7,7 @@ declare let $rdf: any;
 // TODO: Remove any UI interaction from this service
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
@@ -60,7 +61,6 @@ export class RdfService {
     /*
     <https://janespod.solid/profile/card#me> <http://xmlns.com/foaf/0.1/name> "Jane Doe"@en .
     */
-
     let newId = 'Msg' + Date.now();
     const doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
     let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#" + newId);
@@ -84,14 +84,17 @@ export class RdfService {
     let makerStatement = $rdf.st(subject, predicateMaker, makerSt, doc);
     console.log(makerStatement);
     this.store.add(makerStatement);
+    
+    //const store = this.store.any(subject, FOAF("maker"));
   }
 
   async addMessage(body, message, maker) {
     let doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
-    let store = $rdf.graph();
-    $rdf.parse(body, store, doc.uri, 'text/turtle'); //add it to the store
+    $rdf.parse(body, this.store, doc.uri, 'text/turtle'); //add it to the store
     this.createMessage(message, maker);
-    return $rdf.serialize(doc, store, doc.uri, 'text/turtle'); //return it in string format
+    let content = $rdf.serialize(doc, this.store, doc.uri, 'text/turtle');
+    console.log(content);
+    return content; //return it in string format
   }
 
   getWebID = async () => {

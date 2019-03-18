@@ -135,16 +135,14 @@ export class FileManagerService {
 			id = webId;
 		});
 
-		let msg = "@prefix : <#>. "; 
-		msg += "@prefix mee: <http://www.w3.org/ns/pim/meeting#>. ";
+		let msg = "@prefix : <#>.\n"; 
+		msg += "@prefix mee: <http://www.w3.org/ns/pim/meeting#>.\n";
 		msg += "@prefix terms: <http://purl.org/dc/terms/>. ";
-		msg += "@prefix XML: <http://www.w3.org/2001/XMLSchema#>. ";
-		msg += "@prefix n: <http://rdfs.org/sioc/ns#>. ";
-		msg += "@prefix n0: <http://xmlns.com/foaf/0.1/>. ";
-		msg += "@prefix send: <" + id + ">.\n"
-		msg += "@prefix rec: <https://" + friend + ".solid.community/profile/card#>. ";
-		msg += "@prefix n1: <http://purl.org/dc/elements/1.1/>. ";
-		msg += "@prefix flow: <http://www.w3.org/2005/01/wf/flow#>.";
+		msg += "@prefix XML: <http://www.w3.org/2001/XMLSchema#>.\n";
+		msg += "@prefix n: <http://rdfs.org/sioc/ns#>.\n";
+		msg += "@prefix n0: <http://xmlns.com/foaf/0.1/>.\n";
+		msg += "@prefix n1: <http://purl.org/dc/elements/1.1/>.\n";
+		msg += "@prefix flow: <http://www.w3.org/2005/01/wf/flow#>.\n";
 
 		return msg;
 	}
