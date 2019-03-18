@@ -73,6 +73,7 @@ export class ChatComponent implements OnInit {
       f = "javi";
     var res = await this.fileManager.retrieveLastMessageReceived(f);
     this.messageReceived = res;
+    window.location.reload();
   }
 
   async onSubmit() {

@@ -17,31 +17,13 @@ export class FileManagerService {
 			direction = webId.split("/profile")[0] + "/public/messages.json";
 		});
 
-		var baseContent = {
-			messages: [
-
-			]
-		};
-
 		await fileManager.readFile(direction).then(
 			(body) => {
 				this.updateFile(body, direction, message);
 			},
 			(err) => {
 				if (err.includes("Not Found")) {
-					fileManager.createFile(direction, JSON.stringify(baseContent)).then(
-						(fileCreated) => {
-							console.log(`Created file ${fileCreated}.`);
-						});
-
-					fileManager.readFile(direction).then(
-						(body) => {
-							this.updateFile(body, direction, message);
-						},
-						(err) => {
-							console.log(err);
-						}
-					);
+					this.createFile(direction, message);
 				} else {
 					console.log(err)
 				}
@@ -50,12 +32,35 @@ export class FileManagerService {
 		);
 	}
 
-	updateFile(body, direction, message) {
+	async createFile(direction, message) {
+
+		var baseContent = {
+			messages: [
+
+			]
+		};
+
+		await fileManager.createFile(direction, JSON.stringify(baseContent)).then(
+			(fileCreated) => {
+				console.log(`Created file ${fileCreated}.`);
+			});
+
+		await fileManager.readFile(direction).then(
+			(body) => {
+				this.updateFile(body, direction, message);
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
+	}
+
+	async updateFile(body, direction, message) {
 		var object = JSON.parse(body);
 		//object.messages.push('Message ' + object.menssages.length);
 		object.messages.push(message);
 
-		fileManager.updateFile(direction, JSON.stringify(object)).then(
+		await fileManager.updateFile(direction, JSON.stringify(object)).then(
 			(fileUpdated) => {
 				console.log(`Updated file ${fileUpdated}.`);
 			},
