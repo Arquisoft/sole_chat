@@ -1,6 +1,188 @@
 html {
     overflow-y: hidden;
     overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.bodyWrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 5em 2em;
+}
+
+h3 {
+    font-family: "Circular";
+    margin: 0;
+}
+
+.deleteConversation {
+	margin: 0px 0px 0px 3em;
+	padding: 0.5em 1em;
+}
+
+.recentChatsWrapper{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
+    margin-right: 2em;
+}
+
+.recentChatsWrapper h3{
+    margin: 1em 2em 1em;
+    text-align: center;
+}
+
+.recentChats {
+    padding: 0 2em 2em;
+    width: 50vw;
+    max-width: 32em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.chatCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin: 2.5em 0;
+}
+
+.chatName {
+    font-family: "Circular";
+}
+
+.chatImage {
+    margin-right: 1em;
+}
+
+.chatImage img {
+    height: 3em;
+    width: 3em;
+}
+
+.currentChat {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
+    padding: 2em;
+    height: 80vh;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60vw;
+    max-width: 50em;
+}
+.currentChatHeader{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 2em;
+    height: auto;
+}
+
+.currentChatHeader img {
+    object-fit: cover;
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    margin-right: 2em;
+}
+
+.currentChatContent {
+    flex-grow: 1;
+    padding: 1em;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    width: 16em;
+    border: 1px solid rgb(233, 233, 233);
+    box-shadow: 0px 0px 6px rgba(83, 83, 83, 0.13);
+    border-radius: 10px;
+    padding: 0.5em 1em;
+    margin-bottom: 1.5em;
+}
+
+.messageContent {
+    margin-bottom: 0.5em;
+}
+
+.messageTime {
+    text-align: end;
+}
+
+.received {
+    
+}
+
+.sent {
+    align-self: flex-end;
+    background-color: #E63943;
+    color: white;
+}
+
+
+.currentChatInput{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 2em 3em 0;
+}
+
+#inputMessage {
+    height: 2em;
+    border: 1px solid rgb(233, 233, 233);
+    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    border-radius: 9999px;
+    flex-grow: 1;
+    margin-right: 2em;
+}
+
+#submitMessage {
+    border: none;
+    height:  2em;
+    width: 2em;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    background-color: #E63943;
+    color: white;
+    font-weight: bolder;
+}
+
+@font-face {
+    font-family: "Circular";
+    src: url(/fonts/CircularStd-Black.otf);
+}
+/* @media(max-width: 800px) {
+    html {
+        overflow-y: scroll;
+    }
+
+    .bodyWrapper {
+        flex-direction: column;
+        margin: 5em 2em;
+    }
+
+    .recentChats {
+        padding: 0 2em 2em;
+        height: 7em;
+        overflow-x: scroll;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: row;
+    }
+} */
+
+html {
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .bodyWrapper {
