@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import * as fileManager from 'solid-file-client';
 import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
+import { RdfService } from './rdf.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 
 export class FileManagerService {
-	constructor() { }
+	constructor(private rdf: RdfService) { }
 
 	async saveSomethingInThePOD(message, friend) {
 		let direction: String;
 
 		await fileManager.popupLogin().then((webId) => {
 			console.log('Logged in as ' + webId);
-			direction = webId.split("/profile")[0] + "/public/messages.json";
+			//direction = webId.split("/profile")[0] + "/public/messages.json";
+			direction = webId.split("/profile")[0] + "/public/messages.ttl";
 		});
 
 		await fileManager.readFile(direction).then(
@@ -34,17 +36,17 @@ export class FileManagerService {
 
 	async createFile(direction, message, friend) {
 
-		
+		/*
 		var baseContent = {
 			messages: [
 
 			]
 		};
-		
+		*/
 
-		//var baseContent = await this.generateBaseTurtle(friend);
+		var baseContent = await this.generateBaseTurtle(friend);
 
-		await fileManager.createFile(direction, JSON.stringify(baseContent)).then(
+		await fileManager.createFile(direction, baseContent).then(
 			(fileCreated) => {
 				console.log(`Created file ${fileCreated}.`);
 			});
@@ -60,10 +62,10 @@ export class FileManagerService {
 	}
 
 	async updateFile(body, direction, message) {
-		var object = JSON.parse(body);
-		//object.messages.push('Message ' + object.menssages.length);
-		object.messages.push(message);
+		//var object = JSON.parse(body);
+		//object.messages.push(message);
 
+		/*
 		await fileManager.updateFile(direction, JSON.stringify(object)).then(
 			(fileUpdated) => {
 				console.log(`Updated file ${fileUpdated}.`);
@@ -71,7 +73,18 @@ export class FileManagerService {
 			(err) => console.log(err)
 		);
 
-		window.location.reload();
+		https://ajunque9.solid.community/public/messages.ttl
+		*/
+		let maker = (direction.split("//")[1]).split(".solid")[0];
+		let content = await this.rdf.addMessage(body, message, maker);
+		await fileManager.updateFile(direction, content).then(
+			(fileUpdated) => {
+				console.log(`Updated file ${fileUpdated}.`);
+			},
+			(err) => console.log(err)
+		);
+
+		//window.location.reload();
 	}
 
 	async retrieveLastMessage() {
@@ -112,7 +125,7 @@ export class FileManagerService {
 				console.log(err);
 			}
 		);
-
+		//window.location.reload();
 		return lastMessage;
 	}
 
@@ -122,15 +135,15 @@ export class FileManagerService {
 			id = webId;
 		});
 
-		let msg = "@prefix : <#>.\n"; 
-		msg += "@prefix mee: <http://www.w3.org/ns/pim/meeting#>.\n";
-		msg += "@prefix terms: <http://purl.org/dc/terms/>.\n";
-		msg += "@prefix XML: <http://www.w3.org/2001/XMLSchema#>.\n";
-		msg += "@prefix n: <http://rdfs.org/sioc/ns#>.\n";
-		msg += "@prefix n0: <http://xmlns.com/foaf/0.1/>.\n";
+		let msg = "@prefix : <#>. "; 
+		msg += "@prefix mee: <http://www.w3.org/ns/pim/meeting#>. ";
+		msg += "@prefix terms: <http://purl.org/dc/terms/>. ";
+		msg += "@prefix XML: <http://www.w3.org/2001/XMLSchema#>. ";
+		msg += "@prefix n: <http://rdfs.org/sioc/ns#>. ";
+		msg += "@prefix n0: <http://xmlns.com/foaf/0.1/>. ";
 		msg += "@prefix send: <" + id + ">.\n"
-		msg += "@prefix rec: <https://" + friend + ".solid.community/profile/card#>.\n";
-		msg += "@prefix n1: <http://purl.org/dc/elements/1.1/>.\n";
+		msg += "@prefix rec: <https://" + friend + ".solid.community/profile/card#>. ";
+		msg += "@prefix n1: <http://purl.org/dc/elements/1.1/>. ";
 		msg += "@prefix flow: <http://www.w3.org/2005/01/wf/flow#>.";
 
 		return msg;

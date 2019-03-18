@@ -73,7 +73,6 @@ export class ChatComponent implements OnInit {
       f = "javi";
     var res = await this.fileManager.retrieveLastMessageReceived(f);
     this.messageReceived = res;
-    window.location.reload();
   }
 
   async onSubmit() {
@@ -84,7 +83,7 @@ export class ChatComponent implements OnInit {
   changeFriend() {
     var newFriend = prompt("To which friend do you want to talk to?");
     sessionStorage.setItem("friend", newFriend);
-    window.location.reload();
+    //window.location.reload();
   }
 
 }

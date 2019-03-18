@@ -9,7 +9,10 @@ import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
-const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
+const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
+const CONT = $rdf.Namespace('http://rdfs.org/sioc/ns#'); //n
+const TERMS = $rdf.Namespace('http://purl.org/dc/terms/'); //terms
+
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -40,21 +43,65 @@ export class RdfService {
    */
   updateManager = $rdf.UpdateManager;
 
-  constructor (private toastr: ToastrService) {
+  constructor(private toastr: ToastrService) {
     const fetcherOptions = {};
     this.fetcher = new $rdf.Fetcher(this.store, fetcherOptions);
     this.updateManager = new $rdf.UpdateManager(this.store);
     this.getSession();
   }
 
-  getWebID = async() => {
+  async createMessage(message, maker) {
+    /*
+:Msg1551093450028
+    terms:created "2019-02-25T11:17:30Z"^^XML:dateTime;
+    n:content "pnjoino";
+    n0:maker c:me.
+*/
+    /*
+    <https://janespod.solid/profile/card#me> <http://xmlns.com/foaf/0.1/name> "Jane Doe"@en .
+    */
+
+    let newId = 'Msg' + Date.now();
+    const doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
+    let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#" + newId);
+
+    //Generate statement for the date of creation    
+    let predicateDate = $rdf.sym(TERMS('created'));
+    let contentDate = Date.now().toString();
+    let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
+    console.log(dateSt);
+    this.store.add(dateSt);
+
+    //Generate statement for the content of the message
+    let predicateMessage = $rdf.sym(CONT('content'));
+    let msgSt = $rdf.st(subject, predicateMessage, message, doc);
+    console.log(msgSt);
+    this.store.add(msgSt);
+
+    //Generate statement for the content of the message
+    let predicateMaker = $rdf.sym(FOAF('maker'));
+    let makerSt = $rdf.sym("https://" + maker + ".solid.community/profile/card#me");
+    let makerStatement = $rdf.st(subject, predicateMaker, makerSt, doc);
+    console.log(makerStatement);
+    this.store.add(makerStatement);
+  }
+
+  async addMessage(body, message, maker) {
+    let doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
+    let store = $rdf.graph();
+    $rdf.parse(body, store, doc.uri, 'text/turtle'); //add it to the store
+    this.createMessage(message, maker);
+    return $rdf.serialize(doc, store, doc.uri, 'text/turtle'); //return it in string format
+  }
+
+  getWebID = async () => {
     return this.session.webId;
   };
 
   /**
    * Fetches the session from Solid, and store results in localStorage
    */
-  getSession = async() => {
+  getSession = async () => {
     this.session = await solid.auth.currentSession(localStorage);
   }
 
@@ -86,7 +133,7 @@ export class RdfService {
   getValueFromFoaf = (node: string, webId?: string) => {
     return this.getValueFromNamespace(node, FOAF, webId);
   };
- 
+
   transformDataForm = (form: NgForm, me: any, doc: any) => {
     const insertions = [];
     const deletions = [];
@@ -108,7 +155,7 @@ export class RdfService {
       let oldFieldValue = this.getOldFieldValue(field, oldProfileData);
 
       // if there's no existing home phone number or email address, we need to add one, then add the link for hasTelephone or hasEmail
-      if(!oldFieldValue && fieldValue && (field === 'phone' || field==='email')) {          
+      if (!oldFieldValue && fieldValue && (field === 'phone' || field === 'email')) {
         this.addNewLinkedField(field, insertions, predicate, fieldValue, why, me);
       } else {
 
@@ -158,7 +205,7 @@ export class RdfService {
     insertions.push($rdf.st(me, newPredicate, newSubject, why));
   }
 
-  public addNewLinkedMessage(form) : String {
+  public addNewLinkedMessage(form): String {
     const insertions = [];
     const deletions = [];
     const me = $rdf.sym(this.session.webId);
@@ -188,13 +235,13 @@ export class RdfService {
     insertions.push($rdf.st(me, newPredicate, newSubject, why));
 
     //Update existing values
-    if(insertions.length > 0 || deletions.length > 0) {
+    if (insertions.length > 0 || deletions.length > 0) {
       this.updateManager.update(deletions, insertions, (response, success, message) => {
-        if(!success) {
-          this.toastr.error('Message: '+ message, 'An error has occurred');
-        } 
+        if (!success) {
+          this.toastr.error('Message: ' + message, 'An error has occurred');
+        }
       });
-    } 
+    }
     return this.getMessage();
   }
 
@@ -202,16 +249,16 @@ export class RdfService {
     let uriString: string;
     let uri: any;
 
-    switch(field) {
+    switch (field) {
       case 'phone':
         uriString = this.getValueFromVcard('hasTelephone');
-        if(uriString) {
+        if (uriString) {
           uri = $rdf.sym(uriString);
         }
         break;
       case 'email':
         uriString = this.getValueFromVcard('hasEmail');
-        if(uriString) {
+        if (uriString) {
           uri = $rdf.sym(uriString);
         }
         break;
@@ -232,16 +279,16 @@ export class RdfService {
   private getFieldValue(form: NgForm, field: string): any {
     let fieldValue: any;
 
-    if(!form.value[field]) {
+    if (!form.value[field]) {
       return;
     }
 
-    switch(field) {
+    switch (field) {
       case 'phone':
-        fieldValue = $rdf.sym('tel:+'+form.value[field]);
+        fieldValue = $rdf.sym('tel:+' + form.value[field]);
         break;
       case 'email':
-        fieldValue = $rdf.sym('mailto:'+form.value[field]);
+        fieldValue = $rdf.sym('mailto:' + form.value[field]);
         break;
       default:
         fieldValue = form.value[field];
@@ -254,16 +301,16 @@ export class RdfService {
   private getOldFieldValue(field, oldProfile): any {
     let oldValue: any;
 
-    if(!oldProfile || !oldProfile[field]) {
+    if (!oldProfile || !oldProfile[field]) {
       return;
     }
 
-    switch(field) {
+    switch (field) {
       case 'phone':
-        oldValue = $rdf.sym('tel:+'+oldProfile[field]);
+        oldValue = $rdf.sym('tel:+' + oldProfile[field]);
         break;
       case 'email':
-        oldValue = $rdf.sym('mailto:'+oldProfile[field]);
+        oldValue = $rdf.sym('mailto:' + oldProfile[field]);
         break;
       default:
         oldValue = oldProfile[field];
@@ -291,14 +338,14 @@ export class RdfService {
     const data = this.transformDataForm(form, me, doc);
 
     //Update existing values
-    if(data.insertions.length > 0 || data.deletions.length > 0) {
+    if (data.insertions.length > 0 || data.deletions.length > 0) {
       this.updateManager.update(data.deletions, data.insertions, (response, success, message) => {
-        if(success) {
+        if (success) {
           this.toastr.success('Your Solid profile has been successfully updated', 'Success!');
           form.form.markAsPristine();
           form.form.markAsTouched();
         } else {
-          this.toastr.error('Message: '+ message, 'An error has occurred');
+          this.toastr.error('Message: ' + message, 'An error has occurred');
         }
       });
     }
@@ -334,7 +381,7 @@ export class RdfService {
   getPhone = () => {
     const linkedUri = this.getValueFromVcard('hasTelephone');
 
-    if(linkedUri) {
+    if (linkedUri) {
       return this.getValueFromVcard('value', linkedUri).split('tel:+')[1];
     }
   };
@@ -342,7 +389,7 @@ export class RdfService {
   getMessage = () => {
     let array = this.getArray('newMessage');
     const linkedUri = array[array.length - 1];
-    if(linkedUri) {
+    if (linkedUri) {
       return this.getValueFromVcard('message', linkedUri);
     }
   };
@@ -357,8 +404,8 @@ export class RdfService {
       await this.fetcher.load(this.session.webId);
 
       return {
-        fn : this.getValueFromVcard('fn'),
-        company : this.getValueFromVcard('organization-name'),
+        fn: this.getValueFromVcard('fn'),
+        company: this.getValueFromVcard('organization-name'),
         phone: this.getPhone(),
         role: this.getValueFromVcard('role'),
         image: this.getValueFromVcard('hasPhoto'),
