@@ -1,0 +1,88 @@
+@prefix : <#>.
+@prefix mee: <http://www.w3.org/ns/pim/meeting#>.
+@prefix terms: <http://purl.org/dc/terms/>.
+@prefix XML: <http://www.w3.org/2001/XMLSchema#>.
+@prefix n: <http://rdfs.org/sioc/ns#>.
+@prefix n0: <http://xmlns.com/foaf/0.1/>.
+@prefix c: </profile/card#>.
+@prefix c0: <https://astrid.solid.community/profile/card#>.
+@prefix n1: <http://purl.org/dc/elements/1.1/>.
+@prefix flow: <http://www.w3.org/2005/01/wf/flow#>.
+
+:Msg1549650364587
+    terms:created "2019-02-08T18:26:04Z"^^XML:dateTime;
+    n:content "Holis\n";
+    n0:maker c:me.
+:Msg1549650368729
+    terms:created "2019-02-08T18:26:08Z"^^XML:dateTime;
+    n:content "jeje hola\n";
+    n0:maker c:me.
+:Msg1549650369882
+terms:created "2019-02-08T18:26:09Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1550050662731
+    terms:created "2019-02-13T09:37:42Z"^^XML:dateTime;
+    n:content "He viajao en el tiempo y he modificado este mensaje jeje";
+    n0:maker c0:me.
+:Msg1550050704285
+    terms:created "2019-02-13T09:38:24Z"^^XML:dateTime;
+    n:content
+        "/Users/emiliocortina/Pictures/Wallpapers/adrian-trinkaus-678014-unsplash.jpg";
+    n0:maker c:me.
+:Msg1550050733264
+    terms:created "2019-02-13T09:38:53Z"^^XML:dateTime;
+    n:content ":))";
+    n0:maker c0:me.
+:Msg1551092591074
+    terms:created "2019-02-25T11:03:11Z"^^XML:dateTime;
+    n:content "mln lknlkn";
+    n0:maker c:me.
+:Msg1551092592489
+terms:created "2019-02-25T11:03:12Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551092593667
+terms:created "2019-02-25T11:03:13Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551092608693
+terms:created "2019-02-25T11:03:28Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551092609471
+terms:created "2019-02-25T11:03:29Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551092673783
+terms:created "2019-02-25T11:04:33Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551092675161
+terms:created "2019-02-25T11:04:35Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551092683715
+terms:created "2019-02-25T11:04:43Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551092684701
+terms:created "2019-02-25T11:04:44Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551092685629
+terms:created "2019-02-25T11:04:45Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551092752388
+terms:created "2019-02-25T11:05:52Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551093417300
+terms:created "2019-02-25T11:16:57Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551093420593
+    terms:created "2019-02-25T11:17:00Z"^^XML:dateTime;
+    n:content "lkm";
+    n0:maker c:me.
+:Msg1551093438499
+terms:created "2019-02-25T11:17:18Z"^^XML:dateTime; n:content ""; n0:maker c:me.
+:Msg1551093441218
+    terms:created "2019-02-25T11:17:21Z"^^XML:dateTime;
+    n:content "lkjm";
+    n0:maker c:me.
+:Msg1551093450028
+    terms:created "2019-02-25T11:17:30Z"^^XML:dateTime;
+    n:content "pnjoino";
+    n0:maker c:me.
+:this
+    a mee:Chat;
+    n1:author c:me;
+    n1:created "2019-02-08T18:25:58Z"^^XML:dateTime;
+    n1:title "Chat";
+    flow:message
+        :Msg1549650364587, :Msg1549650368729, :Msg1549650369882,
+        :Msg1550050662731, :Msg1550050704285, :Msg1550050733264,
+        :Msg1551092591074, :Msg1551092592489, :Msg1551092593667,
+        :Msg1551092608693, :Msg1551092609471, :Msg1551092673783,
+        :Msg1551092675161, :Msg1551092683715, :Msg1551092684701,
+        :Msg1551092685629, :Msg1551092752388, :Msg1551093417300,
+        :Msg1551093420593, :Msg1551093438499, :Msg1551093441218,
+        :Msg1551093450028.
