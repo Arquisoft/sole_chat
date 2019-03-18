@@ -3,7 +3,7 @@ button.wide-button {
   width: 360px;
   height: 40px;
   border-radius: 4px;
-  background-color: #3D6DEB;
+  background-color: #ffc107;
   font-size: 14px;
   color: #fff;
   font-family: 'Roboto', sans-serif;
@@ -38,10 +38,10 @@ input[type=text].wide-text {
 
 /* This selector is for the actual dropdown container (aka border, arrow, etc) */
 .ng-select.login-select .ng-select-container {
-  border: 2px solid #3D6DEB;
+  border: 2px solid #ffc107;
 }
 .ng-select.login-select.ng-select-opened>.ng-select-container {
-  border: 2px solid #3D6DEB;
+  border: 2px solid #ffc107;
   border-radius: 4px;
 }
 
@@ -54,7 +54,7 @@ input[type=text].wide-text {
 .ng-select.login-select .ng-dropdown-panel {
   margin-left: -180px;
   margin-top: -2px;
-  border: 2px solid #3D6DEB;
+  border: 2px solid #ffc107;
 }
 
 .ng-select.login-select .ng-input input {
