@@ -42,11 +42,11 @@ A more complete list of the requirements can be found at: https://github.com/Arq
 
 All the people, roles or organizations that:
 
-Should know the architecture.
-Have to be convinced of the architecture.
-Have to work with the architecture or with code.
-Need the documentation of the architecture for their work.
-Have to come up with decisions about the system or its development.
+  -Should know the architecture.
+  -Have to be convinced of the architecture.
+  -Have to work with the architecture or with code.
+  -Need the documentation of the architecture for their work.
+  -Have to come up with decisions about the system or its development.
 
 |===
 |Role |Description |Expectations, motivations 
