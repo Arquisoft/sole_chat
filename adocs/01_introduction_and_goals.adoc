@@ -3,6 +3,8 @@
 
 Our main goal in this project is to create a decentralized social network, in which the users will be able to chat, call one another and share pictures or videos with their friends.
 
+Describes the relevant requirements and the driving forces that software architects and development team must consider. These includes underlying business goals, essential features and functional requirements for the system, quality goals for the architecture, relevant stakeholders and their expectations.
+
 === Requirements Overview
 
 |===
