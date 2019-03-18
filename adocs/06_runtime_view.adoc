@@ -1,5 +1,10 @@
 [[section-runtime-view]]
 == Runtime View
- TODO: describe concrete behavior and interactions of the system’s building blocks
+The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:
+
+ -Important use cases or features: how do building blocks execute them?
+ -Interactions at critical external interfaces: how do building blocks cooperate with users and neighbouring systems?
+ -Operation and administration: launch, start-up, stop
+ -Error and exception scenarios
 
  MORE INFO: helpForDocumentation/runtimeView
