@@ -17,7 +17,7 @@ var InvalidSyntaxBoxOpen = '([';
 var InvalidSyntaxBoxClose = '])';
 var ValidSyntaxOpen = '[(';
 var ValidSyntaxClose = ')]';
-var InvalidSyntaxBoxRe = new RegExp('\\[(.*?)\\]');
+var InvalidSyntaxBoxRe = /\[(.*?)\]/;
 var getReplacements = function (text, absolutePosition) {
     var expr = text.sourceSpan.toString();
     var internalStart = expr.indexOf(InvalidSyntaxBoxOpen);
@@ -44,9 +44,10 @@ var BananaInBoxTemplateVisitor = (function (_super) {
                 var internalStart = expr.indexOf(InvalidSyntaxBoxOpen) + 1;
                 var start = prop.sourceSpan.start.offset + internalStart;
                 var absolutePosition = this.getSourcePosition(start - 1);
-                this.addFailure(this.createFailure(start, expr.trim().length, error, getReplacements(prop, absolutePosition)));
+                this.addFailureAt(start, expr.trim().length, error, getReplacements(prop, absolutePosition));
             }
         }
+        _super.prototype.visitEvent.call(this, prop, context);
     };
     return BananaInBoxTemplateVisitor;
 }(basicTemplateAstVisitor_1.BasicTemplateAstVisitor));
@@ -57,7 +58,7 @@ var Rule = (function (_super) {
     }
     Rule.prototype.apply = function (sourceFile) {
         return this.applyWithWalker(new ngWalker_1.NgWalker(sourceFile, this.getOptions(), {
-            templateVisitorCtrl: BananaInBoxTemplateVisitor,
+            templateVisitorCtrl: BananaInBoxTemplateVisitor
         }));
     };
     Rule.metadata = {

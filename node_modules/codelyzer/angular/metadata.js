@@ -11,15 +11,25 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var DirectiveMetadata = (function () {
-    function DirectiveMetadata() {
+    function DirectiveMetadata(controller, decorator, selector) {
+        this.controller = controller;
+        this.decorator = decorator;
+        this.selector = selector;
     }
     return DirectiveMetadata;
 }());
 exports.DirectiveMetadata = DirectiveMetadata;
 var ComponentMetadata = (function (_super) {
     __extends(ComponentMetadata, _super);
-    function ComponentMetadata() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function ComponentMetadata(controller, decorator, selector, animations, styles, template) {
+        var _this = _super.call(this, controller, decorator, selector) || this;
+        _this.controller = controller;
+        _this.decorator = decorator;
+        _this.selector = selector;
+        _this.animations = animations;
+        _this.styles = styles;
+        _this.template = template;
+        return _this;
     }
     return ComponentMetadata;
 }(DirectiveMetadata));

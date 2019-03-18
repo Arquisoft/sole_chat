@@ -3,11 +3,11 @@ import * as ts from 'typescript';
 import { NgWalker } from './angular/ngWalker';
 import { DirectiveMetadata } from './angular/metadata';
 export declare class Rule extends Lint.Rules.AbstractRule {
-    static metadata: Lint.IRuleMetadata;
-    static FAILURE: string;
+    static readonly metadata: Lint.IRuleMetadata;
+    static readonly FAILURE_STRING: string;
     static validate(className: string, suffixes: string[]): boolean;
     apply(sourceFile: ts.SourceFile): Lint.RuleFailure[];
 }
 export declare class ClassMetadataWalker extends NgWalker {
-    visitNgDirective(meta: DirectiveMetadata): void;
+    protected visitNgDirective(metadata: DirectiveMetadata): void;
 }

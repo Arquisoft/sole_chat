@@ -10,11 +10,11 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Lint = require("tslint");
 var sprintf_js_1 = require("sprintf-js");
+var Lint = require("tslint");
+var function_1 = require("./util/function");
 var walkerFactory_1 = require("./walkerFactory/walkerFactory");
 var walkerFn_1 = require("./walkerFactory/walkerFn");
-var function_1 = require("./util/function");
 var Rule = (function (_super) {
     __extends(Rule, _super);
     function Rule() {
@@ -27,36 +27,35 @@ var Rule = (function (_super) {
         return this.applyWithWalker(Rule.walkerBuilder(sourceFile, this.getOptions()));
     };
     Rule.metadata = {
-        ruleName: 'component-class-suffix',
-        type: 'style',
         description: 'Classes decorated with @Component must have suffix "Component" (or custom) in their name.',
         descriptionDetails: 'See more at https://angular.io/styleguide#style-02-03.',
-        rationale: 'Consistent conventions make it easy to quickly identify and reference assets of different types.',
+        optionExamples: [true, [true, 'Component', 'View']],
         options: {
-            type: 'array',
             items: {
-                type: 'string',
-            }
+                type: 'string'
+            },
+            minLength: 0,
+            type: 'array'
         },
-        optionExamples: [
-            'true',
-            '[true, "Component", "View"]'
-        ],
         optionsDescription: 'Supply a list of allowed component suffixes. Defaults to "Component".',
-        typescriptOnly: true,
+        rationale: 'Consistent conventions make it easy to quickly identify and reference assets of different types.',
+        ruleName: 'component-class-suffix',
+        type: 'style',
+        typescriptOnly: true
     };
-    Rule.FAILURE = 'The name of the class %s should end with the suffix %s (https://angular.io/styleguide#style-02-03)';
+    Rule.FAILURE_STRING = 'The name of the class %s should end with the suffix %s (https://angular.io/styleguide#style-02-03)';
     Rule.walkerBuilder = walkerFn_1.all(walkerFn_1.validateComponent(function (meta, suffixList) {
+        if (suffixList === void 0) { suffixList = []; }
         return function_1.Maybe.lift(meta.controller)
             .fmap(function (controller) { return controller.name; })
             .fmap(function (name) {
-            var className = name.text;
-            if (suffixList.length === 0) {
-                suffixList = ['Component'];
+            var text = name.text;
+            var failures = [];
+            var suffixes = suffixList.length > 0 ? suffixList : ['Component'];
+            if (!Rule.validate(text, suffixes)) {
+                failures.push(new walkerFactory_1.Failure(name, sprintf_js_1.sprintf(Rule.FAILURE_STRING, text, suffixes)));
             }
-            if (!Rule.validate(className, suffixList)) {
-                return [new walkerFactory_1.Failure(name, sprintf_js_1.sprintf(Rule.FAILURE, className, suffixList))];
-            }
+            return failures;
         });
     }));
     return Rule;

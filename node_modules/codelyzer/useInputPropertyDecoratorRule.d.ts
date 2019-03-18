@@ -1,7 +1,7 @@
-import * as Lint from 'tslint';
+import { IOptions, IRuleMetadata } from 'tslint/lib';
 import { UsePropertyDecorator } from './propertyDecoratorBase';
-import { IOptions } from 'tslint';
 export declare class Rule extends UsePropertyDecorator {
-    static metadata: Lint.IRuleMetadata;
+    static readonly metadata: IRuleMetadata;
+    static readonly FAILURE_STRING: string;
     constructor(options: IOptions);
 }

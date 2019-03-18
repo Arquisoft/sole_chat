@@ -9,49 +9,51 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var Lint = require("tslint");
-var ngWalker_1 = require("./angular/ngWalker");
-var ast = require("@angular/compiler");
-var basicTemplateAstVisitor_1 = require("./angular/templates/basicTemplateAstVisitor");
-var expressionTypes_1 = require("./angular/expressionTypes");
 var config_1 = require("./angular/config");
+var expressionTypes_1 = require("./angular/expressionTypes");
+var ngWalker_1 = require("./angular/ngWalker");
+var basicTemplateAstVisitor_1 = require("./angular/templates/basicTemplateAstVisitor");
 var recursiveAngularExpressionVisitor_1 = require("./angular/templates/recursiveAngularExpressionVisitor");
 var stickyFlagUsable = (function () {
     try {
-        var reg = new RegExp('\d', 'y');
+        var reg = /d/y;
         return true;
     }
-    catch (e) {
+    catch (_a) {
         return false;
     }
 })();
-var InterpolationOpen = config_1.Config.interpolation[0];
-var InterpolationClose = config_1.Config.interpolation[1];
+var _a = config_1.Config.interpolation, InterpolationOpen = _a[0], InterpolationClose = _a[1];
 var InterpolationWhitespaceRe = new RegExp(InterpolationOpen + "(\\s*)(.*?)(\\s*)" + InterpolationClose, 'g');
-var SemicolonNoWhitespaceNotInSimpleQuoteRe = stickyFlagUsable ?
-    new RegExp("(?:[^';]|'[^']*'|;(?=\\s))+;(?=\\S)", 'gy') : /(?:[^';]|'[^']*')+;/g;
-var SemicolonNoWhitespaceNotInDoubleQuoteRe = stickyFlagUsable ?
-    new RegExp("(?:[^\";]|\"[^\"]*\"|;(?=\\s))+;(?=\\S)", 'gy') : /(?:[^";]|"[^"]*")+;/g;
+var SemicolonNoWhitespaceNotInSimpleQuoteRe = stickyFlagUsable
+    ? new RegExp("(?:[^';]|'[^']*'|;(?=\\s))+;(?=\\S)", 'gy')
+    : /(?:[^';]|'[^']*')+;/g;
+var SemicolonNoWhitespaceNotInDoubleQuoteRe = stickyFlagUsable
+    ? new RegExp("(?:[^\";]|\"[^\"]*\"|;(?=\\s))+;(?=\\S)", 'gy')
+    : /(?:[^";]|"[^"]*")+;/g;
 var getSemicolonReplacements = function (absolutePosition) {
-    return [
-        new Lint.Replacement(absolutePosition, 1, '; ')
-    ];
+    return [new Lint.Replacement(absolutePosition, 1, '; ')];
 };
 var checkSemicolonNoWhitespaceWithSticky = function (reg, context, expr, fixedOffset) {
-    var error = 'Missing whitespace after semicolon; expecting \'; expr\'';
+    var error = "Missing whitespace after semicolon; expecting '; expr'";
     var exprMatch;
-    while (exprMatch = reg.exec(expr)) {
+    while ((exprMatch = reg.exec(expr))) {
         var start = fixedOffset + reg.lastIndex;
         var absolutePosition = context.getSourcePosition(start - 1);
-        context.addFailure(context.createFailure(start, 2, error, getSemicolonReplacements(absolutePosition)));
+        context.addFailureAt(start, 2, error, getSemicolonReplacements(absolutePosition));
     }
 };
 var checkSemicolonNoWhitespaceWithoutSticky = function (reg, context, expr, fixedOffset) {
-    var error = 'Missing whitespace after semicolon; expecting \'; expr\'';
+    var error = "Missing whitespace after semicolon; expecting '; expr'";
     var lastIndex = 0;
     var exprMatch;
-    while (exprMatch = reg.exec(expr)) {
+    while ((exprMatch = reg.exec(expr))) {
         if (lastIndex !== exprMatch.index) {
             break;
         }
@@ -59,14 +61,17 @@ var checkSemicolonNoWhitespaceWithoutSticky = function (reg, context, expr, fixe
         if (nextIndex < expr.length && /\S/.test(expr[nextIndex])) {
             var start = fixedOffset + nextIndex;
             var absolutePosition = context.getSourcePosition(start - 1);
-            context.addFailure(context.createFailure(start, 2, error, getSemicolonReplacements(absolutePosition)));
+            context.addFailureAt(start, 2, error, getSemicolonReplacements(absolutePosition));
         }
         lastIndex = nextIndex;
     }
 };
-var checkSemicolonNoWhitespace = stickyFlagUsable ?
-    checkSemicolonNoWhitespaceWithSticky :
-    checkSemicolonNoWhitespaceWithoutSticky;
+var checkSemicolonNoWhitespace = stickyFlagUsable
+    ? checkSemicolonNoWhitespaceWithSticky
+    : checkSemicolonNoWhitespaceWithoutSticky;
+var OPTION_CHECK_INTERPOLATION = 'check-interpolation';
+var OPTION_CHECK_PIPE = 'check-pipe';
+var OPTION_CHECK_SEMICOLON = 'check-semicolon';
 var InterpolationWhitespaceVisitor = (function (_super) {
     __extends(InterpolationWhitespaceVisitor, _super);
     function InterpolationWhitespaceVisitor() {
@@ -74,7 +79,6 @@ var InterpolationWhitespaceVisitor = (function (_super) {
     }
     InterpolationWhitespaceVisitor.prototype.visitBoundText = function (text, context) {
         if (expressionTypes_1.ExpTypes.ASTWithSource(text.value)) {
-            var error = null;
             var expr = text.value.source;
             var checkWhiteSpace = function (subMatch, location, fixTo, position, absolutePosition, lengthFix) {
                 var length = subMatch.length;
@@ -82,13 +86,11 @@ var InterpolationWhitespaceVisitor = (function (_super) {
                     return;
                 }
                 var errorText = length === 0 ? 'Missing' : 'Extra';
-                context.addFailure(context.createFailure(position, length + lengthFix, errorText + " whitespace in interpolation " + location + "; expecting " + InterpolationOpen + " expr " + InterpolationClose, [
-                    new Lint.Replacement(absolutePosition, length + lengthFix, fixTo)
-                ]));
+                context.addFailureAt(position, length + lengthFix, errorText + " whitespace in interpolation " + location + "; expecting " + InterpolationOpen + " expr " + InterpolationClose, [new Lint.Replacement(absolutePosition, length + lengthFix, fixTo)]);
             };
             InterpolationWhitespaceRe.lastIndex = 0;
             var match = void 0;
-            while (match = InterpolationWhitespaceRe.exec(expr)) {
+            while ((match = InterpolationWhitespaceRe.exec(expr))) {
                 var start = text.sourceSpan.start.offset + match.index;
                 var absolutePosition = context.getSourcePosition(start);
                 checkWhiteSpace(match[1], 'start', InterpolationOpen + " ", start, absolutePosition, InterpolationOpen.length);
@@ -99,7 +101,7 @@ var InterpolationWhitespaceVisitor = (function (_super) {
         _super.prototype.visitBoundText.call(this, text, context);
         return null;
     };
-    InterpolationWhitespaceVisitor.prototype.getOption = function () {
+    InterpolationWhitespaceVisitor.prototype.getCheckOption = function () {
         return 'check-interpolation';
     };
     return InterpolationWhitespaceVisitor;
@@ -121,8 +123,9 @@ var SemicolonTemplateVisitor = (function (_super) {
             reg.lastIndex = 0;
             checkSemicolonNoWhitespace(reg, context, expr, prop.sourceSpan.start.offset + positionFix);
         }
+        _super.prototype.visitDirectiveProperty.call(this, prop, context);
     };
-    SemicolonTemplateVisitor.prototype.getOption = function () {
+    SemicolonTemplateVisitor.prototype.getCheckOption = function () {
         return 'check-semicolon';
     };
     return SemicolonTemplateVisitor;
@@ -141,20 +144,24 @@ var WhitespaceTemplateVisitor = (function (_super) {
         var _this = this;
         var options = this.getOptions();
         this.visitors
-            .filter(function (v) { return options.indexOf(v.getOption()) >= 0; })
+            .filter(function (v) { return options.indexOf(v.getCheckOption()) >= 0; })
             .map(function (v) { return v.visitBoundText(text, _this); })
-            .filter(function (f) { return !!f; })
-            .forEach(function (f) { return _this.addFailure(f); });
+            .filter(Boolean)
+            .forEach(function (f) {
+            return _this.addFailureFromStartToEnd(f.getStartPosition().getPosition(), f.getEndPosition().getPosition(), f.getFailure(), f.getFix());
+        });
         _super.prototype.visitBoundText.call(this, text, context);
     };
     WhitespaceTemplateVisitor.prototype.visitDirectiveProperty = function (prop, context) {
         var _this = this;
         var options = this.getOptions();
         this.visitors
-            .filter(function (v) { return options.indexOf(v.getOption()) >= 0; })
+            .filter(function (v) { return options.indexOf(v.getCheckOption()) >= 0; })
             .map(function (v) { return v.visitDirectiveProperty(prop, _this); })
-            .filter(function (f) { return !!f; })
-            .forEach(function (f) { return _this.addFailure(f); });
+            .filter(Boolean)
+            .forEach(function (f) {
+            return _this.addFailureFromStartToEnd(f.getStartPosition().getPosition(), f.getEndPosition().getPosition(), f.getFailure(), f.getFix());
+        });
         _super.prototype.visitDirectiveProperty.call(this, prop, context);
     };
     return WhitespaceTemplateVisitor;
@@ -207,16 +214,13 @@ var PipeWhitespaceVisitor = (function (_super) {
             }
         }
         if (replacements.length) {
-            context.addFailure(context.createFailure(ast.exp.span.end - 1, 3, 'The pipe operator should be surrounded by one space on each side, i.e. " | ".', replacements));
+            context.addFailureAt(ast.exp.span.end - 1, 3, 'The pipe operator should be surrounded by one space on each side, i.e. " | ".', replacements);
         }
         _super.prototype.visitPipe.call(this, ast, context);
         return null;
     };
-    PipeWhitespaceVisitor.prototype.getOption = function () {
+    PipeWhitespaceVisitor.prototype.getCheckOption = function () {
         return 'check-pipe';
-    };
-    PipeWhitespaceVisitor.prototype.isAsyncBinding = function (expr) {
-        return expr instanceof ast.BindingPipe && expr.name === 'async';
     };
     return PipeWhitespaceVisitor;
 }(recursiveAngularExpressionVisitor_1.RecursiveAngularExpressionVisitor));
@@ -234,10 +238,12 @@ var TemplateExpressionVisitor = (function (_super) {
         var options = this.getOptions();
         this.visitors
             .map(function (v) { return v.addParentAST(_this.parentAST); })
-            .filter(function (v) { return options.indexOf(v.getOption()) >= 0; })
+            .filter(function (v) { return options.indexOf(v.getCheckOption()) >= 0; })
             .map(function (v) { return v.visitPipe(expr, _this); })
-            .filter(function (f) { return !!f; })
-            .forEach(function (f) { return _this.addFailure(f); });
+            .filter(Boolean)
+            .forEach(function (f) {
+            return _this.addFailureFromStartToEnd(f.getStartPosition().getPosition(), f.getEndPosition().getPosition(), f.getFailure(), f.getFix());
+        });
     };
     return TemplateExpressionVisitor;
 }(recursiveAngularExpressionVisitor_1.RecursiveAngularExpressionVisitor));
@@ -248,30 +254,40 @@ var Rule = (function (_super) {
     }
     Rule.prototype.apply = function (sourceFile) {
         return this.applyWithWalker(new ngWalker_1.NgWalker(sourceFile, this.getOptions(), {
-            templateVisitorCtrl: WhitespaceTemplateVisitor,
             expressionVisitorCtrl: TemplateExpressionVisitor,
+            templateVisitorCtrl: WhitespaceTemplateVisitor
         }));
     };
+    Rule.prototype.isEnabled = function () {
+        var _a = Rule.metadata.options, maxLength = _a.maxLength, minLength = _a.minLength;
+        var length = this.ruleArguments.length;
+        return _super.prototype.isEnabled.call(this) && length >= minLength && length <= maxLength;
+    };
     Rule.metadata = {
+        description: 'Ensures the proper formatting of Angular expressions.',
+        hasFix: true,
+        optionExamples: [
+            [true, OPTION_CHECK_INTERPOLATION],
+            [true, OPTION_CHECK_PIPE],
+            [true, OPTION_CHECK_SEMICOLON],
+            [true, OPTION_CHECK_INTERPOLATION, OPTION_CHECK_PIPE, OPTION_CHECK_SEMICOLON]
+        ],
+        options: {
+            items: {
+                enum: [OPTION_CHECK_INTERPOLATION, OPTION_CHECK_PIPE, OPTION_CHECK_SEMICOLON],
+                type: 'string'
+            },
+            maxLength: 3,
+            minLength: 1,
+            type: 'array'
+        },
+        optionsDescription: Lint.Utils.dedent(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n      One (or both) of the following arguments must be provided:\n      * `", "` - checks for whitespace before and after the interpolation characters.\n      * `", "` - checks for whitespace before and after a pipe.\n      * `", "` - checks for whitespace after semicolon.\n    "], ["\n      One (or both) of the following arguments must be provided:\n      * \\`", "\\` - checks for whitespace before and after the interpolation characters.\n      * \\`", "\\` - checks for whitespace before and after a pipe.\n      * \\`", "\\` - checks for whitespace after semicolon.\n    "])), OPTION_CHECK_INTERPOLATION, OPTION_CHECK_PIPE, OPTION_CHECK_SEMICOLON),
+        rationale: 'Having whitespace in the right places in an Angular expression makes the template more readable.',
         ruleName: 'angular-whitespace',
         type: 'style',
-        description: 'Ensures the proper formatting of Angular expressions.',
-        rationale: 'Having whitespace in the right places in an Angular expression makes the template more readable.',
-        optionsDescription: (_a = ["\n      Arguments may be optionally provided:\n      * `\"check-interpolation\"` checks for whitespace before and after the interpolation characters\n      * `\"check-pipe\"` checks for whitespace before and after a pipe\n      * `\"check-semicolon\"` checks for whitespace after semicolon"], _a.raw = ["\n      Arguments may be optionally provided:\n      * \\`\"check-interpolation\"\\` checks for whitespace before and after the interpolation characters\n      * \\`\"check-pipe\"\\` checks for whitespace before and after a pipe\n      * \\`\"check-semicolon\"\\` checks for whitespace after semicolon"], Lint.Utils.dedent(_a)),
-        options: {
-            type: 'array',
-            items: {
-                type: 'string',
-                enum: ['check-interpolation', 'check-pipe', 'check-semicolon'],
-            },
-            minLength: 0,
-            maxLength: 3,
-        },
-        optionExamples: ['[true, "check-interpolation"]'],
-        typescriptOnly: true,
-        hasFix: true
+        typescriptOnly: true
     };
     return Rule;
 }(Lint.Rules.AbstractRule));
 exports.Rule = Rule;
-var _a;
+var templateObject_1;

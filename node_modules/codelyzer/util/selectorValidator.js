@@ -22,18 +22,14 @@ exports.SelectorValidator = {
             if (!regex.test(selector)) {
                 return false;
             }
-            else {
-                var suffix = selector.replace(regex, '');
-                if (selectorType === 'camelCase') {
-                    return !suffix || suffix[0] === suffix[0].toUpperCase();
-                }
-                else if (selectorType === 'kebab-case') {
-                    return !suffix || suffix[0] === '-';
-                }
-                else {
-                    throw new Error('Invalid selector type');
-                }
+            var suffix = selector.replace(regex, '');
+            if (selectorType === 'camelCase') {
+                return !suffix || suffix[0] === suffix[0].toUpperCase();
             }
+            else if (selectorType === 'kebab-case') {
+                return !suffix || suffix[0] === '-';
+            }
+            throw Error('Invalid selector type');
         };
     }
 };

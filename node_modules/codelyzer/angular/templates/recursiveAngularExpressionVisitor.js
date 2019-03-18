@@ -33,7 +33,9 @@ var RecursiveAngularExpressionVisitor = (function (_super) {
         ast.right.visit(this, context);
         return null;
     };
-    RecursiveAngularExpressionVisitor.prototype.visitChain = function (ast, context) { return this.visitAll(ast.expressions, context); };
+    RecursiveAngularExpressionVisitor.prototype.visitChain = function (ast, context) {
+        return this.visitAll(ast.expressions, context);
+    };
     RecursiveAngularExpressionVisitor.prototype.visitConditional = function (ast, context) {
         ast.condition.visit(this, context);
         ast.trueExp.visit(this, context);
@@ -50,7 +52,9 @@ var RecursiveAngularExpressionVisitor = (function (_super) {
         this.visitAll(ast.args, context);
         return null;
     };
-    RecursiveAngularExpressionVisitor.prototype.visitImplicitReceiver = function (ast, context) { return null; };
+    RecursiveAngularExpressionVisitor.prototype.visitImplicitReceiver = function (ast, context) {
+        return null;
+    };
     RecursiveAngularExpressionVisitor.prototype.visitInterpolation = function (ast, context) {
         var _this = this;
         ast.expressions.forEach(function (e, i) { return _this.visit(e, context); });
@@ -70,8 +74,12 @@ var RecursiveAngularExpressionVisitor = (function (_super) {
     RecursiveAngularExpressionVisitor.prototype.visitLiteralArray = function (ast, context) {
         return this.visitAll(ast.expressions, context);
     };
-    RecursiveAngularExpressionVisitor.prototype.visitLiteralMap = function (ast, context) { return this.visitAll(ast.values, context); };
-    RecursiveAngularExpressionVisitor.prototype.visitLiteralPrimitive = function (ast, context) { return null; };
+    RecursiveAngularExpressionVisitor.prototype.visitLiteralMap = function (ast, context) {
+        return this.visitAll(ast.values, context);
+    };
+    RecursiveAngularExpressionVisitor.prototype.visitLiteralPrimitive = function (ast, context) {
+        return null;
+    };
     RecursiveAngularExpressionVisitor.prototype.visitMethodCall = function (ast, context) {
         ast.receiver.visit(this, context);
         return this.visitAll(ast.args, context);
@@ -102,7 +110,9 @@ var RecursiveAngularExpressionVisitor = (function (_super) {
         asts.forEach(function (ast) { return ast.visit(_this, context); });
         return null;
     };
-    RecursiveAngularExpressionVisitor.prototype.visitQuote = function (ast, context) { return null; };
+    RecursiveAngularExpressionVisitor.prototype.visitQuote = function (ast, context) {
+        return null;
+    };
     return RecursiveAngularExpressionVisitor;
 }(sourceMappingVisitor_1.SourceMappingVisitor));
 exports.RecursiveAngularExpressionVisitor = RecursiveAngularExpressionVisitor;

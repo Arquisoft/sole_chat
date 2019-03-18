@@ -4,8 +4,7 @@ export interface MetadataUrls {
     styleUrls: string[];
 }
 export declare abstract class AbstractResolver {
-    abstract resolve(decorator: ts.Decorator): MetadataUrls;
-    protected getTemplateUrl(decorator: ts.Decorator): string;
+    abstract resolve(decorator: ts.Decorator): MetadataUrls | null;
+    protected getTemplateUrl(decorator: ts.Decorator): string | undefined;
     protected getStyleUrls(decorator: ts.Decorator): string[];
-    protected getDecoratorArgument(decorator: ts.Decorator): ts.ObjectLiteralExpression;
 }

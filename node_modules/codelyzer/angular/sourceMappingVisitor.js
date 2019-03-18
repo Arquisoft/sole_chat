@@ -12,16 +12,13 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslint_1 = require("tslint");
 var source_map_1 = require("source-map");
-var LineFeed = 0x0A;
-var CarriageReturn = 0x0D;
-var MaxAsciiCharacter = 0x7F;
+var LineFeed = 0x0a;
+var CarriageReturn = 0x0d;
+var MaxAsciiCharacter = 0x7f;
 var LineSeparator = 0x2028;
 var ParagraphSeparator = 0x2029;
 function isLineBreak(ch) {
-    return ch === LineFeed ||
-        ch === CarriageReturn ||
-        ch === LineSeparator ||
-        ch === ParagraphSeparator;
+    return ch === LineFeed || ch === CarriageReturn || ch === LineSeparator || ch === ParagraphSeparator;
 }
 exports.isLineBreak = isLineBreak;
 function binarySearch(array, value, comparer, offset) {
@@ -30,9 +27,7 @@ function binarySearch(array, value, comparer, offset) {
     }
     var low = offset || 0;
     var high = array.length - 1;
-    comparer = comparer !== undefined
-        ? comparer
-        : function (v1, v2) { return (v1 < v2 ? -1 : (v1 > v2 ? 1 : 0)); };
+    comparer = comparer !== undefined ? comparer : function (v1, v2) { return (v1 < v2 ? -1 : v1 > v2 ? 1 : 0); };
     while (low <= high) {
         var middle = low + ((high - low) >> 1);
         var midValue = array[middle];
@@ -68,7 +63,7 @@ function computeLineAndCharacterOfPosition(lineStarts, position) {
     };
 }
 function computeLineStarts(text) {
-    var result = new Array();
+    var result = [];
     var pos = 0;
     var lineStart = 0;
     while (pos < text.length) {

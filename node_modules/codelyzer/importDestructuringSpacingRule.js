@@ -10,8 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var ts = require("typescript");
-var Lint = require("tslint");
+var lib_1 = require("tslint/lib");
 var Rule = (function (_super) {
     __extends(Rule, _super);
     function Rule() {
@@ -21,40 +20,64 @@ var Rule = (function (_super) {
         return this.applyWithWalker(new ImportDestructuringSpacingWalker(sourceFile, this.getOptions()));
     };
     Rule.metadata = {
-        ruleName: 'import-destructuring-spacing',
-        type: 'style',
         description: 'Ensure consistent and tidy imports.',
-        rationale: 'Imports are easier for the reader to look at when they\'re tidy.',
+        hasFix: true,
         options: null,
         optionsDescription: 'Not configurable.',
-        typescriptOnly: true,
+        rationale: "Imports are easier for the reader to look at when they're tidy.",
+        ruleName: 'import-destructuring-spacing',
+        type: 'style',
+        typescriptOnly: true
     };
-    Rule.FAILURE_STRING = 'You need to leave whitespaces inside of the import statement\'s curly braces';
+    Rule.FAILURE_STRING = "Import statement's curly braces must be spaced exactly by a space to the right and a space to the left";
     return Rule;
-}(Lint.Rules.AbstractRule));
+}(lib_1.Rules.AbstractRule));
 exports.Rule = Rule;
+exports.getFailureMessage = function () {
+    return Rule.FAILURE_STRING;
+};
+var isBlankOrMultilineImport = function (value) {
+    return value.indexOf('\n') !== -1 || /^\{\s*\}$/.test(value);
+};
 var ImportDestructuringSpacingWalker = (function (_super) {
     __extends(ImportDestructuringSpacingWalker, _super);
     function ImportDestructuringSpacingWalker(sourceFile, options) {
-        var _this = _super.call(this, sourceFile, options) || this;
-        _this.scanner = ts.createScanner(ts.ScriptTarget.ES5, false, ts.LanguageVariant.Standard, sourceFile.text);
-        return _this;
+        return _super.call(this, sourceFile, options) || this;
     }
-    ImportDestructuringSpacingWalker.prototype.visitImportDeclaration = function (node) {
-        var importClause = node.importClause;
-        if (importClause && importClause.namedBindings) {
-            var text = importClause.namedBindings.getText();
-            if (!this.checkForWhiteSpace(text)) {
-                this.addFailure(this.createFailure(importClause.namedBindings.getStart(), importClause.namedBindings.getWidth(), Rule.FAILURE_STRING));
-            }
-        }
-        _super.prototype.visitImportDeclaration.call(this, node);
+    ImportDestructuringSpacingWalker.prototype.visitNamedImports = function (node) {
+        this.validateNamedImports(node);
+        _super.prototype.visitNamedImports.call(this, node);
     };
-    ImportDestructuringSpacingWalker.prototype.checkForWhiteSpace = function (text) {
-        if (/\s*\*\s+as\s+[^\s]/.test(text)) {
-            return true;
+    ImportDestructuringSpacingWalker.prototype.getFix = function (node, totalLeadingSpaces, totalTrailingSpaces) {
+        var nodeStartPos = node.getStart();
+        var nodeEndPos = node.getEnd();
+        var fix = [];
+        if (totalLeadingSpaces === 0) {
+            fix.push(lib_1.Replacement.appendText(nodeStartPos + 1, ' '));
         }
-        return /{\s[^]*\s}/.test(text);
+        else if (totalLeadingSpaces > 1) {
+            fix.push(lib_1.Replacement.deleteText(nodeStartPos + 1, totalLeadingSpaces - 1));
+        }
+        if (totalTrailingSpaces === 0) {
+            fix.push(lib_1.Replacement.appendText(nodeEndPos - 1, ' '));
+        }
+        else if (totalTrailingSpaces > 1) {
+            fix.push(lib_1.Replacement.deleteText(nodeEndPos - totalTrailingSpaces, totalTrailingSpaces - 1));
+        }
+        return fix;
+    };
+    ImportDestructuringSpacingWalker.prototype.validateNamedImports = function (node) {
+        var nodeText = node.getText();
+        if (isBlankOrMultilineImport(nodeText)) {
+            return;
+        }
+        var totalLeadingSpaces = nodeText.match(/^\{(\s*)/)[1].length;
+        var totalTrailingSpaces = nodeText.match(/(\s*)}$/)[1].length;
+        if (totalLeadingSpaces === 1 && totalTrailingSpaces === 1) {
+            return;
+        }
+        var fix = this.getFix(node, totalLeadingSpaces, totalTrailingSpaces);
+        this.addFailureAtNode(node, exports.getFailureMessage(), fix);
     };
     return ImportDestructuringSpacingWalker;
-}(Lint.RuleWalker));
+}(lib_1.RuleWalker));

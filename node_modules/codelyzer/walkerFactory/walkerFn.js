@@ -15,14 +15,14 @@ var function_1 = require("../util/function");
 function validate(syntaxKind) {
     return function (validateFn) { return ({
         kind: 'Node',
-        validate: function (node, options) { return (node.kind === syntaxKind) ? validateFn(node, options) : function_1.Maybe.nothing; },
+        validate: function (node, options) { return (node.kind === syntaxKind ? validateFn(node, options) : function_1.Maybe.nothing); }
     }); };
 }
 exports.validate = validate;
 function validateComponent(validate) {
     return {
         kind: 'NgComponent',
-        validate: validate,
+        validate: validate
     };
 }
 exports.validateComponent = validateComponent;
@@ -41,7 +41,7 @@ function all() {
                 var _this = this;
                 validators.forEach(function (v) {
                     if (v.kind === 'NgComponent') {
-                        v.validate(meta, _this.getOptions()).fmap(function (failures) { return failures.forEach(function (f) { return _this.failed(f); }); });
+                        v.validate(meta, _this.getOptions()).fmap(function (failures) { return failures.forEach(function (f) { return _this.generateFailure(f); }); });
                     }
                 });
                 _super.prototype.visitNgComponent.call(this, meta);
@@ -50,13 +50,13 @@ function all() {
                 var _this = this;
                 validators.forEach(function (v) {
                     if (v.kind === 'Node') {
-                        v.validate(node, _this.getOptions()).fmap(function (failures) { return failures.forEach(function (f) { return _this.failed(f); }); });
+                        v.validate(node, _this.getOptions()).fmap(function (failures) { return failures.forEach(function (f) { return _this.generateFailure(f); }); });
                     }
                 });
                 _super.prototype.visitNode.call(this, node);
             };
-            class_1.prototype.failed = function (failure) {
-                this.addFailure(this.createFailure(failure.node.getStart(), failure.node.getWidth(), failure.message));
+            class_1.prototype.generateFailure = function (failure) {
+                this.addFailureAtNode(failure.node, failure.message);
             };
             return class_1;
         }(ngWalker_1.NgWalker));

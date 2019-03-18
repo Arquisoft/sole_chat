@@ -1,29 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LogLevel = {
-    None: 0,
-    Error: 1,
-    Info: 3,
-    Debug: 7
-};
+exports.LogLevel = { Debug: 7, Error: 1, Info: 3, None: 0 };
 var BUILD_TYPE = 'prod';
+var transform = function (code, extension, url) {
+    return { code: !url || url.endsWith(extension) ? code : '', url: url };
+};
 exports.Config = {
     interpolation: ['{{', '}}'],
-    resolveUrl: function (url, d) {
-        return url;
-    },
-    transformTemplate: function (code, url, d) {
-        if (!url || url.endsWith('.html')) {
-            return { code: code, url: url };
-        }
-        return { code: '', url: url };
-    },
-    transformStyle: function (code, url, d) {
-        if (!url || url.endsWith('.css')) {
-            return { code: code, url: url };
-        }
-        return { code: '', url: url };
-    },
+    logLevel: BUILD_TYPE === 'dev' ? exports.LogLevel.Debug : exports.LogLevel.None,
     predefinedDirectives: [
         { selector: 'form:not([ngNoForm]):not([formGroup]), ngForm, [ngForm]', exportAs: 'ngForm' },
         { selector: '[routerLinkActive]', exportAs: 'routerLinkActive' },
@@ -47,11 +31,15 @@ exports.Config = {
         { selector: '[md-tooltip], [mdTooltip]', exportAs: 'mdTooltip' },
         { selector: 'md-select', exportAs: 'mdSelect' }
     ],
-    logLevel: BUILD_TYPE === 'dev' ? exports.LogLevel.Debug : exports.LogLevel.None
+    resolveUrl: function (url) {
+        return url;
+    },
+    transformStyle: function (code, url) { return transform(code, '.css', url); },
+    transformTemplate: function (code, url) { return transform(code, '.html', url); }
 };
 try {
     var root = require('app-root-path');
     var newConfig = require(root.path + '/.codelyzer');
     Object.assign(exports.Config, newConfig);
 }
-catch (e) { }
+catch (_a) { }
