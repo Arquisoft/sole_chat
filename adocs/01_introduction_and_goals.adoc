@@ -47,6 +47,9 @@ A more complete list of the requirements can be found at: https://github.com/Arq
 
 |Inrupt |Organization that works with Solid and has proposed the challenge |They expect the students to build a decentralized and secure application using Solid and that fulfills the technical and quiality requirements
 
-|Developers |The students that will build the application |They will decide the software architecture of the application and develop it using Solid
+|Software developers |The students that will build the code of the application |They will decide the software architecture of the application and develop it using Solid
+
+|Application Users |The people that will use the application once it is ready |They will expect the application to be easy to use, and to understand, visual interface and that it works correctly.
+
 |===
 
