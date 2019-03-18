@@ -1,0 +1,27 @@
+<div class="topnav">
+  <div class="logo">Solid</div>
+
+  <div class="menu-item">
+    <div>
+      <a routerLink="/chat" class="far fa-comment"></a>
+    </div>
+    Chat
+  </div>
+  <div class="menu-item">
+    <div>
+      <a routerLink="" class="far fa-compass"></a>
+    </div>
+    Profile
+  </div>
+  <div class="menu-item">
+    <div>
+      <a routerLink="/about" class="fas fa-sliders-h"></a>
+    </div>
+    About
+  </div>
+
+  <div class="profile-menu" (click)="logout()">
+    <img [src]="profileImage" />
+  </div>
+</div>
+<router-outlet></router-outlet>

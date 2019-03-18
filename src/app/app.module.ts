@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ChatComponent } from './chat/chat.component';
+import { AboutComponent } from './about/about.component';
+
 import { AppComponent } from './app.component';
 import {LoginPopupComponent} from './login-popup/login-popup.component';
 import {LoginComponent} from './login/login.component';
@@ -16,9 +19,8 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ChatComponent } from './chat/chat.component';
 import { NavComponent } from './nav/nav.component';
-import { AboutComponent } from './about/about.component';
+
 
 const routes: Routes = [
   
@@ -68,9 +70,8 @@ const routes: Routes = [
     DashboardComponent,
     CardComponent,
     RegisterComponent,
-    ChatComponent,
-    NavComponent,
-    AboutComponent
+    ChatComponent,    
+    AboutComponent, NavComponent
   ],
   imports: [
     BrowserModule,
