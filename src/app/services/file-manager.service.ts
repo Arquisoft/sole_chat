@@ -9,7 +9,7 @@ import { componentNeedsResolution } from '@angular/core/src/metadata/resource_lo
 export class FileManagerService {
 	constructor() { }
 
-	async saveSomethingInThePOD(message) {
+	async saveSomethingInThePOD(message, friend) {
 		let direction: String;
 
 		await fileManager.popupLogin().then((webId) => {
@@ -23,7 +23,7 @@ export class FileManagerService {
 			},
 			(err) => {
 				if (err.includes("Not Found")) {
-					this.createFile(direction, message);
+					this.createFile(direction, message, friend);
 				} else {
 					console.log(err)
 				}
@@ -32,13 +32,17 @@ export class FileManagerService {
 		);
 	}
 
-	async createFile(direction, message) {
+	async createFile(direction, message, friend) {
 
+		
 		var baseContent = {
 			messages: [
 
 			]
 		};
+		
+
+		//var baseContent = await this.generateBaseTurtle(friend);
 
 		await fileManager.createFile(direction, JSON.stringify(baseContent)).then(
 			(fileCreated) => {
@@ -111,4 +115,24 @@ export class FileManagerService {
 
 		return lastMessage;
 	}
-}
+
+	async generateBaseTurtle(friend) {
+		let id;
+		await fileManager.popupLogin().then((webId) => {
+			id = webId;
+		});
+
+		let msg = "@prefix : <#>.\n"; 
+		msg += "@prefix mee: <http://www.w3.org/ns/pim/meeting#>.\n";
+		msg += "@prefix terms: <http://purl.org/dc/terms/>.\n";
+		msg += "@prefix XML: <http://www.w3.org/2001/XMLSchema#>.\n";
+		msg += "@prefix n: <http://rdfs.org/sioc/ns#>.\n";
+		msg += "@prefix n0: <http://xmlns.com/foaf/0.1/>.\n";
+		msg += "@prefix send: <" + id + ">.\n"
+		msg += "@prefix rec: <https://" + friend + ".solid.community/profile/card#>.\n";
+		msg += "@prefix n1: <http://purl.org/dc/elements/1.1/>.\n";
+		msg += "@prefix flow: <http://www.w3.org/2005/01/wf/flow#>.";
+
+		return msg;
+	}
+ }
