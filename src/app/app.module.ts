@@ -17,8 +17,20 @@ import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChatComponent } from './chat/chat.component';
+import { NavComponent } from './nav/nav.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
+  
+  {
+    path:'chat',
+    component: ChatComponent
+  },
+  {
+    path:'about',
+    component: AboutComponent
+  }
+  ,
   {
     path: '',
     component: LoginComponent
@@ -31,6 +43,7 @@ const routes: Routes = [
     path: 'login-popup',
     component: LoginPopupComponent
   },
+  
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -44,10 +57,6 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
-  },
-  {
-    path:'chat',
-    component: ChatComponent
   }
 ];
 
@@ -59,7 +68,9 @@ const routes: Routes = [
     DashboardComponent,
     CardComponent,
     RegisterComponent,
-    ChatComponent
+    ChatComponent,
+    NavComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
