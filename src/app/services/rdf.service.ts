@@ -53,13 +53,10 @@ export class RdfService {
 
   async createMessage(message, maker) {
     /*
-:Msg1551093450028
-    terms:created "2019-02-25T11:17:30Z"^^XML:dateTime;
-    n:content "pnjoino";
-    n0:maker c:me.
-*/
-    /*
-    <https://janespod.solid/profile/card#me> <http://xmlns.com/foaf/0.1/name> "Jane Doe"@en .
+    :Msg1551093450028
+      terms:created "2019-02-25T11:17:30Z"^^XML:dateTime;
+      n:content "pnjoino";
+      n0:maker c:me.
     */
     let newId = 'Msg' + Date.now();
     const doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
@@ -67,7 +64,15 @@ export class RdfService {
 
     //Generate statement for the date of creation    
     let predicateDate = $rdf.sym(TERMS('created'));
-    let contentDate = Date.now().toString();
+    var date = new Date();
+    var contentDate =
+    date.getUTCFullYear() + "/" +
+    ("0" + (date.getUTCMonth()+1)).slice(-2) + "/" +
+    ("0" + date.getUTCDate()).slice(-2) + " " +
+    ("0" + date.getUTCHours()).slice(-2) + ":" +
+    ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+    ("0" + date.getUTCSeconds()).slice(-2);
+
     let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
     console.log(dateSt);
     this.store.add(dateSt);
@@ -95,6 +100,11 @@ export class RdfService {
     let content = $rdf.serialize(doc, this.store, doc.uri, 'text/turtle');
     console.log(content);
     return content; //return it in string format
+  }
+
+  async getLastMessage() {
+    //let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#Msg234134");
+    console.log(this.store.any(CONT("content")));
   }
 
   getWebID = async () => {

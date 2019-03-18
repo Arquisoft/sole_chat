@@ -89,12 +89,12 @@ export class FileManagerService {
 
 	async retrieveLastMessage() {
 		var direction;
-		var lastMessage : String = "";
 
 		await fileManager.popupLogin().then((webId) => {
-			direction = webId.split("/profile")[0] + "/public/messages.json";
+			direction = webId.split("/profile")[0] + "/public/messages.ttl";
 		});
 
+		/*
 		await fileManager.readFile(direction).then(
 			(body) => {
 				var object = JSON.parse(body);
@@ -106,13 +106,24 @@ export class FileManagerService {
 				console.log(err);
 			}
 		);
+			*/
+
+		var lastMessage;
+		await fileManager.readFile(direction).then(
+			(body) => {
+				lastMessage = this.rdf.getLastMessage();
+			},
+			(err) => {
+				console.log(err);
+			}
+		);
 
 		return lastMessage;
 	}
 
 	async retrieveLastMessageReceived(friend) {
 		var direction = "https://" + friend + ".solid.community/public/messages.json";
-		var lastMessage : String = "";
+		var lastMessage: String = "";
 
 		await fileManager.readFile(direction).then(
 			(body) => {
@@ -135,7 +146,7 @@ export class FileManagerService {
 			id = webId;
 		});
 
-		let msg = "@prefix : <#>.\n"; 
+		let msg = "@prefix : <#>.\n";
 		msg += "@prefix mee: <http://www.w3.org/ns/pim/meeting#>.\n";
 		msg += "@prefix terms: <http://purl.org/dc/terms/>. ";
 		msg += "@prefix XML: <http://www.w3.org/2001/XMLSchema#>.\n";
@@ -146,4 +157,4 @@ export class FileManagerService {
 
 		return msg;
 	}
- }
+}
