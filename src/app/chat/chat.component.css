@@ -1,3 +1,4 @@
+
 html {
     overflow-y: hidden;
     overflow-x: hidden;
@@ -137,6 +138,10 @@ h3 {
     background-color: #ffc107;
     color: white;
     font-weight: bolder;
+}
+
+#friendSelector{
+    width: 100px;
 }
 
 /* @media(max-width: 800px) {

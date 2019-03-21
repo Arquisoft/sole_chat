@@ -19,6 +19,7 @@ export class ChatComponent implements OnInit {
   profile: SolidProfile;
   loadingProfile: Boolean;
   messageContent: String = "";
+  friendsList:String;
 
   @ViewChild('f') chatForm: NgForm;
 
@@ -29,6 +30,7 @@ export class ChatComponent implements OnInit {
   ngOnInit() {
     this.loadingProfile = true;
     this.loadProfile();
+    
 
   }
 
@@ -40,12 +42,33 @@ export class ChatComponent implements OnInit {
         this.profile = profile;
         this.auth.saveOldUserData(profile);
         this.messageContent = this.rdf.getMessage();
+      
       }
+
+      this.rdf.getFriends().then(friends=>friends.forEach(element => {
+        console.log(element);
+        console.log("elemento");
+        
+      }));
+      const friends=await this.rdf.getFriends();
+     
+      console.log("a")
+      console.log(friends);
+      console.log("b")
+      console.log(friends.length);
+      
+
 
       this.loadingProfile = false;
     } catch (error) {
       console.log(`Error: ${error}`);
     }
+
+     
+   
+   
+    
+
 
   }
 

@@ -7,6 +7,7 @@ declare let $rdf: any;
 // TODO: Remove any UI interaction from this service
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { async } from 'q';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
@@ -365,6 +366,34 @@ export class RdfService {
       console.log(`Error fetching data: ${error}`);
     }
   };
+
+
+  //Returns a list with the user friends
+  getFriends = async() =>{
+
+    if(!this.session){
+      await this.getSession();
+    }
+    var friend_list:{name: string,webId:string}[]=[];
+    try{
+      const friends =this.store.each($rdf.sym(this.session.webId),FOAF('knows'));
+      
+       friends.forEach(async (friend) => {
+        await this.fetcher.load(friend);
+        const fullName = this.store.any(friend, FOAF('name')).value;
+
+        friend_list.push({name:fullName,webId:friend.value})
+       
+      
+      });
+     
+    }
+    finally{
+      return friend_list; 
+    }
+   
+    
+  }
 
   /**
    * Gets any resource that matches the node, using the provided Namespace
