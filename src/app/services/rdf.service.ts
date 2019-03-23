@@ -12,8 +12,10 @@ const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
 const CONT = $rdf.Namespace('http://rdfs.org/sioc/ns#'); //n
 const TERMS = $rdf.Namespace('http://purl.org/dc/terms/'); //terms
-const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#');
-
+const MEE = $rdf.Namespace("http://www.w3.org/ns/pim/meeting#"); //mee
+const ACL = $rdf.Namespace("http://www.w3.org/ns/auth/acl#"); //acl
+const N1 = $rdf.Namespace("http://purl.org/dc/elements/1.1/"); //n1
+const FLOW = $rdf.Namespace("http://www.w3.org/2005/01/wf/flow#"); //flow
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -51,13 +53,46 @@ export class RdfService {
     this.getSession();
   }
 
-  async createMessage(message, maker) {
-    /*
-    :Msg1551093450028
-      terms:created "2019-02-25T11:17:30Z"^^XML:dateTime;
-      n:content "pnjoino";
-      n0:maker c:me.
-    */
+  async generateBaseChat(friend) {
+    //Friend should be our friends webId
+    let friendId = "https://" + friend + ".solid.community/profile/card#me";
+
+    const doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
+    let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#this");
+    //a mee:Chat -> Don't know how to put 'a'
+    //let predicate = $rdf.sym(MEE('Chat'));
+
+    //Author
+    let predicate = $rdf.sym(N1('author'));
+    let object = $rdf.sym(this.session.webId);
+    let statement = $rdf.st(subject, predicate, object, doc);
+    console.log(statement);
+    this.store.add(statement);
+
+    //Created
+    predicate = $rdf.sym(N1('created'));
+    var date = new Date();
+    var contentDate =
+    date.getUTCFullYear() + "/" +
+    ("0" + (date.getUTCMonth()+1)).slice(-2) + "/" +
+    ("0" + date.getUTCDate()).slice(-2) + " " +
+    ("0" + date.getUTCHours()).slice(-2) + ":" +
+    ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+    ("0" + date.getUTCSeconds()).slice(-2);
+    statement = $rdf.st(subject, predicate, contentDate, doc);
+    console.log(statement);
+    this.store.add(statement);
+
+    //Title
+    predicate = $rdf.sym(N1('title'));
+    statement = $rdf.st(subject, predicate, "Chat", doc);
+    console.log(statement);
+    this.store.add(statement);
+
+    
+  }
+
+  async createMessage(message, makerId) {
     let newId = 'Msg' + Date.now();
     const doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
     let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#" + newId);
@@ -85,11 +120,19 @@ export class RdfService {
 
     //Generate statement for the content of the message
     let predicateMaker = $rdf.sym(FOAF('maker'));
-    let makerSt = $rdf.sym("https://" + maker + ".solid.community/profile/card#me");
+    let makerSt = $rdf.sym(makerId); //Web id of the maker
     let makerStatement = $rdf.st(subject, predicateMaker, makerSt, doc);
     console.log(makerStatement);
     this.store.add(makerStatement);
     
+    //Add to messages flow
+    let subjectFlow = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#this");
+    let predicateFlow = $rdf.sym(FLOW('message'));
+    let objectFlow = $rdf.sym(makerId); //Web id of the maker
+    let statementFlow = $rdf.st(subjectFlow, predicateFlow, objectFlow, doc);
+    console.log(statementFlow);
+    this.store.add(statementFlow);
+
     //const store = this.store.any(subject, FOAF("maker"));
   }
 

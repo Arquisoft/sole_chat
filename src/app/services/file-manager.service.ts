@@ -15,7 +15,6 @@ export class FileManagerService {
 
 		await fileManager.popupLogin().then((webId) => {
 			console.log('Logged in as ' + webId);
-			//direction = webId.split("/profile")[0] + "/public/messages.json";
 			direction = webId.split("/profile")[0] + "/public/messages.ttl";
 		});
 
@@ -35,20 +34,12 @@ export class FileManagerService {
 	}
 
 	async createFile(direction, message, friend) {
-
-		/*
-		var baseContent = {
-			messages: [
-
-			]
-		};
-		*/
-
 		var baseContent = await this.generateBaseTurtle(friend);
 
 		await fileManager.createFile(direction, baseContent).then(
 			(fileCreated) => {
 				console.log(`Created file ${fileCreated}.`);
+				this.rdf.generateBaseChat(friend);
 			});
 
 		await fileManager.readFile(direction).then(
@@ -75,7 +66,7 @@ export class FileManagerService {
 
 		https://ajunque9.solid.community/public/messages.ttl
 		*/
-		let maker = (direction.split("//")[1]).split(".solid")[0];
+		let maker = direction.split("/public")[0] + "/profile/card#me"; //webId
 		let content = await this.rdf.addMessage(body, message, maker);
 		await fileManager.updateFile(direction, content).then(
 			(fileUpdated) => {
@@ -147,14 +138,6 @@ export class FileManagerService {
 		});
 
 		let msg = "@prefix : <#>.\n";
-		msg += "@prefix mee: <http://www.w3.org/ns/pim/meeting#>.\n";
-		msg += "@prefix terms: <http://purl.org/dc/terms/>. ";
-		msg += "@prefix XML: <http://www.w3.org/2001/XMLSchema#>.\n";
-		msg += "@prefix n: <http://rdfs.org/sioc/ns#>.\n";
-		msg += "@prefix n0: <http://xmlns.com/foaf/0.1/>.\n";
-		msg += "@prefix n1: <http://purl.org/dc/elements/1.1/>.\n";
-		msg += "@prefix flow: <http://www.w3.org/2005/01/wf/flow#>.\n";
-
 		return msg;
 	}
 }
