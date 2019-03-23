@@ -449,7 +449,6 @@ export class RdfService {
   }
 
   public getMessages() {
-
     var store = $rdf.graph();
     var timeout = 5000; // 5000 ms timeout
     var fetcher = new $rdf.Fetcher(store, timeout);
@@ -459,18 +458,12 @@ export class RdfService {
       if (!ok) {
         console.log('Oops, something happened and couldn\'t fetch data');
       } else {
-        const subject = $rdf.sym('https://emiliocortina.solid.community/public/Amiwis/index.ttl#this');
+        const subject = $rdf.sym(url + '#this');
         const nameMessage = FLOW('message');
-        const mensajes = store.each(subject, nameMessage).length;
-        return mensajes;
+        const messagesNodes = store.each(subject, nameMessage);
+
       }
     });
-      // let subject = $rdf.sym('https://emiliocortina.solid.community/public/Amiwis/index.ttl#this');
-      // let doc = subject.doc();
-      // let nameMessage = FLOW('message');
-      // this.store.load()
-      // let mensajes = this.store.each(subject, nameMessage, undefined).length;
-      // return mensajes;
   }
 
 }

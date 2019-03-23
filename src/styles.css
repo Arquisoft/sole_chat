@@ -98,3 +98,8 @@ input[type=text].wide-text {
 
 }
 
+@font-face {
+  font-family: "Circular";
+  src: url(/assets/fonts/CircularStd-Black.otf);
+}
+

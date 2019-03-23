@@ -4,13 +4,13 @@
 
 .profile-container h1 {
   font-size: 24px;
-  color: #7C55FB;
+  color: #89969F;
   font-weight: bold;
   line-height: 32px;
   letter-spacing: 1.2px;
   text-align: center;
   margin-top: 82px;
-  text-transform: uppercase;
+  font-family: Circular;
 }
 
 .profile-fields-container {
@@ -39,6 +39,11 @@
   display: block;
 }
 
+
+.form-group *{
+  margin: 0 2em;
+}
+
 .profile-fields-container i {
   font-size: 14px;
   color: #89969F;
@@ -62,14 +67,14 @@
 .profile-save-button-container {
   display: flex;
   align-items: center;
-  margin-bottom: auto;
+  margin-bottom: 2em;
   height: 100px;
   flex-direction: column;
   justify-content: flex-end;
 }
 
 .profile-save-button {
-  background-color: #7C55FB;
+  background-color: #ffc107;
   margin-left: auto;
   margin-right: auto;
   width: 280px;
@@ -86,7 +91,7 @@
   top:0;
   left:0;
   width: 100%;
-  background-color: #7C4DFF;
+  background-color: #ffc107;
   height: 50px;
   color: #fff;
 }
@@ -147,3 +152,5 @@
   text-align: center;
   margin-top: 50px;
 }
+
+
