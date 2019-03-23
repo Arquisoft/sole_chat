@@ -59,14 +59,16 @@ export class RdfService {
 
     const doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
     let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#this");
-    //a mee:Chat -> Don't know how to put 'a'
-    //let predicate = $rdf.sym(MEE('Chat'));
+
+    let predicate = $rdf.sym("https://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+    let object = $rdf.sym(MEE('Chat'));
+    let statement = $rdf.st(subject, predicate, object, doc);
+    this.store.add(statement);
 
     //Author
-    let predicate = $rdf.sym(N1('author'));
-    let object = $rdf.sym(this.session.webId);
-    let statement = $rdf.st(subject, predicate, object, doc);
-    console.log(statement);
+    predicate = $rdf.sym(N1('author'));
+    object = $rdf.sym(this.session.webId);
+    statement = $rdf.st(subject, predicate, object, doc);
     this.store.add(statement);
 
     //Created
@@ -80,16 +82,42 @@ export class RdfService {
     ("0" + date.getUTCMinutes()).slice(-2) + ":" +
     ("0" + date.getUTCSeconds()).slice(-2);
     statement = $rdf.st(subject, predicate, contentDate, doc);
-    console.log(statement);
     this.store.add(statement);
 
     //Title
     predicate = $rdf.sym(N1('title'));
     statement = $rdf.st(subject, predicate, "Chat", doc);
-    console.log(statement);
     this.store.add(statement);
 
-    
+    //Permissions
+    let docACL = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl.acl");
+    let subjectACL = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl.acl#authorization");
+    //Is an authorization
+    predicate = $rdf.sym("https://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+    object = $rdf.sym(ACL('Authorization'));
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    //Agent
+    predicate = $rdf.sym(ACL('agent'));
+    object = $rdf.sym(friendId);
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    //file
+    predicate = $rdf.sym(ACL('accessTo'));
+    object = doc;
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    //Permissions
+    predicate = $rdf.sym(ACL('mode'));
+    object = $rdf.sym(ACL('Read'));
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    object = $rdf.sym(ACL('Write'));
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    object = $rdf.sym(ACL('Control'));
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
   }
 
   async createMessage(message, makerId) {
@@ -128,7 +156,7 @@ export class RdfService {
     //Add to messages flow
     let subjectFlow = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#this");
     let predicateFlow = $rdf.sym(FLOW('message'));
-    let objectFlow = $rdf.sym(makerId); //Web id of the maker
+    let objectFlow = $rdf.sym(subject); //Message node
     let statementFlow = $rdf.st(subjectFlow, predicateFlow, objectFlow, doc);
     console.log(statementFlow);
     this.store.add(statementFlow);

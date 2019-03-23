@@ -35,6 +35,13 @@ export class FileManagerService {
 
 	async createFile(direction, message, friend) {
 		var baseContent = await this.generateBaseTurtle(friend);
+		let permissions = direction + ".acl";
+
+		await fileManager.createFile(permissions, "").then(
+			(fileCreated) => {
+				console.log(`Created file ${fileCreated}.`);
+			}
+		);
 
 		await fileManager.createFile(direction, baseContent).then(
 			(fileCreated) => {
