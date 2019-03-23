@@ -90,9 +90,9 @@ export class ChatComponent implements OnInit {
     //window.location.reload();
   }
 
-    private loadMessages() {
-        const hola = this.rdf.getMessages();
-        const hey = hola;
+    private async loadMessages() {
+      const hola = await this.rdf.getMessages();
+      this.dummymess = hola;
         const kpasa = 9;
     }
 }

@@ -519,7 +519,8 @@ export class RdfService {
     return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
   }
 
-  public getMessages() {
+  // Add a function as parameter to call it when finished or fixed the asyn.
+  public async getMessages(): { id: number; content: string; }[] {
     var store = $rdf.graph();
     var timeout = 5000; // 5000 ms timeout
     var fetcher = new $rdf.Fetcher(store, timeout);
@@ -532,7 +533,17 @@ export class RdfService {
         const subject = $rdf.sym(url + '#this');
         const nameMessage = FLOW('message');
         const messagesNodes = store.each(subject, nameMessage);
-
+        let messages = [
+          { 'id' : 1,
+            'content': 'Prueba'}
+        ];
+        for (let i = 0; i < messagesNodes.length; i++) {
+          let messageNode = messagesNodes[i];
+          let content = store.any(messageNode, CONT('content'));
+          let contentText = content.value;
+          messages[i].content = contentText;
+        }
+        return messages;
       }
     });
   }
