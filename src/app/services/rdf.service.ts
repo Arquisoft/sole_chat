@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { SolidSession } from '../models/solid-session.model';
+import {Injectable} from '@angular/core';
+import {SolidSession} from '../models/solid-session.model';
+// TODO: Remove any UI interaction from this service
+import {NgForm} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+
 declare let solid: any;
 declare let $rdf: any;
 //import * as $rdf from 'rdflib'
-
-// TODO: Remove any UI interaction from this service
-import { NgForm } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { Content } from '@angular/compiler/src/render3/r3_ast';
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
 const CONT = $rdf.Namespace('http://rdfs.org/sioc/ns#'); //n
 const TERMS = $rdf.Namespace('http://purl.org/dc/terms/'); //terms
+const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#');
 
 
 /**
@@ -446,6 +446,31 @@ export class RdfService {
 
   private getArrayFromNamespace(node: string, namespace: any, webId?: string): string | any {
     return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
+  }
+
+  public getMessages() {
+
+    var store = $rdf.graph();
+    var timeout = 5000; // 5000 ms timeout
+    var fetcher = new $rdf.Fetcher(store, timeout);
+    var url = 'https://emiliocortina.solid.community/public/Amiwis/index.ttl';
+
+    fetcher.nowOrWhenFetched(url, function(ok, body, xhr) {
+      if (!ok) {
+        console.log('Oops, something happened and couldn\'t fetch data');
+      } else {
+        const subject = $rdf.sym('https://emiliocortina.solid.community/public/Amiwis/index.ttl#this');
+        const nameMessage = FLOW('message');
+        const mensajes = store.each(subject, nameMessage).length;
+        return mensajes;
+      }
+    });
+      // let subject = $rdf.sym('https://emiliocortina.solid.community/public/Amiwis/index.ttl#this');
+      // let doc = subject.doc();
+      // let nameMessage = FLOW('message');
+      // this.store.load()
+      // let mensajes = this.store.each(subject, nameMessage, undefined).length;
+      // return mensajes;
   }
 
 }
