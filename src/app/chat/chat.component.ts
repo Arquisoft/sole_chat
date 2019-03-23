@@ -80,7 +80,7 @@ export class ChatComponent implements OnInit {
   }
 
   async onSubmit() {
-    var message = (<HTMLInputElement>document.getElementById('message')).value;
+    var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
     this.fileManager.saveSomethingInThePOD(message, this.friend);
   }
 
