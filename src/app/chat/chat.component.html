@@ -1,35 +1,36 @@
-<div class="currentChatContent" >
-  <div>
-      <br>
-    <p>Friend:
-      <span id="friend">{{friend}}</span>
-    </p>
-    <input type="button" value="Talk to another friend" (click)="changeFriend()">
-  </div>
-
-  <div class="message sent">
-    <div class="messageContent" name="messageContent">
-      {{messageContent}}
-    </div>
-    <div class="messageTime">12:40</div>
-  </div>
-
-  <div class="message received">
-    <div class="messageContent" name="messageReceived">
-      {{messageReceived}}
-    </div>
-    <div class="messageTime">12:50</div>
-  </div>
-  <div class="message sent" *ngFor="let mess of dummymess">
-    <div class="messageContent" name="message dummy">
-      {{mess.content}}
-    </div>
-    <div class="messageTime">12:50</div>
-  </div>
-
-  <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
-    <input type="text" id="message" name="message" [(ngModel)]="message" />
-    <input type="submit" value="↩︎" id="submitMessage" />
-  </form>
-
+<div>
+  <br>
+  <p>Friend:
+    <span id="friend">{{friend}}</span>
+  </p>
+  <input type="button" value="Talk to another friend" (click)="changeFriend()">
 </div>
+<div class="bodyWrapper">
+  <div class="currentChat">
+    <div class="currentChatHeader">
+      <div class="currentChatImageWrapper">
+        <img src="/src/assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
+      </div>
+      <div class="currentChatHeaderTitle">
+        <h3>{{friend}}</h3>
+      </div>
+    </div>
+    <div class="currentChatContent">
+
+      <div class="message sent" *ngFor="let mess of dummymess">
+        <div class="messageContent" name="message dummy">
+          {{mess.content}}
+        </div>
+        <div class="messageTime">12:50</div>
+      </div>
+
+
+    </div>
+
+    <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
+      <input type="text" id="inputMessage" name="message" [(ngModel)]="message" />
+      <input type="submit" value="↩︎" id="submitMessage" />
+    </form>
+  </div>
+</div>
+
