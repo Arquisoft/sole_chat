@@ -1,27 +1,34 @@
-<div class="topnav">
-  <div class="logo">Solid</div>
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="/assets/images/sole.svg" alt="">
+            Sole
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/chat" class="nav-link">Chat</a>
+                </li>
 
-  <div class="menu-item">
-    <div>
-      <a routerLink="/chat" class="far fa-comment"></a>
-    </div>
-    Chat
-  </div>
-  <div class="menu-item">
-    <div>
-      <a routerLink="" class="far fa-compass"></a>
-    </div>
-    Profile
-  </div>
-  <div class="menu-item">
-    <div>
-      <a routerLink="/about" class="fas fa-sliders-h"></a>
-    </div>
-    About
-  </div>
+                <li class="nav-item">
+                    <a href="https://arquisoft.github.io/dechat_en2b/" class="nav-link">About</a>
+                </li>
 
-  <div class="profile-menu" (click)="logout()">
-    <img [src]="profileImage" />
-  </div>
-</div>
-<router-outlet></router-outlet>
+                <li class="nav-item">
+                    <div class="profile-menu" (click)="logout()">
+                        <img [src]="profileImage"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

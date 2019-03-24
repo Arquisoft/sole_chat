@@ -17,22 +17,13 @@ declare function createFolder(path, folder): any;
 })
 export class ChatComponent implements OnInit {
   dummymess = [
-    { id: 11, content: 'Mr. Nice' },
-    { id: 12, content: 'Narco' },
-    { id: 13, content: 'Bombasto' },
-    { id: 14, content: 'Celeritas' },
-    { id: 15, content: 'Magneta' },
-    { id: 16, content: 'RubberMan' },
-    { id: 17, content: 'Dynama' },
-    { id: 18, content: 'Dr IQ' },
-    { id: 19, content: 'Magma' },
-    { id: 20, content: 'Tornado' }
+    { id: 11, content: 'Primer mensaje' },
   ];
   profile: SolidProfile;
   loadingProfile: Boolean;
-  messageContent: String = "";
-  messageReceived: String = "";
-  friend: String = "javi";
+  messageContent: String = '';
+  messageReceived: String = '';
+  friend: String = 'javi';
 
   @ViewChild('f') chatForm: NgForm;
 
@@ -45,6 +36,7 @@ export class ChatComponent implements OnInit {
     this.loadProfile();
     this.getLastMessage();
     this.getMessageReceived();
+    this.loadMessages();
   }
 
   async loadProfile() {
@@ -58,10 +50,11 @@ export class ChatComponent implements OnInit {
 
       this.loadingProfile = false;
 
-      if (sessionStorage.getItem("friend") != null)
-        this.friend = sessionStorage.getItem("friend");
-      else
-        this.friend = "javi";
+      if (sessionStorage.getItem('friend') != null){
+        this.friend = sessionStorage.getItem('friend');
+      } else {
+        this.friend = 'javi';
+      }
 
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -75,26 +68,31 @@ export class ChatComponent implements OnInit {
   }
 
   async getMessageReceived() {
-    //var friend = (<HTMLInputElement>document.getElementById("friend")).textContent;
-    //console.log(this.friend);
+    // var friend = (<HTMLInputElement>document.getElementById('friend')).textContent;
+    // console.log(this.friend);
     var f;
-    if (sessionStorage.getItem("friend") != null)
-      f = sessionStorage.getItem("friend");
+    if (sessionStorage.getItem('friend') != null)
+      f = sessionStorage.getItem('friend');
     else
-      f = "javi";
+      f = 'javi';
     var res = await this.fileManager.retrieveLastMessageReceived(f);
     this.messageReceived = res;
   }
 
   async onSubmit() {
-    var message = (<HTMLInputElement>document.getElementById("message")).value;
+    var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
     this.fileManager.saveSomethingInThePOD(message, this.friend);
   }
 
   changeFriend() {
-    var newFriend = prompt("To which friend do you want to talk to?");
-    sessionStorage.setItem("friend", newFriend);
+    var newFriend = prompt('To which friend do you want to talk to?');
+    sessionStorage.setItem('friend', newFriend);
     //window.location.reload();
   }
 
+    private async loadMessages() {
+      const hola = await this.rdf.getMessages();
+      this.dummymess = hola;
+        const kpasa = 9;
+    }
 }

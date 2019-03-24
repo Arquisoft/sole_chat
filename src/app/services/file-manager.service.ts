@@ -1,160 +1,152 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as fileManager from 'solid-file-client';
-import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
-import { RdfService } from './rdf.service';
+import {componentNeedsResolution} from '@angular/core/src/metadata/resource_loading';
+import {RdfService} from './rdf.service';
 
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 
 export class FileManagerService {
-	constructor(private rdf: RdfService) { }
+    constructor(private rdf: RdfService) {
+    }
 
-	async saveSomethingInThePOD(message, friend) {
-		let direction: String;
+    async saveSomethingInThePOD(message, friend) {
+        let direction: String;
 
-		await fileManager.popupLogin().then((webId) => {
-			console.log('Logged in as ' + webId);
-			//direction = webId.split("/profile")[0] + "/public/messages.json";
-			direction = webId.split("/profile")[0] + "/public/messages.ttl";
-		});
+        await fileManager.popupLogin().then((webId) => {
+            console.log('Logged in as ' + webId);
+            direction = webId.split('/profile')[0] + '/public/messages.ttl';
+        });
 
-		await fileManager.readFile(direction).then(
-			(body) => {
-				this.updateFile(body, direction, message);
-			},
-			(err) => {
-				if (err.includes("Not Found")) {
-					this.createFile(direction, message, friend);
-				} else {
-					console.log(err)
-				}
+        await fileManager.readFile(direction).then(
+            (body) => {
+                this.updateFile(body, direction, message);
+            },
+            (err) => {
+                if (err.includes('Not Found')) {
+                    this.createFile(direction, message, friend);
+                } else {
+                    console.log(err);
+                }
 
-			}
-		);
-	}
+            }
+        );
+    }
 
-	async createFile(direction, message, friend) {
+    async createFile(direction, message, friend) {
+        var baseContent = await this.generateBaseTurtle(friend);
+        let permissions = direction + '.acl';
 
-		/*
-		var baseContent = {
-			messages: [
+        await fileManager.createFile(permissions, '').then(
+            (fileCreated) => {
+                console.log(`Created file ${fileCreated}.`);
+            }
+        );
 
-			]
-		};
-		*/
+        await fileManager.createFile(direction, baseContent).then(
+            (fileCreated) => {
+                console.log(`Created file ${fileCreated}.`);
+                this.rdf.generateBaseChat(friend);
+            });
 
-		var baseContent = await this.generateBaseTurtle(friend);
+        await fileManager.readFile(direction).then(
+            (body) => {
+                this.updateFile(body, direction, message);
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
 
-		await fileManager.createFile(direction, baseContent).then(
-			(fileCreated) => {
-				console.log(`Created file ${fileCreated}.`);
-			});
+    async updateFile(body, direction, message) {
+        //var object = JSON.parse(body);
+        //object.messages.push(message);
 
-		await fileManager.readFile(direction).then(
-			(body) => {
-				this.updateFile(body, direction, message);
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-	}
+        /*
+        await fileManager.updateFile(direction, JSON.stringify(object)).then(
+            (fileUpdated) => {
+                console.log(`Updated file ${fileUpdated}.`);
+            },
+            (err) => console.log(err)
+        );
 
-	async updateFile(body, direction, message) {
-		//var object = JSON.parse(body);
-		//object.messages.push(message);
+        https://ajunque9.solid.community/public/messages.ttl
+        */
+        let maker = direction.split('/public')[0] + '/profile/card#me'; //webId
+        let content = await this.rdf.addMessage(body, message, maker);
+        await fileManager.updateFile(direction, content).then(
+            (fileUpdated) => {
+                console.log(`Updated file ${fileUpdated}.`);
+            },
+            (err) => console.log(err)
+        );
 
-		/*
-		await fileManager.updateFile(direction, JSON.stringify(object)).then(
-			(fileUpdated) => {
-				console.log(`Updated file ${fileUpdated}.`);
-			},
-			(err) => console.log(err)
-		);
+        //window.location.reload();
+    }
 
-		https://ajunque9.solid.community/public/messages.ttl
-		*/
-		let maker = (direction.split("//")[1]).split(".solid")[0];
-		let content = await this.rdf.addMessage(body, message, maker);
-		await fileManager.updateFile(direction, content).then(
-			(fileUpdated) => {
-				console.log(`Updated file ${fileUpdated}.`);
-			},
-			(err) => console.log(err)
-		);
+    async retrieveLastMessage() {
+        var direction;
 
-		//window.location.reload();
-	}
+        await fileManager.popupLogin().then((webId) => {
+            direction = webId.split('/profile')[0] + '/public/messages.ttl';
+        });
 
-	async retrieveLastMessage() {
-		var direction;
+        /*
+        await fileManager.readFile(direction).then(
+            (body) => {
+                var object = JSON.parse(body);
+                var size = object.messages.length;
+                if (size > 0)
+                    lastMessage = object.messages[size - 1];
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+            */
 
-		await fileManager.popupLogin().then((webId) => {
-			direction = webId.split("/profile")[0] + "/public/messages.ttl";
-		});
+        var lastMessage;
+        await fileManager.readFile(direction).then(
+            (body) => {
+                lastMessage = this.rdf.getLastMessage();
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
 
-		/*
-		await fileManager.readFile(direction).then(
-			(body) => {
-				var object = JSON.parse(body);
-				var size = object.messages.length;
-				if (size > 0)
-					lastMessage = object.messages[size - 1];
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-			*/
+        return lastMessage;
+    }
 
-		var lastMessage;
-		await fileManager.readFile(direction).then(
-			(body) => {
-				lastMessage = this.rdf.getLastMessage();
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
+    async retrieveLastMessageReceived(friend) {
+        var direction = 'https://' + friend + '.solid.community/public/messages.json';
+        var lastMessage: String = '';
 
-		return lastMessage;
-	}
+        await fileManager.readFile(direction).then(
+            (body) => {
+                var object = JSON.parse(body);
+                var size = object.messages.length;
+                if (size > 0) {
+                    lastMessage = object.messages[size - 1];
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+        //window.location.reload();
+        return lastMessage;
+    }
 
-	async retrieveLastMessageReceived(friend) {
-		var direction = "https://" + friend + ".solid.community/public/messages.json";
-		var lastMessage: String = "";
+    async generateBaseTurtle(friend) {
+        let id;
+        await fileManager.popupLogin().then((webId) => {
+            id = webId;
+        });
 
-		await fileManager.readFile(direction).then(
-			(body) => {
-				var object = JSON.parse(body);
-				var size = object.messages.length;
-				if (size > 0)
-					lastMessage = object.messages[size - 1];
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-		//window.location.reload();
-		return lastMessage;
-	}
-
-	async generateBaseTurtle(friend) {
-		let id;
-		await fileManager.popupLogin().then((webId) => {
-			id = webId;
-		});
-
-		let msg = "@prefix : <#>.\n";
-		msg += "@prefix mee: <http://www.w3.org/ns/pim/meeting#>.\n";
-		msg += "@prefix terms: <http://purl.org/dc/terms/>. ";
-		msg += "@prefix XML: <http://www.w3.org/2001/XMLSchema#>.\n";
-		msg += "@prefix n: <http://rdfs.org/sioc/ns#>.\n";
-		msg += "@prefix n0: <http://xmlns.com/foaf/0.1/>.\n";
-		msg += "@prefix n1: <http://purl.org/dc/elements/1.1/>.\n";
-		msg += "@prefix flow: <http://www.w3.org/2005/01/wf/flow#>.\n";
-
-		return msg;
-	}
+        let msg = "@prefix : <#>.\n";
+        return msg;
+    }
 }
