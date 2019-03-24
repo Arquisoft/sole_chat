@@ -1,21 +1,21 @@
 const gulp = require('gulp')
 //const puml = require('gulp-puml')
-const svg2png = require('gulp-svg2png')
+//const svg2png = require('gulp-svg2png')
 const exec = require('child_process').exec
 const path = require('path')
 
-/*gulp.task('puml', () => {
+/*gulp.task('puml', () => { 
   return gulp.src('adocs/diagrams/*.puml')
     .pipe(puml())
     .pipe(gulp.dest('adocs/images/diagrams'))
 })*/
 
-gulp.task('svg2png', (done) => {
+/*gulp.task('svg2png', (done) => {
   gulp.src('adocs/images/diagrams/*.svg')
     .pipe(svg2png())
     .pipe(gulp.dest('docs/images/diagrams'))
-  done()
-})
+  done()  
+})*/
 
 gulp.task('copyImages', (done) => {
   gulp.src('adocs/images/**/*')
@@ -35,7 +35,7 @@ gulp.task('adoc2html', function (cb) {
 gulp.task('default',
   gulp.series([
    // 'puml',
-    'svg2png',
+    //'svg2png',
     'copyImages',
     'adoc2html'
   ])

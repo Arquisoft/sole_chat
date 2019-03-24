@@ -518,9 +518,9 @@ export class RdfService {
   private getArrayFromNamespace(node: string, namespace: any, webId?: string): string | any {
     return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
   }
-
+/*
   // Add a function as parameter to call it when finished or fixed the asyn.
-  public async getMessages(): { id: number; content: string; }[] {
+  public  getMessages(): { id: number; content: string; }[] {
     var store = $rdf.graph();
     var timeout = 5000; // 5000 ms timeout
     var fetcher = new $rdf.Fetcher(store, timeout);
@@ -546,6 +546,5 @@ export class RdfService {
         return messages;
       }
     });
-  }
-
+  }*/
 }

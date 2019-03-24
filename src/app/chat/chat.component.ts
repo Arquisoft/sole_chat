@@ -91,7 +91,7 @@ export class ChatComponent implements OnInit {
   }
 
     private async loadMessages() {
-      const hola = await this.rdf.getMessages();
+      const hola = await this.rdf.getMessage();
       this.dummymess = hola;
         const kpasa = 9;
     }
