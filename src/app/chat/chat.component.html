@@ -1,5 +1,11 @@
-<div class="bodyWrapper">
-  <div class="currentChat">
+<div class="bodyWrapper ">
+    <div class="row">
+    <div class="userListWrapper col-md-6 ">
+    <div class="recentChatsWrapper">
+          <app-userlist></app-userlist>
+  </div> 
+  </div>
+  <div class="currentChat col-md-6 text-right">     
     <div class="currentChatHeader">
       <div class="currentChatImageWrapper">
         <img src="../../assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
@@ -8,11 +14,12 @@
         <h3>{{friend}}</h3>
       </div>
     </div>
+    
     <div class="currentChatContent">
 
       <div class="message sent" *ngFor="let mess of displayedMessages">
         <div class="messageContent" name="message dummy">
-          {{mess.content}}
+          {{mess.content}}    
         </div>
         <div class="messageTime">{{mess.date}}</div>
       </div>
@@ -25,5 +32,7 @@
       <input type="submit" value="↩︎" id="submitMessage" />
     </form>
   </div>
+
 </div>
 
+</div>

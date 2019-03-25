@@ -20,6 +20,8 @@ import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
+import { UseritemComponent } from './useritem/useritem.component';
+import { UserlistComponent } from './userlist/userlist.component';
 
 
 const routes: Routes = [
@@ -71,7 +73,7 @@ const routes: Routes = [
     CardComponent,
     RegisterComponent,
     ChatComponent,    
-    AboutComponent, NavComponent
+    AboutComponent, NavComponent, UseritemComponent, UserlistComponent
   ],
   imports: [
     BrowserModule,
