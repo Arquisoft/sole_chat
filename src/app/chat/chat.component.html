@@ -17,11 +17,11 @@
     
     <div class="currentChatContent">
 
-      <div class="message sent" *ngFor="let mess of dummymess">
+      <div class="message sent" *ngFor="let mess of displayedMessages">
         <div class="messageContent" name="message dummy">
           {{mess.content}}    
         </div>
-        <div class="messageTime">12:50</div>
+        <div class="messageTime">{{mess.date}}</div>
       </div>
 
 

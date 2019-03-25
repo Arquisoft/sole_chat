@@ -10,7 +10,7 @@ html {
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
-    margin: 5em 2em;
+    margin: 3em 2em 0;
 }
 
 h3 {
@@ -37,7 +37,8 @@ h3 {
 
 .recentChats {
     padding: 0 2em 2em;
-    width: 50vw;
+    width: 60vw;
+    height: 80vh;
     max-width: 32em;
     overflow-x: hidden;
     overflow-y: scroll;

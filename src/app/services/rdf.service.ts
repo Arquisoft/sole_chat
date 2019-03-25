@@ -12,10 +12,11 @@ const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
 const CONT = $rdf.Namespace('http://rdfs.org/sioc/ns#'); //n
 const TERMS = $rdf.Namespace('http://purl.org/dc/terms/'); //terms
-const MEE = $rdf.Namespace('http://www.w3.org/ns/pim/meeting#'); //mee
-const ACL = $rdf.Namespace('http://www.w3.org/ns/auth/acl#'); //acl
-const N1 = $rdf.Namespace('http://purl.org/dc/elements/1.1/'); //n1
-const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); //flow
+const MEE = $rdf.Namespace("http://www.w3.org/ns/pim/meeting#"); //mee
+const ACL = $rdf.Namespace("http://www.w3.org/ns/auth/acl#"); //acl
+const N1 = $rdf.Namespace("http://purl.org/dc/elements/1.1/"); //n1
+const FLOW = $rdf.Namespace("http://www.w3.org/2005/01/wf/flow#"); //flow
+const XML = $rdf.Namespace("http://www.w3.org/2001/XMLSchema#");
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -70,23 +71,22 @@ export class RdfService {
 		statement = $rdf.st(subject, predicate, object, doc);
 		this.store.add(statement);
 
-		//Created
-		predicate = $rdf.sym(N1('created'));
-		var date = new Date();
-		var contentDate =
-			date.getUTCFullYear() +
-			'/' +
-			('0' + (date.getUTCMonth() + 1)).slice(-2) +
-			'/' +
-			('0' + date.getUTCDate()).slice(-2) +
-			' ' +
-			('0' + date.getUTCHours()).slice(-2) +
-			':' +
-			('0' + date.getUTCMinutes()).slice(-2) +
-			':' +
-			('0' + date.getUTCSeconds()).slice(-2);
-		statement = $rdf.st(subject, predicate, contentDate, doc);
-		this.store.add(statement);
+    //Created
+    predicate = $rdf.sym(N1('created'));
+    /*
+    var date = new Date();
+    var contentDate =
+    date.getUTCFullYear() + "/" +
+    ("0" + (date.getUTCMonth()+1)).slice(-2) + "/" +
+    ("0" + date.getUTCDate()).slice(-2) + " " +
+    ("0" + date.getUTCHours()).slice(-2) + ":" +
+    ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+    ("0" + date.getUTCSeconds()).slice(-2);
+    */
+    let date = new Date();
+    let contentDate = $rdf.literal(date.toISOString(), undefined, XML('dateTime'));
+    statement = $rdf.st(subject, predicate, contentDate, doc);
+    this.store.add(statement);
 
 		//Title
 		predicate = $rdf.sym(N1('title'));
@@ -126,30 +126,19 @@ export class RdfService {
 		this.store.add(statement);
 	}
 
-	async createMessage(message, makerId) {
-		let newId = 'Msg' + Date.now();
-		const doc = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl');
-		let subject = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl#' + newId);
+  async createMessage(message, makerId, messages) {
+    let newId = 'Msg' + Date.now();
+    const doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
+    let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#" + newId);
 
-		//Generate statement for the date of creation
-		let predicateDate = $rdf.sym(TERMS('created'));
-		var date = new Date();
-		var contentDate =
-			date.getUTCFullYear() +
-			'/' +
-			('0' + (date.getUTCMonth() + 1)).slice(-2) +
-			'/' +
-			('0' + date.getUTCDate()).slice(-2) +
-			' ' +
-			('0' + date.getUTCHours()).slice(-2) +
-			':' +
-			('0' + date.getUTCMinutes()).slice(-2) +
-			':' +
-			('0' + date.getUTCSeconds()).slice(-2);
-
-		let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
-		console.log(dateSt);
-		this.store.add(dateSt);
+    //Generate statement for the date of creation    
+    let predicateDate = $rdf.sym(TERMS('created'));
+    let date = new Date();
+    let formatted = date.toISOString();
+    let contentDate = $rdf.literal(formatted, undefined, XML('dateTime'));
+    let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
+    console.log(dateSt);
+    this.store.add(dateSt);
 
 		//Generate statement for the content of the message
 		let predicateMessage = $rdf.sym(CONT('content'));
@@ -164,16 +153,20 @@ export class RdfService {
 		console.log(makerStatement);
 		this.store.add(makerStatement);
 
-		//Add to messages flow
-		let subjectFlow = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl#this');
-		let predicateFlow = $rdf.sym(FLOW('message'));
-		let objectFlow = $rdf.sym(subject); //Message node
-		let statementFlow = $rdf.st(subjectFlow, predicateFlow, objectFlow, doc);
-		console.log(statementFlow);
-		this.store.add(statementFlow);
+    //Add to local list
+    let messageObj = {id: 9, content: message};
+    messages.push(messageObj);
 
-		//const store = this.store.any(subject, FOAF("maker"));
-	}
+    //const store = this.store.any(subject, FOAF("maker"));
+  }
+
+  async addMessage(body, message, maker, messages) {
+    let doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
+    $rdf.parse(body, this.store, doc.uri, 'text/turtle'); //add it to the store
+    this.createMessage(message, maker, messages);
+    let content = $rdf.serialize(doc, this.store, doc.uri, 'text/turtle'); //file content
+    return content; //return it in string format
+  }
 
 	async addMessage(body, message, maker) {
 		let doc = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl');
@@ -554,36 +547,40 @@ export class RdfService {
 		return '';
 	}
 
-	private getArrayFromNamespace(node: string, namespace: any, webId?: string): string | any {
-		return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
-	}
-	/*
+  private getArrayFromNamespace(node: string, namespace: any, webId?: string): string | any {
+    return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
+  }
+
   // Add a function as parameter to call it when finished or fixed the asyn.
-  public  getMessages(): { id: number; content: string; }[] {
+  public getMessages(messages) {
     var store = $rdf.graph();
     var timeout = 5000; // 5000 ms timeout
     var fetcher = new $rdf.Fetcher(store, timeout);
-    var url = 'https://emiliocortina.solid.community/public/Amiwis/index.ttl';
+    //var url = 'https://emiliocortina.solid.community/public/Amiwis/index.ttl';
+    let url = this.session.webId.split('/profile')[0] + "/public/messages.ttl";
 
-    fetcher.nowOrWhenFetched(url, function(ok, body, xhr) {
+    fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
       if (!ok) {
         console.log('Oops, something happened and couldn\'t fetch data');
       } else {
         const subject = $rdf.sym(url + '#this');
         const nameMessage = FLOW('message');
         const messagesNodes = store.each(subject, nameMessage);
-        let messages = [
-          { 'id' : 1,
-            'content': 'Prueba'}
-        ];
         for (let i = 0; i < messagesNodes.length; i++) {
           let messageNode = messagesNodes[i];
-          let content = store.any(messageNode, CONT('content'));
-          let contentText = content.value;
-          messages[i].content = contentText;
+          let nodeContent = store.any(messageNode, CONT('content'));
+          let contentText = nodeContent.value;
+          let date = store.any(messageNode, TERMS('created')).value;
+          let dateFields = date.split('T');
+          let ymd = dateFields[0];
+          let time = dateFields[1];
+          let timeFormatted = time.split(':');
+          let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
+          let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: false};
+          messages.push(message);
         }
-        return messages;
       }
     });
-  }*/
+
+  }
 }

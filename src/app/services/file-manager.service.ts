@@ -11,7 +11,7 @@ export class FileManagerService {
     constructor(private rdf: RdfService) {
     }
 
-    async saveSomethingInThePOD(message, friend) {
+    async saveSomethingInThePOD(message, friend, messages) {
         let direction: String;
 
         await fileManager.popupLogin().then((webId) => {
@@ -21,11 +21,11 @@ export class FileManagerService {
 
         await fileManager.readFile(direction).then(
             (body) => {
-                this.updateFile(body, direction, message);
+                this.updateFile(body, direction, message, messages);
             },
             (err) => {
                 if (err.includes('Not Found')) {
-                    this.createFile(direction, message, friend);
+                    this.createFile(direction, message, friend, messages);
                 } else {
                     console.log(err);
                 }
@@ -34,7 +34,7 @@ export class FileManagerService {
         );
     }
 
-    async createFile(direction, message, friend) {
+    async createFile(direction, message, friend, messages) {
         var baseContent = await this.generateBaseTurtle(friend);
         let permissions = direction + '.acl';
 
@@ -52,7 +52,7 @@ export class FileManagerService {
 
         await fileManager.readFile(direction).then(
             (body) => {
-                this.updateFile(body, direction, message);
+                this.updateFile(body, direction, message, messages);
             },
             (err) => {
                 console.log(err);
@@ -60,7 +60,7 @@ export class FileManagerService {
         );
     }
 
-    async updateFile(body, direction, message) {
+    async updateFile(body, direction, message, messages) {
         //var object = JSON.parse(body);
         //object.messages.push(message);
 
@@ -75,7 +75,7 @@ export class FileManagerService {
         https://ajunque9.solid.community/public/messages.ttl
         */
         let maker = direction.split('/public')[0] + '/profile/card#me'; //webId
-        let content = await this.rdf.addMessage(body, message, maker);
+        let content = await this.rdf.addMessage(body, message, maker, messages);
         await fileManager.updateFile(direction, content).then(
             (fileUpdated) => {
                 console.log(`Updated file ${fileUpdated}.`);
