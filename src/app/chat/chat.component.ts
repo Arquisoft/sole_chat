@@ -19,7 +19,7 @@ export class ChatComponent implements OnInit {
   displayedMessages = [];
   profile: SolidProfile;
   loadingProfile: Boolean;
-  friendsList:String;
+  friendsList: String;
   messageContent: String = '';
   messageReceived: String = '';
   friend: String = 'javi';

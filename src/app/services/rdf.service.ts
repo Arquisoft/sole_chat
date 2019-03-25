@@ -548,7 +548,7 @@ export class RdfService {
   private getArrayFromNamespace(node: string, namespace: any, webId?: string): string | any {
     return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
   }
-/*
+
   // Add a function as parameter to call it when finished or fixed the asyn.
   public getMessages(messages) {
     var store = $rdf.graph();
@@ -579,5 +579,5 @@ export class RdfService {
         }
       }
     });
-  }*/
+
 }
