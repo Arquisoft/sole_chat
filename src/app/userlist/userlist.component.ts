@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RdfService } from '../services/rdf.service';
 
 @Component({
   selector: 'app-userlist',
@@ -6,14 +7,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./userlist.component.css']
 })
 export class UserlistComponent implements OnInit {
-  dummyusers = [
-    { username: 'user1', status: 'online', id: 20055 },
-    { username: 'user2', status: 'offline', id: 20053 },
-    { username: 'user3', status: 'online', id: 45652 }
-];
-  constructor() { }
+  
+  dummyusers = [];
+  constructor(private rdf: RdfService) {
+   this.getUserList()
+   }
 
   ngOnInit() {
+    this.getUserList();
   }
+
+  async getUserList() {
+    this.dummyusers=[];
+    await this.rdf.getFriends(this.dummyusers);
+  
+    
+  }
+
+
+
 
 }
