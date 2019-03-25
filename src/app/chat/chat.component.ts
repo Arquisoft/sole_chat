@@ -16,9 +16,7 @@ declare function createFolder(path, folder): any;
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  dummymess = [
-    { id: 11, content: 'Primer mensaje' },
-  ];
+  displayedMessages = [];
   profile: SolidProfile;
   loadingProfile: Boolean;
   messageContent: String = '';
@@ -81,7 +79,7 @@ export class ChatComponent implements OnInit {
 
   async onSubmit() {
     var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
-    this.fileManager.saveSomethingInThePOD(message, this.friend);
+    this.fileManager.saveSomethingInThePOD(message, this.friend, this.displayedMessages);
   }
 
   changeFriend() {
@@ -91,8 +89,6 @@ export class ChatComponent implements OnInit {
   }
 
     private async loadMessages() {
-      const hola = await this.rdf.getMessages();
-      this.dummymess = hola;
-        const kpasa = 9;
+      await this.rdf.getMessages(this.displayedMessages);
     }
 }
