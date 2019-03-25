@@ -501,6 +501,34 @@ export class RdfService {
     }
   };
 
+
+  //Returns a list with the user friends
+  getFriends = async() =>{
+
+    if(!this.session){
+      await this.getSession();
+    }
+    var friend_list:{name: string,webId:string}[]=[];
+    try{
+      const friends =this.store.each($rdf.sym(this.session.webId),FOAF('knows'));
+      
+       friends.forEach(async (friend) => {
+        await this.fetcher.load(friend);
+        const fullName = this.store.any(friend, FOAF('name')).value;
+
+        friend_list.push({name:fullName,webId:friend.value})
+       
+      
+      });
+     
+    }
+    finally{
+      return friend_list; 
+    }
+   
+    
+  }
+
   /**
    * Gets any resource that matches the node, using the provided Namespace
    * @param {string} node The name of the predicate to be applied using the provided Namespace 
