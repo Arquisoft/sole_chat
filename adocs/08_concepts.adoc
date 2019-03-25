@@ -8,9 +8,11 @@ Cross-cutting concepts in aspect-oriented software development, are aspects of a
 //include and explain UML diagram
 
 === _Domain Concept_
-Message
-Pod
-Client //to do
+The message is a piece of text that is send from one user to other, the users must be friends in order to send the message to the other user.
+
+The pod is where the data is stored, it is provide by the Solid Platform and thanks to this pod it is posible to have the descentralized chat. Only one pod for each user.
+
+The client is the person who will use the chat, it will be able to send messages and use the app, it will have also a unique pod.
 
 === _Communication_
 Explain how messaging works between components //to do
