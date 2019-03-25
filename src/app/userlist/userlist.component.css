@@ -30,7 +30,7 @@ h3 {
 
 .recentChats {
     padding: 0 2em 2em;
-    height: 70vh;
+    height: 80vh;
     overflow-x: hidden;
     overflow-y: scroll;
 }

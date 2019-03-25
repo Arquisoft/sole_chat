@@ -557,7 +557,7 @@ export class RdfService {
     //var url = 'https://emiliocortina.solid.community/public/Amiwis/index.ttl';
     let url = this.session.webId.split('/profile')[0] + "/public/messages.ttl";
 
-    fetcher.nowOrWhenFetched(url, function(ok, body, xhr) {
+    fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
       if (!ok) {
         console.log('Oops, something happened and couldn\'t fetch data');
       } else {
@@ -580,4 +580,5 @@ export class RdfService {
       }
     });
 
+  }
 }
