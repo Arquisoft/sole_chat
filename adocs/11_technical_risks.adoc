@@ -5,7 +5,7 @@ Regarding this project we should bear in mind some technical risks that could di
 |===
 |Priority |Risk |Measures to mitigate it
 
-|1 |The developers have never worked with Solid |They will do research about it, using the official webpage and SOlid chat and all the information available
+|1 |The developers have never worked with Solid |They will do research about it, using the official webpage and Solid chat and all the information available
 
 |2 |The developers are not familiar with JavaScript |All of them will look for information and try to get familiar with this language in order to take advantage of it to implement the application
 
