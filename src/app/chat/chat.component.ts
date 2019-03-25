@@ -19,7 +19,7 @@ export class ChatComponent implements OnInit {
   displayedMessages = [];
   profile: SolidProfile;
   loadingProfile: Boolean;
-  friendsList: String;
+  friendsList:{name: string,webId:string}[]=[];
   messageContent: String = '';
   messageReceived: String = '';
   friend: String = 'javi';
@@ -48,19 +48,7 @@ export class ChatComponent implements OnInit {
         this.messageContent = this.rdf.getMessage();
       
       }
-
-      this.rdf.getFriends().then(friends=>friends.forEach(element => {
-        console.log(element);
-        console.log("elemento");
-        
-      }));
-      const friends=await this.rdf.getFriends();
-     
-      console.log("a")
-      console.log(friends);
-      console.log("b")
-      console.log(friends.length);
-      
+    
 
 
       this.loadingProfile = false;
