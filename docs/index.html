@@ -534,6 +534,9 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <div class="paragraph">
 <p>Our main goal in this project is to create a decentralized social network, in which the users will be able to chat, call one another and share pictures or videos with their friends.</p>
 </div>
+<div class="paragraph">
+<p>Describes the relevant requirements and the driving forces that software architects and development team must consider. These includes underlying business goals, essential features and functional requirements for the system, quality goals for the architecture, relevant stakeholders and their expectations.</p>
+</div>
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
 <table class="tableblock frame-all grid-all stretch">
@@ -619,6 +622,18 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </div>
 <div class="sect2">
 <h3 id="_stakeholders">1.3. Stakeholders</h3>
+<div class="paragraph">
+<p>All the people, roles or organizations that:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>-Should know the architecture.
+-Have to be convinced of the architecture.
+-Have to work with the architecture or with code.
+-Need the documentation of the architecture for their work.
+-Have to come up with decisions about the system or its development.</pre>
+</div>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -644,9 +659,19 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <td class="tableblock halign-left valign-top"><p class="tableblock">They expect the students to build a decentralized and secure application using Solid and that fulfills the technical and quiality requirements</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Developers</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The students that will build the application</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Software developers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The students that will build the code of the application</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">They will decide the software architecture of the application and develop it using Solid</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application Users</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The people that will use the application once it is ready</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">They will expect the application to be easy to use, and to understand, visual interface and that it works correctly.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Software Architects</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The software developers who makes high-level design choices and dictates technical standards, like software coding standards, tools, and platforms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">They expect to build an architecture that fits best with the provided requirements</p></td>
 </tr>
 </tbody>
 </table>
@@ -902,9 +927,15 @@ Critical information like bank credentials or ID is not going to be visible (and
 <div class="sect1">
 <h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:</p>
+</div>
 <div class="literalblock">
 <div class="content">
-<pre>TODO: describe concrete behavior and interactions of the system’s building blocks</pre>
+<pre>-Important use cases or features: how do building blocks execute them?
+-Interactions at critical external interfaces: how do building blocks cooperate with users and neighbouring systems?
+-Operation and administration: launch, start-up, stop
+-Error and exception scenarios</pre>
 </div>
 </div>
 <div class="literalblock">
@@ -1034,6 +1065,20 @@ It has internal coherence and a clear hierarchy, is efficiency, giving more prio
 </div>
 <div class="sect2">
 <h3 id="_quality_scenarios">10.2. Quality Scenarios</h3>
+<div class="paragraph">
+<p>For architects, two kinds of scenarios are important:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Usage scenarios describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance.
+Change scenarios describe a modification of the system or of its immediate environment.</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>-</pre>
+</div>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1146,7 +1191,7 @@ It has internal coherence and a clear hierarchy, is efficiency, giving more prio
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Descentralized communication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decentralized communication</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">It doesn´t exist a central node. All group members have access to the same number of communication channels.</p></td>
 </tr>
 <tr>
@@ -1184,6 +1229,18 @@ It has internal coherence and a clear hierarchy, is efficiency, giving more prio
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Pod</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">In Solid, name given to profiles.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Travis CI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hosted, distributed continuous integration service used to build and test software projects hosted at GitHub.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Continuous integration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Practice of merging in small code changes frequently.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RDF</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stands for Resource Description Framework and is a standard for data interchange, developed and agreed upon by W3C.</p></td>
 </tr>
 </tbody>
 </table>

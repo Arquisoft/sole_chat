@@ -1,35 +1,34 @@
-import * as ts from 'typescript';
 import { CodeWithSourceMap } from './metadata';
-export interface UrlResolver {
-    (url: string, d: ts.Decorator): string;
+export interface StyleTransformer {
+    (style: string, url?: string): CodeWithSourceMap;
 }
 export interface TemplateTransformer {
-    (template: string, url: string, d: ts.Decorator): CodeWithSourceMap;
+    (template: string, url?: string): CodeWithSourceMap;
 }
-export interface StyleTransformer {
-    (style: string, url: string, d: ts.Decorator): CodeWithSourceMap;
+export interface UrlResolver {
+    (url: string | null): string | null;
 }
 export declare const LogLevel: {
-    None: number;
+    Debug: number;
     Error: number;
     Info: number;
-    Debug: number;
+    None: number;
 };
 export interface Config {
     interpolation: [string, string];
-    resolveUrl: UrlResolver;
-    transformTemplate: TemplateTransformer;
-    transformStyle: StyleTransformer;
-    predefinedDirectives: DirectiveDeclaration[];
     logLevel: number;
+    predefinedDirectives: DirectiveDeclaration[];
+    resolveUrl: UrlResolver;
+    transformStyle: StyleTransformer;
+    transformTemplate: TemplateTransformer;
 }
 export interface DirectiveDeclaration {
-    selector: string;
     exportAs?: string;
-    inputs?: string[];
-    outputs?: string[];
-    hostProperties?: string[];
     hostAttributes?: string[];
     hostListeners?: string[];
+    hostProperties?: string[];
+    inputs?: string[];
+    outputs?: string[];
+    selector: string;
 }
 export declare const Config: Config;

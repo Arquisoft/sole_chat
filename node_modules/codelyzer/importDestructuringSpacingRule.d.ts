@@ -1,7 +1,8 @@
-import * as ts from 'typescript';
-import * as Lint from 'tslint';
-export declare class Rule extends Lint.Rules.AbstractRule {
-    static metadata: Lint.IRuleMetadata;
-    static FAILURE_STRING: string;
-    apply(sourceFile: ts.SourceFile): Lint.RuleFailure[];
+import { IRuleMetadata, RuleFailure, Rules } from 'tslint/lib';
+import { SourceFile } from 'typescript/lib/typescript';
+export declare class Rule extends Rules.AbstractRule {
+    static readonly metadata: IRuleMetadata;
+    static readonly FAILURE_STRING: string;
+    apply(sourceFile: SourceFile): RuleFailure[];
 }
+export declare const getFailureMessage: () => string;

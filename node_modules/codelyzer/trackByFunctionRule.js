@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Lint = require("tslint");
+var lib_1 = require("tslint/lib");
 var ngWalker_1 = require("./angular/ngWalker");
 var basicTemplateAstVisitor_1 = require("./angular/templates/basicTemplateAstVisitor");
 var Rule = (function (_super) {
@@ -19,61 +19,59 @@ var Rule = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Rule.prototype.apply = function (sourceFile) {
-        return this.applyWithWalker(new ngWalker_1.NgWalker(sourceFile, this.getOptions(), {
-            templateVisitorCtrl: TrackByTemplateVisitor,
-        }));
+        return this.applyWithWalker(new ngWalker_1.NgWalker(sourceFile, this.getOptions(), { templateVisitorCtrl: TrackByTemplateVisitor }));
     };
     Rule.metadata = {
-        ruleName: 'trackBy-function',
-        type: 'functionality',
-        description: 'Ensures a TrackBy function is used.',
-        rationale: 'Using TrackBy is considired as a best pratice.',
+        description: 'Ensures a trackBy function is used.',
         options: null,
         optionsDescription: 'Not configurable.',
+        rationale: "The use of 'trackBy' is considered a good practice.",
+        ruleName: 'trackBy-function',
+        type: 'maintainability',
         typescriptOnly: true
     };
+    Rule.FAILURE_STRING = 'Missing trackBy function in ngFor directive';
     return Rule;
-}(Lint.Rules.AbstractRule));
+}(lib_1.Rules.AbstractRule));
 exports.Rule = Rule;
-var ngForExpressionRe = new RegExp(/\*ngFor\s*=\s*(?:'|")(.+)(?:'|")/);
-var trackByRe = new RegExp(/trackBy\s*:/);
-var TrackByNgForTemplateVisitor = (function (_super) {
-    __extends(TrackByNgForTemplateVisitor, _super);
-    function TrackByNgForTemplateVisitor() {
+exports.getFailureMessage = function () {
+    return Rule.FAILURE_STRING;
+};
+var TrackByFunctionTemplateVisitor = (function (_super) {
+    __extends(TrackByFunctionTemplateVisitor, _super);
+    function TrackByFunctionTemplateVisitor() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    TrackByNgForTemplateVisitor.prototype.visitDirectiveProperty = function (prop, context) {
-        if (prop.sourceSpan) {
-            var directive = prop.sourceSpan.toString();
-            if (directive.startsWith('*ngFor')) {
-                var directiveMatch = directive.match(ngForExpressionRe);
-                var expr = directiveMatch && directiveMatch[1];
-                if (expr && !trackByRe.test(expr)) {
-                    var span = prop.sourceSpan;
-                    context.addFailure(context.createFailure(span.start.offset, span.end.offset - span.start.offset, TrackByNgForTemplateVisitor.Error));
-                }
-            }
-        }
+    TrackByFunctionTemplateVisitor.prototype.visitDirectiveProperty = function (prop, context) {
+        this.validateDirective(prop, context);
         _super.prototype.visitDirectiveProperty.call(this, prop, context);
     };
-    TrackByNgForTemplateVisitor.Error = 'Missing trackBy function in ngFor directive';
-    return TrackByNgForTemplateVisitor;
+    TrackByFunctionTemplateVisitor.prototype.validateDirective = function (prop, context) {
+        var templateName = prop.templateName;
+        if (templateName !== 'ngForOf') {
+            return;
+        }
+        var pattern = /trackBy\s*:|\[ngForTrackBy\]\s*=\s*['"].*['"]/;
+        if (pattern.test(context.codeWithMap.source)) {
+            return;
+        }
+        var _a = prop.sourceSpan, endOffset = _a.end.offset, startOffset = _a.start.offset;
+        context.addFailureFromStartToEnd(startOffset, endOffset, exports.getFailureMessage());
+    };
+    return TrackByFunctionTemplateVisitor;
 }(basicTemplateAstVisitor_1.BasicTemplateAstVisitor));
 var TrackByTemplateVisitor = (function (_super) {
     __extends(TrackByTemplateVisitor, _super);
     function TrackByTemplateVisitor() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.visitors = [
-            new TrackByNgForTemplateVisitor(_this.getSourceFile(), _this.getOptions(), _this.context, _this.templateStart)
-        ];
+        _this.visitors = new Set([
+            new TrackByFunctionTemplateVisitor(_this.getSourceFile(), _this.getOptions(), _this.context, _this.templateStart)
+        ]);
         return _this;
     }
     TrackByTemplateVisitor.prototype.visitDirectiveProperty = function (prop, context) {
         var _this = this;
-        this.visitors
-            .map(function (v) { return v.visitDirectiveProperty(prop, _this); })
-            .filter(function (f) { return !!f; })
-            .forEach(function (f) { return _this.addFailure(f); });
+        this.visitors.forEach(function (visitor) { return visitor.visitDirectiveProperty(prop, _this); });
         _super.prototype.visitDirectiveProperty.call(this, prop, context);
     };
     return TrackByTemplateVisitor;

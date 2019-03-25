@@ -10,9 +10,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Lint = require("tslint");
 var sprintf_js_1 = require("sprintf-js");
+var Lint = require("tslint");
 var ngWalker_1 = require("./angular/ngWalker");
+var utils_1 = require("./util/utils");
 var Rule = (function (_super) {
     __extends(Rule, _super);
     function Rule() {
@@ -22,16 +23,16 @@ var Rule = (function (_super) {
         return this.applyWithWalker(new OutputWalker(sourceFile, this.getOptions()));
     };
     Rule.metadata = {
-        ruleName: 'no-output-on-prefix',
-        type: 'maintainability',
-        description: 'Name events without the prefix on',
-        descriptionDetails: 'See more at https://angular.io/guide/styleguide#dont-prefix-output-properties',
-        rationale: "Angular allows for an alternative syntax on-*. If the event itself was prefixed with on\n     this would result in an on-onEvent binding expression",
+        description: 'Name events without the prefix on.',
+        descriptionDetails: 'See more at https://angular.io/guide/styleguide#dont-prefix-output-properties.',
         options: null,
         optionsDescription: 'Not configurable.',
+        rationale: 'Angular allows for an alternative syntax on-*. If the event itself was prefixed with on this would result in an on-onEvent binding expression.',
+        ruleName: 'no-output-on-prefix',
+        type: 'maintainability',
         typescriptOnly: true
     };
-    Rule.FAILURE_STRING = 'In the class "%s", the output ' + 'property "%s" should not be prefixed with on';
+    Rule.FAILURE_STRING = 'In the class "%s", the output property "%s" should not be prefixed with on';
     return Rule;
 }(Lint.Rules.AbstractRule));
 exports.Rule = Rule;
@@ -41,15 +42,17 @@ var OutputWalker = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     OutputWalker.prototype.visitNgOutput = function (property, output, args) {
-        var className = property.parent.name.text;
-        var memberName = property.name.text;
-        if (memberName &&
-            memberName.startsWith('on') &&
-            !(memberName.length >= 3 && memberName[2] !== memberName[2].toUpperCase())) {
-            var failureConfig = [Rule.FAILURE_STRING, className, memberName];
-            var errorMessage = sprintf_js_1.sprintf.apply(null, failureConfig);
-            this.addFailure(this.createFailure(property.getStart(), property.getWidth(), errorMessage));
+        this.validateOutput(property);
+        _super.prototype.visitNgOutput.call(this, property, output, args);
+    };
+    OutputWalker.prototype.validateOutput = function (property) {
+        var className = utils_1.getClassName(property);
+        var memberName = property.name.getText();
+        if (!memberName || !/^on((?![a-z])|(?=$))/.test(memberName)) {
+            return;
         }
+        var failure = sprintf_js_1.sprintf(Rule.FAILURE_STRING, className, memberName);
+        this.addFailureAtNode(property, failure);
     };
     return OutputWalker;
 }(ngWalker_1.NgWalker));

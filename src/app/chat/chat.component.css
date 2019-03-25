@@ -2,17 +2,25 @@
 html {
     overflow-y: hidden;
     overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .bodyWrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
+    align-items: center;
     margin: 5em 2em;
 }
 
 h3 {
+    font-family: "Circular";
     margin: 0;
+}
+
+.deleteConversation {
+    margin: 0px 0px 0px 3em;
+    padding: 0.5em 1em;
 }
 
 .recentChatsWrapper{
@@ -29,7 +37,8 @@ h3 {
 
 .recentChats {
     padding: 0 2em 2em;
-    height: 70vh;
+    width: 50vw;
+    max-width: 32em;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -39,7 +48,11 @@ h3 {
     flex-direction: row;
     align-items: center;
     flex-wrap: nowrap;
-    margin: 1.8em 0;
+    margin: 2.5em 0;
+}
+
+.chatName {
+    font-family: "Circular";
 }
 
 .chatImage {
@@ -47,11 +60,8 @@ h3 {
 }
 
 .chatImage img {
-    object-fit: cover;
-    height: 2em;
-    width: 2em;
-    border-radius: 50%;
-    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    height: 3em;
+    width: 3em;
 }
 
 .currentChat {
@@ -64,6 +74,8 @@ h3 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 60vw;
+    max-width: 50em;
 }
 .currentChatHeader{
     display: flex;
@@ -99,17 +111,22 @@ h3 {
     margin-bottom: 1.5em;
 }
 
+.messageContent {
+    margin-bottom: 0.5em;
+}
+
 .messageTime {
     text-align: end;
 }
 
 .received {
-    
+
 }
 
 .sent {
     align-self: flex-end;
-    background-color: #ffc107;
+    background-color: #FDC02F;
+    color: white;
 }
 
 
@@ -135,7 +152,7 @@ h3 {
     width: 2em;
     border-radius: 50%;
     box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
-    background-color: #ffc107;
+    background-color: #FDC02F;
     color: white;
     font-weight: bolder;
 }

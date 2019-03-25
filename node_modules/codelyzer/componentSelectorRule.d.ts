@@ -1,9 +1,10 @@
+import { IRuleMetadata } from 'tslint/lib';
 import { SelectorRule } from './selectorNameBase';
-import * as Lint from 'tslint';
 export declare class Rule extends SelectorRule {
-    static metadata: Lint.IRuleMetadata;
+    static readonly metadata: IRuleMetadata;
     handleType: string;
-    getTypeFailure(): any;
-    getStyleFailure(): any;
-    getPrefixFailure(prefixes: string[]): any;
+    getPrefixFailure(prefixes: string[]): string;
+    getStyleFailure(): string;
+    getTypeFailure(): string;
+    isEnabled(): boolean;
 }

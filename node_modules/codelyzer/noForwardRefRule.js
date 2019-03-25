@@ -10,9 +10,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Lint = require("tslint");
 var sprintf_js_1 = require("sprintf-js");
-var SyntaxKind = require("./util/syntaxKind");
+var lib_1 = require("tslint/lib");
+var typescript_1 = require("typescript/lib/typescript");
 var Rule = (function (_super) {
     __extends(Rule, _super);
     function Rule() {
@@ -22,18 +22,18 @@ var Rule = (function (_super) {
         return this.applyWithWalker(new ExpressionCallMetadataWalker(sourceFile, this.getOptions()));
     };
     Rule.metadata = {
-        ruleName: 'no-forward-ref',
-        type: 'maintainability',
         description: 'Disallows usage of forward references for DI.',
-        rationale: 'The flow of DI is disrupted by using `forwardRef` and might make code more difficult to understand.',
         options: null,
         optionsDescription: 'Not configurable.',
-        typescriptOnly: true,
+        rationale: 'The flow of DI is disrupted by using `forwardRef` and might make code more difficult to understand.',
+        ruleName: 'no-forward-ref',
+        type: 'maintainability',
+        typescriptOnly: true
     };
-    Rule.FAILURE_IN_CLASS = 'Avoid using forwardRef in class "%s"';
-    Rule.FAILURE_IN_VARIABLE = 'Avoid using forwardRef in variable "%s"';
+    Rule.FAILURE_STRING_CLASS = 'Avoid using forwardRef in class "%s"';
+    Rule.FAILURE_STRING_VARIABLE = 'Avoid using forwardRef in variable "%s"';
     return Rule;
-}(Lint.Rules.AbstractRule));
+}(lib_1.Rules.AbstractRule));
 exports.Rule = Rule;
 var ExpressionCallMetadataWalker = (function (_super) {
     __extends(ExpressionCallMetadataWalker, _super);
@@ -50,16 +50,12 @@ var ExpressionCallMetadataWalker = (function (_super) {
             while (currentNode.parent.parent) {
                 currentNode = currentNode.parent;
             }
-            var failureConfig = [];
-            if (currentNode.kind === SyntaxKind.current().VariableStatement) {
-                failureConfig = [Rule.FAILURE_IN_VARIABLE, currentNode.declarationList.declarations[0].name.text];
-            }
-            else {
-                failureConfig = [Rule.FAILURE_IN_CLASS, currentNode.name.text];
-            }
-            this.addFailure(this.createFailure(callExpression.getStart(), callExpression.getWidth(), sprintf_js_1.sprintf.apply(this, failureConfig)));
+            var failure = currentNode.kind === typescript_1.SyntaxKind.VariableStatement
+                ? sprintf_js_1.sprintf(Rule.FAILURE_STRING_VARIABLE, currentNode.declarationList.declarations[0].name.text)
+                : sprintf_js_1.sprintf(Rule.FAILURE_STRING_CLASS, currentNode.name.text);
+            this.addFailureAtNode(callExpression, failure);
         }
     };
     return ExpressionCallMetadataWalker;
-}(Lint.RuleWalker));
+}(lib_1.RuleWalker));
 exports.ExpressionCallMetadataWalker = ExpressionCallMetadataWalker;

@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ChatComponent } from './chat/chat.component';
+import { AboutComponent } from './about/about.component';
+
 import { AppComponent } from './app.component';
 import {LoginPopupComponent} from './login-popup/login-popup.component';
 import {LoginComponent} from './login/login.component';
@@ -16,9 +19,22 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ChatComponent } from './chat/chat.component';
+import { NavComponent } from './nav/nav.component';
+import { UseritemComponent } from './useritem/useritem.component';
+import { UserlistComponent } from './userlist/userlist.component';
+
 
 const routes: Routes = [
+  
+  {
+    path:'chat',
+    component: ChatComponent
+  },
+  {
+    path:'about',
+    component: AboutComponent
+  }
+  ,
   {
     path: '',
     component: LoginComponent
@@ -31,6 +47,7 @@ const routes: Routes = [
     path: 'login-popup',
     component: LoginPopupComponent
   },
+  
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -44,10 +61,6 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
-  },
-  {
-    path:'chat',
-    component: ChatComponent
   }
 ];
 
@@ -59,7 +72,8 @@ const routes: Routes = [
     DashboardComponent,
     CardComponent,
     RegisterComponent,
-    ChatComponent
+    ChatComponent,    
+    AboutComponent, NavComponent, UseritemComponent, UserlistComponent
   ],
   imports: [
     BrowserModule,

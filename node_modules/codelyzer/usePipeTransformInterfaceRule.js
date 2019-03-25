@@ -10,15 +10,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Lint = require("tslint");
 var sprintf_js_1 = require("sprintf-js");
-var SyntaxKind = require("./util/syntaxKind");
-var getInterfaceName = function (t) {
-    if (t.expression && t.expression.name) {
-        return t.expression.name.text;
-    }
-    return t.expression.text;
-};
+var lib_1 = require("tslint/lib");
+var typescript_1 = require("typescript/lib/typescript");
+var utils_1 = require("./util/utils");
 var Rule = (function (_super) {
     __extends(Rule, _super);
     function Rule() {
@@ -28,51 +23,45 @@ var Rule = (function (_super) {
         return this.applyWithWalker(new ClassMetadataWalker(sourceFile, this.getOptions()));
     };
     Rule.metadata = {
-        ruleName: 'use-pipe-transform-interface',
-        type: 'maintainability',
         description: 'Ensure that pipes implement PipeTransform interface.',
-        rationale: 'Interfaces prescribe typed method signatures. Use those signatures to flag spelling and syntax mistakes.',
         options: null,
         optionsDescription: 'Not configurable.',
-        typescriptOnly: true,
+        rationale: 'Interfaces prescribe typed method signatures. Use those signatures to flag spelling and syntax mistakes.',
+        ruleName: 'use-pipe-transform-interface',
+        type: 'maintainability',
+        typescriptOnly: true
     };
-    Rule.FAILURE = 'The %s class has the Pipe decorator, so it should implement the PipeTransform interface';
+    Rule.FAILURE_STRING = 'The %s class has the Pipe decorator, so it should implement the PipeTransform interface';
     Rule.PIPE_INTERFACE_NAME = 'PipeTransform';
     return Rule;
-}(Lint.Rules.AbstractRule));
+}(lib_1.Rules.AbstractRule));
 exports.Rule = Rule;
+var hasPipe = function (node) {
+    return !!(node.decorators && node.decorators.map(utils_1.getDecoratorName).some(function (t) { return t === 'Pipe'; }));
+};
+var hasPipeTransform = function (node) {
+    var heritageClauses = node.heritageClauses;
+    if (!heritageClauses) {
+        return false;
+    }
+    var interfacesClauses = heritageClauses.filter(function (h) { return h.token === typescript_1.SyntaxKind.ImplementsKeyword; });
+    return interfacesClauses.length > 0 && interfacesClauses[0].types.map(utils_1.getSymbolName).indexOf(Rule.PIPE_INTERFACE_NAME) !== -1;
+};
 var ClassMetadataWalker = (function (_super) {
     __extends(ClassMetadataWalker, _super);
     function ClassMetadataWalker() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     ClassMetadataWalker.prototype.visitClassDeclaration = function (node) {
-        var decorators = node.decorators;
-        if (decorators) {
-            var pipes = decorators.map(function (d) {
-                return d.expression.text ||
-                    (d.expression.expression || {}).text;
-            }).filter(function (t) { return t === 'Pipe'; });
-            if (pipes.length !== 0) {
-                var className = node.name.text;
-                if (!this.hasIPipeTransform(node)) {
-                    this.addFailure(this.createFailure(node.getStart(), node.getWidth(), sprintf_js_1.sprintf.apply(this, [Rule.FAILURE, className])));
-                }
-            }
-        }
+        this.validateClassDeclaration(node);
         _super.prototype.visitClassDeclaration.call(this, node);
     };
-    ClassMetadataWalker.prototype.hasIPipeTransform = function (node) {
-        var interfaces = [];
-        if (node.heritageClauses) {
-            var interfacesClause = node.heritageClauses
-                .filter(function (h) { return h.token === SyntaxKind.current().ImplementsKeyword; });
-            if (interfacesClause.length !== 0) {
-                interfaces = interfacesClause[0].types.map(getInterfaceName);
-            }
+    ClassMetadataWalker.prototype.validateClassDeclaration = function (node) {
+        if (!hasPipe(node) || hasPipeTransform(node)) {
+            return;
         }
-        return interfaces.indexOf(Rule.PIPE_INTERFACE_NAME) !== -1;
+        this.addFailureAtNode(node, sprintf_js_1.sprintf(Rule.FAILURE_STRING, node.name.text));
     };
     return ClassMetadataWalker;
-}(Lint.RuleWalker));
+}(lib_1.RuleWalker));
 exports.ClassMetadataWalker = ClassMetadataWalker;

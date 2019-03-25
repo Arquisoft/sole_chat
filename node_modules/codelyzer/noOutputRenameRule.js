@@ -10,8 +10,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Lint = require("tslint");
-var sprintf_js_1 = require("sprintf-js");
+var lib_1 = require("tslint/lib");
 var ngWalker_1 = require("./angular/ngWalker");
 var Rule = (function (_super) {
     __extends(Rule, _super);
@@ -22,34 +21,44 @@ var Rule = (function (_super) {
         return this.applyWithWalker(new OutputMetadataWalker(sourceFile, this.getOptions()));
     };
     Rule.metadata = {
-        ruleName: 'no-output-rename',
-        type: 'maintainability',
         description: 'Disallows renaming directive outputs by providing a string to the decorator.',
         descriptionDetails: 'See more at https://angular.io/styleguide#style-05-13.',
-        rationale: 'Two names for the same property (one private, one public) is inherently confusing.',
         options: null,
         optionsDescription: 'Not configurable.',
-        typescriptOnly: true,
+        rationale: 'Two names for the same property (one private, one public) is inherently confusing.',
+        ruleName: 'no-output-rename',
+        type: 'maintainability',
+        typescriptOnly: true
     };
-    Rule.FAILURE_STRING = 'In the class "%s", the directive output ' +
-        'property "%s" should not be renamed.' +
-        'Please, consider the following use "@Output() %s = new EventEmitter();"';
+    Rule.FAILURE_STRING = '@Outputs should not be renamed';
     return Rule;
-}(Lint.Rules.AbstractRule));
+}(lib_1.Rules.AbstractRule));
 exports.Rule = Rule;
+exports.getFailureMessage = function () {
+    return Rule.FAILURE_STRING;
+};
 var OutputMetadataWalker = (function (_super) {
     __extends(OutputMetadataWalker, _super);
     function OutputMetadataWalker() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    OutputMetadataWalker.prototype.visitNgDirective = function (metadata) {
+        this.directiveSelectors = new Set((metadata.selector || '').replace(/[\[\]\s]/g, '').split(','));
+        _super.prototype.visitNgDirective.call(this, metadata);
+    };
     OutputMetadataWalker.prototype.visitNgOutput = function (property, output, args) {
-        var className = property.parent.name.text;
-        var memberName = property.name.text;
-        if (args.length !== 0 && memberName !== args[0]) {
-            var failureConfig = [className, memberName, memberName];
-            failureConfig.unshift(Rule.FAILURE_STRING);
-            this.addFailure(this.createFailure(property.getStart(), property.getWidth(), sprintf_js_1.sprintf.apply(this, failureConfig)));
+        this.validateOutput(property, output, args);
+        _super.prototype.visitNgOutput.call(this, property, output, args);
+    };
+    OutputMetadataWalker.prototype.canPropertyBeAliased = function (propertyAlias, propertyName) {
+        return !!(this.directiveSelectors && this.directiveSelectors.has(propertyAlias) && propertyAlias !== propertyName);
+    };
+    OutputMetadataWalker.prototype.validateOutput = function (property, output, args) {
+        var propertyName = property.name.getText();
+        if (args.length === 0 || this.canPropertyBeAliased(args[0], propertyName)) {
+            return;
         }
+        this.addFailureAtNode(property, exports.getFailureMessage());
     };
     return OutputMetadataWalker;
 }(ngWalker_1.NgWalker));

@@ -35,16 +35,22 @@ var BasicCssAstVisitor = (function (_super) {
     };
     BasicCssAstVisitor.prototype.visitCssSelectorRule = function (ast, context) {
         var _this = this;
-        ast.selectors.forEach(function (selAst) { selAst.visit(_this, context); });
+        ast.selectors.forEach(function (selAst) {
+            selAst.visit(_this, context);
+        });
         ast.block.visit(this, context);
     };
     BasicCssAstVisitor.prototype.visitCssSelector = function (ast, context) {
         var _this = this;
-        ast.selectorParts.forEach(function (simpleAst) { simpleAst.visit(_this, context); });
+        ast.selectorParts.forEach(function (simpleAst) {
+            simpleAst.visit(_this, context);
+        });
     };
     BasicCssAstVisitor.prototype.visitCssSimpleSelector = function (ast, context) {
         var _this = this;
-        ast.pseudoSelectors.forEach(function (pseudoAst) { pseudoAst.visit(_this, context); });
+        ast.pseudoSelectors.forEach(function (pseudoAst) {
+            pseudoAst.visit(_this, context);
+        });
     };
     BasicCssAstVisitor.prototype.visitCssPseudoSelector = function (ast, context) { };
     BasicCssAstVisitor.prototype.visitCssDefinition = function (ast, context) {
@@ -52,15 +58,21 @@ var BasicCssAstVisitor = (function (_super) {
     };
     BasicCssAstVisitor.prototype.visitCssBlock = function (ast, context) {
         var _this = this;
-        ast.entries.forEach(function (entryAst) { entryAst.visit(_this, context); });
+        ast.entries.forEach(function (entryAst) {
+            entryAst.visit(_this, context);
+        });
     };
     BasicCssAstVisitor.prototype.visitCssStylesBlock = function (ast, context) {
         var _this = this;
-        ast.definitions.forEach(function (definitionAst) { definitionAst.visit(_this, context); });
+        ast.definitions.forEach(function (definitionAst) {
+            definitionAst.visit(_this, context);
+        });
     };
     BasicCssAstVisitor.prototype.visitCssStyleSheet = function (ast, context) {
         var _this = this;
-        ast.rules.forEach(function (ruleAst) { ruleAst.visit(_this, context); });
+        ast.rules.forEach(function (ruleAst) {
+            ruleAst.visit(_this, context);
+        });
     };
     BasicCssAstVisitor.prototype.visitCssUnknownRule = function (ast, context) { };
     BasicCssAstVisitor.prototype.visitCssUnknownTokenList = function (ast, context) { };

@@ -1,0 +1,21 @@
+.navbar-brand{
+  font-family: Circular;
+}
+
+.navbar-brand img {
+  height: 2em;
+  margin-right: 1.2em;
+}
+
+.profile-menu img {
+  height: 2.3em;
+  cursor: pointer;
+}
+
+nav {
+  box-shadow: 0px 0px 8px rgba(75, 75, 75, 0.199);
+}
+
+nav a {
+  color: #333333;
+}

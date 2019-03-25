@@ -4,7 +4,8 @@ import { NgForm } from '@angular/forms';
 import { RdfService } from '../services/rdf.service';
 import { AuthService } from '../services/solid.auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { FileManagerService} from '../services/file-manager.service';
+import { FileManagerService } from '../services/file-manager.service';
+import { windowWhen } from 'rxjs/operators';
 
 //Methods defined in js files
 declare function createFolder(path, folder): any;
@@ -15,23 +16,28 @@ declare function createFolder(path, folder): any;
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-
+  dummymess = [
+    { id: 11, content: 'Primer mensaje' },
+  ];
   profile: SolidProfile;
   loadingProfile: Boolean;
-  messageContent: String = "";
   friendsList:String;
+  messageContent: String = '';
+  messageReceived: String = '';
+  friend: String = 'javi';
 
   @ViewChild('f') chatForm: NgForm;
 
-  constructor(private rdf: RdfService, private auth: AuthService,private fileManager: FileManagerService) {
-  
+  constructor(private rdf: RdfService, private auth: AuthService, private fileManager: FileManagerService) {
+
   }
 
   ngOnInit() {
     this.loadingProfile = true;
     this.loadProfile();
-    
-
+    this.getLastMessage();
+    this.getMessageReceived();
+    this.loadMessages();
   }
 
   async loadProfile() {
@@ -60,6 +66,13 @@ export class ChatComponent implements OnInit {
 
 
       this.loadingProfile = false;
+
+      if (sessionStorage.getItem('friend') != null){
+        this.friend = sessionStorage.getItem('friend');
+      } else {
+        this.friend = 'javi';
+      }
+
     } catch (error) {
       console.log(`Error: ${error}`);
     }
@@ -72,8 +85,37 @@ export class ChatComponent implements OnInit {
 
   }
 
-  async onSubmit () {
-      this.fileManager.saveSomethingInThePOD();
+  async getLastMessage() {
+    var res = await this.fileManager.retrieveLastMessage();
+    this.messageContent = res;
   }
 
+  async getMessageReceived() {
+    // var friend = (<HTMLInputElement>document.getElementById('friend')).textContent;
+    // console.log(this.friend);
+    var f;
+    if (sessionStorage.getItem('friend') != null)
+      f = sessionStorage.getItem('friend');
+    else
+      f = 'javi';
+    var res = await this.fileManager.retrieveLastMessageReceived(f);
+    this.messageReceived = res;
+  }
+
+  async onSubmit() {
+    var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
+    this.fileManager.saveSomethingInThePOD(message, this.friend);
+  }
+
+  changeFriend() {
+    var newFriend = prompt('To which friend do you want to talk to?');
+    sessionStorage.setItem('friend', newFriend);
+    //window.location.reload();
+  }
+
+    private async loadMessages() {
+      const hola = await this.rdf.getMessage();
+      this.dummymess = hola;
+        const kpasa = 9;
+    }
 }

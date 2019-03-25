@@ -3,6 +3,8 @@
 
 Our main goal in this project is to create a decentralized social network, in which the users will be able to chat, call one another and share pictures or videos with their friends.
 
+Describes the relevant requirements and the driving forces that software architects and development team must consider. These includes underlying business goals, essential features and functional requirements for the system, quality goals for the architecture, relevant stakeholders and their expectations.
+
 === Requirements Overview
 
 |===
@@ -38,6 +40,14 @@ A more complete list of the requirements can be found at: https://github.com/Arq
 
 === Stakeholders
 
+All the people, roles or organizations that:
+
+  -Should know the architecture.
+  -Have to be convinced of the architecture.
+  -Have to work with the architecture or with code.
+  -Need the documentation of the architecture for their work.
+  -Have to come up with decisions about the system or its development.
+
 |===
 |Role |Description |Expectations, motivations 
 
@@ -45,6 +55,10 @@ A more complete list of the requirements can be found at: https://github.com/Arq
 
 |Inrupt |Organization that works with Solid and has proposed the challenge |They expect the students to build a decentralized and secure application using Solid and that fulfills the technical and quiality requirements
 
-|Developers |The students that will build the application |They will decide the software architecture of the application and develop it using Solid
+|Software developers |The students that will build the code of the application |They will decide the software architecture of the application and develop it using Solid
+
+|Application Users |The people that will use the application once it is ready |They will expect the application to be easy to use, and to understand, visual interface and that it works correctly.
+
+|Software Architects | The software developers who makes high-level design choices and dictates technical standards, like software coding standards, tools, and platforms | They expect to build an architecture that fits best with the provided requirements 
 |===
 

@@ -1,16 +1,21 @@
-import { Injectable } from '@angular/core';
-import { SolidSession } from '../models/solid-session.model';
+import {Injectable} from '@angular/core';
+import {SolidSession} from '../models/solid-session.model';
+// TODO: Remove any UI interaction from this service
+import {NgForm} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+
 declare let solid: any;
 declare let $rdf: any;
 //import * as $rdf from 'rdflib'
 
-// TODO: Remove any UI interaction from this service
-import { NgForm } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { async } from 'q';
-
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
-const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/');
+const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
+const CONT = $rdf.Namespace('http://rdfs.org/sioc/ns#'); //n
+const TERMS = $rdf.Namespace('http://purl.org/dc/terms/'); //terms
+const MEE = $rdf.Namespace("http://www.w3.org/ns/pim/meeting#"); //mee
+const ACL = $rdf.Namespace("http://www.w3.org/ns/auth/acl#"); //acl
+const N1 = $rdf.Namespace("http://purl.org/dc/elements/1.1/"); //n1
+const FLOW = $rdf.Namespace("http://www.w3.org/2005/01/wf/flow#"); //flow
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -41,17 +46,146 @@ export class RdfService {
    */
   updateManager = $rdf.UpdateManager;
 
-  constructor (private toastr: ToastrService) {
+  constructor(private toastr: ToastrService) {
     const fetcherOptions = {};
     this.fetcher = new $rdf.Fetcher(this.store, fetcherOptions);
     this.updateManager = new $rdf.UpdateManager(this.store);
     this.getSession();
   }
 
+  async generateBaseChat(friend) {
+    //Friend should be our friends webId
+    let friendId = "https://" + friend + ".solid.community/profile/card#me";
+
+    const doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
+    let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#this");
+
+    let predicate = $rdf.sym("https://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+    let object = $rdf.sym(MEE('Chat'));
+    let statement = $rdf.st(subject, predicate, object, doc);
+    this.store.add(statement);
+
+    //Author
+    predicate = $rdf.sym(N1('author'));
+    object = $rdf.sym(this.session.webId);
+    statement = $rdf.st(subject, predicate, object, doc);
+    this.store.add(statement);
+
+    //Created
+    predicate = $rdf.sym(N1('created'));
+    var date = new Date();
+    var contentDate =
+    date.getUTCFullYear() + "/" +
+    ("0" + (date.getUTCMonth()+1)).slice(-2) + "/" +
+    ("0" + date.getUTCDate()).slice(-2) + " " +
+    ("0" + date.getUTCHours()).slice(-2) + ":" +
+    ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+    ("0" + date.getUTCSeconds()).slice(-2);
+    statement = $rdf.st(subject, predicate, contentDate, doc);
+    this.store.add(statement);
+
+    //Title
+    predicate = $rdf.sym(N1('title'));
+    statement = $rdf.st(subject, predicate, "Chat", doc);
+    this.store.add(statement);
+
+    //Permissions
+    let docACL = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl.acl");
+    let subjectACL = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl.acl#authorization");
+    //Is an authorization
+    predicate = $rdf.sym("https://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+    object = $rdf.sym(ACL('Authorization'));
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    //Agent
+    predicate = $rdf.sym(ACL('agent'));
+    object = $rdf.sym(friendId);
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    //file
+    predicate = $rdf.sym(ACL('accessTo'));
+    object = doc;
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    //Permissions
+    predicate = $rdf.sym(ACL('mode'));
+    object = $rdf.sym(ACL('Read'));
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    object = $rdf.sym(ACL('Write'));
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+    object = $rdf.sym(ACL('Control'));
+    statement = $rdf.st(subjectACL, predicate, object, docACL);
+    this.store.add(statement);
+  }
+
+  async createMessage(message, makerId) {
+    let newId = 'Msg' + Date.now();
+    const doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
+    let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#" + newId);
+
+    //Generate statement for the date of creation    
+    let predicateDate = $rdf.sym(TERMS('created'));
+    var date = new Date();
+    var contentDate =
+    date.getUTCFullYear() + "/" +
+    ("0" + (date.getUTCMonth()+1)).slice(-2) + "/" +
+    ("0" + date.getUTCDate()).slice(-2) + " " +
+    ("0" + date.getUTCHours()).slice(-2) + ":" +
+    ("0" + date.getUTCMinutes()).slice(-2) + ":" +
+    ("0" + date.getUTCSeconds()).slice(-2);
+
+    let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
+    console.log(dateSt);
+    this.store.add(dateSt);
+
+    //Generate statement for the content of the message
+    let predicateMessage = $rdf.sym(CONT('content'));
+    let msgSt = $rdf.st(subject, predicateMessage, message, doc);
+    console.log(msgSt);
+    this.store.add(msgSt);
+
+    //Generate statement for the content of the message
+    let predicateMaker = $rdf.sym(FOAF('maker'));
+    let makerSt = $rdf.sym(makerId); //Web id of the maker
+    let makerStatement = $rdf.st(subject, predicateMaker, makerSt, doc);
+    console.log(makerStatement);
+    this.store.add(makerStatement);
+    
+    //Add to messages flow
+    let subjectFlow = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#this");
+    let predicateFlow = $rdf.sym(FLOW('message'));
+    let objectFlow = $rdf.sym(subject); //Message node
+    let statementFlow = $rdf.st(subjectFlow, predicateFlow, objectFlow, doc);
+    console.log(statementFlow);
+    this.store.add(statementFlow);
+
+    //const store = this.store.any(subject, FOAF("maker"));
+  }
+
+  async addMessage(body, message, maker) {
+    let doc = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl");
+    $rdf.parse(body, this.store, doc.uri, 'text/turtle'); //add it to the store
+    this.createMessage(message, maker);
+    let content = $rdf.serialize(doc, this.store, doc.uri, 'text/turtle');
+    console.log(content);
+    return content; //return it in string format
+  }
+
+  async getLastMessage() {
+    //let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#Msg234134");
+    console.log(this.store.any(CONT("content")));
+  }
+
+  getWebID = async () => {
+    return this.session.webId;
+  };
+
   /**
    * Fetches the session from Solid, and store results in localStorage
    */
-  getSession = async() => {
+  getSession = async () => {
     this.session = await solid.auth.currentSession(localStorage);
   }
 
@@ -83,7 +217,7 @@ export class RdfService {
   getValueFromFoaf = (node: string, webId?: string) => {
     return this.getValueFromNamespace(node, FOAF, webId);
   };
- 
+
   transformDataForm = (form: NgForm, me: any, doc: any) => {
     const insertions = [];
     const deletions = [];
@@ -105,7 +239,7 @@ export class RdfService {
       let oldFieldValue = this.getOldFieldValue(field, oldProfileData);
 
       // if there's no existing home phone number or email address, we need to add one, then add the link for hasTelephone or hasEmail
-      if(!oldFieldValue && fieldValue && (field === 'phone' || field==='email')) {          
+      if (!oldFieldValue && fieldValue && (field === 'phone' || field === 'email')) {
         this.addNewLinkedField(field, insertions, predicate, fieldValue, why, me);
       } else {
 
@@ -155,7 +289,7 @@ export class RdfService {
     insertions.push($rdf.st(me, newPredicate, newSubject, why));
   }
 
-  public addNewLinkedMessage(form) : String {
+  public addNewLinkedMessage(form): String {
     const insertions = [];
     const deletions = [];
     const me = $rdf.sym(this.session.webId);
@@ -185,13 +319,13 @@ export class RdfService {
     insertions.push($rdf.st(me, newPredicate, newSubject, why));
 
     //Update existing values
-    if(insertions.length > 0 || deletions.length > 0) {
+    if (insertions.length > 0 || deletions.length > 0) {
       this.updateManager.update(deletions, insertions, (response, success, message) => {
-        if(!success) {
-          this.toastr.error('Message: '+ message, 'An error has occurred');
-        } 
+        if (!success) {
+          this.toastr.error('Message: ' + message, 'An error has occurred');
+        }
       });
-    } 
+    }
     return this.getMessage();
   }
 
@@ -199,16 +333,16 @@ export class RdfService {
     let uriString: string;
     let uri: any;
 
-    switch(field) {
+    switch (field) {
       case 'phone':
         uriString = this.getValueFromVcard('hasTelephone');
-        if(uriString) {
+        if (uriString) {
           uri = $rdf.sym(uriString);
         }
         break;
       case 'email':
         uriString = this.getValueFromVcard('hasEmail');
-        if(uriString) {
+        if (uriString) {
           uri = $rdf.sym(uriString);
         }
         break;
@@ -229,16 +363,16 @@ export class RdfService {
   private getFieldValue(form: NgForm, field: string): any {
     let fieldValue: any;
 
-    if(!form.value[field]) {
+    if (!form.value[field]) {
       return;
     }
 
-    switch(field) {
+    switch (field) {
       case 'phone':
-        fieldValue = $rdf.sym('tel:+'+form.value[field]);
+        fieldValue = $rdf.sym('tel:+' + form.value[field]);
         break;
       case 'email':
-        fieldValue = $rdf.sym('mailto:'+form.value[field]);
+        fieldValue = $rdf.sym('mailto:' + form.value[field]);
         break;
       default:
         fieldValue = form.value[field];
@@ -251,16 +385,16 @@ export class RdfService {
   private getOldFieldValue(field, oldProfile): any {
     let oldValue: any;
 
-    if(!oldProfile || !oldProfile[field]) {
+    if (!oldProfile || !oldProfile[field]) {
       return;
     }
 
-    switch(field) {
+    switch (field) {
       case 'phone':
-        oldValue = $rdf.sym('tel:+'+oldProfile[field]);
+        oldValue = $rdf.sym('tel:+' + oldProfile[field]);
         break;
       case 'email':
-        oldValue = $rdf.sym('mailto:'+oldProfile[field]);
+        oldValue = $rdf.sym('mailto:' + oldProfile[field]);
         break;
       default:
         oldValue = oldProfile[field];
@@ -288,14 +422,14 @@ export class RdfService {
     const data = this.transformDataForm(form, me, doc);
 
     //Update existing values
-    if(data.insertions.length > 0 || data.deletions.length > 0) {
+    if (data.insertions.length > 0 || data.deletions.length > 0) {
       this.updateManager.update(data.deletions, data.insertions, (response, success, message) => {
-        if(success) {
+        if (success) {
           this.toastr.success('Your Solid profile has been successfully updated', 'Success!');
           form.form.markAsPristine();
           form.form.markAsTouched();
         } else {
-          this.toastr.error('Message: '+ message, 'An error has occurred');
+          this.toastr.error('Message: ' + message, 'An error has occurred');
         }
       });
     }
@@ -331,7 +465,7 @@ export class RdfService {
   getPhone = () => {
     const linkedUri = this.getValueFromVcard('hasTelephone');
 
-    if(linkedUri) {
+    if (linkedUri) {
       return this.getValueFromVcard('value', linkedUri).split('tel:+')[1];
     }
   };
@@ -339,7 +473,7 @@ export class RdfService {
   getMessage = () => {
     let array = this.getArray('newMessage');
     const linkedUri = array[array.length - 1];
-    if(linkedUri) {
+    if (linkedUri) {
       return this.getValueFromVcard('message', linkedUri);
     }
   };
@@ -354,8 +488,8 @@ export class RdfService {
       await this.fetcher.load(this.session.webId);
 
       return {
-        fn : this.getValueFromVcard('fn'),
-        company : this.getValueFromVcard('organization-name'),
+        fn: this.getValueFromVcard('fn'),
+        company: this.getValueFromVcard('organization-name'),
         phone: this.getPhone(),
         role: this.getValueFromVcard('role'),
         image: this.getValueFromVcard('hasPhoto'),
@@ -412,4 +546,33 @@ export class RdfService {
   private getArrayFromNamespace(node: string, namespace: any, webId?: string): string | any {
     return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
   }
+/*
+  // Add a function as parameter to call it when finished or fixed the asyn.
+  public  getMessages(): { id: number; content: string; }[] {
+    var store = $rdf.graph();
+    var timeout = 5000; // 5000 ms timeout
+    var fetcher = new $rdf.Fetcher(store, timeout);
+    var url = 'https://emiliocortina.solid.community/public/Amiwis/index.ttl';
+
+    fetcher.nowOrWhenFetched(url, function(ok, body, xhr) {
+      if (!ok) {
+        console.log('Oops, something happened and couldn\'t fetch data');
+      } else {
+        const subject = $rdf.sym(url + '#this');
+        const nameMessage = FLOW('message');
+        const messagesNodes = store.each(subject, nameMessage);
+        let messages = [
+          { 'id' : 1,
+            'content': 'Prueba'}
+        ];
+        for (let i = 0; i < messagesNodes.length; i++) {
+          let messageNode = messagesNodes[i];
+          let content = store.any(messageNode, CONT('content'));
+          let contentText = content.value;
+          messages[i].content = contentText;
+        }
+        return messages;
+      }
+    });
+  }*/
 }

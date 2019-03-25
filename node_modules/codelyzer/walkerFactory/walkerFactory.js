@@ -39,9 +39,7 @@ var NgComponentWalkerBuilder = (function () {
             }
             class_1.prototype.visitNgComponent = function (meta) {
                 var _this = this;
-                self._where(meta).fmap(function (failure) {
-                    _this.addFailure(_this.createFailure(failure.node.getStart(), failure.node.getWidth(), failure.message));
-                });
+                self._where(meta).fmap(function (failure) { return _this.addFailureAtNode(failure.node, failure.message); });
                 _super.prototype.visitNgComponent.call(this, meta);
             };
             return class_1;

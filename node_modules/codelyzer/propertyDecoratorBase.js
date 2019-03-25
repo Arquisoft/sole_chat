@@ -10,9 +10,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Lint = require("tslint");
 var sprintf_js_1 = require("sprintf-js");
-var SyntaxKind = require("./util/syntaxKind");
+var Lint = require("tslint");
+var ts = require("typescript");
+var utils_1 = require("./util/utils");
 var UsePropertyDecorator = (function (_super) {
     __extends(UsePropertyDecorator, _super);
     function UsePropertyDecorator(config, options) {
@@ -20,15 +21,16 @@ var UsePropertyDecorator = (function (_super) {
         _this.config = config;
         return _this;
     }
-    UsePropertyDecorator.formatFailureString = function (config, decoratorName, className) {
-        var decorators = config.decoratorName;
-        if (decorators instanceof Array) {
-            decorators = decorators.map(function (d) { return "\"@" + d + "\""; }).join(', ');
+    UsePropertyDecorator.formatFailureString = function (config, decoratorStr, className) {
+        var decoratorName = config.decoratorName, errorMessage = config.errorMessage, propertyName = config.propertyName;
+        var decorators;
+        if (decoratorName instanceof Array) {
+            decorators = decoratorName.map(function (d) { return "\"@" + d + "\""; }).join(', ');
         }
         else {
-            decorators = "\"@" + decorators + "\"";
+            decorators = "\"@" + decoratorName + "\"";
         }
-        return sprintf_js_1.sprintf(config.errorMessage, decoratorName, className, config.propertyName, decorators);
+        return sprintf_js_1.sprintf(errorMessage, decoratorStr, className, propertyName, decorators);
     };
     UsePropertyDecorator.prototype.apply = function (sourceFile) {
         return this.applyWithWalker(new DirectiveMetadataWalker(sourceFile, this.getOptions(), this.config));
@@ -44,31 +46,24 @@ var DirectiveMetadataWalker = (function (_super) {
         return _this;
     }
     DirectiveMetadataWalker.prototype.visitClassDeclaration = function (node) {
-        (node.decorators || [])
-            .forEach(this.validateDecorator.bind(this, node.name.text));
+        ts.createNodeArray(node.decorators).forEach(this.validateDecorator.bind(this, node.name.text));
         _super.prototype.visitClassDeclaration.call(this, node);
     };
     DirectiveMetadataWalker.prototype.validateDecorator = function (className, decorator) {
-        var baseExpr = decorator.expression || {};
-        var expr = baseExpr.expression || {};
-        var name = expr.text;
-        var args = baseExpr.arguments || [];
-        var arg = args[0];
-        if (/^(Component|Directive)$/.test(name) && arg) {
-            this.validateProperty(className, name, arg);
+        var argument = utils_1.getDecoratorArgument(decorator);
+        var name = utils_1.getDecoratorName(decorator);
+        if (name && argument && /^(Component|Directive)$/.test(name)) {
+            this.validateProperty(className, name, argument);
         }
     };
     DirectiveMetadataWalker.prototype.validateProperty = function (className, decoratorName, arg) {
         var _this = this;
-        if (arg.kind === SyntaxKind.current().ObjectLiteralExpression) {
-            arg
-                .properties
-                .filter(function (prop) { return prop.name.text === _this.config.propertyName; })
-                .forEach(function (prop) {
-                var p = prop;
-                _this.addFailure(_this.createFailure(p.getStart(), p.getWidth(), UsePropertyDecorator.formatFailureString(_this.config, decoratorName, className)));
-            });
+        if (!ts.isObjectLiteralExpression(arg)) {
+            return;
         }
+        arg.properties.filter(function (prop) { return prop.name.getText() === _this.config.propertyName; }).forEach(function (prop) {
+            _this.addFailureAtNode(prop, UsePropertyDecorator.formatFailureString(_this.config, decoratorName, className));
+        });
     };
     return DirectiveMetadataWalker;
 }(Lint.RuleWalker));

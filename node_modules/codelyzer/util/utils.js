@@ -1,61 +1,52 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ts = require("typescript");
-var SyntaxKind = require('./syntaxKind');
-exports.stringDistance = function (s, t, ls, lt) {
-    if (ls === void 0) { ls = s.length; }
-    if (lt === void 0) { lt = t.length; }
-    var memo = [];
-    var currRowMemo;
-    var i;
-    var k;
-    for (k = 0; k <= lt; k += 1) {
-        memo[k] = k;
-    }
-    for (i = 1; i <= ls; i += 1) {
-        currRowMemo = [i];
-        for (k = 1; k <= lt; k += 1) {
-            currRowMemo[k] = Math.min(currRowMemo[k - 1] + 1, memo[k] + 1, memo[k - 1] + (s[i - 1] !== t[k - 1] ? 1 : 0));
-        }
-        memo = currRowMemo;
-    }
-    return memo[lt];
+exports.getClassName = function (property) {
+    var parent = property.parent;
+    var identifier = parent && ts.isClassDeclaration(parent) ? parent.name : undefined;
+    return identifier && ts.isIdentifier(identifier) ? identifier.text : undefined;
 };
-exports.isSimpleTemplateString = function (e) {
-    return (e.kind === ts.SyntaxKind.StringLiteral ||
-        e.kind === SyntaxKind.current().FirstTemplateToken);
+exports.getDecoratorArgument = function (decorator) {
+    var expression = decorator.expression;
+    if (ts.isCallExpression(expression) && expression.arguments && expression.arguments.length > 0) {
+        var args = expression.arguments[0];
+        if (ts.isObjectLiteralExpression(args) && args.properties) {
+            return args;
+        }
+    }
+    return undefined;
 };
 exports.getDecoratorPropertyInitializer = function (decorator, name) {
-    return decorator.expression
-        .arguments[0].properties
-        .map(function (prop) {
-        if (prop.name.text === name) {
-            return prop;
-        }
-        return null;
-    })
-        .filter(function (el) { return !!el; })
-        .map(function (prop) { return prop.initializer; })
+    var args = ts.isCallExpression(decorator.expression) ? decorator.expression.arguments[0] : undefined;
+    var properties = ts.createNodeArray(args && ts.isObjectLiteralExpression(args) ? args.properties : undefined);
+    return properties
+        .filter(function (prop) { return prop.name && ts.isIdentifier(prop.name) && prop.name.text === name; })
+        .map(function (prop) { return (ts.isPropertyAssignment(prop) ? prop.initializer : undefined); })
         .pop();
 };
 exports.getDecoratorName = function (decorator) {
-    var baseExpr = decorator.expression || {};
-    var expr = baseExpr.expression || {};
-    return expr.text;
+    return ts.isCallExpression(decorator.expression) && ts.isIdentifier(decorator.expression.expression)
+        ? decorator.expression.expression.text
+        : undefined;
 };
 exports.getComponentDecorator = function (declaration) {
-    return (declaration.decorators || [])
-        .filter(function (d) {
-        if (!d.expression.arguments ||
-            !d.expression.arguments.length ||
-            !d.expression
-                .arguments[0].properties) {
-            return false;
-        }
-        var name = exports.getDecoratorName(d);
-        if (name === 'Component') {
-            return true;
-        }
-    })
-        .pop();
+    return ts.createNodeArray(declaration.decorators).find(function (d) {
+        return (ts.isCallExpression(d.expression) &&
+            d.expression.arguments &&
+            d.expression.arguments.length > 0 &&
+            exports.getDecoratorName(d) === 'Component');
+    });
+};
+exports.getSymbolName = function (expression) {
+    var childExpression = expression.expression;
+    return ts.isPropertyAccessExpression(childExpression) ? childExpression.name.getText() : childExpression.getText();
+};
+exports.maybeNodeArray = function (nodes) {
+    return nodes || [];
+};
+exports.isSameLine = function (sourceFile, pos1, pos2) {
+    return ts.getLineAndCharacterOfPosition(sourceFile, pos1).line === ts.getLineAndCharacterOfPosition(sourceFile, pos2).line;
+};
+exports.isStringLiteralLike = function (node) {
+    return node.kind === ts.SyntaxKind.StringLiteral || node.kind === ts.SyntaxKind.NoSubstitutionTemplateLiteral;
 };
