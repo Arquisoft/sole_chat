@@ -7,6 +7,7 @@ Here we state the more important design decisions that have been taken in this p
 |Programming Language | The team will use JavaScript as the programming language for building the application.
 
 |Framework | Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.
+|Yeoman | The team decided to use yeoman as a code generator to use Solid libraries which make our application easier to implement.
 |===
 
 MORE INFO: helpForDocumentation/designDecisions
