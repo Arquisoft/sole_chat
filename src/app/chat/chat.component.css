@@ -1,16 +1,15 @@
-
 html {
-    overflow-y: hidden;
     overflow-x: hidden;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .bodyWrapper {
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+    align-items: flex-end;
     margin: 3em 2em 0;
+    justify-content: center;
 }
 
 h3 {
@@ -28,29 +27,10 @@ h3 {
     border-radius: 5px;
     box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
     margin-right: 2em;
+    margin-bottom: 2em;
+    flex-grow: 1;
 }
 
-.recentChatsWrapper h3{
-    margin: 1em 2em 1em;
-    text-align: center;
-}
-
-.recentChats {
-    padding: 0 2em 2em;
-    width: 60vw;
-    height: 80vh;
-    max-width: 32em;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-
-.chatCard {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: nowrap;
-    margin: 2.5em 0;
-}
 
 .chatName {
     font-family: "Circular";
@@ -71,12 +51,13 @@ h3 {
     box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
     padding: 2em;
     height: 80vh;
-    flex-grow: 1;
+    flex-grow: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 60vw;
     max-width: 50em;
+    margin-bottom: 2em;
 }
 .currentChatHeader{
     display: flex;
@@ -145,6 +126,7 @@ h3 {
     border-radius: 9999px;
     flex-grow: 1;
     margin-right: 2em;
+    padding: 0.5em 1.5em;
 }
 
 #submitMessage {
@@ -162,22 +144,26 @@ h3 {
     width: 100px;
 }
 
-/* @media(max-width: 800px) {
-    html {
-        overflow-y: scroll;
-    }
+ @media(max-width: 800px) {
+     .bodyWrapper {
+         margin: 3em 0;
+     }
 
-    .bodyWrapper {
-        flex-direction: column;
-        margin: 5em 2em;
-    }
+     .currentChatHeader {
+         padding: 2em 5vw;
+     }
 
-    .recentChats {
-        padding: 0 2em 2em;
-        height: 7em;
-        overflow-x: scroll;
-        overflow-y: scroll;
-        display: flex;
-        flex-direction: row;
-    }
-} */
+     .currentChat, .recentChatsWrapper{
+         width: 100%;
+         border-radius: 0;
+         padding: 0 1em;
+     }
+
+     .currentChatContent {
+         width: 100%;
+     }
+
+     .currentChatInput{
+         margin: 2em 0.3em;
+     }
+}

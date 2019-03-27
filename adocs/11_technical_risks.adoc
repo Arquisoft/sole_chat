@@ -5,10 +5,15 @@ Regarding this project we should bear in mind some technical risks that could di
 |===
 |Priority |Risk |Measures to mitigate it
 
-|1 |The developers have never worked with Solid |They will do research about it, using the official webpage and SOlid chat and all the information available
+|1 |The developers have never worked with Solid |They will do research about it, using the official webpage and Solid chat and all the information available
 
 |2 |The developers are not familiar with JavaScript |All of them will look for information and try to get familiar with this language in order to take advantage of it to implement the application
 
 |3 |The developers have never used Angular |All of them will watch videos and find information in order to learn the capabilities of this framework
+|4 |The developers have never used RDF | A subteam will be dedicated to research rdf and how to use it with solid.
+|5 |The developers have never used Turtle | A subteam will be dedicated to research turtle and how to use it with rdf.
+|6 |The developers have never used Cucumber | The team has never done any kind of acceptance test so we will also have to get familiar on how to work with cucumber for testing.
+|7 | the developers have never cordinated 
+to work with such a big group | The developers will learn how to manage to divide equally the work and work with the timing constraints and conflicts.
 |===
 

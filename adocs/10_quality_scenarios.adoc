@@ -1,7 +1,6 @@
 [[section-quality-scenarios]]
 == Quality Requirements
 
-TODO: record all the quality requirements of the application
 
 === Quality Tree
 
@@ -11,11 +10,8 @@ image::images/qualityAttributesTree.png[Quality Tree]
 === Quality Scenarios
 For architects, two kinds of scenarios are important:
 
-  Usage scenarios describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance. 
-  Change scenarios describe a modification of the system or of its immediate environment. 
-  
-  
-  -
+Usage scenarios describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance. 
+Change scenarios describe a modification of the system or of its immediate environment. 
 
 |===
 |*ref*|*quality attribute*|*quality scenario*| priority
