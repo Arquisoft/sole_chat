@@ -11,13 +11,15 @@ export class FileManagerService {
     constructor(private rdf: RdfService) {
     }
 
-    async saveSomethingInThePOD(message, friend, messages) {
-        let direction: String;
-
+    async saveSomethingInThePOD(message, friendId, messages) {
+        let direction;
+        let id;
         await fileManager.popupLogin().then((webId) => {
             console.log('Logged in as ' + webId);
-            direction = webId.split('/profile')[0] + '/public/messages.ttl';
+            id = webId;
         });
+
+        direction = await this.getDirection(id, friendId) + "/messages.ttl";
 
         await fileManager.readFile(direction).then(
             (body) => {
@@ -25,17 +27,74 @@ export class FileManagerService {
             },
             (err) => {
                 if (err.includes('Not Found')) {
-                    this.createFile(direction, message, friend, messages);
+                    this.createFile(direction, message, friendId, messages);
                 } else {
                     console.log(err);
                 }
-
             }
         );
     }
 
-    async createFile(direction, message, friend, messages) {
-        var baseContent = await this.generateBaseTurtle(friend);
+    async getDirection(webId, friendId) {
+        let myFriend = (friendId.split("://")[1]).split(".")[0];
+        let myPublicFolder = webId.split("/profile")[0] + "/public/chat-" + myFriend;
+        let direction;
+
+        await fileManager.readFolder(myPublicFolder).then(folder => {
+            console.log(`Read ${folder.name}, it has ${folder.files.length} files.`);
+            direction = myPublicFolder;
+        }, (err) => {
+            if (err.includes('Not Found')) {
+                direction = this.lookInFriendsFolder(webId, friendId, myPublicFolder);
+            } else {
+                console.log(err);
+            }
+        });
+
+        await fileManager.createFile(direction + '/.acl', '').then(
+            (fileCreated) => {
+                console.log(`Created file ${fileCreated}.`);
+            });
+        let permissions = await this.rdf.givePermissionsToFolder(direction + '/.acl', friendId);
+        await fileManager.updateFile(direction + '/.acl', permissions).then(
+            (fileUpdated) => {
+                console.log(`Updated file ${fileUpdated}.`);
+                console.log(permissions);
+            },
+            (err) => console.log(err)
+        );
+
+        return direction;
+    }
+
+    async lookInFriendsFolder(webId, friendId, myPublicFolder) {
+        let myName = (webId.split("://")[1]).split(".")[0];
+        let friendsPublicFolder = friendId.split("/profile")[0] + "/public/chat-" + myName;
+        let direction;
+
+        await fileManager.readFolder(friendsPublicFolder).then(folder => {
+            console.log(`Read ${folder.name}, it has ${folder.files.length} files.`);
+            direction = friendsPublicFolder;
+        }, (err) => {
+            if (err.includes('Not Found')) {
+                this.createFolder(myPublicFolder, friendId);
+                direction = myPublicFolder;
+            } else {
+                console.log(err);
+            }
+        });
+
+        return direction;
+    }
+
+    async createFolder(folder, friendId) {
+        await fileManager.createFolder(folder).then(success => {
+            console.log(`Created folder ${folder}.`);
+        }, err => console.log(err) );
+    }
+
+    async createFile(direction, message, friendId, messages) {
+        var baseContent = await this.generateBaseTurtle();
         let permissions = direction + '.acl';
 
         await fileManager.createFile(permissions, '').then(
@@ -47,7 +106,7 @@ export class FileManagerService {
         await fileManager.createFile(direction, baseContent).then(
             (fileCreated) => {
                 console.log(`Created file ${fileCreated}.`);
-                this.rdf.generateBaseChat(friend);
+                this.rdf.generateBaseChat(friendId, direction);
             });
 
         await fileManager.readFile(direction).then(
@@ -61,29 +120,13 @@ export class FileManagerService {
     }
 
     async updateFile(body, direction, message, messages) {
-        //var object = JSON.parse(body);
-        //object.messages.push(message);
-
-        /*
-        await fileManager.updateFile(direction, JSON.stringify(object)).then(
-            (fileUpdated) => {
-                console.log(`Updated file ${fileUpdated}.`);
-            },
-            (err) => console.log(err)
-        );
-
-        https://ajunque9.solid.community/public/messages.ttl
-        */
-        let maker = direction.split('/public')[0] + '/profile/card#me'; //webId
-        let content = await this.rdf.addMessage(body, message, maker, messages);
+        let content = await this.rdf.addMessage(body, message, messages, direction);
         await fileManager.updateFile(direction, content).then(
             (fileUpdated) => {
                 console.log(`Updated file ${fileUpdated}.`);
             },
             (err) => console.log(err)
         );
-
-        //window.location.reload();
     }
 
     async retrieveLastMessage() {
@@ -92,20 +135,6 @@ export class FileManagerService {
         await fileManager.popupLogin().then((webId) => {
             direction = webId.split('/profile')[0] + '/public/messages.ttl';
         });
-
-        /*
-        await fileManager.readFile(direction).then(
-            (body) => {
-                var object = JSON.parse(body);
-                var size = object.messages.length;
-                if (size > 0)
-                    lastMessage = object.messages[size - 1];
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
-            */
 
         var lastMessage;
         await fileManager.readFile(direction).then(
@@ -120,32 +149,7 @@ export class FileManagerService {
         return lastMessage;
     }
 
-    async retrieveLastMessageReceived(friend) {
-        var direction = 'https://' + friend + '.solid.community/public/messages.json';
-        var lastMessage: String = '';
-
-        await fileManager.readFile(direction).then(
-            (body) => {
-                var object = JSON.parse(body);
-                var size = object.messages.length;
-                if (size > 0) {
-                    lastMessage = object.messages[size - 1];
-                }
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
-        //window.location.reload();
-        return lastMessage;
-    }
-
-    async generateBaseTurtle(friend) {
-        let id;
-        await fileManager.popupLogin().then((webId) => {
-            id = webId;
-        });
-
+    async generateBaseTurtle() {
         let msg = "@prefix : <#>.\n";
         return msg;
     }
