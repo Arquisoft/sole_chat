@@ -2,6 +2,28 @@ html {
     overflow-y: hidden;
     overflow-x: hidden;
     font-family: Arial, Helvetica, sans-serif;
+    color: #333333;
+}
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 0.3em;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    opacity: 0;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgb(211, 211, 211);
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.048); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgb(211, 211, 211);;
 }
 
 .bodyWrapper {
@@ -96,6 +118,7 @@ h3 {
 }
 
 .message {
+    color: #333333;
     width: 16em;
     border: 1px solid rgb(233, 233, 233);
     box-shadow: 0px 0px 6px rgba(83, 83, 83, 0.13);
@@ -117,6 +140,7 @@ h3 {
 }
 
 .sent {
+    color: white;
     align-self: flex-end;
     background-color: #ffc107;
 }

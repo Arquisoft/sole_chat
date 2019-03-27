@@ -17,14 +17,15 @@
   max-width: 740px;
   min-height: 500px;
   margin: 0 auto;
-  border: 1px solid #ccc;
-  box-shadow: #ccc 1px 1px 4px;
+  border-radius: 25px;
+  box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
   position: relative;
 }
 
 .profile-fields-container .profile-image-container {
   height: 200px;
   width: 100%;
+  border-radius: 25px 25px 0 0;
   background-size: cover !important;
   background: url('/assets/images/Solid_Pattern.png');
 }
@@ -53,10 +54,12 @@
 }
 
 .profile-fields-container input[type=text].field-text {
-  height: 12px;
+  height: 1.5em;
   width: 280px;
-  border: 1px solid #89969F;
-  border-radius: 4px;
+  border: 1px solid rgb(233, 233, 233);
+  box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.08);
+  text-align: center;
+  border-radius: 9999px;
   padding: 10px;
 }
 
@@ -75,14 +78,12 @@
 
 .profile-save-button {
   background-color: #ffc107;
-  margin-left: auto;
-  margin-right: auto;
   width: 280px;
+  margin: 1.8em;
 }
 
 .profile-save-button:disabled {
   background-color: #F0EEEB;
-  border-color: #F0EEEB;
   cursor: not-allowed;
 }
 

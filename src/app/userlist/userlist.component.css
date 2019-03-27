@@ -1,3 +1,25 @@
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 0.3em;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    opacity: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgb(211, 211, 211);
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.048);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgb(211, 211, 211);;
+}
+
+
 h3 {
     font-family: "Circular";
     padding: 1em 2em 1em;
