@@ -168,14 +168,7 @@ export class RdfService {
     return content; //return it in string format
   }
 
-	async addMessage(body, message, maker) {
-		let doc = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl');
-		$rdf.parse(body, this.store, doc.uri, 'text/turtle'); //add it to the store
-		this.createMessage(message, maker);
-		let content = $rdf.serialize(doc, this.store, doc.uri, 'text/turtle');
-		console.log(content);
-		return content; //return it in string format
-	}
+
 
 	async getLastMessage() {
 		//let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#Msg234134");

@@ -13,7 +13,7 @@ describe('ChatComponent', () => {
     .compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(() => {  
     fixture = TestBed.createComponent(ChatComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

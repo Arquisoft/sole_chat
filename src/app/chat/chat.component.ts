@@ -11,7 +11,7 @@ import { windowWhen } from 'rxjs/operators';
 declare function createFolder(path, folder): any;
 
 @Component({
-  selector: 'app-chat',
+  selector: 'app-chat', 
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
