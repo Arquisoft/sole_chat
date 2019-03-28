@@ -29,5 +29,9 @@
 
 |RDF | Stands for Resource Description Framework and is a standard for data interchange, developed and agreed upon by W3C.
 
+|Cucumber | Tool that supports Behavior Driven Development (BDD). It offers a way to write tests that anybody can understand, regardless of their technical knowledge.
+
+|Protractor | End-to-end test framework for Angular and AngularJS applications. Runs tests against the application running in a real browser, interacting with it as a user would.
+
 
 |===
