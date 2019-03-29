@@ -13,7 +13,6 @@ const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
 const CONT = $rdf.Namespace('http://rdfs.org/sioc/ns#'); //n
 const TERMS = $rdf.Namespace('http://purl.org/dc/terms/'); //terms
 const MEE = $rdf.Namespace('http://www.w3.org/ns/pim/meeting#'); //mee
-const ACL = $rdf.Namespace('http://www.w3.org/ns/auth/acl#'); //acl
 const N1 = $rdf.Namespace('http://purl.org/dc/elements/1.1/'); //n1
 const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); //flow
 const XML = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
@@ -79,83 +78,6 @@ export class RdfService {
         predicate = $rdf.sym(N1('title'));
         statement = $rdf.st(subject, predicate, 'Chat', doc);
         this.store.add(statement);
-
-        /*
-        //Permissions
-        let docACL = $rdf.sym(direction + '.acl');
-        let subjectACL = $rdf.sym(direction + '.acl#authorization');
-        //Is an authorization
-        predicate = $rdf.sym('https://www.w3.org/1999/02/22-rdf-syntax-ns#type');
-        object = $rdf.sym(ACL('Authorization'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //Agent
-        predicate = $rdf.sym(ACL('agent'));
-        object = $rdf.sym(friendId);
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //file
-        predicate = $rdf.sym(ACL('accessTo'));
-        object = doc;
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //Permissions
-        predicate = $rdf.sym(ACL('mode'));
-        object = $rdf.sym(ACL('Read'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        object = $rdf.sym(ACL('Write'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        object = $rdf.sym(ACL('Control'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        */
-    }
-
-    async givePermissionsToFolder(direction, friendId) {
-        //Permissions
-        let docACL = $rdf.sym(direction);
-        let subjectACL = $rdf.sym(direction + '#ControlReadWrite');
-        //Is an authorization
-        let predicate = $rdf.sym('https://www.w3.org/1999/02/22-rdf-syntax-ns#type');
-        let object = $rdf.sym(ACL('Authorization'));
-        let statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //Agent
-        predicate = $rdf.sym(ACL('agent'));
-        object = $rdf.sym(friendId);
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-
-        predicate = $rdf.sym(ACL('agent'));
-        object = $rdf.sym(this.session.webId);
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //file
-        predicate = $rdf.sym(ACL('accessTo'));
-        object =  $rdf.sym(direction.split('/.acl')[0]);
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //default
-        predicate = $rdf.sym(ACL('default'));
-        object =  $rdf.sym(direction.split('/.acl')[0]);
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //Permissions
-        predicate = $rdf.sym(ACL('mode'));
-        object = $rdf.sym(ACL('Read'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        object = $rdf.sym(ACL('Write'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        object = $rdf.sym(ACL('Control'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-
-        let content = $rdf.serialize(docACL, this.store, docACL.uri, 'text/turtle'); //file content
-        return content; //return it in string format
     }
 
     async createMessage(message, messages, direction) {

@@ -51,21 +51,6 @@ export class FileManagerService {
             }
         });
 
-        /*
-        await fileManager.createFile(direction + '/.acl', '').then(
-            (fileCreated) => {
-                console.log(`Created file ${fileCreated}.`);
-            });
-        let permissions = await this.rdf.givePermissionsToFolder(direction + '/.acl', friendId);
-        await fileManager.updateFile(direction + '/.acl', permissions).then(
-            (fileUpdated) => {
-                console.log(`Updated file ${fileUpdated}.`);
-                console.log(permissions);
-            },
-            (err) => console.log(err)
-        );
-        */
-
         return direction;
     }
 
@@ -100,16 +85,13 @@ export class FileManagerService {
     async createACLfile(webId, folder, friendId) {
         let file = folder + '/.acl';
         let content = '@prefix acl: <http://www.w3.org/ns/auth/acl#>. \n' +
-        '<#owner> \n' +
-        'a acl: Authorization; \n' + 
-        'acl: agent <' + webId + '>; \n' + 
-        'acl: agent <' + friendId + '>; \n' + 
-        'acl: accessTo <' + folder + '/>; \n' + 
-        'acl: defaultForNew <./>; \n' + 
-        'acl: mode \n' +
-        'acl: Read, \n' + 
-        'acl: Write, \n' + 
-        'acl: Control. \n';
+        ':ControlReadWrite \n' +
+        'a acl:Authorization; \n' + 
+        'acl:agent <' + webId + '>; \n' + 
+        'acl:agent <' + friendId + '>; \n' + 
+        'acl:accessTo <' + folder + '/>; \n' + 
+        'acl:defaultForNew <./>; \n' + 
+        'acl:mode acl:Control, acl:Read, acl:Write.';
 
         await fileManager.createFile(file, content).then(
             (fileCreated) => {
