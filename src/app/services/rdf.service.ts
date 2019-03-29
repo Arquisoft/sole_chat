@@ -443,12 +443,13 @@ export class RdfService {
     }
 
     // Add a function as parameter to call it when finished or fixed the asyn.
-    public getMessages(messages) {
+    public getMessages(messages, direction) {
         var store = $rdf.graph();
         var timeout = 5000; // 5000 ms timeout
         var fetcher = new $rdf.Fetcher(store, timeout);
         //var url = 'https://emiliocortina.solid.community/public/Amiwis/index.ttl';
-        let url = this.session.webId.split('/profile')[0] + '/public/messages.ttl';
+        //let url = this.session.webId.split('/profile')[0] + '/public/messages.ttl';
+        let url = direction;
 
         fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
             if (!ok) {

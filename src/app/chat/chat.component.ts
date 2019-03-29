@@ -65,6 +65,9 @@ export class ChatComponent implements OnInit {
   }
 
   private async loadMessages() {
-    await this.rdf.getMessages(this.displayedMessages);
+    //Algo así debería funcionar
+    let direction = await this.fileManager.getDirection("https://anajunquera.inrupt.net/profile/card#me") + "/messages.ttl";
+    console.log(direction);
+    await this.rdf.getMessages(this.displayedMessages, direction);
   }
 }

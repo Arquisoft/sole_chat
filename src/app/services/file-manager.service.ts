@@ -13,13 +13,11 @@ export class FileManagerService {
 
     async saveSomethingInThePOD(message, friendId, messages) {
         let direction;
-        let id;
         await fileManager.popupLogin().then((webId) => {
             console.log('Logged in as ' + webId);
-            id = webId;
         });
 
-        direction = await this.getDirection(id, friendId) + "/messages.ttl";
+        direction = await this.getDirection(friendId) + "/messages.ttl";
 
         await fileManager.readFile(direction).then(
             (body) => {
@@ -35,7 +33,13 @@ export class FileManagerService {
         );
     }
 
-    async getDirection(webId, friendId) {
+    async getDirection(friendId) {
+        let webId;
+        await fileManager.popupLogin().then((id) => {
+            console.log('Logged in as ' + id);
+            webId = id;
+        });
+
         let myFriend = (friendId.split("://")[1]).split(".")[0];
         let myPublicFolder = webId.split("/profile")[0] + "/public/Chat_" + myFriend;
         let direction;
