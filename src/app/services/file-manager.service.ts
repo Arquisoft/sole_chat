@@ -37,7 +37,7 @@ export class FileManagerService {
 
     async getDirection(webId, friendId) {
         let myFriend = (friendId.split("://")[1]).split(".")[0];
-        let myPublicFolder = webId.split("/profile")[0] + "/public/chat-" + myFriend;
+        let myPublicFolder = webId.split("/profile")[0] + "/public/Chat_" + myFriend;
         let direction;
 
         await fileManager.readFolder(myPublicFolder).then(folder => {
@@ -51,6 +51,7 @@ export class FileManagerService {
             }
         });
 
+        /*
         await fileManager.createFile(direction + '/.acl', '').then(
             (fileCreated) => {
                 console.log(`Created file ${fileCreated}.`);
@@ -63,13 +64,14 @@ export class FileManagerService {
             },
             (err) => console.log(err)
         );
+        */
 
         return direction;
     }
 
     async lookInFriendsFolder(webId, friendId, myPublicFolder) {
         let myName = (webId.split("://")[1]).split(".")[0];
-        let friendsPublicFolder = friendId.split("/profile")[0] + "/public/chat-" + myName;
+        let friendsPublicFolder = friendId.split("/profile")[0] + "/public/Chat_" + myName;
         let direction;
 
         await fileManager.readFolder(friendsPublicFolder).then(folder => {
@@ -77,7 +79,7 @@ export class FileManagerService {
             direction = friendsPublicFolder;
         }, (err) => {
             if (err.includes('Not Found')) {
-                this.createFolder(myPublicFolder, friendId);
+                this.createFolder(webId, myPublicFolder, friendId);
                 direction = myPublicFolder;
             } else {
                 console.log(err);
@@ -87,10 +89,33 @@ export class FileManagerService {
         return direction;
     }
 
-    async createFolder(folder, friendId) {
+    async createFolder(webId, folder, friendId) {
         await fileManager.createFolder(folder).then(success => {
             console.log(`Created folder ${folder}.`);
         }, err => console.log(err) );
+
+        this.createACLfile(webId, folder, friendId);
+    }
+
+    async createACLfile(webId, folder, friendId) {
+        let file = folder + '/.acl';
+        let content = '@prefix acl: <http://www.w3.org/ns/auth/acl#>. \n' +
+        '<#owner> \n' +
+        'a acl: Authorization; \n' + 
+        'acl: agent <' + webId + '>; \n' + 
+        'acl: agent <' + friendId + '>; \n' + 
+        'acl: accessTo <' + folder + '/>; \n' + 
+        'acl: defaultForNew <./>; \n' + 
+        'acl: mode \n' +
+        'acl: Read, \n' + 
+        'acl: Write, \n' + 
+        'acl: Control. \n';
+
+        await fileManager.createFile(file, content).then(
+            (fileCreated) => {
+                console.log(`Created file ${fileCreated}.`);
+            });
+
     }
 
     async createFile(direction, message, friendId, messages) {
