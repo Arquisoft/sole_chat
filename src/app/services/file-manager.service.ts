@@ -45,7 +45,7 @@ export class FileManagerService {
         let direction;
 
         await fileManager.readFolder(myPublicFolder).then(folder => {
-            console.log(`Read ${folder.name}, it has ${folder.files.length} files.`);
+            console.log('Read ${folder.name}, it has ${folder.files.length} files.');
             direction = myPublicFolder;
         }, (err) => {
             if (err.includes('Not Found')) {

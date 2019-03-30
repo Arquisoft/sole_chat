@@ -449,7 +449,7 @@ export class RdfService {
         var fetcher = new $rdf.Fetcher(store, timeout);
         //var url = 'https://emiliocortina.solid.community/public/Amiwis/index.ttl';
         //let url = this.session.webId.split('/profile')[0] + '/public/messages.ttl';
-        let url = direction;
+        let url = 'https://emiliocortina.solid.community/public/Chat_anajunquera/messages.ttl';
 
         fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
             if (!ok) {
