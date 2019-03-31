@@ -37,5 +37,11 @@
 
 |Feature | Entry point to the Cucumber tests. This is a file where the programmer will describe the tests in descriptive language (like English).
 
+|Given (Cucumber step) | It specifies the context of the text to be executed. By using datatables "Given", step can also be parameterized.
+
+|When (Cucumber step) | Specifies the test action that has to performed.
+
+|Then (Cucumber step) | Keyword used to express the expected outcome.
+
 
 |===
