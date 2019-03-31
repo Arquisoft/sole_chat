@@ -439,8 +439,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-introduction-and-goals">1. Introduction and Goals</a>
 <ul class="sectlevel2">
 <li><a href="#_requirements_overview">1.1. Requirements Overview</a></li>
-<li><a href="#_quality_goals">1.2. Quality Goals</a></li>
-<li><a href="#_stakeholders">1.3. Stakeholders</a></li>
+<li><a href="#_stakeholders">1.2. Stakeholders</a></li>
 </ul>
 </li>
 <li><a href="#section-architecture-constraints">2. 2 Architecture Constraints</a>
@@ -478,6 +477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_communication">8.3. <em>Communication</em></a></li>
 <li><a href="#_user_interface">8.4. <em>User Interface</em></a></li>
 <li><a href="#_persistency">8.5. <em>Persistency</em></a></li>
+<li><a href="#_structure_and_function">8.6. <em>Structure and function</em></a></li>
 </ul>
 </li>
 <li><a href="#section-design-decisions">9. Design Decisions</a></li>
@@ -578,11 +578,9 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </tbody>
 </table>
 <div class="paragraph">
-<p>A more complete list of the requirements can be found at: <a href="https://github.com/Arquisoft/dechat_en2b/blob/master/src/docs/13_requirement%20document.adoc" class="bare">https://github.com/Arquisoft/dechat_en2b/blob/master/src/docs/13_requirement%20document.adoc</a></p>
+<p>A more complete list of the requirements can be found at: <a href="https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/13_requirement_document.adoc" class="bare">https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/13_requirement_document.adoc</a>
+=== Quality Goals</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_quality_goals">1.2. Quality Goals</h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -621,7 +619,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </table>
 </div>
 <div class="sect2">
-<h3 id="_stakeholders">1.3. Stakeholders</h3>
+<h3 id="_stakeholders">1.2. Stakeholders</h3>
 <div class="paragraph">
 <p>All the people, roles or organizations that:</p>
 </div>
@@ -881,7 +879,11 @@ Critical information like bank credentials or ID is not going to be visible (and
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application is going to be Peer to Peer in order to keep personal information confidential.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The development team will apply an agile methodology of development meeting once a week.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application is going to be decentrilized using solid PODs to communicate between two different users.</p></td>
 </tr>
 </tbody>
 </table>
@@ -930,19 +932,25 @@ Critical information like bank credentials or ID is not going to be visible (and
 <div class="paragraph">
 <p>The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:</p>
 </div>
-<div class="literalblock">
-<div class="content">
-<pre>-Important use cases or features: how do building blocks execute them?
--Interactions at critical external interfaces: how do building blocks cooperate with users and neighbouring systems?
--Operation and administration: launch, start-up, stop
--Error and exception scenarios</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>MORE INFO: helpForDocumentation/runtimeView</pre>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-Important use cases or features: how do building blocks execute them?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-Interactions at critical external interfaces: how do building blocks cooperate with users and neighbouring systems?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-Operation and administration: launch, start-up, stop</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-Error and exception scenarios</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -989,9 +997,13 @@ Critical information like bank credentials or ID is not going to be visible (and
 <div class="sect2">
 <h3 id="_domain_concept">8.2. <em>Domain Concept</em></h3>
 <div class="paragraph">
-<p>Message
-Pod
-Client //to do</p>
+<p>The message is a piece of text that is send from one user to other, the users must be friends in order to send the message to the other user.</p>
+</div>
+<div class="paragraph">
+<p>The pod is where the data is stored, it is provide by the Solid Platform and thanks to this pod it is posible to have the descentralized chat. Only one pod for each user.</p>
+</div>
+<div class="paragraph">
+<p>The client is the person who will use the chat, it will be able to send messages and use the app, it will have also a unique pod.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1011,6 +1023,14 @@ It has internal coherence and a clear hierarchy, is efficiency, giving more prio
 <h3 id="_persistency">8.5. <em>Persistency</em></h3>
 <div class="paragraph">
 <p>Persistence refers to the characteristic of state that outlives the process that created it, our proyect relies on the Solid Platform so the persistence is provided by Solid.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_structure_and_function">8.6. <em>Structure and function</em></h3>
+<div class="paragraph">
+<p>The way in which an object or living thing is shaped and its substructure determine many of its properties and functions.
+Complex structures and systems can be visualized, modeled, and used to describe how their function depends on the shapes, composition, and relationships among its parts.
+Its structure and function relies on the Solid pod that changes with every user, because every pod is different for each user.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1040,20 +1060,26 @@ It has internal coherence and a clear hierarchy, is efficiency, giving more prio
 <td class="tableblock halign-left valign-top"><p class="tableblock">Framework</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yeoman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team decided to use yeoman as a code generator to use Solid libraries which make our application easier to implement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cucumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team decided to use acceptance testing using cucumber.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web hosting</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team decided to use github pages to host our application</p></td>
+</tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>MORE INFO: helpForDocumentation/designDecisions</p>
-</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="section-quality-scenarios">10. Quality Requirements</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>TODO: record all the quality requirements of the application</p>
-</div>
 <div class="sect2">
 <h3 id="_quality_tree">10.1. Quality Tree</h3>
 <div class="imageblock">
@@ -1068,16 +1094,9 @@ It has internal coherence and a clear hierarchy, is efficiency, giving more prio
 <div class="paragraph">
 <p>For architects, two kinds of scenarios are important:</p>
 </div>
-<div class="literalblock">
-<div class="content">
-<pre>Usage scenarios describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance.
-Change scenarios describe a modification of the system or of its immediate environment.</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>-</pre>
-</div>
+<div class="paragraph">
+<p>Usage scenarios describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance.
+Change scenarios describe a modification of the system or of its immediate environment.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1158,7 +1177,7 @@ Change scenarios describe a modification of the system or of its immediate envir
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never worked with Solid</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">They will do research about it, using the official webpage and SOlid chat and all the information available</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">They will do research about it, using the official webpage and Solid chat and all the information available</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
@@ -1169,6 +1188,27 @@ Change scenarios describe a modification of the system or of its immediate envir
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never used Angular</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">All of them will watch videos and find information in order to learn the capabilities of this framework</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never used RDF</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A subteam will be dedicated to research rdf and how to use it with solid.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never used Turtle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A subteam will be dedicated to research turtle and how to use it with rdf.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never used Cucumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team has never done any kind of acceptance test so we will also have to get familiar on how to work with cucumber for testing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the developers have never cordinated
+to work with such a big group</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers will learn how to manage to divide equally the work and work with the timing constraints and conflicts.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1241,6 +1281,22 @@ Change scenarios describe a modification of the system or of its immediate envir
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">RDF</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stands for Resource Description Framework and is a standard for data interchange, developed and agreed upon by W3C.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cucumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tool that supports Behavior Driven Development (BDD). It offers a way to write tests that anybody can understand, regardless of their technical knowledge.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Protractor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">End-to-end test framework for Angular and AngularJS applications. Runs tests against the application running in a real browser, interacting with it as a user would.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scenario</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">One of the core Gherkin structures. Every scenario starts with the keyword “Scenario:” (or localized one) and is followed by an optional scenario title.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Feature</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Entry point to the Cucumber tests. This is a file where the programmer will describe the tests in descriptive language (like English).</p></td>
 </tr>
 </tbody>
 </table>
