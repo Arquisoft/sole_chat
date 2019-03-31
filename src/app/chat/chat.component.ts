@@ -60,10 +60,12 @@ export class ChatComponent implements OnInit {
 
   async onSubmit() {
     var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
-    this.fileManager.saveSomethingInThePOD(message, "https://anajunquera.solid.community/profile/card#me", this.displayedMessages);
+    this.fileManager.sendMessage(message, "https://emiliocortina2.solid.community/profile/card#me", this.displayedMessages);
+    //this.fileManager.saveSomethingInThePOD(message, "https://anajunquera.inrupt.net/profile/card#me", this.displayedMessages);
   }
 
   private async loadMessages() {
-    await this.rdf.getMessages(this.displayedMessages);
+    let friendID = "https://emiliocortina2.solid.community/profile/card#me";
+    await this.fileManager.getMessages(this.displayedMessages, friendID);
   }
 }

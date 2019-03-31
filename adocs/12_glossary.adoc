@@ -33,5 +33,9 @@
 
 |Protractor | End-to-end test framework for Angular and AngularJS applications. Runs tests against the application running in a real browser, interacting with it as a user would.
 
+|Scenario | One of the core Gherkin structures. Every scenario starts with the keyword “Scenario:” (or localized one) and is followed by an optional scenario title.
+
+|Feature | Entry point to the Cucumber tests. This is a file where the programmer will describe the tests in descriptive language (like English).
+
 
 |===

@@ -4,9 +4,9 @@
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    './src/**/*.e2e-spec.ts'
+      './src/features/**/*.feature'
   ],
-    specs: ['./src/features/**/*.feature'],
+
   capabilities: {
     'browserName': 'chrome'
   },

@@ -8,6 +8,8 @@ Here we state the more important design decisions that have been taken in this p
 
 |Framework | Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.
 |Yeoman | The team decided to use yeoman as a code generator to use Solid libraries which make our application easier to implement.
+|Cucumber| The team decided to use acceptance testing using cucumber.
+|Web hosting | The team decided to use github pages to host our application
+
 |===
 
-MORE INFO: helpForDocumentation/designDecisions
