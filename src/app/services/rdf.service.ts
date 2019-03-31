@@ -402,7 +402,7 @@ export class RdfService {
     };
 
     //Returns a list with the user friends
-    getFriends = async (list: { username: string; img: string; id: string }[]) => {
+    getFriends = async (list: { username: string; img: string; id: string, messages: [] }[]) => {
         if (!this.session) {
             await this.getSession();
         }
@@ -419,7 +419,7 @@ export class RdfService {
                 }
 
 
-                await list.push({ username: fullName + '', img: image, id: webId });
+                await list.push({ username: fullName + '', img: image, id: webId , messages: []});
 
             });
         } catch (error) {
@@ -445,9 +445,6 @@ export class RdfService {
         var store = $rdf.graph();
         var timeout = 5000; // 5000 ms timeout
         var fetcher = new $rdf.Fetcher(store, timeout);
-        //var url = 'https://emiliocortina.solid.community/public/Amiwis/index.ttl';
-        //let url = this.session.webId.split('/profile')[0] + '/public/messages.ttl';
-        //let url = 'https://emiliocortina.solid.community/public/Chat_anajunquera/messages.ttl';
 
         let url = direction;
         let id = this.session.webId;
@@ -471,9 +468,10 @@ export class RdfService {
                     let timeFormatted = time.split(':');
                     let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
                     let maker = store.any(messageNode, FOAF('maker')).value;
-                    let isMessageReceived = id == maker;
+                    let isMessageReceived = (id != maker);
                     let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived };
                     messages.push(message);
+                    console.log(isMessageReceived+ " " + contentText);
                 }
             }
         });

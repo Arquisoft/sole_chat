@@ -1,8 +1,8 @@
 <div class="bodyWrapper ">
-    <div class="userListWrapper">
+  <div class="userListWrapper">
     <div class="recentChatsWrapper">
-          <app-userlist></app-userlist>
-  </div> 
+      <app-userlist></app-userlist>
+    </div>
   </div>
   <div class="currentChat text-right">
     <div class="currentChatHeader">
@@ -10,19 +10,27 @@
         <img src="../../assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
       </div>
       <div class="currentChatHeaderTitle">
-        <h3>{{friend}}</h3>
+        <h3 *ngIf="user != null">{{ user.username }}</h3>
       </div>
     </div>
-    
-    <div class="currentChatContent">
 
-      <div class="message sent" *ngFor="let mess of displayedMessages">
-        <div class="messageContent" name="message dummy">
-          {{mess.content}}    
+    <div *ngIf="user != null" class="currentChatContent">
+
+      <div *ngFor="let mess of user.messages">
+        <div *ngIf="!mess.received" class="message sent">
+          <div class="messageContent" name="message dummy">
+            {{mess.content}}
+          </div>
+          <div class="messageTime">{{mess.date}}</div>
         </div>
-        <div class="messageTime">{{mess.date}}</div>
-      </div>
 
+        <div *ngIf="mess.received" class="message received">
+            <div class="messageContent" name="message dummy">
+              {{mess.content}}
+            </div>
+            <div class="messageTime">{{mess.date}}</div>
+          </div>
+      </div>
 
     </div>
 
