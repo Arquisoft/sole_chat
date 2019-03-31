@@ -3,6 +3,7 @@ import { SolidSession } from '../models/solid-session.model';
 // TODO: Remove any UI interaction from this service
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { UrlSegment } from '@angular/router';
 
 declare let solid: any;
 declare let $rdf: any;
@@ -418,11 +419,11 @@ export class RdfService {
                     image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
                 }
 
-
                 await list.push({ username: fullName + '', img: image, id: webId , messages: []});
 
             });
         } catch (error) {
+            console.log(error);
         }
     };
 
@@ -453,7 +454,6 @@ export class RdfService {
             if (!ok) {
                 console.log('Oops, something happened and couldn\'t fetch data');
             } else {
-                console.log(url);
                 const subject = $rdf.sym(url + '#this');
                 const nameMessage = FLOW('message');
                 const messagesNodes = store.each(subject, nameMessage);
@@ -471,7 +471,6 @@ export class RdfService {
                     let isMessageReceived = (id != maker);
                     let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived };
                     messages.push(message);
-                    console.log(isMessageReceived+ " " + contentText);
                 }
             }
         });

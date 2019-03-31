@@ -18,17 +18,11 @@ declare function createFolder(path, folder): any;
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  //displayedMessages = [];
-  profile: SolidProfile;
-  loadingProfile: Boolean;
-  friendsList: { name: string, webId: string }[] = [];
-  messageContent: String = '';
-  messageReceived: String = '';
   user: any;
 
   @ViewChild('f') chatForm: NgForm;
 
-  constructor(private rdf: RdfService, private auth: AuthService, private fileManager: FileManagerService, private changeFriend: ChangeChatService) {
+  constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService) {
  
   }
 
@@ -38,24 +32,6 @@ export class ChatComponent implements OnInit {
       this.user = res;
       this.loadMessages();
     });
-
-    this.loadingProfile = true;
-    this.loadProfile();
-  }
-
-  async loadProfile() {
-    try {
-      this.loadingProfile = true;
-      const profile = await this.rdf.getProfile();
-      if (profile) {
-        this.profile = profile;
-        this.auth.saveOldUserData(profile);
-      }
-
-      this.loadingProfile = false;
-    } catch (error) {
-      console.log(`Error: ${error}`);
-    }
   }
 
   async onSubmit() {
