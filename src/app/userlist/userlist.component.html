@@ -1,8 +1,12 @@
 <div class="userList" >
     <h3>Recent Chats</h3>
-    <div class="recentChats">
+ <!-- LOADING IMAGE -->
+ <div class="loading-image" *ngIf="loadingFriends">
+    <i class="fas fa-circle-notch fa-4x fa-spin"></i>
+  </div>
 
-        
+    <div class="recentChats"  *ngIf="!loadingFriends">
+
         <app-useritem
         [user]=user *ngFor="let user of dummyusers">
         </app-useritem>
