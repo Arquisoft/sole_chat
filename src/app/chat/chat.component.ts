@@ -33,8 +33,6 @@ export class ChatComponent implements OnInit {
   ngOnInit() {
     this.loadingProfile = true;
     this.loadProfile();
-    this.getLastMessage();
-    this.getMessageReceived();
     this.loadMessages();
   }
 
@@ -44,12 +42,8 @@ export class ChatComponent implements OnInit {
       const profile = await this.rdf.getProfile();
       if (profile) {
         this.profile = profile;
-        this.auth.saveOldUserData(profile);
-        this.messageContent = this.rdf.getMessage();
-      
+        this.auth.saveOldUserData(profile);      
       }
-    
-
 
       this.loadingProfile = false;
 
@@ -62,44 +56,16 @@ export class ChatComponent implements OnInit {
     } catch (error) {
       console.log(`Error: ${error}`);
     }
-
-     
-   
-   
-    
-
-
-  }
-
-  async getLastMessage() {
-    var res = await this.fileManager.retrieveLastMessage();
-    this.messageContent = res;
-  }
-
-  async getMessageReceived() {
-    // var friend = (<HTMLInputElement>document.getElementById('friend')).textContent;
-    // console.log(this.friend);
-    var f;
-    if (sessionStorage.getItem('friend') != null)
-      f = sessionStorage.getItem('friend');
-    else
-      f = 'javi';
-    var res = await this.fileManager.retrieveLastMessageReceived(f);
-    this.messageReceived = res;
   }
 
   async onSubmit() {
     var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
-    this.fileManager.saveSomethingInThePOD(message, this.friend, this.displayedMessages);
+    this.fileManager.sendMessage(message, "https://emiliocortina2.solid.community/profile/card#me", this.displayedMessages);
+    //this.fileManager.saveSomethingInThePOD(message, "https://anajunquera.inrupt.net/profile/card#me", this.displayedMessages);
   }
 
-  changeFriend() {
-    var newFriend = prompt('To which friend do you want to talk to?');
-    sessionStorage.setItem('friend', newFriend);
-    //window.location.reload();
+  private async loadMessages() {
+    let friendID = "https://emiliocortina2.solid.community/profile/card#me";
+    await this.fileManager.getMessages(this.displayedMessages, friendID);
   }
-
-    private async loadMessages() {
-      await this.rdf.getMessages(this.displayedMessages);
-    }
 }

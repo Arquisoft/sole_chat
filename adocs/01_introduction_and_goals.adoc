@@ -23,8 +23,7 @@ Describes the relevant requirements and the driving forces that software archite
 |6 |Users must have a solid pod account
 |===
 
-A more complete list of the requirements can be found at: https://github.com/Arquisoft/dechat_en2b/blob/master/src/docs/13_requirement%20document.adoc
-
+A more complete list of the requirements can be found at: https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/13_requirement_document.adoc
 === Quality Goals
 
 |===

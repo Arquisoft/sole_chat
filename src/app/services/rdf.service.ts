@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {SolidSession} from '../models/solid-session.model';
+import { Injectable } from '@angular/core';
+import { SolidSession } from '../models/solid-session.model';
 // TODO: Remove any UI interaction from this service
-import {NgForm} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
+import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 declare let solid: any;
 declare let $rdf: any;
@@ -13,7 +13,6 @@ const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
 const CONT = $rdf.Namespace('http://rdfs.org/sioc/ns#'); //n
 const TERMS = $rdf.Namespace('http://purl.org/dc/terms/'); //terms
 const MEE = $rdf.Namespace('http://www.w3.org/ns/pim/meeting#'); //mee
-const ACL = $rdf.Namespace('http://www.w3.org/ns/auth/acl#'); //acl
 const N1 = $rdf.Namespace('http://purl.org/dc/elements/1.1/'); //n1
 const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); //flow
 const XML = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
@@ -53,12 +52,9 @@ export class RdfService {
         this.getSession();
     }
 
-    async generateBaseChat(friend) {
-        //Friend should be our friends webId
-        let friendId = 'https://' + friend + '.solid.community/profile/card#me';
-
-        const doc = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl');
-        let subject = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl#this');
+    async generateBaseChat(direction) {
+        const doc = $rdf.sym(direction);
+        let subject = $rdf.sym(direction + '#this');
 
         let predicate = $rdf.sym('https://www.w3.org/1999/02/22-rdf-syntax-ns#type');
         let object = $rdf.sym(MEE('Chat'));
@@ -73,16 +69,6 @@ export class RdfService {
 
         //Created
         predicate = $rdf.sym(N1('created'));
-        /*
-        var date = new Date();
-        var contentDate =
-        date.getUTCFullYear() + "/" +
-        ("0" + (date.getUTCMonth()+1)).slice(-2) + "/" +
-        ("0" + date.getUTCDate()).slice(-2) + " " +
-        ("0" + date.getUTCHours()).slice(-2) + ":" +
-        ("0" + date.getUTCMinutes()).slice(-2) + ":" +
-        ("0" + date.getUTCSeconds()).slice(-2);
-        */
         let date = new Date();
         let contentDate = $rdf.literal(date.toISOString(), undefined, XML('dateTime'));
         statement = $rdf.st(subject, predicate, contentDate, doc);
@@ -92,44 +78,12 @@ export class RdfService {
         predicate = $rdf.sym(N1('title'));
         statement = $rdf.st(subject, predicate, 'Chat', doc);
         this.store.add(statement);
-
-        //Permissions
-        let docACL = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl.acl');
-        let subjectACL = $rdf.sym(
-            this.session.webId.split('/profile')[0] + '/public/messages.ttl.acl#authorization'
-        );
-        //Is an authorization
-        predicate = $rdf.sym('https://www.w3.org/1999/02/22-rdf-syntax-ns#type');
-        object = $rdf.sym(ACL('Authorization'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //Agent
-        predicate = $rdf.sym(ACL('agent'));
-        object = $rdf.sym(friendId);
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //file
-        predicate = $rdf.sym(ACL('accessTo'));
-        object = doc;
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        //Permissions
-        predicate = $rdf.sym(ACL('mode'));
-        object = $rdf.sym(ACL('Read'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        object = $rdf.sym(ACL('Write'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
-        object = $rdf.sym(ACL('Control'));
-        statement = $rdf.st(subjectACL, predicate, object, docACL);
-        this.store.add(statement);
     }
 
-    async createMessage(message, makerId, messages) {
+    async createMessage(message, messages, direction) {
         let newId = 'Msg' + Date.now();
-        const doc = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl');
-        let subject = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl#' + newId);
+        const doc = $rdf.sym(direction);
+        let subject = $rdf.sym(direction + '#' + newId);
 
         //Generate statement for the date of creation
         let predicateDate = $rdf.sym(TERMS('created'));
@@ -137,41 +91,39 @@ export class RdfService {
         let formatted = date.toISOString();
         let contentDate = $rdf.literal(formatted, undefined, XML('dateTime'));
         let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
-        console.log(dateSt);
         this.store.add(dateSt);
 
         //Generate statement for the content of the message
         let predicateMessage = $rdf.sym(CONT('content'));
         let msgSt = $rdf.st(subject, predicateMessage, message, doc);
-        console.log(msgSt);
         this.store.add(msgSt);
 
         //Generate statement for the content of the message
         let predicateMaker = $rdf.sym(FOAF('maker'));
-        let makerSt = $rdf.sym(makerId); //Web id of the maker
+        let makerSt = $rdf.sym(this.session.webId); //Web id of the maker
         let makerStatement = $rdf.st(subject, predicateMaker, makerSt, doc);
-        console.log(makerStatement);
         this.store.add(makerStatement);
 
+        //Add to flow
+        subject = $rdf.sym(direction + '#this');
+        let predicate = $rdf.sym(FLOW('message'));
+        let object = $rdf.sym(direction + '#' + newId);
+        let statement = $rdf.st(subject, predicate, object, doc);
+        this.store.add(statement);
+
         //Add to local list
-        let messageObj = {id: 9, content: message};
+        let messageObj = { id: 9, content: message };
         messages.push(messageObj);
 
         //const store = this.store.any(subject, FOAF("maker"));
     }
 
-    async addMessage(body, message, maker, messages) {
-        let doc = $rdf.sym(this.session.webId.split('/profile')[0] + '/public/messages.ttl');
+    async addMessage(body, message, messages, direction) {
+        let doc = $rdf.sym(direction);
         $rdf.parse(body, this.store, doc.uri, 'text/turtle'); //add it to the store
-        this.createMessage(message, maker, messages);
+        this.createMessage(message, messages, direction);
         let content = $rdf.serialize(doc, this.store, doc.uri, 'text/turtle'); //file content
         return content; //return it in string format
-    }
-
-
-    async getLastMessage() {
-        //let subject = $rdf.sym(this.session.webId.split('/profile')[0] + "/public/messages.ttl#Msg234134");
-        console.log(this.store.any(CONT('content')));
     }
 
     getWebID = async () => {
@@ -198,10 +150,6 @@ export class RdfService {
      */
     getValueFromVcard = (node: string, webId?: string): string | any => {
         return this.getValueFromNamespace(node, VCARD, webId);
-    };
-
-    getArray = (node: string) => {
-        return this.getArrayFromNamespace(node, VCARD, this.session.webId);
     };
 
     /**
@@ -285,46 +233,6 @@ export class RdfService {
 
         //Add a link in #me to the email/phone number (by id)
         insertions.push($rdf.st(me, newPredicate, newSubject, why));
-    }
-
-    public addNewLinkedMessage(form): String {
-        const insertions = [];
-        const deletions = [];
-        const me = $rdf.sym(this.session.webId);
-        const doc = $rdf.NamedNode.fromValue(this.session.webId.split('#')[0]);
-        let field = 'message';
-        let predicate = VCARD(this.getFieldName(field));
-        let fieldValue = this.getFieldValue(form, field);
-        let why = doc;
-
-        let newId = field + ':' + Date.now();
-
-        //Get a new subject, using the new ID
-        let newSubject = $rdf.sym(this.session.webId.split('#')[0] + '#' + newId);
-
-        //Set new predicate
-        let newPredicate = $rdf.sym(VCARD('newMessage'));
-
-        //Add the new message to the pod
-        insertions.push($rdf.st(newSubject, predicate, fieldValue, why));
-
-        //Set the type (defaults to Home/Personal for now) and insert it into the pod as well
-        //Todo: Make this dynamic
-        let type = $rdf.literal('Message');
-        insertions.push($rdf.st(newSubject, VCARD('type'), type, why));
-
-        //Add a link in #me to the email/phone number (by id)
-        insertions.push($rdf.st(me, newPredicate, newSubject, why));
-
-        //Update existing values
-        if (insertions.length > 0 || deletions.length > 0) {
-            this.updateManager.update(deletions, insertions, (response, success, message) => {
-                if (!success) {
-                    this.toastr.error('Message: ' + message, 'An error has occurred');
-                }
-            });
-        }
-        return this.getMessage();
     }
 
     private getUriForField(field, me): string {
@@ -471,14 +379,6 @@ export class RdfService {
         }
     };
 
-    getMessage = () => {
-        let array = this.getArray('newMessage');
-        const linkedUri = array[array.length - 1];
-        if (linkedUri) {
-            return this.getValueFromVcard('message', linkedUri);
-        }
-    };
-
     getProfile = async () => {
         if (!this.session) {
             await this.getSession();
@@ -519,7 +419,7 @@ export class RdfService {
                 }
 
 
-                await list.push({username: fullName + '', img: image, id: webId});
+                await list.push({ username: fullName + '', img: image, id: webId });
 
             });
         } catch (error) {
@@ -540,22 +440,23 @@ export class RdfService {
         return '';
     }
 
-    private getArrayFromNamespace(node: string, namespace: any, webId?: string): string | any {
-        return this.store.each($rdf.sym(webId || this.session.webId), namespace(node));
-    }
-
     // Add a function as parameter to call it when finished or fixed the asyn.
-    public getMessages(messages) {
+    public getMessages(messages, direction) {
         var store = $rdf.graph();
         var timeout = 5000; // 5000 ms timeout
         var fetcher = new $rdf.Fetcher(store, timeout);
         //var url = 'https://emiliocortina.solid.community/public/Amiwis/index.ttl';
-        let url = this.session.webId.split('/profile')[0] + '/public/messages.ttl';
+        //let url = this.session.webId.split('/profile')[0] + '/public/messages.ttl';
+        //let url = 'https://emiliocortina.solid.community/public/Chat_anajunquera/messages.ttl';
+
+        let url = direction;
+        let id = this.session.webId;
 
         fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
             if (!ok) {
                 console.log('Oops, something happened and couldn\'t fetch data');
             } else {
+                console.log(url);
                 const subject = $rdf.sym(url + '#this');
                 const nameMessage = FLOW('message');
                 const messagesNodes = store.each(subject, nameMessage);
@@ -569,7 +470,9 @@ export class RdfService {
                     let time = dateFields[1];
                     let timeFormatted = time.split(':');
                     let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
-                    let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: false};
+                    let maker = store.any(messageNode, FOAF('maker')).value;
+                    let isMessageReceived = id == maker;
+                    let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived };
                     messages.push(message);
                 }
             }

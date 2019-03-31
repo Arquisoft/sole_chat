@@ -1,5 +1,7 @@
-.navbar-brand{
-  font-family: Circular;
+nav a.navbar-brand{
+  font-family: "Lato";
+  color: #777;
+  font-weight: 500;
 }
 
 .navbar-brand img {
