@@ -6,6 +6,8 @@ import { AuthService } from '../services/solid.auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { FileManagerService } from '../services/file-manager.service';
 import { windowWhen } from 'rxjs/operators';
+import { ChangeChatService } from '../services/change-chat.service';
+import { Subscription } from 'rxjs';
 
 //Methods defined in js files
 declare function createFolder(path, folder): any;
@@ -16,24 +18,29 @@ declare function createFolder(path, folder): any;
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  displayedMessages = [];
+  //displayedMessages = [];
   profile: SolidProfile;
   loadingProfile: Boolean;
-  friendsList:{name: string,webId:string}[]=[];
+  friendsList: { name: string, webId: string }[] = [];
   messageContent: String = '';
   messageReceived: String = '';
-  friend: String = 'javi';
+  user: any;
 
   @ViewChild('f') chatForm: NgForm;
 
-  constructor(private rdf: RdfService, private auth: AuthService, private fileManager: FileManagerService) {
-
+  constructor(private rdf: RdfService, private auth: AuthService, private fileManager: FileManagerService, private changeFriend: ChangeChatService) {
+ 
   }
 
   ngOnInit() {
+    this.changeFriend.user.subscribe(res => {
+      console.log(res);
+      this.user = res;
+      this.loadMessages();
+    });
+
     this.loadingProfile = true;
     this.loadProfile();
-    this.loadMessages();
   }
 
   async loadProfile() {
@@ -42,30 +49,26 @@ export class ChatComponent implements OnInit {
       const profile = await this.rdf.getProfile();
       if (profile) {
         this.profile = profile;
-        this.auth.saveOldUserData(profile);      
+        this.auth.saveOldUserData(profile);
       }
 
       this.loadingProfile = false;
-
-      if (sessionStorage.getItem('friend') != null){
-        this.friend = sessionStorage.getItem('friend');
-      } else {
-        this.friend = 'javi';
-      }
-
     } catch (error) {
       console.log(`Error: ${error}`);
     }
   }
 
   async onSubmit() {
-    var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
-    this.fileManager.sendMessage(message, "https://emiliocortina2.solid.community/profile/card#me", this.displayedMessages);
-    //this.fileManager.saveSomethingInThePOD(message, "https://anajunquera.inrupt.net/profile/card#me", this.displayedMessages);
+    if (this.user != null) {
+      var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
+      await this.fileManager.sendMessage(message, this.user.id, this.user.messages);
+    }
   }
 
   private async loadMessages() {
-    let friendID = "https://emiliocortina2.solid.community/profile/card#me";
-    await this.fileManager.getMessages(this.displayedMessages, friendID);
+    if (this.user != null) {
+      this.user.messages = [];
+      await this.fileManager.getMessages(this.user.messages, this.user.id);
+    }
   }
 }

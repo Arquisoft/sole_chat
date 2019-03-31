@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ChangeChatService } from '../services/change-chat.service';
 
 @Component({
   selector: 'app-useritem',
@@ -7,9 +8,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class UseritemComponent implements OnInit {
   @Input() user;
-  constructor() { }
+  constructor(private changeFriend: ChangeChatService) { }
 
   ngOnInit() {
   }
+
+  changeUser() {
+    this.changeFriend.user.next(this.user);
+  }
+
 
 }
