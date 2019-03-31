@@ -1,5 +1,5 @@
 // Protractor configuration file, see link for more information
-// https://github.com/angular/protractor/blob/master/lib/config.ts
+// https://github.com/angular/protractor/blob/master/lib/config.ts  
 
 exports.config = {
   allScriptsTimeout: 11000,
@@ -10,8 +10,8 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
-    framework: 'custom',
-    frameworkPath: require.resolve('protractor-cucumber-framework'),
+  framework: 'custom',
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
 
