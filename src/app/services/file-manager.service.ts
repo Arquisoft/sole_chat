@@ -11,7 +11,7 @@ export class FileManagerService {
     constructor(private rdf: RdfService) {
     }
 
-    async saveSomethingInThePOD(message, friendId, messages) {
+    async sendMessage(message, friendId, messages) {
         let direction;
         await fileManager.popupLogin().then((webId) => {
             console.log('Logged in as ' + webId);
@@ -45,7 +45,7 @@ export class FileManagerService {
         let direction;
 
         await fileManager.readFolder(myPublicFolder).then(folder => {
-            console.log('Read ${folder.name}, it has ${folder.files.length} files.');
+            console.log('Read ' + folder.name + ', it has ' + folder.files.length + ' files.');
             direction = myPublicFolder;
         }, (err) => {
             if (err.includes('Not Found')) {
@@ -64,7 +64,7 @@ export class FileManagerService {
         let direction;
 
         await fileManager.readFolder(friendsPublicFolder).then(folder => {
-            console.log(`Read ${folder.name}, it has ${folder.files.length} files.`);
+            console.log('Read ' + folder.name + ', it has ' + folder.files.length + ' files.');
             direction = friendsPublicFolder;
         }, (err) => {
             if (err.includes('Not Found')) {
@@ -117,7 +117,7 @@ export class FileManagerService {
         await fileManager.createFile(direction, baseContent).then(
             (fileCreated) => {
                 console.log(`Created file ${fileCreated}.`);
-                this.rdf.generateBaseChat(friendId, direction);
+                this.rdf.generateBaseChat(direction);
             });
 
         await fileManager.readFile(direction).then(
@@ -140,28 +140,17 @@ export class FileManagerService {
         );
     }
 
-    async retrieveLastMessage() {
-        var direction;
-
-        await fileManager.popupLogin().then((webId) => {
-            direction = webId.split('/profile')[0] + '/public/messages.ttl';
-        });
-
-        var lastMessage;
-        await fileManager.readFile(direction).then(
-            (body) => {
-                lastMessage = this.rdf.getLastMessage();
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
-
-        return lastMessage;
-    }
-
     async generateBaseTurtle() {
         let msg = "@prefix : <#>.\n";
         return msg;
+    }
+
+    async getMessages(displayedMessages, friendID) {
+        let direction = await this.getDirection(friendID) + "/messages.ttl";
+
+        await fileManager.popupLogin().then((webId) => {
+            console.log('Logged in as ' + webId);
+            this.rdf.getMessages(displayedMessages, direction);
+        });
     }
 }
