@@ -408,19 +408,37 @@ export class RdfService {
             await this.getSession();
         }
         try {
-            const friends = await this.store.each($rdf.sym(this.session.webId), FOAF('knows'));
+            var store = $rdf.graph();
+            var timeout = 5000; // 5000 ms timeout
+            var fetcher = new $rdf.Fetcher(store, timeout);
+    
+            let url = this.session.webId;
 
-            friends.forEach(async (friend) => {
-                await this.fetcher.load(friend);
-                const fullName = await this.store.any(friend, FOAF('name')).value;
-                const webId = friend.value;
-                let image = await this.getValueFromVcard('hasPhoto', webId);
-                if (image === '') {
-                    image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+            fetcher.nowOrWhenFetched(url, async function (ok, body, xhr) {
+                if (!ok) {
+                    console.log('Oops, something happened and couldn\'t fetch data');
+                } else {
+                    const subject = $rdf.sym(url);
+                    const friends = await store.each(subject, FOAF('knows'));
+                    await friends.forEach(async (friend) => {
+                        await fetcher.load(friend);
+                        const webId = friend.value;
+                        console.log(webId);
+                        const nameNode = await store.any(friend, FOAF('name'));     
+                        const fullName = nameNode.value;        
+                
+                        let imageNode = await store.any(friend, VCARD('hasPhoto'));
+                        let image;
+
+                        if (imageNode == undefined) {
+                            image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+                        } else {
+                            image = imageNode.value;
+                        }
+        
+                        await list.push({ username: fullName + '', img: image, id: webId , messages: []});   
+                    });
                 }
-
-                await list.push({ username: fullName + '', img: image, id: webId , messages: []});
-
             });
         } catch (error) {
             console.log(error);
