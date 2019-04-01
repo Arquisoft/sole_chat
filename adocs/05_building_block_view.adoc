@@ -17,6 +17,7 @@ Inside this POD we can login our own POD, there are models, services, there’s 
 
 TODO: describe the decomposition of the overall system using the white box template.
 
+=== Building Block View Diagram 
 image::images/BuildingBlockView.png[Building Block View]
 
 === Level 2
