@@ -139,7 +139,7 @@ export class FileManagerService {
     async createFolder(webId, folder, friendId) {
         await fileManager.createFolder(folder).then(success => {
             console.log(`Created folder ${folder}.`);
-        }, err => console.log(err) );
+        }, err => console.log(err));
 
         this.createACLChat(webId, folder, friendId);
     }
@@ -147,13 +147,13 @@ export class FileManagerService {
     async createACLChat(webId, folder, friendId) {
         let file = folder + '/.acl';
         let content = '@prefix acl: <http://www.w3.org/ns/auth/acl#>. \n' +
-        ':ControlReadWrite \n' +
-        'a acl:Authorization; \n' + 
-        'acl:agent <' + webId + '>; \n' + 
-        'acl:agent <' + friendId + '>; \n' + 
-        'acl:accessTo <' + folder + '/>; \n' + 
-        'acl:defaultForNew <./>; \n' + 
-        'acl:mode acl:Control, acl:Read, acl:Write.';
+            ':ControlReadWrite \n' +
+            'a acl:Authorization; \n' +
+            'acl:agent <' + webId + '>; \n' +
+            'acl:agent <' + friendId + '>; \n' +
+            'acl:accessTo <' + folder + '/>; \n' +
+            'acl:defaultForNew <./>; \n' +
+            'acl:mode acl:Control, acl:Read, acl:Write.';
 
         await fileManager.createFile(file, content).then(
             (fileCreated) => {
