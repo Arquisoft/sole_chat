@@ -89,8 +89,8 @@ export class RdfService {
         //Generate statement for the date of creation
         let predicateDate = $rdf.sym(TERMS('created'));
         let date = new Date();
-        let formatted = date.toISOString();
-        let contentDate = $rdf.literal(formatted, undefined, XML('dateTime'));
+        let dateFormatted = date.toISOString();
+        let contentDate = $rdf.literal(dateFormatted, undefined, XML('dateTime'));
         let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
         this.store.add(dateSt);
 
@@ -113,7 +113,12 @@ export class RdfService {
         this.store.add(statement);
 
         //Add to local list
-        let messageObj = { id: 9, content: message };
+        let dateFields = dateFormatted.split('T');
+        let ymd = dateFields[0];
+        let time = dateFields[1];
+        let timeFormatted = time.split(':');
+        let dateString = timeFormatted[0] + ':' + timeFormatted[1];
+        let messageObj = { id: 9, content: message, date: dateString, received: false };
         messages.push(messageObj);
 
         //const store = this.store.any(subject, FOAF("maker"));
