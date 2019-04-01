@@ -153,4 +153,14 @@ export class FileManagerService {
             this.rdf.getMessages(displayedMessages, direction);
         });
     }
+
+    async getFriends(users) {
+        await fileManager.popupLogin().then((webId) => {
+            console.log('Logged in as ' + webId);
+            this.rdf.getFriends(users);
+        });
+    }
+
 }
+
+

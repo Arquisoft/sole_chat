@@ -7,7 +7,8 @@
   <div class="currentChat text-right">
     <div class="currentChatHeader">
       <div class="currentChatImageWrapper">
-        <img src="../../assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
+        <img *ngIf="user == null" src="../../assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
+        <img *ngIf="user != null" [src]="user.img" alt="" class="currentChatImage">
       </div>
       <div class="currentChatHeaderTitle">
         <h3 *ngIf="user != null">{{ user.username }}</h3>
