@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FileManagerService } from '../services/file-manager.service';
 import { ChangeChatService } from '../services/change-chat.service';
+import { RdfService } from '../services/rdf.service';
 
 //Methods defined in js files
 declare function createFolder(path, folder): any;
@@ -16,7 +17,7 @@ export class ChatComponent implements OnInit {
 
   @ViewChild('f') chatForm: NgForm;
 
-  constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService) {
+  constructor(private rdf: RdfService, private fileManager: FileManagerService, private changeFriend: ChangeChatService) {
   }
 
   ngOnInit() {
@@ -30,7 +31,9 @@ export class ChatComponent implements OnInit {
   async onSubmit() {
     if (this.user != null) {
       var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
-      await this.fileManager.sendMessage(message, this.user.id, this.user.messages);
+      let direction = await this.fileManager.getDirection(this.user.id) + "/index.ttl";
+      await this.fileManager.sendMessage(message, direction, this.user.messages);
+      await this.rdf.updateManager.addDownstreamChangeListener(direction, this.loadMessages());
     }
   }
 
