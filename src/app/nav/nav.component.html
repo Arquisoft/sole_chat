@@ -11,13 +11,9 @@
 
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" routerLink="/">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
+               
                 <li class="nav-item">
-                    <a routerLink="/chat" class="nav-link">Chat</a>
+                    <a routerLink="/chat" class="nav-link">Chats</a>
                 </li>
 
                 <li class="nav-item">
@@ -25,7 +21,11 @@
                 </li>
 
                 <li class="nav-item">
-                    <div class="profile-menu" (click)="logout()">
+                    <a href="" class="nav-link" (click)="onSignOut()">Logout</a>
+                </li>
+
+                <li class="nav-item">
+                    <div class="profile-menu" routerLink="/">
                         <img [src]="profileImage"/>
                     </div>
                 </li>

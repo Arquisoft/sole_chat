@@ -71,8 +71,5 @@ export class CardComponent implements OnInit  {
     }
   }
 
-  // Example of logout functionality. Normally wouldn't be triggered by clicking the profile picture.
-  logout() {
-    this.auth.solidSignOut();
-  }
+ 
 }
