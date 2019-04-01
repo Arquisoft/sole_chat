@@ -1,13 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SolidProfile } from '../models/solid-profile.model';
 import { NgForm } from '@angular/forms';
-import { RdfService } from '../services/rdf.service';
-import { AuthService } from '../services/solid.auth.service';
-import { ActivatedRoute } from '@angular/router';
 import { FileManagerService } from '../services/file-manager.service';
-import { windowWhen } from 'rxjs/operators';
 import { ChangeChatService } from '../services/change-chat.service';
-import { Subscription } from 'rxjs';
 
 //Methods defined in js files
 declare function createFolder(path, folder): any;

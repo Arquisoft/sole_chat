@@ -11,13 +11,71 @@ export class FileManagerService {
     constructor(private rdf: RdfService) {
     }
 
+    async createRootFolder() {
+        await fileManager.popupLogin().then((webId) => {
+            console.log('Logged in as ' + webId);
+            this.createSoleFolder(webId);
+        });
+    }
+
+    async createSoleFolder(webId) {
+        let direction = webId.split("/profile")[0] + "/public/Sole";
+        await fileManager.readFile(direction).then((body) => {
+            console.log("Reading Sole folder");
+        },
+        async (err) => {
+            if (err.includes('Not Found')) {
+                await fileManager.createFolder(direction).then(success => {
+                    console.log(`Created folder ${direction}.`);
+                    this.createACLSole(direction, webId);
+                    this.createChatIndex(direction);
+                }, err => console.log(err) );
+            } else {
+                console.log(err);
+            }
+        });
+    }
+
+    async createACLSole(direction, webId) {
+        let file = direction + '/.acl';
+        let content = '@prefix acl: <http://www.w3.org/ns/auth/acl#>. \n' +
+        '@prefix foaf: <http://xmlns.com/foaf/0.1/>. \n' +
+        ':AppendRead \n' +
+        'a acl:Authorization; \n' + 
+        'acl:agentClass foaf:Agent;\n' + 
+        'acl:accessTo <' + direction + '/>; \n' + 
+        'acl:defaultForNew <./>; \n' + 
+        'acl:mode acl:Append, acl:Read. \n' +
+        ':ControlReadWrite \n' +
+        'a acl:Authorization; \n' + 
+        'acl:agent <' + webId + '>; \n' + 
+        'acl:accessTo <' + direction + '/>; \n' + 
+        'acl:defaultForNew <./>; \n' + 
+        'acl:mode acl:Control, acl:Read, acl:Write. \n';
+
+        await fileManager.createFile(file, content).then(
+            (fileCreated) => {
+                console.log(`Created file ${fileCreated}.`);
+        });
+    }
+
+    async createChatIndex(direction) {
+        let file = direction + '/chatsIndex.ttl';
+        let content = "@prefix : <#>.\n";
+
+        await fileManager.createFile(file, content).then(
+            (fileCreated) => {
+                console.log(`Created file ${fileCreated}.`);
+        });
+    }
+
     async sendMessage(message, friendId, messages) {
         let direction;
         await fileManager.popupLogin().then((webId) => {
             console.log('Logged in as ' + webId);
         });
 
-        direction = await this.getDirection(friendId) + "/messages.ttl";
+        direction = await this.getDirection(friendId) + "/index.ttl";
 
         await fileManager.readFile(direction).then(
             (body) => {
@@ -25,7 +83,7 @@ export class FileManagerService {
             },
             (err) => {
                 if (err.includes('Not Found')) {
-                    this.createFile(direction, message, friendId, messages);
+                    this.createFile(direction, message, messages);
                 } else {
                     console.log(err);
                 }
@@ -41,7 +99,7 @@ export class FileManagerService {
         });
 
         let myFriend = (friendId.split("://")[1]).split(".")[0];
-        let myPublicFolder = webId.split("/profile")[0] + "/public/Chat_" + myFriend;
+        let myPublicFolder = webId.split("/profile")[0] + "/public/Sole/Chat_" + myFriend;
         let direction;
 
         await fileManager.readFolder(myPublicFolder).then(folder => {
@@ -60,7 +118,7 @@ export class FileManagerService {
 
     async lookInFriendsFolder(webId, friendId, myPublicFolder) {
         let myName = (webId.split("://")[1]).split(".")[0];
-        let friendsPublicFolder = friendId.split("/profile")[0] + "/public/Chat_" + myName;
+        let friendsPublicFolder = friendId.split("/profile")[0] + "/public/Sole/Chat_" + myName;
         let direction;
 
         await fileManager.readFolder(friendsPublicFolder).then(folder => {
@@ -83,10 +141,10 @@ export class FileManagerService {
             console.log(`Created folder ${folder}.`);
         }, err => console.log(err) );
 
-        this.createACLfile(webId, folder, friendId);
+        this.createACLChat(webId, folder, friendId);
     }
 
-    async createACLfile(webId, folder, friendId) {
+    async createACLChat(webId, folder, friendId) {
         let file = folder + '/.acl';
         let content = '@prefix acl: <http://www.w3.org/ns/auth/acl#>. \n' +
         ':ControlReadWrite \n' +
@@ -100,12 +158,11 @@ export class FileManagerService {
         await fileManager.createFile(file, content).then(
             (fileCreated) => {
                 console.log(`Created file ${fileCreated}.`);
-            });
-
+        });
     }
 
-    async createFile(direction, message, friendId, messages) {
-        var baseContent = await this.generateBaseTurtle();
+    async createFile(direction, message, messages) {
+        var baseContent = "@prefix : <#>.\n";
         let permissions = direction + '.acl';
 
         await fileManager.createFile(permissions, '').then(
@@ -140,13 +197,8 @@ export class FileManagerService {
         );
     }
 
-    async generateBaseTurtle() {
-        let msg = "@prefix : <#>.\n";
-        return msg;
-    }
-
     async getMessages(displayedMessages, friendID) {
-        let direction = await this.getDirection(friendID) + "/messages.ttl";
+        let direction = await this.getDirection(friendID) + "/index.ttl";
 
         await fileManager.popupLogin().then((webId) => {
             console.log('Logged in as ' + webId);
