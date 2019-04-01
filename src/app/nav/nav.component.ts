@@ -10,6 +10,8 @@ export class NavComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    const profile=JSON.parse(localStorage.getItem('oldProfileData'));
+    this.profileImage=profile.image;
   }
 
 }
