@@ -4,7 +4,8 @@
     flex-direction: row;
     align-items: center;
     flex-wrap: nowrap;
-    margin: 2.5em 0;
+    margin: 1em 0;
+    cursor: pointer;
 }
 
 .chatName {
