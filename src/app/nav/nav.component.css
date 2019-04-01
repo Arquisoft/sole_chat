@@ -10,7 +10,10 @@ nav a.navbar-brand{
 }
 
 .profile-menu img {
+  object-fit: cover;
   height: 2.3em;
+  width: 2.3em;
+  border-radius: 50%;
   cursor: pointer;
 }
 

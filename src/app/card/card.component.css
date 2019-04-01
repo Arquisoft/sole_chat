@@ -38,7 +38,9 @@
 }
 
 .profile-fields-container .profile-image-container img {
+  object-fit: cover;
   height: 128px;
+  width: 128px;
   border-radius: 50%;
   margin-left: auto;
   margin-right:auto;
