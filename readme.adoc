@@ -51,7 +51,7 @@ There are also some
 To run tests execute:
 
 ----
-mvn test
+ng e2e
 ----
 
 == Site documentation
