@@ -23,7 +23,6 @@ export class ChatComponent implements OnInit {
   @ViewChild('f') chatForm: NgForm;
 
   constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService) {
- 
   }
 
   ngOnInit() {

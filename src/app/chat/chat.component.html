@@ -17,22 +17,12 @@
 
     <div *ngIf="user != null" class="currentChatContent">
 
-      <div *ngFor="let mess of user.messages">
-        <div *ngIf="!mess.received" class="message sent">
+        <div *ngFor="let mess of user.messages" class="message" [className]="mess.received ? 'message received' : 'message sent'">
           <div class="messageContent" name="message dummy">
             {{mess.content}}
           </div>
           <div class="messageTime">{{mess.date}}</div>
         </div>
-
-        <div *ngIf="mess.received" class="message received">
-            <div class="messageContent" name="message dummy">
-              {{mess.content}}
-            </div>
-            <div class="messageTime">{{mess.date}}</div>
-          </div>
-      </div>
-
     </div>
 
     <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">

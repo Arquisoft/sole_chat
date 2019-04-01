@@ -37,7 +37,7 @@
     "angular": "^1.7.8",
     "babel": "^6.23.0",
     "bootstrap": "^4.3.1",
-    "chai": "^4.2.0",
+    "chai": "latest",
     "core-js": "^2.5.4",
     "crypto-js": "^3.1.9-1",
     "gulp": "^4.0.0",
@@ -63,8 +63,7 @@
     "webcrypto": "^0.1.1",
     "whatwg-url": "^7.0.0",
     "zone.js": "^0.8.26",
-    "cucumber": "latest",
-    "chai": "latest"
+    "cucumber": "latest"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.6",

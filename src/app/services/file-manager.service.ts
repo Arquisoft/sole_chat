@@ -17,7 +17,7 @@ export class FileManagerService {
             console.log('Logged in as ' + webId);
         });
 
-        direction = await this.getDirection(friendId) + "/messages.ttl";
+        direction = await this.getDirection(friendId) + '/messages.ttl';
 
         await fileManager.readFile(direction).then(
             (body) => {
@@ -40,8 +40,8 @@ export class FileManagerService {
             webId = id;
         });
 
-        let myFriend = (friendId.split("://")[1]).split(".")[0];
-        let myPublicFolder = webId.split("/profile")[0] + "/public/Chat_" + myFriend;
+        let myFriend = (friendId.split('://')[1]).split('.')[0];
+        let myPublicFolder = webId.split('/profile')[0] + '/public/Chat_' + myFriend;
         let direction;
 
         await fileManager.readFolder(myPublicFolder).then(folder => {
@@ -59,8 +59,8 @@ export class FileManagerService {
     }
 
     async lookInFriendsFolder(webId, friendId, myPublicFolder) {
-        let myName = (webId.split("://")[1]).split(".")[0];
-        let friendsPublicFolder = friendId.split("/profile")[0] + "/public/Chat_" + myName;
+        let myName = (webId.split('://')[1]).split('.')[0];
+        let friendsPublicFolder = friendId.split('/profile')[0] + '/public/Chat_' + myName;
         let direction;
 
         await fileManager.readFolder(friendsPublicFolder).then(folder => {
@@ -81,7 +81,7 @@ export class FileManagerService {
     async createFolder(webId, folder, friendId) {
         await fileManager.createFolder(folder).then(success => {
             console.log(`Created folder ${folder}.`);
-        }, err => console.log(err) );
+        }, err => console.log(err));
 
         this.createACLfile(webId, folder, friendId);
     }
@@ -89,13 +89,13 @@ export class FileManagerService {
     async createACLfile(webId, folder, friendId) {
         let file = folder + '/.acl';
         let content = '@prefix acl: <http://www.w3.org/ns/auth/acl#>. \n' +
-        ':ControlReadWrite \n' +
-        'a acl:Authorization; \n' + 
-        'acl:agent <' + webId + '>; \n' + 
-        'acl:agent <' + friendId + '>; \n' + 
-        'acl:accessTo <' + folder + '/>; \n' + 
-        'acl:defaultForNew <./>; \n' + 
-        'acl:mode acl:Control, acl:Read, acl:Write.';
+            ':ControlReadWrite \n' +
+            'a acl:Authorization; \n' +
+            'acl:agent <' + webId + '>; \n' +
+            'acl:agent <' + friendId + '>; \n' +
+            'acl:accessTo <' + folder + '/>; \n' +
+            'acl:defaultForNew <./>; \n' +
+            'acl:mode acl:Control, acl:Read, acl:Write.';
 
         await fileManager.createFile(file, content).then(
             (fileCreated) => {
@@ -141,12 +141,12 @@ export class FileManagerService {
     }
 
     async generateBaseTurtle() {
-        let msg = "@prefix : <#>.\n";
+        let msg = '@prefix : <#>.\n';
         return msg;
     }
 
     async getMessages(displayedMessages, friendID) {
-        let direction = await this.getDirection(friendID) + "/messages.ttl";
+        let direction = await this.getDirection(friendID) + '/messages.ttl';
 
         await fileManager.popupLogin().then((webId) => {
             console.log('Logged in as ' + webId);
