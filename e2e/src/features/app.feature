@@ -1,9 +1,9 @@
 @loginTitle-feature
-Feature: Go to the home
+Feature: Go to the login
   Display the title
 
   @loginTitle-scenario
-  Scenario: Home Page
-    Given I am on the home page
+  Scenario: Login Page
+    Given I am on the login page
     When I do nothing
-    Then I should see the title 
+    Then I should see the login title

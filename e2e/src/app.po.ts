@@ -2,8 +2,11 @@
 import { browser, by, element } from 'protractor';
 
 export class AppPage {
-    navigateTo() {
+    navigateToLogin() {
         return browser.get('/login');
+    }
+    navigateToCard () {
+        return browser.get('/card');
     }
 
     getTitleText() {
