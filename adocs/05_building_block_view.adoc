@@ -19,6 +19,8 @@ Diagram:
 === Building Block View Diagram 
 image::images/BuildingBlockView.png[Building Block View]
 
+
+
 |===
 |Object |Description
 
