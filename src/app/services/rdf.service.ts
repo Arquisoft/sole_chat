@@ -172,6 +172,7 @@ export class RdfService {
         const insertions = [];
         const deletions = [];
         const fields = Object.keys(form.value);
+        console.log(fields);
         const oldProfileData = JSON.parse(localStorage.getItem('oldProfileData')) || {};
 
         // We need to split out into three code paths here:
