@@ -1,9 +1,14 @@
 <div class="bodyWrapper ">
   <div class="userListWrapper">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+      Start new chat
+    </button>
     <div class="recentChatsWrapper">
       <app-userlist></app-userlist>
     </div>
   </div>
+
   <div class="currentChat text-right">
     <div class="currentChatHeader">
       <div class="currentChatImageWrapper">
@@ -17,12 +22,13 @@
 
     <div *ngIf="user != null" class="currentChatContent">
 
-        <div *ngFor="let mess of user.messages" class="message" [className]="mess.received ? 'message received' : 'message sent'">
-          <div class="messageContent" name="message dummy">
-            {{mess.content}}
-          </div>
-          <div class="messageTime">{{mess.date}}</div>
+      <div *ngFor="let mess of user.messages" class="message"
+        [className]="mess.received ? 'message received' : 'message sent'">
+        <div class="messageContent" name="message dummy">
+          {{mess.content}}
         </div>
+        <div class="messageTime">{{mess.date}}</div>
+      </div>
     </div>
 
     <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
@@ -31,4 +37,29 @@
     </form>
   </div>
 
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>

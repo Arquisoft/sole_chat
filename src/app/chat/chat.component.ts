@@ -40,4 +40,8 @@ export class ChatComponent implements OnInit {
       await this.fileManager.getMessages(this.user.messages, this.user.id);
     }
   }
+
+  createNewChat(){
+    console.log("Creando chat");
+  }
 }
