@@ -1,14 +1,9 @@
 <div class="login-page">
 
   <!-- APP LOGO -->
-  <div style="margin-top:60px;">
-    <i class="fas fa-user-circle" style="font-size: 64px;"></i>
+  <div class="appLogo">
+    <img src="../../assets/images/soleMain.svg" alt="">
   </div>
-
-  <!-- APP NAME -->
-  <h1>
-    Sole Chat
-  </h1>
 
   <!-- LOGIN TITLE -->
   <h2>
@@ -18,6 +13,7 @@
   <!-- PROVIDER SELECTION -->
   <div style="margin-top: 10px;">
     <ng-select class="login-select"
+               id="login-select-menu"
                bindLabel="name"
                bindValue="loginUrl"
                placeholder="Select ID Provider"
@@ -32,7 +28,6 @@
           <img [src]="item.image" style="float: left; height: 32px; width: 32px; margin-top:-5px;" />
           <span style="float: left; margin-left: 10px;">{{ item.name }}</span>
           <div style="clear: both;"></div>
-          <div class="item-divider"></div>
         </div>
       </ng-template>
 
@@ -49,7 +44,7 @@
   <!-- REGISTRATION -->
   <div class="registration-link">
     <p style="margin: 12px;">Don't have a Solid Identity?</p>
-    <button class="wide-button" (click)="goToRegistration()">Register</button>
+    <button id="registerButton" class="wide-button" (click)="goToRegistration()">Register</button>
   </div>
 
   <!-- HELP -->
