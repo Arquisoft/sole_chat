@@ -582,7 +582,7 @@ ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li
 }
 
 .large-logo {
-	width: 250px;
+	height: 6.5em;
 	background: inherit;
 }
 
@@ -604,7 +604,7 @@ ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li
 }
 
 .top20 {
-	margin-top: 20px;
+	margin-top: 6em;
 }
 
 .bottom20 {

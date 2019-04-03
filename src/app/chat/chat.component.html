@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div *ngIf="user != null" class="currentChatContent">
+    <div *ngIf="user != null" class="currentChatContent" #scroller [scrollTop]="scroller.scrollHeight">
 
       <div *ngFor="let mess of user.messages" class="message"
         [className]="mess.received ? 'message received' : 'message sent'">

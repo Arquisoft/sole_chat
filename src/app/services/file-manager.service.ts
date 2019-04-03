@@ -69,17 +69,14 @@ export class FileManagerService {
         });
     }
 
-    async sendMessage(message, friendId, messages) {
-        let direction;
+    async sendMessage(message, direction, messages) {
         await fileManager.popupLogin().then((webId) => {
             console.log('Logged in as ' + webId);
         });
 
-        direction = await this.getDirection(friendId) + "/index.ttl";
-
         await fileManager.readFile(direction).then(
             (body) => {
-                this.updateFile(body, direction, message, messages);
+                this.updateFile(direction, message, messages);
             },
             (err) => {
                 if (err.includes('Not Found')) {
@@ -179,7 +176,7 @@ export class FileManagerService {
 
         await fileManager.readFile(direction).then(
             (body) => {
-                this.updateFile(body, direction, message, messages);
+                this.updateFile(direction, message, messages);
             },
             (err) => {
                 console.log(err);
@@ -187,14 +184,8 @@ export class FileManagerService {
         );
     }
 
-    async updateFile(body, direction, message, messages) {
-        let content = await this.rdf.addMessage(body, message, messages, direction);
-        await fileManager.updateFile(direction, content).then(
-            (fileUpdated) => {
-                console.log(`Updated file ${fileUpdated}.`);
-            },
-            (err) => console.log(err)
-        );
+    async updateFile(direction, message, messages) {
+        await this.rdf.createMessage(message, messages, direction);
     }
 
     async getMessages(displayedMessages, friendID) {

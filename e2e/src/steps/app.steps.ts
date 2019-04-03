@@ -12,12 +12,11 @@ Before(() => {
 
 
 // Go to the login - Display the title
-Given(/^I am on the login page$/,{ timeout: 5 * 1000 }, async () => {
+Given(/^I am on the login page$/, { timeout: 5 * 1000 }, async () => {
     await page.navigateToLogin();
 });
 When(/^I do nothing$/, () => {});
 Then(/^I should see the login title$/, async () => {
-    // expect(await page.getTitleText()).to.equal('Welcome to angular-cli-cucumber-demo!');
     expect(await page.getTitleText()).to.equal('SOLE CHAT');
 });
 
@@ -43,6 +42,11 @@ Then(/^I should see the card title$/, async () => {
 });
 
 
+// Click on login button - Display anything
+When(/^I click on register button$/, async () => {
+    await page.clickOnRegisterButton();
+});
+Then(/^It should happen anything$/, () => {});
 
 
 
