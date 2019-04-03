@@ -13,6 +13,7 @@ declare function createFolder(path, folder): any;
 })
 export class ChatComponent implements OnInit {
   user: any;
+  dummyusers;
 
   @ViewChild('f') chatForm: NgForm;
 
@@ -20,6 +21,7 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadUserList();
     this.changeFriend.user.subscribe(res => {
       console.log(res);
       this.user = res;
@@ -32,6 +34,11 @@ export class ChatComponent implements OnInit {
       var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
       await this.fileManager.sendMessage(message, this.user.id, this.user.messages);
     }
+  }
+
+  async loadUserList() {
+    this.dummyusers = [];
+    await this.fileManager.getFriends(this.dummyusers);
   }
 
   private async loadMessages() {
