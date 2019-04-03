@@ -3,11 +3,11 @@ import { SolidSession } from '../models/solid-session.model';
 // TODO: Remove any UI interaction from this service
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { UrlSegment } from '@angular/router';
 
 declare let solid: any;
-declare let $rdf: any;
 //import * as $rdf from 'rdflib'
+
+declare let $rdf: any;
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
@@ -82,6 +82,9 @@ export class RdfService {
     }
 
     async createMessage(message, messages, direction) {
+        let insertions = [];
+        let deletions = [];
+
         let newId = 'Msg' + Date.now();
         const doc = $rdf.sym(direction);
         let subject = $rdf.sym(direction + '#' + newId);
@@ -92,25 +95,25 @@ export class RdfService {
         let dateFormatted = date.toISOString();
         let contentDate = $rdf.literal(dateFormatted, undefined, XML('dateTime'));
         let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
-        this.store.add(dateSt);
+        insertions.push(dateSt);
 
         //Generate statement for the content of the message
         let predicateMessage = $rdf.sym(CONT('content'));
         let msgSt = $rdf.st(subject, predicateMessage, message, doc);
-        this.store.add(msgSt);
+        insertions.push(msgSt);
 
         //Generate statement for the content of the message
         let predicateMaker = $rdf.sym(FOAF('maker'));
         let makerSt = $rdf.sym(this.session.webId); //Web id of the maker
         let makerStatement = $rdf.st(subject, predicateMaker, makerSt, doc);
-        this.store.add(makerStatement);
+        insertions.push(makerStatement);
 
         //Add to flow
         subject = $rdf.sym(direction + '#this');
         let predicate = $rdf.sym(FLOW('message'));
         let object = $rdf.sym(direction + '#' + newId);
         let statement = $rdf.st(subject, predicate, object, doc);
-        this.store.add(statement);
+        insertions.push(statement);
 
         //Add to local list
         let dateFields = dateFormatted.split('T');
@@ -121,15 +124,9 @@ export class RdfService {
         let messageObj = { id: 9, content: message, date: dateString, received: false };
         messages.push(messageObj);
 
-        //const store = this.store.any(subject, FOAF("maker"));
-    }
-
-    async addMessage(body, message, messages, direction) {
-        let doc = $rdf.sym(direction);
-        $rdf.parse(body, this.store, doc.uri, 'text/turtle'); //add it to the store
-        this.createMessage(message, messages, direction);
-        let content = $rdf.serialize(doc, this.store, doc.uri, 'text/turtle'); //file content
-        return content; //return it in string format
+        this.updateManager.update(deletions, insertions, (uri, ok, message) => {
+            if (!ok) console.log("Error: " + message);
+        });
     }
 
     getWebID = async () => {
@@ -428,7 +425,6 @@ export class RdfService {
                     await friends.forEach(async (friend) => {
                         await fetcher.load(friend);
                         const webId = friend.value;
-                        console.log(webId);
                         const nameNode = await store.any(friend, FOAF('name'));     
                         const fullName = nameNode.value;        
                 
