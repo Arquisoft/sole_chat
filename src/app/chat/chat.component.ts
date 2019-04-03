@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FileManagerService } from '../services/file-manager.service';
 import { ChangeChatService } from '../services/change-chat.service';
 import { Subject } from 'rxjs';
 import { RdfService } from '../services/rdf.service';
 import { WindowService } from '@ng-select/ng-select/ng-select/window.service';
-import { addListener } from 'cluster';
 
 //Methods defined in js files
 declare function createFolder(path, folder): any;
@@ -20,6 +19,7 @@ export class ChatComponent implements OnInit {
   public messages: Subject<null>;
 
   @ViewChild('f') chatForm: NgForm;
+  @ViewChild('scroller') scrollPane: ElementRef;
 
   constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
     private rdf: RdfService) {
@@ -66,4 +66,5 @@ export class ChatComponent implements OnInit {
     this.user.messages = [];
     await this.fileManager.getMessages(this.user.messages, this.user.id);
   }
+
 }
