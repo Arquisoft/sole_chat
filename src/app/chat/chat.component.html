@@ -1,11 +1,12 @@
 <div class="bodyWrapper ">
   <div class="userListWrapper">
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newChatDialog">
-      Start new chat
-    </button>
+
     <div class="recentChatsWrapper">
       <app-userlist></app-userlist>
+      <button id="newChatButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+
+      </button>
     </div>
   </div>
 
@@ -33,7 +34,7 @@
 
     <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
       <input type="text" id="inputMessage" name="message" [(ngModel)]="message" />
-      <input type="submit" value="↩︎︎" id="submitMessage" />
+      <input type="submit" value="︎︎" id="submitMessage" />
     </form>
   </div>
 
