@@ -12,6 +12,7 @@ Cross-cutting concepts in aspect-oriented software development, are aspects of a
   -The message is a piece of text that is send from one user to other, the users must be friends in order to send the message to the other user.
 
 And this is how our messages work of our system:
+
 In each POD inside public folder, and inside sole folder there's a ChatIndex.ttl that contains a reference to active chats. 
 
 Then, in /chatEmi folder is where the elements of the chat with Emi user are. 
