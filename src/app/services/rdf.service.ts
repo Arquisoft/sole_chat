@@ -3,11 +3,11 @@ import { SolidSession } from '../models/solid-session.model';
 // TODO: Remove any UI interaction from this service
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { UrlSegment } from '@angular/router';
 
 declare let solid: any;
-declare let $rdf: any;
 //import * as $rdf from 'rdflib'
+
+declare let $rdf: any;
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
 const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
@@ -125,8 +125,7 @@ export class RdfService {
         messages.push(messageObj);
 
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
-            if (ok) console.log('Message added');
-            else console.log("Error: " + message);
+            if (!ok) console.log("Error: " + message);
         });
     }
 
@@ -426,7 +425,6 @@ export class RdfService {
                     await friends.forEach(async (friend) => {
                         await fetcher.load(friend);
                         const webId = friend.value;
-                        console.log(webId);
                         const nameNode = await store.any(friend, FOAF('name'));     
                         const fullName = nameNode.value;        
                 

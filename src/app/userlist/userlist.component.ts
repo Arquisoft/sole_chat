@@ -10,14 +10,12 @@ import { FileManagerService } from '../services/file-manager.service';
 export class UserlistComponent implements OnInit {
   
 	dummyusers;
-	constructor(private rdf: RdfService, private fileManager: FileManagerService) {
+	constructor(private fileManager: FileManagerService) {
 		
 	}
 
 	async ngOnInit() {
-		console.log("Empieza onInit");
 		await this.getUserList();
-		console.log("Acaba onInit");
 	}
 
 	async getUserList() {
