@@ -9,8 +9,8 @@ Mainly what Sole does is providing the users with a decentralized chat where the
 To build this application we used (as previously explained) the Solid Platform that uses PODs, external libraries and tests. Everything managed by the user. 
 
 Inside this POD we can login our own POD, there are models, services, there’s also the chat which is the one the user will access later. In the Tests part we are using mainly cucumber to make user stories tests.
--The services used are authentication, file manager and rdf. 
--The main advantage of the chat is that it is decentralized and this makes possible for you to keep your data safe, no one else could see what your messages are or who are you sending those messages to. 
+  -The services used are authentication, file manager and rdf. 
+  -The main advantage of the chat is that it is decentralized and this makes possible for you to keep your data safe, no one else could see what your messages are or who are you sending those messages to. 
 
 
 === Whitebox Overall System
@@ -18,6 +18,36 @@ Diagram:
 
 === Building Block View Diagram 
 image::images/BuildingBlockView.png[Building Block View]
+
+|===
+|Object |Description
+
+|Scope and context | Is the white box description of the overall system together with black box descriptions of all contained building blocks.
+
+|Level 2 | Zooms into some building blocks of the scope and context. Thus it contains the white box description of selected building blocks of scope and context, together with black box descriptions of their internal building blocks.
+
+|Level 3 | Zooms into selected building blocks of level 2.
+
+|Level 4 | Zooms into the selected building blocks of level 3.
+
+|Solid Platform | Represents the server in which all the Solid pods are stored.
+
+|Sole | Represents our application, that will be the place from which the users will be able to communicate with each other.
+
+|Pod | Represents the Pod of user X, this Pod is a Solid Pod and it will contain all the data from the given user.
+
+|User | Represents a user that is using the application.
+
+|Chat | Is the chat of our application and the way users are going to be able to communicate between them.
+
+|Tests | Represent the part of the code where we test the application by using Cucumber.
+
+|Services | Represent the services that we have in our code in order for the application to run.
+
+|Components | Represent the components that our application is integrated with (related to the code).
+
+|===
+
 
 === Level 2
 
@@ -30,7 +60,8 @@ In the next level we can see zoom in Chat and Tests
 
 Level 3 is integrated by tests and main structure of the chat. 
 In the tests, we basically only used Cucumber to test our application.
-The chat is composed by models, services and also the components in order for the application to work in the most efficient way. Relying on the Solid Platform to make the chat decentralized.
+The chat is composed by models, services and also the components in order for the application to work in the most efficient way. 
+Relying on the Solid Platform to make the chat decentralized.
 
 
 
@@ -38,6 +69,10 @@ The chat is composed by models, services and also the components in order for th
 
 Finally on the level 4 we have the services which are the Authentication, RDF, Changes and File Manager. We also make zoom in the Components that we have, nav, register, login, dashboard, card, chat and about.
 With all this, we can make our application run so that the chat will work and we will be able to send messages and files.
+
+
+
+
 
 
 
