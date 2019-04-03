@@ -16,4 +16,7 @@ export class AppPage {
     getDescriptionLogin() {
         return element(by.css('h2')).getText();
     }
+    clickOnRegisterButton() {
+        return element(by.id('registerButton')).click();
+    }
 }
