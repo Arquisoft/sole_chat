@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { RdfService } from '../services/rdf.service';
 import { WindowService } from '@ng-select/ng-select/ng-select/window.service';
 
+
 //Methods defined in js files
 declare function createFolder(path, folder): any;
 
@@ -76,5 +77,41 @@ export class ChatComponent implements OnInit {
 
   createNewChat(){
     console.log("Creando chat");
+    var checkBoxes=document.querySelectorAll("input[type=checkbox]:checked");
+    //console.log(this.dummyusers);
+    var selected=[];
+    for(var i=0;i<checkBoxes.length;i++){
+      var id=checkBoxes[i].id;
+      for(var j=0;j<this.dummyusers.length;j++){
+        if(this.dummyusers[j].id==id){
+          selected.push(this.dummyusers[j]);
+        }
+      }
+
+      //Reset checkboxes for the next time appear unchecked
+      (<HTMLInputElement><any>checkBoxes[i]).checked=false;
+
+    }
+
+
+
+    if(selected.length==0){
+      console.log("Cerrando, no se han seleccionado usuarios")
+    }
+    else if(selected.length<2){
+      this.createSingleUserChat(selected[0]);
+    }else{
+      this.createGroupChat(selected);
+    }
+    
+ 
+  }
+  createGroupChat(users): any {
+    console.log("Ana crea el grupo para:")
+    console.log(users);
+  }
+  createSingleUserChat(user): any {
+    console.log("Ana crea el chat para:")
+    console.log(user);
   }
 }
