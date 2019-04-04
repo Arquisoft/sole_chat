@@ -23,6 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { UseritemComponent } from './useritem/useritem.component';
 import { UserlistComponent } from './userlist/userlist.component';
+import { ChatitemComponent } from './chatitem/chatitem.component';
+import { ChatlistComponent } from './chatlist/chatlist.component';
 
 
 const routes: Routes = [
@@ -74,7 +76,7 @@ const routes: Routes = [
     CardComponent,
     RegisterComponent,
     ChatComponent,    
-    AboutComponent, NavComponent, UseritemComponent, UserlistComponent
+    AboutComponent, NavComponent, UseritemComponent, UserlistComponent, ChatitemComponent, ChatlistComponent
   ],
   imports: [
     BrowserModule,

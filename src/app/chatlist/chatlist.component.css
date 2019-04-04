@@ -1,0 +1,70 @@
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 0.3em;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    opacity: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgb(211, 211, 211);
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.048);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgb(211, 211, 211);;
+}
+
+
+h3 {
+    font-family: "Circular";
+    padding: 1em 2em 1em;
+    text-align: center;
+}
+
+
+.recentChatsWrapper h3{
+    margin: 1em 2em 1em;
+    text-align: center;
+}
+
+.recentChats {
+    padding: 0 2em 2em;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.newChatBanner{
+    display: flex;
+    flex-direction: column;
+    max-width: 12em;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+}
+
+.newChatBanner p{
+    text-align: center;
+    color: #888888;
+    font-family: Lato;
+    margin-top: 0.5em;
+}
+#newChatBannerImg {
+    width: 90%;
+}
+
+@media(max-width: 800px) {
+    .recentChats{
+        width: 100%;
+        border-radius: 0;
+        padding: 0 1em;
+    }
+}
