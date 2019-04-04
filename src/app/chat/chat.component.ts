@@ -60,7 +60,10 @@ export class ChatComponent implements OnInit {
     if (this.user != null) {
       var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
       let direction = await this.fileManager.getDirection(this.user.id) + "/index.ttl";
-      await this.fileManager.sendMessage(message, direction, this.user.messages);
+      await this.fileManager.sendMessage(message, direction, this.user.messages).then(e=>{
+         (<HTMLInputElement>document.getElementById('inputMessage')).value="";
+      });
+     
     }
   }
 

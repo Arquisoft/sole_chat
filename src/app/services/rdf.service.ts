@@ -476,7 +476,23 @@ export class RdfService {
                     let dateFields = date.split('T');
                     let ymd = dateFields[0];
                     let time = dateFields[1];
+
+
+
                     let timeFormatted = time.split(':');
+
+                    //Conver time
+
+                    var offset = new Date().getTimezoneOffset();
+                    var osHours = offset / 60;
+                    var osMin = offset - (osHours * 60);
+
+                    timeFormatted[0] -= osHours;
+                    timeFormatted[1] -= osMin;
+                    if(timeFormatted[1]<10){
+                        timeFormatted[1]="0"+timeFormatted[1];
+                    }
+
                     let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
                     let maker = store.any(messageNode, FOAF('maker')).value;
                     let isMessageReceived = (id != maker);
@@ -511,6 +527,18 @@ export class RdfService {
                     let ymd = dateFields[0];
                     let time = dateFields[1];
                     let timeFormatted = time.split(':');
+                    //Conver time
+
+                    var offset = new Date().getTimezoneOffset();
+                    var osHours = offset / 60;
+                    var osMin = offset - (osHours * 60);
+
+                    timeFormatted[0] -= osHours;
+                    timeFormatted[1] -= osMin;
+                    if(timeFormatted[1]<10){
+                        timeFormatted[1]="0"+timeFormatted[1];
+                    }
+
                     let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
                     let maker = store.any(messageNode, FOAF('maker')).value;
                     let isMessageReceived = (id != maker);
