@@ -51,6 +51,8 @@ h3 {
     margin-right: 2em;
     margin-bottom: 2em;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -158,15 +160,27 @@ h3 {
     border: none;
     height:  2em;
     width: 2em;
-    border-radius: 50%;
-    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
-    background-color: #FDC02F;
-    color: white;
-    font-weight: bolder;
+    background: none;
+    margin: 0;
+    align-self: flex-end;
+    border: none;
+    background-image: url(/assets/images/sendMessage.svg);
+    background-repeat: no-repeat;
 }
 
 #friendSelector{
     width: 100px;
+}
+
+#newChatButton {
+    width: 2.2em;
+    height: 2.2em;
+    background: none;
+    margin: 0 2em 1.5em;
+    align-self: flex-end;
+    border: none;
+    background-image: url(/assets/images/newChat.svg);
+    background-repeat: no-repeat;
 }
 
  @media(max-width: 800px) {

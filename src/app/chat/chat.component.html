@@ -1,9 +1,15 @@
 <div class="bodyWrapper ">
   <div class="userListWrapper">
+    <!-- Button trigger modal -->
+    
     <div class="recentChatsWrapper">
       <app-chatlist></app-chatlist>
+      <button id="newChatButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#newChatDialog">
+
+        </button>
     </div>
   </div>
+
   <div class="currentChat text-right">
     <div class="currentChatHeader">
       <div class="currentChatImageWrapper">
@@ -17,18 +23,50 @@
 
     <div *ngIf="user != null" class="currentChatContent" #scroller [scrollTop]="scroller.scrollHeight">
 
-        <div *ngFor="let mess of user.messages" class="message" [className]="mess.received ? 'message received' : 'message sent'">
-          <div class="messageContent" name="message dummy">
-            {{mess.content}}
-          </div>
-          <div class="messageTime">{{mess.date}}</div>
+      <div *ngFor="let mess of user.messages" class="message"
+        [className]="mess.received ? 'message received' : 'message sent'">
+        <div class="messageContent" name="message dummy">
+          {{mess.content}}
         </div>
+        <div class="messageTime">{{mess.date}}</div>
+      </div>
     </div>
 
     <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
       <input type="text" id="inputMessage" name="message" [(ngModel)]="message" />
-      <input type="submit" value="↩︎︎" id="submitMessage" />
+      <input type="submit" value="︎︎" id="submitMessage" />
     </form>
   </div>
 
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="newChatDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Start new chat</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="custom-control custom-checkbox" *ngFor="let user of dummyusers">
+
+              <input type="checkbox" class="custom-control-input new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
+              <label class="custom-control-label" for={{user.id}}>{{user.username}}</label>
+              <img [src]="user.img" alt={{user.id}} width="50px">
+  
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="createNewChat()" data-dismiss="modal">Create chat</button>
+      </div>
+    </div>
+  </div>
 </div>
