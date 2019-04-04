@@ -1,0 +1,51 @@
+
+.chatCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin: 1em 0;
+    cursor: pointer;
+}
+
+.chatName {
+    font-family: "Circular";
+}
+
+.chatImage {
+    margin-right: 1em;
+}
+
+.chatImage img {
+    object-fit: cover;
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+}
+
+.chatPreview {
+    max-width: 12em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* @media(max-width: 800px) {
+    html {
+        overflow-y: scroll;
+    }
+
+    .bodyWrapper {
+        flex-direction: column;
+        margin: 5em 2em;
+    }
+
+    .recentChats {
+        padding: 0 2em 2em;
+        height: 7em;
+        overflow-x: scroll;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: row;
+    }
+} */
