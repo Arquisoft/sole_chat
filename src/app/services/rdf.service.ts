@@ -459,6 +459,7 @@ export class RdfService {
 
         let url = direction;
         let id = this.session.webId;
+        let rdfServ = this;
 
         fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
             if (!ok) {
@@ -470,38 +471,13 @@ export class RdfService {
 
                 for (let i = 0; i < messagesNodes.length; i++) {
                     let messageNode = messagesNodes[i];
-                    let nodeContent = store.any(messageNode, CONT('content'));
-                    let contentText = nodeContent.value;
-                    let date = store.any(messageNode, TERMS('created')).value;
-                    let dateFields = date.split('T');
-                    let ymd = dateFields[0];
-                    let time = dateFields[1];
-
-
-
-                    let timeFormatted = time.split(':');
-
-                    //Conver time
-
-                    var offset = new Date().getTimezoneOffset();
-                    var osHours = offset / 60;
-                    var osMin = offset - (osHours * 60);
-
-                    timeFormatted[0] -= osHours;
-                    timeFormatted[1] -= osMin;
-                    if(timeFormatted[1]<10){
-                        timeFormatted[1]="0"+timeFormatted[1];
-                    }
-
-                    let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
-                    let maker = store.any(messageNode, FOAF('maker')).value;
-                    let isMessageReceived = (id != maker);
-                    let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived };
+                    let message=rdfServ.parseMessageNode(messageNode,store,id);
                     messages.push(message);
                 }
             }
         });
     }
+ 
 
     public getLastMessage(messages, direction) {
         var store = $rdf.graph();
@@ -510,6 +486,7 @@ export class RdfService {
 
         let url = direction;
         let id = this.session.webId;
+        let rdfServ=this;
 
         fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
             if (!ok) {
@@ -520,33 +497,29 @@ export class RdfService {
                 const messagesNodes = store.each(subject, nameMessage);
                 if (messagesNodes.length >= 1) {
                     let messageNode = messagesNodes[messagesNodes.length - 1];
-                    let nodeContent = store.any(messageNode, CONT('content'));
-                    let contentText = nodeContent.value;
-                    let date = store.any(messageNode, TERMS('created')).value;
-                    let dateFields = date.split('T');
-                    let ymd = dateFields[0];
-                    let time = dateFields[1];
-                    let timeFormatted = time.split(':');
-                    //Conver time
-
-                    var offset = new Date().getTimezoneOffset();
-                    var osHours = offset / 60;
-                    var osMin = offset - (osHours * 60);
-
-                    timeFormatted[0] -= osHours;
-                    timeFormatted[1] -= osMin;
-                    if(timeFormatted[1]<10){
-                        timeFormatted[1]="0"+timeFormatted[1];
-                    }
-
-                    let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
-                    let maker = store.any(messageNode, FOAF('maker')).value;
-                    let isMessageReceived = (id != maker);
-                    let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived };
+                   let message=rdfServ.parseMessageNode(messageNode,store,id);
                     messages.push(message);
                 }
             }
         });
     }
+
+    public parseMessageNode(messageNode,store,id){
+        
+        let nodeContent = store.any(messageNode, CONT('content'));
+        let contentText = nodeContent.value;
+        let dateUTC = store.any(messageNode, TERMS('created')).value;
+
+        let time=new Date(dateUTC).toLocaleTimeString();
+      
+        let timeFormatted = time.split(':');
+
+        let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
+        let maker = store.any(messageNode, FOAF('maker')).value;
+        let isMessageReceived = (id != maker);
+        let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived };
+
+        return message;
+    } 
 
 }
