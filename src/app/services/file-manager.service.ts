@@ -192,15 +192,21 @@ export class FileManagerService {
         let direction = await this.getDirection(friendID) + "/index.ttl";
 
         await fileManager.popupLogin().then((webId) => {
-            console.log('Logged in as ' + webId);
             this.rdf.getMessages(displayedMessages, direction);
         });
     }
 
     async getFriends(users) {
         await fileManager.popupLogin().then((webId) => {
-            console.log('Logged in as ' + webId);
             this.rdf.getFriends(users);
+        });
+    }
+
+    async getLastMessage(displayedMessages, friendID) {
+        let direction = await this.getDirection(friendID) + "/index.ttl";
+
+        await fileManager.popupLogin().then((webId) => {
+            this.rdf.getLastMessage(displayedMessages, direction);
         });
     }
 

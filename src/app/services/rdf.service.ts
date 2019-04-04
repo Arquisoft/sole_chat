@@ -115,15 +115,6 @@ export class RdfService {
         let statement = $rdf.st(subject, predicate, object, doc);
         insertions.push(statement);
 
-        //Add to local list
-        let dateFields = dateFormatted.split('T');
-        let ymd = dateFields[0];
-        let time = dateFields[1];
-        let timeFormatted = time.split(':');
-        let dateString = timeFormatted[0] + ':' + timeFormatted[1];
-        let messageObj = { id: 9, content: message, date: dateString, received: false };
-        messages.push(messageObj);
-
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) console.log("Error: " + message);
         });
@@ -413,7 +404,7 @@ export class RdfService {
             var store = $rdf.graph();
             var timeout = 5000; // 5000 ms timeout
             var fetcher = new $rdf.Fetcher(store, timeout);
-    
+
             let url = this.session.webId;
 
             fetcher.nowOrWhenFetched(url, async function (ok, body, xhr) {
@@ -425,9 +416,9 @@ export class RdfService {
                     await friends.forEach(async (friend) => {
                         await fetcher.load(friend);
                         const webId = friend.value;
-                        const nameNode = await store.any(friend, FOAF('name'));     
-                        const fullName = nameNode.value;        
-                
+                        const nameNode = await store.any(friend, FOAF('name'));
+                        const fullName = nameNode.value;
+
                         let imageNode = await store.any(friend, VCARD('hasPhoto'));
                         let image;
 
@@ -436,8 +427,8 @@ export class RdfService {
                         } else {
                             image = imageNode.value;
                         }
-        
-                        await list.push({ username: fullName + '', img: image, id: webId , messages: []});   
+
+                        await list.push({ username: fullName + '', img: image, id: webId, messages: [] });
                     });
                 }
             });
@@ -476,6 +467,7 @@ export class RdfService {
                 const subject = $rdf.sym(url + '#this');
                 const nameMessage = FLOW('message');
                 const messagesNodes = store.each(subject, nameMessage);
+
                 for (let i = 0; i < messagesNodes.length; i++) {
                     let messageNode = messagesNodes[i];
                     let nodeContent = store.any(messageNode, CONT('content'));
@@ -493,6 +485,40 @@ export class RdfService {
                 }
             }
         });
-
     }
+
+    public getLastMessage(messages, direction) {
+        var store = $rdf.graph();
+        var timeout = 5000; // 5000 ms timeout
+        var fetcher = new $rdf.Fetcher(store, timeout);
+
+        let url = direction;
+        let id = this.session.webId;
+
+        fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
+            if (!ok) {
+                console.log('Oops, something happened and couldn\'t fetch data');
+            } else {
+                const subject = $rdf.sym(url + '#this');
+                const nameMessage = FLOW('message');
+                const messagesNodes = store.each(subject, nameMessage);
+                if (messagesNodes.length >= 1) {
+                    let messageNode = messagesNodes[messagesNodes.length - 1];
+                    let nodeContent = store.any(messageNode, CONT('content'));
+                    let contentText = nodeContent.value;
+                    let date = store.any(messageNode, TERMS('created')).value;
+                    let dateFields = date.split('T');
+                    let ymd = dateFields[0];
+                    let time = dateFields[1];
+                    let timeFormatted = time.split(':');
+                    let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
+                    let maker = store.any(messageNode, FOAF('maker')).value;
+                    let isMessageReceived = (id != maker);
+                    let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived };
+                    messages.push(message);
+                }
+            }
+        });
+    }
+
 }

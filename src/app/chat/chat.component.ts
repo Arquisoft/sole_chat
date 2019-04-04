@@ -51,8 +51,7 @@ export class ChatComponent implements OnInit {
 
     socket.onmessage = function (msg) {
       if (msg.data && msg.data.slice(0, 3) === 'pub') {
-        user.messages = [];
-        fm.getMessages(user.messages, user.id);
+        fm.getLastMessage(user.messages, user.id);
       }
     };
   }
