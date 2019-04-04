@@ -42,6 +42,25 @@ h3 {
     flex-grow: 1;
 }
 
+.newChatBanner{
+    display: flex;
+    flex-direction: column;
+    max-width: 12em;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+}
+
+.newChatBanner p{
+    text-align: center;
+    color: #888888;
+    font-family: Lato;
+    margin-top: 0.5em;
+}
+#newChatBannerImg {
+    width: 90%;
+}
+
  @media(max-width: 800px) {
      .recentChats{
          width: 100%;
