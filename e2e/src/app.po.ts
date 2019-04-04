@@ -9,8 +9,7 @@ export class AppPage {
         return browser.get('/card');
     }
 
-    getTitleText() {
-       // return element(by.css('app-root h1')).getText();
+    getCardTitleText() {
         return element(by.css('h1')).getText();
     }
     getDescriptionLogin() {
