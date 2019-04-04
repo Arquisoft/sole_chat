@@ -33,7 +33,7 @@
     </div>
 
     <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
-      <input type="text" id="inputMessage" name="message" [(ngModel)]="message" />
+      <input type="text" id="inputMessage" name="message" [(ngModel)]="message"  autocomplete="off"/>
       <input type="submit" value="︎︎" id="submitMessage" />
     </form>
   </div>
