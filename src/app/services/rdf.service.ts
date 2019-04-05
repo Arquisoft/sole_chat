@@ -1,21 +1,21 @@
-import { Injectable } from '@angular/core';
-import { SolidSession } from '../models/solid-session.model';
+import {Injectable} from '@angular/core';
+import {SolidSession} from '../models/solid-session.model';
 // TODO: Remove any UI interaction from this service
-import { NgForm } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import {NgForm} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
 
 declare let solid: any;
-//import * as $rdf from 'rdflib'
+// import * as $rdf from 'rdflib'
 
 declare let $rdf: any;
 
 const VCARD = $rdf.Namespace('http://www.w3.org/2006/vcard/ns#');
-const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); //n0
-const CONT = $rdf.Namespace('http://rdfs.org/sioc/ns#'); //n
-const TERMS = $rdf.Namespace('http://purl.org/dc/terms/'); //terms
-const MEE = $rdf.Namespace('http://www.w3.org/ns/pim/meeting#'); //mee
-const N1 = $rdf.Namespace('http://purl.org/dc/elements/1.1/'); //n1
-const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); //flow
+const FOAF = $rdf.Namespace('http://xmlns.com/foaf/0.1/'); // n0
+const CONT = $rdf.Namespace('http://rdfs.org/sioc/ns#'); // n
+const TERMS = $rdf.Namespace('http://purl.org/dc/terms/'); // terms
+const MEE = $rdf.Namespace('http://www.w3.org/ns/pim/meeting#'); // mee
+const N1 = $rdf.Namespace('http://purl.org/dc/elements/1.1/'); // n1
+const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); // flow
 const XML = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
 
 /**
@@ -89,7 +89,7 @@ export class RdfService {
         const doc = $rdf.sym(direction);
         let subject = $rdf.sym(direction + '#' + newId);
 
-        //Generate statement for the date of creation
+        // Generate statement for the date of creation
         let predicateDate = $rdf.sym(TERMS('created'));
         let date = new Date();
         let dateFormatted = date.toISOString();
@@ -97,18 +97,18 @@ export class RdfService {
         let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
         insertions.push(dateSt);
 
-        //Generate statement for the content of the message
+        // Generate statement for the content of the message
         let predicateMessage = $rdf.sym(CONT('content'));
         let msgSt = $rdf.st(subject, predicateMessage, message, doc);
         insertions.push(msgSt);
 
-        //Generate statement for the content of the message
+        // Generate statement for the content of the message
         let predicateMaker = $rdf.sym(FOAF('maker'));
         let makerSt = $rdf.sym(this.session.webId); //Web id of the maker
         let makerStatement = $rdf.st(subject, predicateMaker, makerSt, doc);
         insertions.push(makerStatement);
 
-        //Add to flow
+        // Add to flow
         subject = $rdf.sym(direction + '#this');
         let predicate = $rdf.sym(FLOW('message'));
         let object = $rdf.sym(direction + '#' + newId);
@@ -116,7 +116,28 @@ export class RdfService {
         insertions.push(statement);
 
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
-            if (!ok) console.log("Error: " + message);
+            if (!ok) {
+                console.log('Error: ' + message);
+            }
+        });
+    }
+
+    async updateChatIndex(chat, webId) {
+        const insertions = [];
+        const deletions = [];
+
+        const chatIndex = webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl';
+        const doc = $rdf.sym(chatIndex);
+        const subject = $rdf.sym(webId);
+        const predicateParticipates =  $rdf.sym(FLOW('participation'));
+        const object = $rdf.sym(chat);
+        const statement = $rdf.st(subject, predicateParticipates, object, doc);
+        insertions.push(statement);
+
+        this.updateManager.update(deletions, insertions, (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
+            }
         });
     }
 
@@ -321,7 +342,7 @@ export class RdfService {
         const doc = $rdf.NamedNode.fromValue(this.session.webId.split('#')[0]);
         const data = this.transformDataForm(form, me, doc);
 
-        //Update existing values
+        // Update existing values
         if (data.insertions.length > 0 || data.deletions.length > 0) {
             this.updateManager.update(data.deletions, data.insertions, (response, success, message) => {
                 if (success) {
@@ -353,7 +374,7 @@ export class RdfService {
         return {};
     };
 
-    //Function to get email. This returns only the first email, which is temporary
+    // Function to get email. This returns only the first email, which is temporary
     getEmail = () => {
         const linkedUri = this.getValueFromVcard('hasEmail');
 
@@ -364,7 +385,7 @@ export class RdfService {
         return '';
     };
 
-    //Function to get phone number. This returns only the first phone number, which is temporary. It also ignores the type.
+    // Function to get phone number. This returns only the first phone number, which is temporary. It also ignores the type.
     getPhone = () => {
         const linkedUri = this.getValueFromVcard('hasTelephone');
 
@@ -395,7 +416,7 @@ export class RdfService {
         }
     };
 
-    //Returns a list with the user friends
+    // Returns a list with the user friends
     getFriends = async (list: { username: string; img: string; id: string, messages: [] }[]) => {
         if (!this.session) {
             await this.getSession();
@@ -428,7 +449,7 @@ export class RdfService {
                             image = imageNode.value;
                         }
 
-                        await list.push({ username: fullName + '', img: image, id: webId, messages: [] });
+                        await list.push({username: fullName + '', img: image, id: webId, messages: []});
                     });
                 }
             });
@@ -471,13 +492,13 @@ export class RdfService {
 
                 for (let i = 0; i < messagesNodes.length; i++) {
                     let messageNode = messagesNodes[i];
-                    let message=rdfServ.parseMessageNode(messageNode,store,id);
+                    let message = rdfServ.parseMessageNode(messageNode, store, id);
                     messages.push(message);
                 }
             }
         });
     }
- 
+
 
     public getLastMessage(messages, direction) {
         var store = $rdf.graph();
@@ -486,7 +507,7 @@ export class RdfService {
 
         let url = direction;
         let id = this.session.webId;
-        let rdfServ=this;
+        let rdfServ = this;
 
         fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
             if (!ok) {
@@ -497,29 +518,28 @@ export class RdfService {
                 const messagesNodes = store.each(subject, nameMessage);
                 if (messagesNodes.length >= 1) {
                     let messageNode = messagesNodes[messagesNodes.length - 1];
-                   let message=rdfServ.parseMessageNode(messageNode,store,id);
+                    let message = rdfServ.parseMessageNode(messageNode, store, id);
                     messages.push(message);
                 }
             }
         });
     }
 
-    public parseMessageNode(messageNode,store,id){
-        
+    public parseMessageNode(messageNode, store, id) {
         let nodeContent = store.any(messageNode, CONT('content'));
         let contentText = nodeContent.value;
         let dateUTC = store.any(messageNode, TERMS('created')).value;
 
-        let time=new Date(dateUTC).toLocaleTimeString();
-      
+        let time = new Date(dateUTC).toLocaleTimeString();
+
         let timeFormatted = time.split(':');
 
         let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
         let maker = store.any(messageNode, FOAF('maker')).value;
         let isMessageReceived = (id != maker);
-        let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived };
+        let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived};
 
         return message;
-    } 
+    }
 
 }
