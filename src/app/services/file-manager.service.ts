@@ -70,7 +70,8 @@ export class FileManagerService {
     }
 
     async addChatToIndex(chat, webId) {
-        await fileManager.readFile(webId).then(
+        const chatIndex = webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl';
+        await fileManager.readFile(chatIndex).then(
             (body) => {
                 this.updateChatIndex(chat, webId);
             },
@@ -85,7 +86,16 @@ export class FileManagerService {
     }
 
     async updateChatIndex(chat, webId) {
-        await this.rdf.updateChatIndex(chat, webId);
+        await fileManager.readFile(chat).then(
+            (body) => {},
+            (err) => {
+                if (err.includes('Not Found')) {
+                    this.rdf.updateChatIndex(chat, webId);
+                } else {
+                    console.log(err);
+                }
+            }
+        );
     }
 
     async sendMessage(message, direction, messages) {
@@ -235,6 +245,7 @@ export class FileManagerService {
         await fileManager.popupLogin().then((id) => {
             const direction = id.split('/profile')[0] + '/public/Sole/Chat_' + name;
             this.createFolder(id, direction, users);
+            this.addChatToIndex(direction, id);
             for (let i = 0; i < users.length; i++) {
                 this.addChatToIndex(direction + '/index.ttl', users[i].id);
             }

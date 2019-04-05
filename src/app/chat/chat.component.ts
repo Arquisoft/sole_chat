@@ -6,7 +6,7 @@ import {Subject} from 'rxjs';
 import {RdfService} from '../services/rdf.service';
 import {WindowService} from '@ng-select/ng-select/ng-select/window.service';
 
-declare var $:any;
+declare var $: any;
 
 
 //Methods defined in js files
@@ -20,12 +20,12 @@ declare function createFolder(path, folder): any;
 export class ChatComponent implements OnInit {
     user: any;
     public messages: Subject<null>;
-  newGroupName:String;
+    newGroupName: String;
     userListPopup;
 
     @ViewChild('f') chatForm: NgForm;
     @ViewChild('scroller') scrollPane: ElementRef;
-  tempSelected;
+    tempSelected;
 
     constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
                 private rdf: RdfService) {
@@ -103,9 +103,12 @@ export class ChatComponent implements OnInit {
         if (selected.length == 0) {
             console.log('Cerrando, no se han seleccionado usuarios');
         } else if (selected.length < 2) {
+            $('#groupNameDialog').modal('hide');
+
             this.createSingleUserChat(selected);
         } else {
-            this.createGroupChat(selected, 'Nuevo Grupo');
+            $('#groupNameDialog').modal('show');
+            this.tempSelected = selected;
         }
 
 
@@ -115,30 +118,21 @@ export class ChatComponent implements OnInit {
         console.log('Ana crea el grupo para:');
         console.log(users);
         this.fileManager.createChat(users, name);
+
     }
-    else if(selected.length<2){
-      $('#groupNameDialog').modal('hide');
-      
-      this.createSingleUserChat(selected[0]);
-    }else{
-      $("#groupNameDialog").modal('show');
-      this.tempSelected=selected;
-      //this.createGroupChat(selected);
+
 
     createSingleUserChat(users): any {
-        console.log('Ana crea el chat para:');
-        console.log(users);
-        this.fileManager.createChat(users, users[0].username);
+        let name = users[0].id.split('://')[1].split('.')[0];
+        this.fileManager.createChat(users, name);
     }
-    
- 
-  }
 
-  addGroupName(){
-    var field=$("#groupNameField");
+    addGroupName() {
+        var field = $('#groupNameField');
 
-    var name=field[0].value;
-    field.value="";
-    this.createGroupChat(this.tempSelected,name);
-  }
+        var name = field[0].value;
+        field.value = '';
+        this.createGroupChat(this.tempSelected, name);
+    }
 }
+

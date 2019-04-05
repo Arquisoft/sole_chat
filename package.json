@@ -37,6 +37,7 @@
     "angular": "^1.7.8",
     "babel": "^6.23.0",
     "bootstrap": "^4.3.1",
+    "caniuse-lite": "^1.0.30000957",
     "chai": "latest",
     "core-js": "^2.5.4",
     "crypto-js": "^3.1.9-1",
