@@ -55,12 +55,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="custom-control custom-checkbox" *ngFor="let user of userListPopup">
-
-          <input type="checkbox" class="custom-control-input new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
-          <label class="custom-control-label" for={{user.id}}>{{user.username}}</label>
+        <div class="chooserItem" *ngFor="let user of userListPopup">
+          <input type="checkbox" class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
           <img [src]="user.img" alt={{user.id}} width="50px">
-
+          <label>{{user.username}}</label>
         </div>
       </div>
       <div class="modal-footer">
