@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/solid.auth.service';
 import { RdfService } from '../services/rdf.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -8,7 +9,11 @@ import { RdfService } from '../services/rdf.service';
 })
 export class NavComponent implements OnInit {
   profileImage = '/assets/images/profile.png';
-  constructor(private auth: AuthService,private rdf: RdfService,) { }
+
+  constructor(
+    private auth: AuthService,
+    private rdf: RdfService,
+    private router : Router) { }
 
   ngOnInit() {
     this.loadProfile();
@@ -24,6 +29,11 @@ export class NavComponent implements OnInit {
     localStorage.removeItem('oldProfileData');
     this.profileImage='/assets/images/profile.png';
     console.log("deslogueado")
+  }
+
+  showNav() {
+    return this.router.url != "/" &&
+           this.router.url != "/login";
   }
 
 }

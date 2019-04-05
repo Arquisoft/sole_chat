@@ -12,8 +12,9 @@ import { SolidProvider } from '../models/solid-provider.model';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private auth: AuthService, private router: Router) { }
-
+  constructor(private auth: AuthService, private router: Router) {
+   }
+   
   /**
    * A list of Solid Identity Providers
    * @type {SolidProvider[]}

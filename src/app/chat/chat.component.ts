@@ -19,13 +19,14 @@ export class ChatComponent implements OnInit {
   user: any;
   public messages: Subject<null>;
   dummyusers;
+  
 
   @ViewChild('f') chatForm: NgForm;
   @ViewChild('scroller') scrollPane: ElementRef;
 
   constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
     private rdf: RdfService) {
-
+       
   }
 
   ngOnInit() {
@@ -94,6 +95,7 @@ export class ChatComponent implements OnInit {
       (<HTMLInputElement><any>checkBoxes[i]).checked=false;
 
     }
+
 
 
 

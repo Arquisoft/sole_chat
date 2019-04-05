@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { popupLogin } from 'solid-auth-client/dist-lib/solid-auth-client.bundle.js';
 import { FileManagerService } from './services/file-manager.service';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -18,7 +18,7 @@ interface SolidSession {
   providedIn: 'root',
 })
 export class AuthService {
-  session: Observable<SolidSession>;
+  session;
   fechInit = {
     method: 'PATCH',
     headers: {
@@ -52,7 +52,7 @@ export class AuthService {
       // popupLogin success redirect to profile
       this.router.navigate(['/card']);
     } catch (error) {
-      console.log(`Error: ${error}`);
+      console.log(`Error: ${error}`); 
     }
 
     // fileManager.guardarAlgoEnElPod();

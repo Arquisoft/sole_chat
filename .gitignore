@@ -1,7 +1,7 @@
 # .gitignore from Angular GitHub page
 
 .DS_STORE
-/node_modules
+/node_modules/*
 /dist/
 /bazel-out
 /integration/bazel/bazel-*
