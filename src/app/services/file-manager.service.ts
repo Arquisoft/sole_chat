@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as fileManager from 'solid-file-client';
-import {componentNeedsResolution} from '@angular/core/src/metadata/resource_loading';
-import {RdfService} from './rdf.service';
+import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
+import { RdfService } from './rdf.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,8 +21,8 @@ export class FileManagerService {
     async createSoleFolder(webId) {
         let direction = webId.split('/profile')[0] + '/public/Sole';
         await fileManager.readFile(direction).then((body) => {
-                console.log('Reading Sole folder');
-            },
+            console.log('Reading Sole folder');
+        },
             async (err) => {
                 if (err.includes('Not Found')) {
                     await fileManager.createFolder(direction).then(success => {
@@ -99,65 +99,17 @@ export class FileManagerService {
                 this.updateFile(direction, message, messages);
             },
             (err) => {
-                if (err.includes('Not Found')) {
-                    this.createFile(direction, message, messages);
-                } else {
-                    console.log(err);
-                }
+                console.log(err);
             }
         );
     }
 
-    async getDirection(friendId) {
-        let webId;
-        await fileManager.popupLogin().then((id) => {
-            console.log('Logged in as ' + id);
-            webId = id;
-        });
-
-        let myFriend = (friendId.split('://')[1]).split('.')[0];
-        let myPublicFolder = webId.split('/profile')[0] + '/public/Sole/Chat_' + myFriend;
-        let direction;
-
-        await fileManager.readFolder(myPublicFolder).then(folder => {
-            console.log('Read ' + folder.name + ', it has ' + folder.files.length + ' files.');
-            direction = myPublicFolder;
-        }, (err) => {
-            if (err.includes('Not Found')) {
-                direction = this.lookInFriendsFolder(webId, friendId, myPublicFolder);
-            } else {
-                console.log(err);
-            }
-        });
-
-        return direction;
-    }
-
-    async lookInFriendsFolder(webId, friendId, myPublicFolder) {
-        let myName = (webId.split('://')[1]).split('.')[0];
-        let friendsPublicFolder = friendId.split('/profile')[0] + '/public/Sole/Chat_' + myName;
-        let direction;
-
-        await fileManager.readFolder(friendsPublicFolder).then(folder => {
-            console.log('Read ' + folder.name + ', it has ' + folder.files.length + ' files.');
-            direction = friendsPublicFolder;
-        }, (err) => {
-            if (err.includes('Not Found')) {
-                this.createFolder(webId, myPublicFolder, friendId);
-                direction = myPublicFolder;
-            } else {
-                console.log(err);
-            }
-        });
-
-        return direction;
-    }
-
-    async createFolder(webId, folder, friends) {
-        await fileManager.readFolder(folder).then(folder => {}, async err => {
+    async createFolder(webId, folder, friends, photo) {
+        await fileManager.readFolder(folder).then(folder => { }, async err => {
             if (err.includes('Not Found')) {
                 await fileManager.createFolder(folder).then(success => {
                     this.createACLChat(webId, folder, friends);
+                    this.createFile(folder + '/index.ttl', photo);
                 }, err => console.log(err));
             } else {
                 console.log(err);
@@ -185,30 +137,13 @@ export class FileManagerService {
             });
     }
 
-    async createFile(direction, message, messages) {
+    async createFile(direction, photo) {
         var baseContent = '@prefix : <#>.\n';
-        let permissions = direction + '.acl';
-
-        await fileManager.createFile(permissions, '').then(
-            (fileCreated) => {
-                console.log(`Created file ${fileCreated}.`);
-            }
-        );
 
         await fileManager.createFile(direction, baseContent).then(
             (fileCreated) => {
-                console.log(`Created file ${fileCreated}.`);
-                this.rdf.generateBaseChat(direction);
-            });
-
-        await fileManager.readFile(direction).then(
-            (body) => {
-                this.updateFile(direction, message, messages);
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
+                this.rdf.generateBaseChat(direction, photo);
+        });
     }
 
     async updateFile(direction, message, messages) {
@@ -240,12 +175,18 @@ export class FileManagerService {
     async createChat(users: any, name: any) {
         await fileManager.popupLogin().then((id) => {
             const direction = id.split('/profile')[0] + '/public/Sole/Chat_' + name;
-            this.createFolder(id, direction, users);
+            let photo = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+            if (users.lenght == 1) {
+                photo = users[0].img;
+            }
+
+            this.createFolder(id, direction, users, photo);
             this.addChatToIndex(direction, id);
             for (let i = 0; i < users.length; i++) {
                 console.log("Updating chat index for " + users[i].username);
                 this.addChatToIndex(direction, users[i].id);
             }
+
         });
     }
 

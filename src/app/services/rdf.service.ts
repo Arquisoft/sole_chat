@@ -53,7 +53,7 @@ export class RdfService {
         this.getSession();
     }
 
-    async generateBaseChat(direction) {
+    async generateBaseChat(direction, photo) {
         const doc = $rdf.sym(direction);
         let subject = $rdf.sym(direction + '#this');
 
@@ -78,6 +78,12 @@ export class RdfService {
         //Title
         predicate = $rdf.sym(N1('title'));
         statement = $rdf.st(subject, predicate, 'Chat', doc);
+        this.store.add(statement);
+
+        //Photo
+        predicate = $rdf.sym(VCARD('hasPhoto'));
+        object = $rdf.sym(photo);
+        statement = $rdf.st(subject, predicate, object, doc);
         this.store.add(statement);
     }
 
@@ -562,7 +568,7 @@ export class RdfService {
                         await fetcher.load(chat);
                         const chatDirection = chat.value;
                         const name = chatDirection.split("Chat_")[1];
-                        const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+                        const image = await rdfMan.getImageForChat(chatDirection);
                         chatList.push({direction: chatDirection, name: name, img: image, messages: []});
                     });
                 }
@@ -571,4 +577,33 @@ export class RdfService {
             console.log(error);
         }
     };
+
+    async getImageForChat(direction) {
+        let image = null;
+        try {
+            var store = $rdf.graph();
+            var timeout = 5000; // 5000 ms timeout
+            var fetcher = new $rdf.Fetcher(store, timeout);
+
+            let url = direction + '/index.ttl#this';
+
+            fetcher.nowOrWhenFetched(url, async function (ok, body, xhr) {
+                if (!ok) {
+                    console.log('Oops, something happened and couldn\'t fetch data');
+                } else {
+                    const subject = $rdf.sym(url);
+                    const imageNode = await store.any(subject, VCARD('hasPhoto'));
+                    image  = imageNode.value;
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
+        if (image == null) {
+            image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+        }
+
+        return image;
+    }
 }
