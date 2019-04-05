@@ -233,10 +233,10 @@ export class FileManagerService {
 
     async createChat(users: any, name: any) {
         await fileManager.popupLogin().then((id) => {
-            const direction = id.split('/profile')[0] + '/public/Sole/Chat_' + name + '/index.ttl';
+            const direction = id.split('/profile')[0] + '/public/Sole/Chat_' + name;
             this.createFolder(id, direction, users);
             for (let i = 0; i < users.length; i++) {
-                this.addChatToIndex(direction, users[i].id);
+                this.addChatToIndex(direction + '/index.ttl', users[i].id);
             }
         });
     }
