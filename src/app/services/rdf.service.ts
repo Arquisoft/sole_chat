@@ -53,7 +53,7 @@ export class RdfService {
         this.getSession();
     }
 
-    async generateBaseChat(direction) {
+    async generateBaseChat(direction, photo) {
         const doc = $rdf.sym(direction);
         let subject = $rdf.sym(direction + '#this');
 
@@ -78,6 +78,12 @@ export class RdfService {
         //Title
         predicate = $rdf.sym(N1('title'));
         statement = $rdf.st(subject, predicate, 'Chat', doc);
+        this.store.add(statement);
+
+        //Photo
+        predicate = $rdf.sym(VCARD('hasPhoto'));
+        object = $rdf.sym(photo);
+        statement = $rdf.st(subject, predicate, object, doc);
         this.store.add(statement);
     }
 
@@ -128,7 +134,8 @@ export class RdfService {
 
         const chatIndex = webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl';
         const doc = $rdf.sym(chatIndex);
-        const subject = $rdf.sym(webId);
+        //const subject = $rdf.sym(webId);
+        const subject = $rdf.sym(chatIndex + '#this');
         const predicateParticipates =  $rdf.sym(FLOW('participation'));
         const object = $rdf.sym(chat);
         const statement = $rdf.st(subject, predicateParticipates, object, doc);
@@ -141,7 +148,7 @@ export class RdfService {
         });
     }
 
-    getWebID = async () => {
+    async getWebID() {
         return this.session.webId;
     };
 
@@ -417,7 +424,7 @@ export class RdfService {
     };
 
     // Returns a list with the user friends
-    getFriends = async (list: { username: string; img: string; id: string, messages: [] }[]) => {
+    getFriends = async (list: { username: string; img: string; id: string }[]) => {
         if (!this.session) {
             await this.getSession();
         }
@@ -449,7 +456,7 @@ export class RdfService {
                             image = imageNode.value;
                         }
 
-                        await list.push({username: fullName + '', img: image, id: webId, messages: []});
+                        await list.push({username: fullName + '', img: image, id: webId });
                     });
                 }
             });
@@ -542,4 +549,61 @@ export class RdfService {
         return message;
     }
 
+    // Returns a list with the user friends
+    async getActiveChats(chatList) {
+        try {
+            var store = $rdf.graph();
+            var timeout = 5000; // 5000 ms timeout
+            var fetcher = new $rdf.Fetcher(store, timeout);
+
+            let url = this.session.webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl#this';
+            let rdfMan = this;
+            fetcher.nowOrWhenFetched(url, async function (ok, body, xhr) {
+                if (!ok) {
+                    console.log('Oops, something happened and couldn\'t fetch data');
+                } else {
+                    const subject = $rdf.sym(url);
+                    const chatsNodes = await store.each(subject, FLOW('participation'));
+                    await chatsNodes.forEach(async (chat) => {
+                        await fetcher.load(chat);
+                        const chatDirection = chat.value;
+                        const name = chatDirection.split("Chat_")[1];
+                        const image = await rdfMan.getImageForChat(chatDirection);
+                        chatList.push({direction: chatDirection, name: name, img: image, messages: []});
+                    });
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    async getImageForChat(direction) {
+        let image = null;
+        try {
+            var store = $rdf.graph();
+            var timeout = 5000; // 5000 ms timeout
+            var fetcher = new $rdf.Fetcher(store, timeout);
+
+            let url = direction + '/index.ttl#this';
+
+            fetcher.nowOrWhenFetched(url, async function (ok, body, xhr) {
+                if (!ok) {
+                    console.log('Oops, something happened and couldn\'t fetch data');
+                } else {
+                    const subject = $rdf.sym(url);
+                    const imageNode = await store.any(subject, VCARD('hasPhoto'));
+                    image  = imageNode.value;
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
+        if (image == null) {
+            image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+        }
+
+        return image;
+    }
 }

@@ -13,17 +13,17 @@
   <div class="currentChat text-right">
     <div class="currentChatHeader">
       <div class="currentChatImageWrapper">
-        <img *ngIf="user == null" src="../../assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
-        <img *ngIf="user != null" [src]="user.img" alt="" class="currentChatImage">
+        <img *ngIf="chat == null" src="../../assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
+        <img *ngIf="chat != null" [src]="chat.img" alt="" class="currentChatImage">
       </div>
       <div class="currentChatHeaderTitle">
-        <h3 *ngIf="user != null">{{ user.username }}</h3>
+        <h3 *ngIf="chat != null">{{ chat.name }}</h3>
       </div>
     </div>
 
-    <div *ngIf="user != null" class="currentChatContent" #scroller [scrollTop]="scroller.scrollHeight">
+    <div *ngIf="chat != null" class="currentChatContent" #scroller [scrollTop]="scroller.scrollHeight">
 
-      <div *ngFor="let mess of user.messages" class="message"
+      <div *ngFor="let mess of chat.messages" class="message"
            [className]="mess.received ? 'message received' : 'message sent'">
         <div class="messageContent" name="message dummy">
           {{mess.content}}

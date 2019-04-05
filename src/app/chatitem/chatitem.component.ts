@@ -7,13 +7,13 @@ import { ChangeChatService } from '../services/change-chat.service';
   styleUrls: ['./chatitem.component.css']
 })
 export class ChatitemComponent implements OnInit {
-  @Input() user;
+  @Input() chat;
   constructor(private changeChat: ChangeChatService) { }
 
   ngOnInit() {
   }
 
   changeUser() {
-    this.changeChat.user.next(this.user);
+    this.changeChat.chat.next(this.chat);
   }
 }
