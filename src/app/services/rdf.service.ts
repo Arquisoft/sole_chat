@@ -142,7 +142,7 @@ export class RdfService {
         });
     }
 
-    getWebID = async () => {
+    async getWebID() {
         return this.session.webId;
     };
 

@@ -243,7 +243,8 @@ export class FileManagerService {
             this.createFolder(id, direction, users);
             this.addChatToIndex(direction, id);
             for (let i = 0; i < users.length; i++) {
-                this.addChatToIndex(direction + '/index.ttl', users[i].id);
+                console.log("Updating chat index for " + users[i].username);
+                this.addChatToIndex(direction, users[i].id);
             }
         });
     }

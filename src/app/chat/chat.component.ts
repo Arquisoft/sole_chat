@@ -15,7 +15,6 @@ declare var $: any;
 })
 export class ChatComponent implements OnInit {
     chat: any;
-    public messages: Subject<null>;
     newGroupName: String;
     userListPopup;
 
@@ -23,8 +22,7 @@ export class ChatComponent implements OnInit {
     @ViewChild('scroller') scrollPane: ElementRef;
     tempSelected;
 
-    constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
-                private rdf: RdfService) {
+    constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService) {
 
     }
 
@@ -106,8 +104,6 @@ export class ChatComponent implements OnInit {
             $('#groupNameDialog').modal('show');
             this.tempSelected = selected;
         }
-
-
     }
 
     createGroupChat(users, name): any {
