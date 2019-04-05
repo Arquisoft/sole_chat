@@ -9,18 +9,18 @@ import {FileManagerService} from '../services/file-manager.service';
 })
 export class ChatlistComponent implements OnInit {
 
-  dummyusers;
+  chatList;
 
   constructor(private fileManager: FileManagerService) {
 
   }
 
   async ngOnInit() {
-    await this.getUserList();
+    await this.getChatList();
   }
 
-  async getUserList() {
-    this.dummyusers = [];
-    await this.fileManager.getFriends(this.dummyusers);
+  async getChatList() {
+    this.chatList = [];
+    await this.fileManager.getActiveChats(this.chatList);
   }
 }

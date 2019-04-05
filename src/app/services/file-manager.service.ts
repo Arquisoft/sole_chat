@@ -86,16 +86,7 @@ export class FileManagerService {
     }
 
     async updateChatIndex(chat, webId) {
-        await fileManager.readFile(chat).then(
-            (body) => {},
-            (err) => {
-                if (err.includes('Not Found')) {
-                    this.rdf.updateChatIndex(chat, webId);
-                } else {
-                    console.log(err);
-                }
-            }
-        );
+        this.rdf.updateChatIndex(chat, webId);
     }
 
     async sendMessage(message, direction, messages) {
@@ -163,10 +154,15 @@ export class FileManagerService {
     }
 
     async createFolder(webId, folder, friends) {
-        await fileManager.createFolder(folder).then(success => {
-            console.log(`Created folder ${folder}.`);
-        }, err => console.log(err));
-        this.createACLChat(webId, folder, friends);
+        await fileManager.readFolder(folder).then(folder => {}, async err => {
+            if (err.includes('Not Found')) {
+                await fileManager.createFolder(folder).then(success => {
+                    this.createACLChat(webId, folder, friends);
+                }, err => console.log(err));
+            } else {
+                console.log(err);
+            }
+        });
     }
 
     async createACLChat(webId, folder, friends) {
@@ -219,8 +215,8 @@ export class FileManagerService {
         await this.rdf.createMessage(message, messages, direction);
     }
 
-    async getMessages(displayedMessages, friendID) {
-        let direction = await this.getDirection(friendID) + '/index.ttl';
+    async getMessages(displayedMessages, chatDirection) {
+        let direction = chatDirection + '/index.ttl';
 
         await fileManager.popupLogin().then((webId) => {
             this.rdf.getMessages(displayedMessages, direction);
@@ -233,8 +229,8 @@ export class FileManagerService {
         });
     }
 
-    async getLastMessage(displayedMessages, friendID) {
-        let direction = await this.getDirection(friendID) + '/index.ttl';
+    async getLastMessage(displayedMessages, chatDirection) {
+        let direction = chatDirection + '/index.ttl';
 
         await fileManager.popupLogin().then((webId) => {
             this.rdf.getLastMessage(displayedMessages, direction);
@@ -249,6 +245,12 @@ export class FileManagerService {
             for (let i = 0; i < users.length; i++) {
                 this.addChatToIndex(direction + '/index.ttl', users[i].id);
             }
+        });
+    }
+
+    async getActiveChats(chats) {
+        await fileManager.popupLogin().then((webId) => {
+            this.rdf.getActiveChats(chats);
         });
     }
 }

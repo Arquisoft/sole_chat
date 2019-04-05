@@ -8,17 +8,13 @@ import {WindowService} from '@ng-select/ng-select/ng-select/window.service';
 
 declare var $: any;
 
-
-//Methods defined in js files
-declare function createFolder(path, folder): any;
-
 @Component({
     selector: 'app-chat',
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-    user: any;
+    chat: any;
     public messages: Subject<null>;
     newGroupName: String;
     userListPopup;
@@ -33,18 +29,18 @@ export class ChatComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadUserList();
-        this.changeFriend.user.subscribe(async res => {
-            this.user = res;
-            if (this.user != null) {
+        this.loadFriends();
+        this.changeFriend.chat.subscribe(async res => {
+            this.chat = res;
+            if (this.chat != null) {
                 this.loadMessages();
-                this.addListener(this.user, this.fileManager);
+                this.addListener(this.chat, this.fileManager);
             }
         });
     }
 
-    async addListener(user, fm) {
-        let direction = await this.fileManager.getDirection(this.user.id) + '/index.ttl';
+    async addListener(chat, fm) {
+        let direction = chat.direction + '/index.ttl';
         let directionForSocket = 'wss' + direction.split('https')[1];
 
         let socket = new WebSocket(directionForSocket);
@@ -55,30 +51,30 @@ export class ChatComponent implements OnInit {
 
         socket.onmessage = function (msg) {
             if (msg.data && msg.data.slice(0, 3) === 'pub') {
-                fm.getLastMessage(user.messages, user.id);
+                fm.getLastMessage(chat.messages, chat.direction);
             }
         };
     }
 
     async onSubmit() {
-        if (this.user != null) {
+        if (this.chat != null) {
             var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
-            let direction = await this.fileManager.getDirection(this.user.id) + '/index.ttl';
-            await this.fileManager.sendMessage(message, direction, this.user.messages).then(e => {
+            let direction = this.chat.direction + '/index.ttl';
+            await this.fileManager.sendMessage(message, direction, this.chat.messages).then(e => {
                 (<HTMLInputElement>document.getElementById('inputMessage')).value = '';
             });
 
         }
     }
 
-    async loadUserList() {
+    async loadFriends() {
         this.userListPopup = [];
         await this.fileManager.getFriends(this.userListPopup);
     }
 
     private async loadMessages() {
-        this.user.messages = [];
-        await this.fileManager.getMessages(this.user.messages, this.user.id);
+        this.chat.messages = [];
+        await this.fileManager.getMessages(this.chat.messages, this.chat.direction);
     }
 
     createNewChat() {
@@ -115,10 +111,7 @@ export class ChatComponent implements OnInit {
     }
 
     createGroupChat(users, name): any {
-        console.log('Ana crea el grupo para:');
-        console.log(users);
         this.fileManager.createChat(users, name);
-
     }
 
 
