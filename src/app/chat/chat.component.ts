@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
 import { RdfService } from '../services/rdf.service';
 import { WindowService } from '@ng-select/ng-select/ng-select/window.service';
 
+declare var $:any;
+
 
 //Methods defined in js files
 declare function createFolder(path, folder): any;
@@ -19,9 +21,11 @@ export class ChatComponent implements OnInit {
   user: any;
   public messages: Subject<null>;
   dummyusers;
+  newGroupName:String;
 
   @ViewChild('f') chatForm: NgForm;
   @ViewChild('scroller') scrollPane: ElementRef;
+  tempSelected;
 
   constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
     private rdf: RdfService) {
@@ -101,19 +105,32 @@ export class ChatComponent implements OnInit {
       console.log("Cerrando, no se han seleccionado usuarios")
     }
     else if(selected.length<2){
+      $('#groupNameDialog').modal('hide');
+      
       this.createSingleUserChat(selected[0]);
     }else{
-      this.createGroupChat(selected);
+      $("#groupNameDialog").modal('show');
+      this.tempSelected=selected;
+      //this.createGroupChat(selected);
     }
     
  
   }
-  createGroupChat(users): any {
-    console.log("Ana crea el grupo para:")
+  createGroupChat(users,name): any {
+
+    console.log("Ana crea el grupo "+ name+" para:")
     console.log(users);
   }
   createSingleUserChat(user): any {
     console.log("Ana crea el chat para:")
     console.log(user);
+  }
+
+  addGroupName(){
+    var field=$("#groupNameField");
+
+    var name=field[0].value;
+    field.value="";
+    this.createGroupChat(this.tempSelected,name);
   }
 }
