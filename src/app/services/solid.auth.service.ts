@@ -18,14 +18,14 @@ interface SolidSession {
 	providedIn: 'root'
 })
 export class AuthService {
-	session;
-	fechInit = {
-		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/sparql-update'
-		},
-		body: ''
-	};
+  session;
+  fechInit = {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/sparql-update',
+    },
+    body: '',
+  };
 
 	constructor(private router: Router, private rdf: RdfService) {
 		this.isSessionActive();
@@ -49,11 +49,11 @@ export class AuthService {
 			// Check if session is valid to avoid redirect issues
 			await this.isSessionActive();
 
-			// popupLogin success redirect to profile
-			this.router.navigate([ '/card' ]);
-		} catch (error) {
-			console.log(`Error: ${error}`);
-		}
+      // popupLogin success redirect to profile
+      this.router.navigate(['/card']);
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
 
 		// fileManager.guardarAlgoEnElPod();
 	};

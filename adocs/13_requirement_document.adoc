@@ -31,8 +31,6 @@ and defined clearly.
 
 |A chat can be initiated in the users pod
 
-|The user controls who is allowed to see or write in their chat
-
 |Group chats are supported
 
 |A message once the sent button is pressed cannot be edited

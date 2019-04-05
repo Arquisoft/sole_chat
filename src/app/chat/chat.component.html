@@ -55,13 +55,14 @@
         </button>
       </div>
       <div class="modal-body">
-          <div class="custom-control custom-checkbox" *ngFor="let user of dummyusers">
+          <div class="custom-control custom-checkbox" *ngFor="let user of userListPopup">
 
               <input type="checkbox" class="custom-control-input new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
               <label class="custom-control-label" for={{user.id}}>{{user.username}}</label>
-              <img [src]="user.img" alt={{user.id}} width="50px">
+              <img [src]="user.img" alt={{user.id}} width="50px"> 
   
-            </div>
+          </div>
+      </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -94,4 +95,7 @@
       </div>
     </div>
   </div>
+<<<<<<< HEAD
+=======
 </div>
+>>>>>>> e9679ada0de1f2ce1c9094beccf1dac109ad8b51

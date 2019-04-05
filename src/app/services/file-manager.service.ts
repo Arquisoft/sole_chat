@@ -19,54 +19,73 @@ export class FileManagerService {
     }
 
     async createSoleFolder(webId) {
-        let direction = webId.split("/profile")[0] + "/public/Sole";
+        let direction = webId.split('/profile')[0] + '/public/Sole';
         await fileManager.readFile(direction).then((body) => {
-            console.log("Reading Sole folder");
-        },
-        async (err) => {
-            if (err.includes('Not Found')) {
-                await fileManager.createFolder(direction).then(success => {
-                    console.log(`Created folder ${direction}.`);
-                    this.createACLSole(direction, webId);
-                    this.createChatIndex(direction);
-                }, err => console.log(err) );
-            } else {
-                console.log(err);
-            }
-        });
+                console.log('Reading Sole folder');
+            },
+            async (err) => {
+                if (err.includes('Not Found')) {
+                    await fileManager.createFolder(direction).then(success => {
+                        console.log(`Created folder ${direction}.`);
+                        this.createACLSole(direction, webId);
+                        this.createChatIndex(direction);
+                    }, err => console.log(err));
+                } else {
+                    console.log(err);
+                }
+            });
     }
 
     async createACLSole(direction, webId) {
         let file = direction + '/.acl';
         let content = '@prefix acl: <http://www.w3.org/ns/auth/acl#>. \n' +
-        '@prefix foaf: <http://xmlns.com/foaf/0.1/>. \n' +
-        ':AppendRead \n' +
-        'a acl:Authorization; \n' + 
-        'acl:agentClass foaf:Agent;\n' + 
-        'acl:accessTo <' + direction + '/>; \n' + 
-        'acl:defaultForNew <./>; \n' + 
-        'acl:mode acl:Append, acl:Read. \n' +
-        ':ControlReadWrite \n' +
-        'a acl:Authorization; \n' + 
-        'acl:agent <' + webId + '>; \n' + 
-        'acl:accessTo <' + direction + '/>; \n' + 
-        'acl:defaultForNew <./>; \n' + 
-        'acl:mode acl:Control, acl:Read, acl:Write. \n';
+            '@prefix foaf: <http://xmlns.com/foaf/0.1/>. \n' +
+            ':AppendRead \n' +
+            'a acl:Authorization; \n' +
+            'acl:agentClass foaf:Agent;\n' +
+            'acl:accessTo <' + direction + '/>; \n' +
+            'acl:defaultForNew <./>; \n' +
+            'acl:mode acl:Append, acl:Read. \n' +
+            ':ControlReadWrite \n' +
+            'a acl:Authorization; \n' +
+            'acl:agent <' + webId + '>; \n' +
+            'acl:accessTo <' + direction + '/>; \n' +
+            'acl:defaultForNew <./>; \n' +
+            'acl:mode acl:Control, acl:Read, acl:Write. \n';
 
         await fileManager.createFile(file, content).then(
             (fileCreated) => {
                 console.log(`Created file ${fileCreated}.`);
-        });
+            });
     }
 
     async createChatIndex(direction) {
         let file = direction + '/chatsIndex.ttl';
-        let content = "@prefix : <#>.\n";
+        let content = '@prefix : <#>.\n';
 
         await fileManager.createFile(file, content).then(
             (fileCreated) => {
                 console.log(`Created file ${fileCreated}.`);
-        });
+            });
+    }
+
+    async addChatToIndex(chat, webId) {
+        await fileManager.readFile(webId).then(
+            (body) => {
+                this.updateChatIndex(chat, webId);
+            },
+            (err) => {
+                if (err.includes('Not Found')) {
+                    this.createChatIndex(webId);
+                } else {
+                    console.log(err);
+                }
+            }
+        );
+    }
+
+    async updateChatIndex(chat, webId) {
+        await this.rdf.updateChatIndex(chat, webId);
     }
 
     async sendMessage(message, direction, messages) {
@@ -95,8 +114,8 @@ export class FileManagerService {
             webId = id;
         });
 
-        let myFriend = (friendId.split("://")[1]).split(".")[0];
-        let myPublicFolder = webId.split("/profile")[0] + "/public/Sole/Chat_" + myFriend;
+        let myFriend = (friendId.split('://')[1]).split('.')[0];
+        let myPublicFolder = webId.split('/profile')[0] + '/public/Sole/Chat_' + myFriend;
         let direction;
 
         await fileManager.readFolder(myPublicFolder).then(folder => {
@@ -114,8 +133,8 @@ export class FileManagerService {
     }
 
     async lookInFriendsFolder(webId, friendId, myPublicFolder) {
-        let myName = (webId.split("://")[1]).split(".")[0];
-        let friendsPublicFolder = friendId.split("/profile")[0] + "/public/Sole/Chat_" + myName;
+        let myName = (webId.split('://')[1]).split('.')[0];
+        let friendsPublicFolder = friendId.split('/profile')[0] + '/public/Sole/Chat_' + myName;
         let direction;
 
         await fileManager.readFolder(friendsPublicFolder).then(folder => {
@@ -133,21 +152,23 @@ export class FileManagerService {
         return direction;
     }
 
-    async createFolder(webId, folder, friendId) {
+    async createFolder(webId, folder, friends) {
         await fileManager.createFolder(folder).then(success => {
             console.log(`Created folder ${folder}.`);
         }, err => console.log(err));
-
-        this.createACLChat(webId, folder, friendId);
+        this.createACLChat(webId, folder, friends);
     }
 
-    async createACLChat(webId, folder, friendId) {
+    async createACLChat(webId, folder, friends) {
         let file = folder + '/.acl';
         let content = '@prefix acl: <http://www.w3.org/ns/auth/acl#>. \n' +
             ':ControlReadWrite \n' +
             'a acl:Authorization; \n' +
-            'acl:agent <' + webId + '>; \n' +
-            'acl:agent <' + friendId + '>; \n' +
+            'acl:agent <' + webId + '>; \n';
+        for (let i = 0; i < friends.length; i++) {
+            content += 'acl:agent <' + friends[i].webId + '>; \n';
+        }
+        content +=
             'acl:accessTo <' + folder + '/>; \n' +
             'acl:defaultForNew <./>; \n' +
             'acl:mode acl:Control, acl:Read, acl:Write.';
@@ -155,11 +176,11 @@ export class FileManagerService {
         await fileManager.createFile(file, content).then(
             (fileCreated) => {
                 console.log(`Created file ${fileCreated}.`);
-        });
+            });
     }
 
     async createFile(direction, message, messages) {
-        var baseContent = "@prefix : <#>.\n";
+        var baseContent = '@prefix : <#>.\n';
         let permissions = direction + '.acl';
 
         await fileManager.createFile(permissions, '').then(
@@ -189,7 +210,7 @@ export class FileManagerService {
     }
 
     async getMessages(displayedMessages, friendID) {
-        let direction = await this.getDirection(friendID) + "/index.ttl";
+        let direction = await this.getDirection(friendID) + '/index.ttl';
 
         await fileManager.popupLogin().then((webId) => {
             this.rdf.getMessages(displayedMessages, direction);
@@ -203,13 +224,22 @@ export class FileManagerService {
     }
 
     async getLastMessage(displayedMessages, friendID) {
-        let direction = await this.getDirection(friendID) + "/index.ttl";
+        let direction = await this.getDirection(friendID) + '/index.ttl';
 
         await fileManager.popupLogin().then((webId) => {
             this.rdf.getLastMessage(displayedMessages, direction);
         });
     }
 
+    async createChat(users: any, name: any) {
+        await fileManager.popupLogin().then((id) => {
+            const direction = id.split('/profile')[0] + '/public/Sole/Chat_' + name;
+            this.createFolder(id, direction, users);
+            for (let i = 0; i < users.length; i++) {
+                this.addChatToIndex(direction + '/index.ttl', users[i].id);
+            }
+        });
+    }
 }
 
 
