@@ -25,7 +25,7 @@
 
       <div *ngFor="let mess of chat.messages" class="message"
            [className]="mess.received ? 'message received' : 'message sent'">
-        <div class="messageTime">{{mess.maker}}:</div>
+        <div class="messageSender">{{mess.maker}}:</div>
         <div class="messageContent" name="message dummy">
           {{mess.content}}
         </div>
@@ -34,7 +34,7 @@
     </div>
 
     <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
-      <input type="text" id="inputMessage" name="message" [(ngModel)]="message"  autocomplete="off"/>
+      <input type="text" id="inputMessage" name="message" autocomplete="off"/>
       <input type="submit" value="︎︎" id="submitMessage" />
     </form>
   </div>

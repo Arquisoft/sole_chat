@@ -1,11 +1,6 @@
 <div class="userList" >
   <h3>Recent Chats</h3>
-  <!-- LOADING IMAGE -->
-  <div class="loading-image" *ngIf="loadingFriends">
-    <i class="fas fa-circle-notch fa-4x fa-spin"></i>
-  </div>
-
-  <div class="recentChats"  *ngIf="!loadingFriends">
+  <div class="recentChats">
 
     <app-chatitem
             [chat]=chat *ngFor="let chat of chatList">
