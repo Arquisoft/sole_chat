@@ -1,7 +1,7 @@
 # .gitignore from Angular GitHub page
 
 .DS_STORE
-/node_modules/*
+/node_modules/
 /dist/
 /bazel-out
 /integration/bazel/bazel-*
@@ -11,7 +11,7 @@ tools/gulp-tasks/cldr/cldr-data/
 
 # Include when developing application packages.
 pubspec.lock
-.c9
+.c9 
 .idea/
 .settings/
 .vscode/launch.json
