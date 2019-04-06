@@ -14,6 +14,6 @@ export class UseritemComponent implements OnInit {
   }
 
   changeUser() {
-    this.changeFriend.user.next(this.user);
+    //this.changeFriend.user.next(this.user);
   }
 }

@@ -9,18 +9,38 @@ import {FileManagerService} from '../services/file-manager.service';
 })
 export class ChatlistComponent implements OnInit {
 
-  dummyusers;
+  chatList;
 
-  constructor(private fileManager: FileManagerService) {
+  constructor(private fileManager: FileManagerService,  private rdf: RdfService) {
 
   }
 
   async ngOnInit() {
-    await this.getUserList();
+    await this.getChatList();
+    await this.addListener();
   }
 
-  async getUserList() {
-    this.dummyusers = [];
-    await this.fileManager.getFriends(this.dummyusers);
+  async addListener() {
+    let webId = await this.rdf.getWebID();
+    let direction = webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl';
+    let directionForSocket = 'wss' + direction.split('https')[1];
+
+    let socket = new WebSocket(directionForSocket);
+    let comp = this;
+
+    socket.onopen = function () {
+        this.send('sub ' + direction);
+    };
+
+    socket.onmessage = function (msg) {
+        if (msg.data && msg.data.slice(0, 3) === 'pub') {
+           comp.getChatList();
+        }
+    };
+  }
+
+  async getChatList() {
+    this.chatList = [];
+    await this.fileManager.getActiveChats(this.chatList);
   }
 }

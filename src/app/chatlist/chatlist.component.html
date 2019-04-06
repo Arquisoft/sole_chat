@@ -8,10 +8,10 @@
   <div class="recentChats"  *ngIf="!loadingFriends">
 
     <app-chatitem
-            [user]=user *ngFor="let user of dummyusers">
+            [chat]=chat *ngFor="let chat of chatList">
     </app-chatitem>
 
-    <div *ngIf="dummyusers.length == 0" class="newChatBanner">
+    <div *ngIf="chatList.length == 0" class="newChatBanner">
       <img id="newChatBannerImg" src="../../assets/images/newChatBanner.svg" alt="">
       <p>Press the button below to create a new chat.</p>
     </div>
