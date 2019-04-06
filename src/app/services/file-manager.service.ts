@@ -124,7 +124,7 @@ export class FileManagerService {
             'a acl:Authorization; \n' +
             'acl:agent <' + webId + '>; \n';
         for (let i = 0; i < friends.length; i++) {
-            content += 'acl:agent <' + friends[i].webId + '>; \n';
+            content += 'acl:agent <' + friends[i].id + '>; \n';
         }
         content +=
             'acl:accessTo <' + folder + '/>; \n' +
@@ -179,13 +179,13 @@ export class FileManagerService {
             if (users.lenght == 1) {
                 photo = users[0].img;
             }
-
+            
             this.createFolder(id, direction, users, photo);
             this.addChatToIndex(direction, id);
             for (let i = 0; i < users.length; i++) {
                 console.log("Updating chat index for " + users[i].username);
                 this.addChatToIndex(direction, users[i].id);
-            }
+            } 
 
         });
     }

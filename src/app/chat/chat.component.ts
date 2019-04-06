@@ -107,7 +107,6 @@ export class ChatComponent implements OnInit {
     }
 
     createGroupChat(users, name): any {
-        console.log(users);
         this.fileManager.createChat(users, name);
     }
 
