@@ -3,19 +3,27 @@ import { browser, by, element } from 'protractor';
 
 export class AppPage {
     navigateToLogin() {
+        this.sleep(3000);
         return browser.get('/login');
     }
+    navigateToRegister () {
+        this.sleep(3000);
+        return browser.get('/register');
+    }
     navigateToCard () {
+        this.sleep(3000);
         return browser.get('/card');
     }
 
     getCardTitleText() {
-        // Function sleep to try to fix "not found element" and timeout failure
         this.sleep(3000);
         return element(by.css('h1')).getText();
     }
     getDescriptionLogin() {
         return element(by.css('h2')).getText();
+    }
+    getParagraphRegister1() {
+        return element(by.id('paragraphRegister1')).getText();
     }
     clickOnRegisterButton() {
         return element(by.id('registerButton')).click();
