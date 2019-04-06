@@ -26,7 +26,7 @@
 
                 <li class="nav-item">
                     <div class="profile-menu" routerLink="/">
-                        <img [src]="profileImage"/>
+                        <img *ngIf="profileImage!=null" [src]="profileImage"/>
                     </div>
                 </li>
             </ul>
