@@ -90,7 +90,7 @@ export class AuthService {
   */
     solidLogin = async (idp: string) => {
         await solid.auth.login(idp, {
-            callbackUri: `https://arquisoft.github.io/dechat_en2b/`,
+            callbackUri: `${window.location.href}card`,
             storage: localStorage
         });
     };

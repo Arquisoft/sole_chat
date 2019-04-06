@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as fileManager from 'solid-file-client';
-import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
-import { RdfService } from './rdf.service';
+import {componentNeedsResolution} from '@angular/core/src/metadata/resource_loading';
+import {RdfService} from './rdf.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,8 +21,8 @@ export class FileManagerService {
     async createSoleFolder(webId) {
         let direction = webId.split('/profile')[0] + '/public/Sole';
         await fileManager.readFile(direction).then((body) => {
-            console.log('Reading Sole folder');
-        },
+                console.log('Reading Sole folder');
+            },
             async (err) => {
                 if (err.includes('Not Found')) {
                     await fileManager.createFolder(direction).then(success => {
@@ -105,7 +105,8 @@ export class FileManagerService {
     }
 
     async createFolder(webId, folder, friends, photo) {
-        await fileManager.readFolder(folder).then(folder => { }, async err => {
+        await fileManager.readFolder(folder).then(folder => {
+        }, async err => {
             if (err.includes('Not Found')) {
                 await fileManager.createFolder(folder).then(success => {
                     this.createACLChat(webId, folder, friends);
@@ -143,7 +144,7 @@ export class FileManagerService {
         await fileManager.createFile(direction, baseContent).then(
             (fileCreated) => {
                 this.rdf.generateBaseChat(direction, photo);
-        });
+            });
     }
 
     async updateFile(direction, message, messages) {
@@ -180,21 +181,19 @@ export class FileManagerService {
             if (users.length == 1) {
                 photo = users[0].img;
             }
-        
+
             this.createFolder(id, direction, users, photo);
             this.addChatToIndex(direction, id);
             for (let i = 0; i < users.length; i++) {
-                console.log("Updating chat index for " + users[i].username);
+                console.log('Updating chat index for ' + users[i].username);
                 this.addChatToIndex(direction, users[i].id);
-            } 
+            }
 
         });
     }
 
     async getActiveChats(chats) {
-        await fileManager.popupLogin().then((webId) => {
-            this.rdf.getActiveChats(chats);
-        });
+        this.rdf.getActiveChats(chats);
     }
 }
 
