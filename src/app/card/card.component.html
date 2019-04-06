@@ -40,7 +40,7 @@
           <i class="fas fa-map-marker-alt"></i><input type="text" class="field-text form-control" name="address" placeholder="Address" [(ngModel)]="profile.address.street" />
         </div>
       <div class="profile-save-button-container">
-        <button type="submit" class="wide-button profile-save-button" [disabled]="!cardForm || cardForm.pristine">Save</button>
+        <button id="saveButton" type="submit" class="wide-button profile-save-button" [disabled]="!cardForm || cardForm.pristine">Save</button>
       </div>
     </form>
   </div>

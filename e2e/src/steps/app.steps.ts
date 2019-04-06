@@ -46,5 +46,10 @@ When(/^I click on register button$/, async () => {
 });
 Then(/^It should happen anything$/, () => {});
 
+// Click on the save button - Happen anything
+When(/^I click on save button$/, async () => {
+    await page.clickOnSaveButton();
+});
+
 
 
