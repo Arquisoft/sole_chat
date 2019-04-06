@@ -76,7 +76,6 @@ export class ChatComponent implements OnInit {
     }
 
     createNewChat() {
-        console.log('Creando chat');
         var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
         //console.log(this.dummyusers);
         var selected = [];

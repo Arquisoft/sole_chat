@@ -25,6 +25,7 @@
 
       <div *ngFor="let mess of chat.messages" class="message"
            [className]="mess.received ? 'message received' : 'message sent'">
+        <div class="messageTime">{{mess.maker}}:</div>
         <div class="messageContent" name="message dummy">
           {{mess.content}}
         </div>

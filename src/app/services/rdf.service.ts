@@ -54,37 +54,46 @@ export class RdfService {
     }
 
     async generateBaseChat(direction, photo) {
+        let insertions = [];
+        let deletions = [];
+
         const doc = $rdf.sym(direction);
         let subject = $rdf.sym(direction + '#this');
 
         let predicate = $rdf.sym('https://www.w3.org/1999/02/22-rdf-syntax-ns#type');
         let object = $rdf.sym(MEE('Chat'));
         let statement = $rdf.st(subject, predicate, object, doc);
-        this.store.add(statement);
+        insertions.push(statement);
 
         //Author
         predicate = $rdf.sym(N1('author'));
         object = $rdf.sym(this.session.webId);
         statement = $rdf.st(subject, predicate, object, doc);
-        this.store.add(statement);
+        insertions.push(statement);
 
         //Created
         predicate = $rdf.sym(N1('created'));
         let date = new Date();
         let contentDate = $rdf.literal(date.toISOString(), undefined, XML('dateTime'));
         statement = $rdf.st(subject, predicate, contentDate, doc);
-        this.store.add(statement);
+        insertions.push(statement);
 
         //Title
         predicate = $rdf.sym(N1('title'));
         statement = $rdf.st(subject, predicate, 'Chat', doc);
-        this.store.add(statement);
+        insertions.push(statement);
 
         //Photo
         predicate = $rdf.sym(VCARD('hasPhoto'));
         object = $rdf.sym(photo);
         statement = $rdf.st(subject, predicate, object, doc);
-        this.store.add(statement);
+        insertions.push(statement);
+
+        this.updateManager.update(deletions, insertions, (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
+            }
+        });
     }
 
     async createMessage(message, messages, direction) {
@@ -548,8 +557,9 @@ export class RdfService {
 
         let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
         let maker = store.any(messageNode, FOAF('maker')).value;
+        const makerName = (maker.split("://")[1]).split(".")[0];
         let isMessageReceived = (id != maker);
-        let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived };
+        let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, maker: makerName };
 
         return message;
     }
@@ -632,8 +642,6 @@ export class RdfService {
                 const authorNode = await store.any(subject, N1('author'));
                 maker = authorNode.value;
                 name = (maker.split("://")[1]).split(".")[0];
-
-                console.log("Maker " + maker);
 
                 await fetcher.nowOrWhenFetched(maker, async function (ok, body, xhr) {
                     if (!ok) {

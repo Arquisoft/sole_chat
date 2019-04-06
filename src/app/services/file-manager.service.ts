@@ -176,10 +176,11 @@ export class FileManagerService {
         await fileManager.popupLogin().then((id) => {
             const direction = id.split('/profile')[0] + '/public/Sole/Chat_' + name;
             let photo = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
-            if (users.lenght == 1) {
+
+            if (users.length == 1) {
                 photo = users[0].img;
             }
-            
+        
             this.createFolder(id, direction, users, photo);
             this.addChatToIndex(direction, id);
             for (let i = 0; i < users.length; i++) {
