@@ -24,6 +24,8 @@ export class AppPage {
     clickOnSaveButton() {
         return element(by.id('saveButton')).click();
     }
+    // This function is used to reduce the speed of the test
+    // in order to avoid errors when running the tests
     private sleep(milliseconds: number): void {
         const start = new Date().getTime();
         for (let i = 0; i < 1e7; i++) {

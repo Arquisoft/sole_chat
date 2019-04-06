@@ -11,7 +11,7 @@
   <!-- MAIN PROFILE -->
   <div class="profile-fields-container" *ngIf="!loadingProfile">
     <div class="profile-image-container">
-      <img [src]="profileImage" />
+      <img id="profileImageId" [src]="profileImage" />
     </div>
     <form id="cardForm" #f="ngForm" (submit)="onSubmit()">
         <!-- NAME -->

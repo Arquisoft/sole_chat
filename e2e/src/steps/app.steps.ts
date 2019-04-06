@@ -35,7 +35,6 @@ Given(/^I am on the card page$/, async () => {
     await page.navigateToCard();
 });
 Then(/^I should see the card title$/, async () => {
-    // expect(await page.getTitleText()).to.equal('Welcome to angular-cli-cucumber-demo!');
     expect(await page.getCardTitleText()).to.equal('Profile');
 });
 
@@ -50,6 +49,11 @@ Then(/^It should happen anything$/, () => {});
 When(/^I click on save button$/, async () => {
     await page.clickOnSaveButton();
 });
+
+// Display the profile image
+Then(/^I should see the profile image$/, () => {});
+
+
 
 
 
