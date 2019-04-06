@@ -26,15 +26,15 @@ export class ChatComponent implements OnInit {
 
     }
 
-    ngOnInit() {
-        this.loadFriends();
+    async ngOnInit() {
         this.changeFriend.chat.subscribe(async res => {
             this.chat = res;
             if (this.chat != null) {
-                this.loadMessages();
+                await this.loadMessages();
                 this.addListener(this.chat, this.fileManager);
             }
         });
+        await this.loadFriends();
     }
 
     async addListener(chat, fm) {
@@ -76,7 +76,6 @@ export class ChatComponent implements OnInit {
     }
 
     createNewChat() {
-        console.log('Creando chat');
         var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
         //console.log(this.dummyusers);
         var selected = [];
