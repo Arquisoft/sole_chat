@@ -17,7 +17,7 @@ export class ChatlistComponent implements OnInit {
 
   async ngOnInit() {
     await this.getChatList();
-    this.addListener();
+    await this.addListener();
   }
 
   async addListener() {

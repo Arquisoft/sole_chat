@@ -26,15 +26,15 @@ export class ChatComponent implements OnInit {
 
     }
 
-    ngOnInit() {
-        this.loadFriends();
+    async ngOnInit() {
         this.changeFriend.chat.subscribe(async res => {
             this.chat = res;
             if (this.chat != null) {
-                this.loadMessages();
+                await this.loadMessages();
                 this.addListener(this.chat, this.fileManager);
             }
         });
+        await this.loadFriends();
     }
 
     async addListener(chat, fm) {
@@ -107,6 +107,7 @@ export class ChatComponent implements OnInit {
     }
 
     createGroupChat(users, name): any {
+        console.log(users);
         this.fileManager.createChat(users, name);
     }
 
