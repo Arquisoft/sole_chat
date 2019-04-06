@@ -1,16 +1,17 @@
-
-import { browser, by, element } from 'protractor';
+import {browser, by, element} from 'protractor';
 
 export class AppPage {
     navigateToLogin() {
         this.sleep(3000);
         return browser.get('/login');
     }
-    navigateToRegister () {
+
+    navigateToRegister() {
         this.sleep(3000);
         return browser.get('/register');
     }
-    navigateToCard () {
+
+    navigateToCard() {
         this.sleep(3000);
         return browser.get('/card');
     }
@@ -19,12 +20,19 @@ export class AppPage {
         this.sleep(3000);
         return element(by.css('h1')).getText();
     }
+
     getDescriptionLogin() {
         return element(by.css('h2')).getText();
     }
+
     getParagraphRegister1() {
         return element(by.id('paragraphRegister1')).getText();
     }
+
+    getParagraphRegister2() {
+        return element(by.id('paragraphRegister2')).getText();
+    }
+
     clickOnRegisterButton() {
         return element(by.id('registerButton')).click();
     }
@@ -32,6 +40,7 @@ export class AppPage {
     clickOnSaveButton() {
         return element(by.id('saveButton')).click();
     }
+
     // This function is used to reduce the speed of the test
     // in order to avoid errors when running the tests
     private sleep(milliseconds: number): void {

@@ -59,6 +59,13 @@ Then(/^I should see the first paragraph$/, async () => {
     expect(await page.getParagraphRegister1()).to.equal('Select Solid Identity Provider');
 });
 
+// Go to the register page - Display the second paragraph
+Then(/^I should see the second paragraph$/, async () => {
+    expect(await page.getParagraphRegister2()).to.equal('With a Solid Identity your personal' +
+        ' data is stored securely in a POD. ' +
+        'You control who has access to it.');
+});
+
 
 
 
