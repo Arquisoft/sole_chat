@@ -44,7 +44,7 @@ The users will communicate with one another through URLs, that is, through the i
 In this way, two users will communicate through internet, using their respective Pods.
 
 .Technical context diagram
-image::images/technical_diagram.png[Technical context diagram]
+image:https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/images/technical_diagram.png[Technical context diagram]
 
 |===
 |Object |Description
