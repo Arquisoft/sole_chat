@@ -8,4 +8,4 @@ In order to send a message we add the turtle's statements of the corresponding m
 
 For showing the messages, we have a method that load the messages of the file (text and hour) and then it shows all of them. This method is called when the messages's file is changed.
 
-
+image::https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/images/RuntimeView.png[Runtime View Diagram]
