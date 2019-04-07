@@ -9,7 +9,19 @@ So, a user that is using the chat, is interacting with Solid and this is taking 
 
 === Infrastructure Level 1
 
-//diagram
+image::https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/images/DeploymentView.png[Deployment View]
+
+|===
+|Object |Description
+
+|Solid | Represents the server in which all the Solid pods are stored.
+
+|Sole | Represents our application, that will be the place from which the users will be able to communicate with each other.
+
+|Pod | Represents the Pod of user X, this Pod is a Solid Pod and it will contain all the data from the given user.
+
+|User X | Represents a user that is using the application.
+
 
 
 
