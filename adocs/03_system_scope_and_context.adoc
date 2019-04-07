@@ -17,7 +17,7 @@ In the environment of the system only “basic information” of each user is go
 Critical information like bank credentials or ID is not going to be visible (and probably not necessary in any part of the program).
 
 .Business context diagram
-image::images/businessContext-2.png[Business context diagram]
+image::https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/images/businessContext-2.png[Business context diagram]
 
 
 |===

@@ -1,21 +1,91 @@
-
-import { browser, by, element } from 'protractor';
+import {browser, by, element} from 'protractor';
 
 export class AppPage {
+
     navigateToLogin() {
+        this.sleep(1000);
         return browser.get('/login');
     }
-    navigateToCard () {
+
+
+    navigateToRegister() {
+        this.sleep(1000);
+        return browser.get('/register');
+    }
+
+
+
+    navigateToCard() {
+        this.sleep(1000);
         return browser.get('/card');
     }
 
-    getCardTitleText() {
-        return element(by.css('h1')).getText();
+    navigateToUserList() {
+        this.sleep(1000);
+        return browser.get('/userList');
     }
+
+
+
+    navigateToChat() {
+        this.sleep(1000);
+        return browser.get('/chat');
+    }
+
+
+    getCardTitleText() {
+        this.sleep(1000);
+        return $('h1').getText();
+    }
+
     getDescriptionLogin() {
         return element(by.css('h2')).getText();
     }
+
+
+    getParagraphRegister1() {
+        return element(by.id('paragraphRegister1')).getText();
+    }
+
+
+    getParagraphRegister2() {
+        return element(by.id('paragraphRegister2')).getText();
+    }
+    
+
+    getUserListTitle() {
+        return element(by.id('userListTitle')).getText();
+    }
+
+
     clickOnRegisterButton() {
         return element(by.id('registerButton')).click();
+    }
+
+
+    clickOnSaveButton() {
+        return element(by.id('saveButton')).click();
+    }
+
+
+    clickOnCreateNewChat() {
+        return element(by.id('newChatButton')).click();
+    }
+
+
+    clickOnNewChat() {
+        return element(by.id('newChatButton2')).click();
+    }
+
+
+    // This function is used to reduce the speed of the test
+    // in order to avoid errors when running the tests
+    private sleep(milliseconds: number): void {
+        const start = new Date().getTime();
+        for (let i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds) {
+                break;
+            }
+        }
     }
 }

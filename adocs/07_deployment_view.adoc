@@ -3,18 +3,27 @@
 
 == Deployment View
 
-TODO: the technical infrastructure used to execute the system
-
-TODO: mapping of (software) building blocks to that infrastructure elements
+As it is a decentralized chat, we are basically focused on the interaction between the user and The Solid platform.
+Users interact with the platform by the POD and every user has a unique one where it's data is stored.
+So, a user that is using the chat, is interacting with Solid and this is taking the data from the corresponding PODs in order to make the chat work in an efficient way. 
 
 === Infrastructure Level 1
 
-TODO: describe the first infrastructure level
+image::https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/images/DeploymentView.png[Deployment View]
 
-TODO: overview diagram
+|===
+|Object |Description
 
-=== Infrastructure Level 2
+|Solid | Represents the server in which all the Solid pods are stored.
 
-TODO: internal structure of (some) infrastructure elements from level 1.
+|Sole | Represents our application, that will be the place from which the users will be able to communicate with each other.
 
-MORE INFO: helpForDocumentation/deploymentView
+|Pod | Represents the Pod of user X, this Pod is a Solid Pod and it will contain all the data from the given user.
+
+|User X | Represents a user that is using the application.
+
+
+
+
+
+

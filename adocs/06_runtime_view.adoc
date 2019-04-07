@@ -2,7 +2,7 @@
 == Runtime View
 
 We have a turtle file for each of the chats, every file contains the messages, the hour and the person who created them.
-That file will be stored in your POD or in your friend's, this is managed if such a way that if we can not find the file in niether of the PODs then the system will create a new one.
+That file will be stored in your POD and you and the participants of the group (in case of a group chat) will be owners of this file so they will have access to the data inside of it. This is managed in such a way that if we can not find the file in niether of the PODs then the system will create a new one.
 
 In order to send a message we add the turtle's statements of the corresponding message to the file using the method updateManager.
 

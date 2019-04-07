@@ -92,6 +92,14 @@ include::11_technical_risks.adoc[]
 include::12_glossary.adoc[]
 
 <<<<
+// 13. Requirements
+include::13_requirement_document.adoc[]
+
+<<<<
+// 14. Future Improvements
+include::14_future_improvements.adoc[]
+
+<<<<
 // About
 include::about-arc42.adoc[]
 

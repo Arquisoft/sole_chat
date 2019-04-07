@@ -8,6 +8,12 @@
 
 |Add end-to-end encryprition to messages.
 
+| Desktop notifications 
+
+| Being able to to video calls
+
+
+
 
 
 
