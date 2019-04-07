@@ -459,8 +459,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#section-building-block-view">5. Building Block View</a>
 <ul class="sectlevel2">
 <li><a href="#_whitebox_overall_system">5.1. Whitebox Overall System</a></li>
-<li><a href="#_level_2">5.2. Level 2</a></li>
-<li><a href="#_level_3">5.3. Level 3</a></li>
+<li><a href="#_building_block_view_diagram">5.2. Building Block View Diagram</a></li>
+<li><a href="#_level_2">5.3. Level 2</a></li>
+<li><a href="#_level_3">5.4. Level 3</a></li>
+<li><a href="#_level_4">5.5. Level 4</a></li>
 </ul>
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a></li>
@@ -489,6 +491,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-technical-risks">11. Risks and Technical Debts</a></li>
 <li><a href="#section-glossary">12. GLOSARY</a></li>
+<li><a href="#requirement-document">13. Requirements Document</a></li>
+<li><a href="#future-improvements">14. Future Improvements</a></li>
 </ul>
 </div>
 </div>
@@ -797,6 +801,46 @@ It can be independent users, like friends (not only enterprise members).</p>
 <p>In the environment of the system only “basic information” of each user is going to be shared, like the user name or the e-mail address.
 Critical information like bank credentials or ID is not going to be visible (and probably not necessary in any part of the program).</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/images/businessContext-2.png" alt="Business context diagram">
+</div>
+<div class="title">Figure 1. Business context diagram</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Object</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sole</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents our web application, that will be the place from which the users will be able to communicate with each other.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receiver&#8217;s POD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents the Pod of the receiver user, this Pod is a Solid Pod and it will contain all the data from the given user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sender&#8217;s POD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents the Pod of the sender user, this Pod is a Solid Pod and it will contain all the data from the given user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sender</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents a user that is using the application sending something to other user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receiver</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents a user that is using the application receiving something from other user.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_technical_context">3.2. Technical Context</h3>
@@ -813,7 +857,7 @@ Critical information like bank credentials or ID is not going to be visible (and
 <div class="content">
 <img src="./images/images/technical_diagram.png" alt="Technical context diagram">
 </div>
-<div class="title">Figure 1. Technical context diagram</div>
+<div class="title">Figure 2. Technical context diagram</div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -894,33 +938,116 @@ Critical information like bank credentials or ID is not going to be visible (and
 <h2 id="section-building-block-view">5. Building Block View</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TODO: Building block view</p>
+<p>Sole is basically implemented using the Solid Platform which has provided the foundations of the project and we also rely in Angular for the structure of the project.
+Mainly what Sole does is providing the users with a decentralized chat where they could send messages to each other and store them in their own PODs.</p>
+</div>
+<div class="paragraph">
+<p>To build this application we used (as previously explained) the Solid Platform that uses PODs, external libraries and tests. Everything managed by the user.</p>
+</div>
+<div class="paragraph">
+<p>Inside this POD we can login our own POD, there are models, services, there’s also the chat which is the one the user will access later. In the Tests part we are using mainly cucumber to make user stories tests.
+  -The services used are authentication, file manager and rdf.
+  -The main advantage of the chat is that it is decentralized and this makes possible for you to keep your data safe, no one else could see what your messages are or who are you sending those messages to.</p>
 </div>
 <div class="sect2">
 <h3 id="_whitebox_overall_system">5.1. Whitebox Overall System</h3>
 <div class="paragraph">
-<p>TODO: describe the decomposition of the overall system using the white box template.</p>
-</div>
-<div class="paragraph">
-<p>TODO: Overview diagram</p>
-</div>
-<div class="paragraph">
-<p>TODO: explanation of black boxes</p>
+<p>Diagram:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_level_2">5.2. Level 2</h3>
+<h3 id="_building_block_view_diagram">5.2. Building Block View Diagram</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/images/BuildingBlockView.png" alt="Building Block View">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Object</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scope and context</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is the white box description of the overall system together with black box descriptions of all contained building blocks.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Level 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zooms into some building blocks of the scope and context. Thus it contains the white box description of selected building blocks of scope and context, together with black box descriptions of their internal building blocks.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Level 3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zooms into selected building blocks of level 2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Level 4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Zooms into the selected building blocks of level 3.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Solid Platform</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents the server in which all the Solid pods are stored.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sole</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents our application, that will be the place from which the users will be able to communicate with each other.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pod</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents the Pod of user X, this Pod is a Solid Pod and it will contain all the data from the given user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents a user that is using the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chat</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is the chat of our application and the way users are going to be able to communicate between them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tests</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represent the part of the code where we test the application by using Cucumber.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Services</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represent the services that we have in our code in order for the application to run.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Components</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represent the components that our application is integrated with (related to the code).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_level_2">5.3. Level 2</h3>
 <div class="paragraph">
-<p>TODO: specify the inner structure of (some) building blocks from level 1 as white boxes.</p>
+<p>In this level we have The Solid Platform that is the foundation of the project, it provides the PODs and each user has a unique one. The chat is accessed by the user using this PODs  to communicate between them. We also have external libraries that are written in the package.json they are the dependencies and we can also update them with command “npm install”. Testing our applications is also in this level.</p>
+</div>
+<div class="paragraph">
+<p>In the next level we can see zoom in Chat and Tests</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_level_3">5.3. Level 3</h3>
+<h3 id="_level_3">5.4. Level 3</h3>
 <div class="paragraph">
-<p>TODO: specify the inner structure of (some) building blocks from level 1 as white boxes.</p>
+<p>Level 3 is integrated by tests and main structure of the chat.
+In the tests, we basically only used Cucumber to test our application.
+The chat is composed by models, services and also the components in order for the application to work in the most efficient way.
+Relying on the Solid Platform to make the chat decentralized.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_level_4">5.5. Level 4</h3>
 <div class="paragraph">
-<p>MORE INFO: helpForDocumentation/buildingBlockView</p>
+<p>Finally on the level 4 we have the services which are the Authentication, RDF, Changes and File Manager. We also make zoom in the Components that we have, nav, register, login, dashboard, card, chat and about.
+With all this, we can make our application run so that the chat will work and we will be able to send messages and files.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -930,27 +1057,15 @@ Critical information like bank credentials or ID is not going to be visible (and
 <h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:</p>
+<p>We have a turtle file for each of the chats, every file contains the messages, the hour and the person who created them.
+That file will be stored in your POD or in your friend&#8217;s, this is managed if such a way that if we can not find the file in niether of the PODs then the system will create a new one.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-Important use cases or features: how do building blocks execute them?</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-Interactions at critical external interfaces: how do building blocks cooperate with users and neighbouring systems?</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-Operation and administration: launch, start-up, stop</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-Error and exception scenarios</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>In order to send a message we add the turtle&#8217;s statements of the corresponding message to the file using the method updateManager.</p>
+</div>
+<div class="paragraph">
+<p>For showing the messages, we have a method that load the messages of the file (text and hour) and then it shows all of them. This method is called when the messages&#8217;s file is changed.</p>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -996,14 +1111,30 @@ Critical information like bank credentials or ID is not going to be visible (and
 </div>
 <div class="sect2">
 <h3 id="_domain_concept">8.2. <em>Domain Concept</em></h3>
-<div class="paragraph">
-<p>The message is a piece of text that is send from one user to other, the users must be friends in order to send the message to the other user.</p>
+<div class="literalblock">
+<div class="content">
+<pre>-The message is a piece of text that is send from one user to other, the users must be friends in order to send the message to the other user.</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>The pod is where the data is stored, it is provide by the Solid Platform and thanks to this pod it is posible to have the descentralized chat. Only one pod for each user.</p>
+<p>And this is how our messages work of our system:</p>
 </div>
 <div class="paragraph">
-<p>The client is the person who will use the chat, it will be able to send messages and use the app, it will have also a unique pod.</p>
+<p>In each POD inside public folder, and inside sole folder there&#8217;s a ChatIndex.ttl that contains a reference to active chats.</p>
+</div>
+<div class="paragraph">
+<p>Then, in /chatEmi folder is where the elements of the chat with Emi user are.
+And inside this folder, there&#8217;s index.ttl that contains the messages of the chat with Emi.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>-The pod is where the data is stored, it is provide by the Solid Platform and thanks to this pod it is posible to have the descentralized chat. Only one pod for each user.</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>-The client is the person who will use the chat, it will be able to send messages and use the app, it will have also a unique pod.</pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1070,7 +1201,11 @@ Its structure and function relies on the Solid pod that changes with every user,
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Web hosting</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The team decided to use github pages to host our application</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team decided to use github pages to host our application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interface</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Using a desing using a yellow color palette</p></td>
 </tr>
 </tbody>
 </table>
@@ -1086,7 +1221,7 @@ Its structure and function relies on the Solid pod that changes with every user,
 <div class="content">
 <img src="./images/images/qualityAttributesTree.png" alt="Quality Tree">
 </div>
-<div class="title">Figure 2. Quality Tree</div>
+<div class="title">Figure 3. Quality Tree</div>
 </div>
 </div>
 <div class="sect2">
@@ -1120,30 +1255,18 @@ Change scenarios describe a modification of the system or of its immediate envir
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">availability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">a user must be notified when a message is not sent in under 30 seconds</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">availability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">if there is an error accesing the database the application must function as planned without any distrubance to the system</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">scalability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the application must support up to 50 users concurrently</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the application must support up to 10 users concurrently</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">medium</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">availability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">a user can search up to 100 last messages</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">medium</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">compatibility</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">the application must function with the solid platform</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
@@ -1283,6 +1406,10 @@ to work with such a big group</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stands for Resource Description Framework and is a standard for data interchange, developed and agreed upon by W3C.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Selenium</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Open source tool which is used for automating the tests carried out on web browsers.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cucumber</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tool that supports Behavior Driven Development (BDD). It offers a way to write tests that anybody can understand, regardless of their technical knowledge.</p></td>
 </tr>
@@ -1297,6 +1424,136 @@ to work with such a big group</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Feature</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Entry point to the Cucumber tests. This is a file where the programmer will describe the tests in descriptive language (like English).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Given (Cucumber step)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It specifies the context of the text to be executed. By using datatables "Given", step can also be parameterized.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When (Cucumber step)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the test action that has to performed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Then (Cucumber step)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Keyword used to express the expected outcome.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gherkin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Language that Cucumber uses to define test cases. It is designed to be non-technical and human readable, and collectively describes use cases relating to a software system.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chai</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Assertion library to execute code to manipulate selenium-webdriver. Selenium will execute these and send the result.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="requirement-document">13. Requirements Document</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Requirements analysis is critical to the success or failure of a systems or software project. This is why we decided to add this document.
+This requirements are actionable, measurable, testable, traceable,
+and defined clearly.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Build a decentralized application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every user needs a to have a solid pod.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The solid pod must be use to login in and identify a user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user can be friends with other users</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The friends are made in the solid pod</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All the data is stored in the users solid pod</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Files of up to 1MB can be sent in the chats</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Image files of .jpeg .png .jpg and .gif extension are supported to be sent</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Video files of .mp4 .mov and .flv extension are supported to be sent</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Text files are also supported to be sent of .txt extension</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A chat can be initiated in the users pod</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Group chats are supported</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message once the sent button is pressed cannot be edited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message once the sent button is pressed cannot be deleted</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Another user must have no control of a user chat aka they cannot make any modification in who is allowed to see the chat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user that is not a friend of the user cannot be allowed in the chat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For two different users to chat they must be solid pod friends</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It must be supported for a user to have up to 50 friends</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It must be supported for a groupchat to have up to 20 members</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Links and emojis must be supported to be sent in the groupchat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up to 140 character must be supported to be sent in a single text in the chat.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user must login to be able to use the chat</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="future-improvements">14. Future Improvements</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Future improvements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add end-to-end encryprition to messages.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1325,7 +1582,7 @@ Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-03-12 00:11:02 +0100
+Last updated 2019-04-07 14:36:02 +0200
 </div>
 </div>
 </body>
