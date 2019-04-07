@@ -31,7 +31,7 @@ export class AppPage {
 
     getCardTitleText() {
         this.sleep(3000);
-        return element(by.css('h1')).getText();
+        return $('h1').getText();
     }
 
     getDescriptionLogin() {

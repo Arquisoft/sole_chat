@@ -29,8 +29,6 @@ Given(/^I am on the card page$/, async () => {
     await page.navigateToCard();
 });
 
-
-
 Then(/^I should see the card title$/, async () => {
     expect(await page.getCardTitleText()).to.equal('Profile');
 });
