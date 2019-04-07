@@ -6,6 +6,7 @@ export class AppPage {
         return browser.get('/login');
     }
 
+
     navigateToRegister() {
         this.sleep(3000);
         return browser.get('/register');
@@ -15,6 +16,8 @@ export class AppPage {
         this.sleep(3000);
         return browser.get('/card');
     }
+
+
 
     navigateToChat() {
         this.sleep(3000);
@@ -31,9 +34,13 @@ export class AppPage {
         return element(by.css('h2')).getText();
     }
 
+
+
     getParagraphRegister1() {
         return element(by.id('paragraphRegister1')).getText();
     }
+
+
 
     getParagraphRegister2() {
         return element(by.id('paragraphRegister2')).getText();
@@ -47,9 +54,16 @@ export class AppPage {
         return element(by.id('saveButton')).click();
     }
 
-    clickOnNewChat() {
+    clickOnCreateNewChat() {
         return element(by.id('newChatButton')).click();
     }
+
+
+    clickOnNewChat() {
+        return element(by.id('newChatButton2')).click();
+    }
+
+
 
     // This function is used to reduce the speed of the test
     // in order to avoid errors when running the tests

@@ -28,6 +28,9 @@ Then(/^I should see the login description$/, async () => {
 Given(/^I am on the card page$/, async () => {
     await page.navigateToCard();
 });
+
+
+
 Then(/^I should see the card title$/, async () => {
     expect(await page.getCardTitleText()).to.equal('Profile');
 });
@@ -37,6 +40,9 @@ Then(/^I should see the card title$/, async () => {
 When(/^I click on register button$/, async () => {
     await page.clickOnRegisterButton();
 });
+
+
+
 Then(/^It should happen anything$/, () => {
 });
 
@@ -50,6 +56,7 @@ Then(/^I should see the profile image$/, () => {
 });
 
 
+
 // Go to the register page - Display the first paragraph
 Given(/^I am on the register page$/, async () => {
     await page.navigateToRegister();
@@ -59,6 +66,10 @@ Then(/^I should see the first paragraph$/, async () => {
     expect(await page.getParagraphRegister1()).to.equal('Select Solid Identity Provider');
 });
 
+
+
+
+
 // Go to the register page - Display the second paragraph
 Then(/^I should see the second paragraph$/, async () => {
     expect(await page.getParagraphRegister2()).to.equal('With a Solid Identity your personal' +
@@ -66,14 +77,24 @@ Then(/^I should see the second paragraph$/, async () => {
         'You control who has access to it.');
 });
 
+
+
+
 // Go to the chat page - Click on the "create a new" chat button
 Given(/^I am on the chat page$/, async () => {
     await page.navigateToChat();
 });
 When(/^I click on create a new chat$/, async () => {
-    await page.clickOnNewChat();
+    await page.clickOnCreateNewChat();
 });
 
+
+
+
+// Go to the chat page - Create a new chat
+Then(/^I click on new chat$/, async () => {
+    await page.clickOnNewChat();
+});
 
 
 
