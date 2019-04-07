@@ -3,6 +3,7 @@
 Regarding this project we should bear in mind some technical risks that could difficult the task of implementing this application.
 
 |===
+
 |Priority |Risk |Measures to mitigate it
 
 |1 |The developers have never worked with Solid |They will do research about it, using the official webpage and Solid chat and all the information available
@@ -16,4 +17,3 @@ Regarding this project we should bear in mind some technical risks that could di
 |7 | the developers have never cordinated 
 to work with such a big group | The developers will learn how to manage to divide equally the work and work with the timing constraints and conflicts.
 |===
-

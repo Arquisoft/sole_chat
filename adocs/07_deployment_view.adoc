@@ -23,7 +23,7 @@ image::https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/imag
 |User X | Represents a user that is using the application.
 
 
-
+|===
 
 
 

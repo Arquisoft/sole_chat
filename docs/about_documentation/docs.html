@@ -471,6 +471,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_infrastructure_level_1">7.1. Infrastructure Level 1</a></li>
 </ul>
 </li>
+<li><a href="#section-concepts">8. Cross-cutting Concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_domain_concept">8.1. <em>Domain Concept</em></a></li>
+<li><a href="#_communication">8.2. <em>Communication</em></a></li>
+<li><a href="#_user_interface">8.3. <em>User Interface</em></a></li>
+<li><a href="#_persistency">8.4. <em>Persistency</em></a></li>
+<li><a href="#_structure_and_function">8.5. <em>Structure and function</em></a></li>
+</ul>
+</li>
+<li><a href="#section-design-decisions">9. Design Decisions</a></li>
+<li><a href="#section-quality-scenarios">10. Quality Requirements</a>
+<ul class="sectlevel2">
+<li><a href="#_quality_tree">10.1. Quality Tree</a></li>
+<li><a href="#_quality_scenarios">10.2. Quality Scenarios</a></li>
+</ul>
+</li>
+<li><a href="#section-technical-risks">11. Risks and Technical Debts</a></li>
+<li><a href="#section-glossary">12. GLOSARY</a></li>
+<li><a href="#requirement-document">13. Requirements Document</a></li>
+<li><a href="#future-improvements">14. Future Improvements</a></li>
 </ul>
 </div>
 </div>
@@ -1094,319 +1114,495 @@ So, a user that is using the chat, is interacting with Solid and this is taking 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User X</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Represents a user that is using the application.</p>
-<p class="tableblock">&lt;&lt;&lt;&lt;
-<a id="section-concepts"></a>
-== Cross-cutting Concepts</p>
-<p class="tableblock">Cross-cutting concepts in aspect-oriented software development, are aspects of a program that affect other concerns. When an application has different components some of these may rely in others these cannot be categorized in a existing section either in the design or implementation aspect. These concepts rely too much in other parts to be its own category. In pur application these concepts are:</p>
-<p class="tableblock">=== <em>Domain Concept</em></p>
-<p class="tableblock">  -The message is a piece of text that is send from one user to other, the users must be friends in order to send the message to the other user.</p>
-<p class="tableblock">  -The pod is where the data is stored, it is provide by the Solid Platform and thanks to this pod it is posible to have the descentralized chat. Only one pod for each user.</p>
-<p class="tableblock">  -The client is the person who will use the chat, it will be able to send messages and use the app, it will have also a unique pod.</p>
-<p class="tableblock">=== <em>Communication</em></p>
-<p class="tableblock">And this is how our messages work of our system:</p>
-<p class="tableblock">In each POD inside public folder, and inside sole folder there&#8217;s a ChatIndex.ttl that contains a reference to active chats.</p>
-<p class="tableblock">Then, in /chatEmi folder is where the elements of the chat with Emi user are.
+<td class="tableblock halign-left valign-top"><p class="tableblock">Represents a user that is using the application.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-concepts">8. Cross-cutting Concepts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cross-cutting concepts in aspect-oriented software development, are aspects of a program that affect other concerns. When an application has different components some of these may rely in others these cannot be categorized in a existing section either in the design or implementation aspect. These concepts rely too much in other parts to be its own category. In pur application these concepts are:</p>
+</div>
+<div class="sect2">
+<h3 id="_domain_concept">8.1. <em>Domain Concept</em></h3>
+<div class="literalblock">
+<div class="content">
+<pre>-The message is a piece of text that is send from one user to other, the users must be friends in order to send the message to the other user.</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>-The pod is where the data is stored, it is provide by the Solid Platform and thanks to this pod it is posible to have the descentralized chat. Only one pod for each user.</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>-The client is the person who will use the chat, it will be able to send messages and use the app, it will have also a unique pod.</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_communication">8.2. <em>Communication</em></h3>
+<div class="paragraph">
+<p>And this is how our messages work of our system:</p>
+</div>
+<div class="paragraph">
+<p>In each POD inside public folder, and inside sole folder there&#8217;s a ChatIndex.ttl that contains a reference to active chats.</p>
+</div>
+<div class="paragraph">
+<p>Then, in /chatEmi folder is where the elements of the chat with Emi user are.
 And inside this folder, there&#8217;s index.ttl that contains the messages of the chat with Emi.</p>
-<p class="tableblock">=== <em>User Interface</em>
-Our interface in order to be intuitive and easy to use, it has different colors (also prepared for blind-color people), as a first view everything seems to be clean and easy to understand. It also has a good contrast, the chat is familiar and confortable for the person who is using it.
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_interface">8.3. <em>User Interface</em></h3>
+<div class="paragraph">
+<p>Our interface in order to be intuitive and easy to use, it has different colors (also prepared for blind-color people), as a first view everything seems to be clean and easy to understand. It also has a good contrast, the chat is familiar and confortable for the person who is using it.
 It has internal coherence and a clear hierarchy, is efficiency, giving more priority to the most important things.</p>
-<p class="tableblock">=== <em>Persistency</em>
-Persistence refers to the characteristic of state that outlives the process that created it, our proyect relies on the Solid Platform so the persistence is provided by Solid.</p>
-<p class="tableblock">=== <em>Structure and function</em>
-The way in which an object or living thing is shaped and its substructure determine many of its properties and functions.
+</div>
+</div>
+<div class="sect2">
+<h3 id="_persistency">8.4. <em>Persistency</em></h3>
+<div class="paragraph">
+<p>Persistence refers to the characteristic of state that outlives the process that created it, our proyect relies on the Solid Platform so the persistence is provided by Solid.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_structure_and_function">8.5. <em>Structure and function</em></h3>
+<div class="paragraph">
+<p>The way in which an object or living thing is shaped and its substructure determine many of its properties and functions.
 Complex structures and systems can be visualized, modeled, and used to describe how their function depends on the shapes, composition, and relationships among its parts.
 Its structure and function relies on the Solid pod that changes with every user, because every pod is different for each user.</p>
-<p class="tableblock">&lt;&lt;&lt;&lt;
-<a id="section-design-decisions"></a>
-== Design Decisions
-Here we state the more important design decisions that have been taken in this project.</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>|<strong>Design Desicions</strong>|<strong>Description</strong>
-|Programming Language | The team will use JavaScript as the programming language for building the application.</p>
 </div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-design-decisions">9. Design Decisions</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>|Framework | Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.
-|Yeoman | The team decided to use yeoman as a code generator to use Solid libraries which make our application easier to implement.
-|Cucumber| The team decided to use acceptance testing using cucumber.
-|Web hosting | The team decided to use github pages to host our application.
-|Interface| Using a desing using a yellow color palette</p>
+<p>Here we state the more important design decisions that have been taken in this project.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 100%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;&lt;&lt;&lt;
-<a id="section-quality-scenarios"></a>
-== Quality Requirements</p>
-<p class="tableblock">=== Quality Tree</p>
-<p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/qualityAttributesTree.png" alt="Quality Tree"></span></p>
-<p class="tableblock">=== Quality Scenarios
-For architects, two kinds of scenarios are important:</p>
-<p class="tableblock">Usage scenarios describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance.
-Change scenarios describe a modification of the system or of its immediate environment.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Design Desicions</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Programming Language</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team will use JavaScript as the programming language for building the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Framework</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yeoman</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team decided to use yeoman as a code generator to use Solid libraries which make our application easier to implement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cucumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team decided to use acceptance testing using cucumber.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web hosting</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team decided to use github pages to host our application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interface</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Using a desing using a yellow color palette</p></td>
 </tr>
 </tbody>
 </table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-quality-scenarios">10. Quality Requirements</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_quality_tree">10.1. Quality Tree</h3>
 <div class="paragraph">
-<p>|<strong>ref</strong>|<strong>quality attribute</strong>|<strong>quality scenario</strong>| priority
-|1|performance |a user must receive a message in less than 30 seconds |high
-|2|scalability|If the number of users increased, the system must be available and the perfomance mustn’t be affected|medium
-|2|scalability|the application must support up to 10 users concurrently|medium
-|3|availability|a user can search up to 100 last messages |medium
-|4|compatibility|the application must function with the solid platform|high
-|3|avaliability|The system must be available/accessible at 90%|high</p>
+<p><span class="image"><img src="https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/qualityAttributesTree.png" alt="Quality Tree"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quality_scenarios">10.2. Quality Scenarios</h3>
+<div class="paragraph">
+<p>For architects, two kinds of scenarios are important:</p>
+</div>
+<div class="paragraph">
+<p>Usage scenarios describe the system’s runtime reaction to a certain stimulus. This also includes scenarios that describe the system’s efficiency or performance.
+Change scenarios describe a modification of the system or of its immediate environment.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 100%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;&lt;&lt;&lt;
-<a id="section-technical-risks"></a>
-== Risks and Technical Debts
-Regarding this project we should bear in mind some technical risks that could difficult the task of implementing this application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ref</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>quality attribute</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>quality scenario</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">priority</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">performance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">a user must receive a message in less than 30 seconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">scalability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the number of users increased, the system must be available and the perfomance mustn’t be affected</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">medium</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">scalability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the application must support up to 10 users concurrently</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">medium</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">a user can search up to 100 last messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">medium</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">compatibility</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the application must function with the solid platform</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avaliability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system must be available/accessible at 90%</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>|Priority |Risk |Measures to mitigate it</p>
+<div style="page-break-after: always;"></div>
 </div>
-<div class="paragraph">
-<p>|1 |The developers have never worked with Solid |They will do research about it, using the official webpage and Solid chat and all the information available</p>
 </div>
-<div class="paragraph">
-<p>|2 |The developers are not familiar with JavaScript |All of them will look for information and try to get familiar with this language in order to take advantage of it to implement the application</p>
 </div>
+<div class="sect1">
+<h2 id="section-technical-risks">11. Risks and Technical Debts</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>|3 |The developers have never used Angular |All of them will watch videos and find information in order to learn the capabilities of this framework
-|4 |The developers have never used RDF | A subteam will be dedicated to research rdf and how to use it with solid.
-|5 |The developers have never used Turtle | A subteam will be dedicated to research turtle and how to use it with rdf.
-|6 |The developers have never used Cucumber | The team has never done any kind of acceptance test so we will also have to get familiar on how to work with cucumber for testing.
-|7 | the developers have never cordinated
-to work with such a big group | The developers will learn how to manage to divide equally the work and work with the timing constraints and conflicts.</p>
+<p>Regarding this project we should bear in mind some technical risks that could difficult the task of implementing this application.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 100%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;&lt;&lt;&lt;
-<a id="section-glossary"></a>
-== GLOSARY</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Priority</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Risk</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Measures to mitigate it</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never worked with Solid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">They will do research about it, using the official webpage and Solid chat and all the information available</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers are not familiar with JavaScript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All of them will look for information and try to get familiar with this language in order to take advantage of it to implement the application</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never used Angular</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All of them will watch videos and find information in order to learn the capabilities of this framework</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never used RDF</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A subteam will be dedicated to research rdf and how to use it with solid.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never used Turtle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A subteam will be dedicated to research turtle and how to use it with rdf.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers have never used Cucumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The team has never done any kind of acceptance test so we will also have to get familiar on how to work with cucumber for testing.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the developers have never cordinated
+to work with such a big group</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The developers will learn how to manage to divide equally the work and work with the timing constraints and conflicts.</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>|Term |Definition</p>
+<div style="page-break-after: always;"></div>
 </div>
-<div class="paragraph">
-<p>|Decentralized communication |It doesn´t exist a central node. All group members have access to the same number of communication channels.</p>
 </div>
-<div class="paragraph">
-<p>|Solid |A proposed set of conventions and tools for building decentralized social applications based on Linked Data principles.</p>
-</div>
-<div class="paragraph">
-<p>|Linked Data |Linked data is a method for publishing structured data using vocabularies that can be connected together and interpreted by machines.</p>
-</div>
-<div class="paragraph">
-<p>|API(Application Programming Interface) |Software intermediary that allows two applications to communicate to each other.</p>
-</div>
-<div class="paragraph">
-<p>|Server |Program or device that provides functionality for other programs or devices (clients).</p>
-</div>
-<div class="paragraph">
-<p>|Client |An individual system that accesses the information and programs stored on a server as part of a network environment.</p>
-</div>
-<div class="paragraph">
-<p>|Client-Server Architecture |Computing model in which the server hosts, delivers and manages most of the resources and services to be consumed by the client.</p>
-</div>
-<div class="paragraph">
-<p>|JavaScript |Object-oriented computer programming language commonly used to create interactive effects within web browsers.</p>
-</div>
-<div class="paragraph">
-<p>|Angular |Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.</p>
-</div>
-<div class="paragraph">
-<p>|Pod |In Solid, name given to profiles.</p>
-</div>
-<div class="paragraph">
-<p>|Travis CI | Hosted, distributed continuous integration service used to build and test software projects hosted at GitHub.</p>
-</div>
-<div class="paragraph">
-<p>|Continuous integration | Practice of merging in small code changes frequently.</p>
-</div>
-<div class="paragraph">
-<p>|RDF | Stands for Resource Description Framework and is a standard for data interchange, developed and agreed upon by W3C.</p>
-</div>
-<div class="paragraph">
-<p>|Selenium | Open source tool which is used for automating the tests carried out on web browsers.</p>
-</div>
-<div class="paragraph">
-<p>|Cucumber | Tool that supports Behavior Driven Development (BDD). It offers a way to write tests that anybody can understand, regardless of their technical knowledge.</p>
-</div>
-<div class="paragraph">
-<p>|Protractor | End-to-end test framework for Angular and AngularJS applications. Runs tests against the application running in a real browser, interacting with it as a user would.</p>
-</div>
-<div class="paragraph">
-<p>|Scenario | One of the core Gherkin structures. Every scenario starts with the keyword “Scenario:” (or localized one) and is followed by an optional scenario title.</p>
-</div>
-<div class="paragraph">
-<p>|Feature | Entry point to the Cucumber tests. This is a file where the programmer will describe the tests in descriptive language (like English).</p>
-</div>
-<div class="paragraph">
-<p>|Given (Cucumber step) | It specifies the context of the text to be executed. By using datatables "Given", step can also be parameterized.</p>
-</div>
-<div class="paragraph">
-<p>|When (Cucumber step) | Specifies the test action that has to performed.</p>
-</div>
-<div class="paragraph">
-<p>|Then (Cucumber step) | Keyword used to express the expected outcome.</p>
-</div>
-<div class="paragraph">
-<p>|Gherkin | Language that Cucumber uses to define test cases. It is designed to be non-technical and human readable, and collectively describes use cases relating to a software system.</p>
-</div>
-<div class="paragraph">
-<p>|Chai | Assertion library to execute code to manipulate selenium-webdriver. Selenium will execute these and send the result.</p>
-</div>
+<div class="sect1">
+<h2 id="section-glossary">12. GLOSARY</h2>
+<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 100%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Term</th>
+<th class="tableblock halign-left valign-top">Definition</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;&lt;&lt;&lt;
-<a id="requirement-document"></a>
-== Requirements Document</p>
-<p class="tableblock">Requirements analysis is critical to the success or failure of a systems or software project. This is why we decided to add this document.
+<td class="tableblock halign-left valign-top"><p class="tableblock">Decentralized communication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It doesn´t exist a central node. All group members have access to the same number of communication channels.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Solid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A proposed set of conventions and tools for building decentralized social applications based on Linked Data principles.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Linked Data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Linked data is a method for publishing structured data using vocabularies that can be connected together and interpreted by machines.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API(Application Programming Interface)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Software intermediary that allows two applications to communicate to each other.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Program or device that provides functionality for other programs or devices (clients).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An individual system that accesses the information and programs stored on a server as part of a network environment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client-Server Architecture</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Computing model in which the server hosts, delivers and manages most of the resources and services to be consumed by the client.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object-oriented computer programming language commonly used to create interactive effects within web browsers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Angular</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Platform to build applications with the web, combining declarative templates, dependency injection and end to end tooling.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pod</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In Solid, name given to profiles.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Travis CI</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Hosted, distributed continuous integration service used to build and test software projects hosted at GitHub.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Continuous integration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Practice of merging in small code changes frequently.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RDF</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stands for Resource Description Framework and is a standard for data interchange, developed and agreed upon by W3C.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Selenium</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Open source tool which is used for automating the tests carried out on web browsers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cucumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tool that supports Behavior Driven Development (BDD). It offers a way to write tests that anybody can understand, regardless of their technical knowledge.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Protractor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">End-to-end test framework for Angular and AngularJS applications. Runs tests against the application running in a real browser, interacting with it as a user would.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scenario</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">One of the core Gherkin structures. Every scenario starts with the keyword “Scenario:” (or localized one) and is followed by an optional scenario title.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Feature</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Entry point to the Cucumber tests. This is a file where the programmer will describe the tests in descriptive language (like English).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Given (Cucumber step)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It specifies the context of the text to be executed. By using datatables "Given", step can also be parameterized.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When (Cucumber step)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the test action that has to performed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Then (Cucumber step)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Keyword used to express the expected outcome.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gherkin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Language that Cucumber uses to define test cases. It is designed to be non-technical and human readable, and collectively describes use cases relating to a software system.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chai</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Assertion library to execute code to manipulate selenium-webdriver. Selenium will execute these and send the result.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="requirement-document">13. Requirements Document</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Requirements analysis is critical to the success or failure of a systems or software project. This is why we decided to add this document.
 This requirements are actionable, measurable, testable, traceable,
-and defined clearly.</p></td>
+and defined clearly.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Build a decentralized application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every user needs a to have a solid pod.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The solid pod must be use to login in and identify a user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user can be friends with other users</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The friends are made in the solid pod</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All the data is stored in the users solid pod</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Files of up to 1MB can be sent in the chats</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Image files of .jpeg .png .jpg and .gif extension are supported to be sent</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Video files of .mp4 .mov and .flv extension are supported to be sent</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Text files are also supported to be sent of .txt extension</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A chat can be initiated in the users pod</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Group chats are supported</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message once the sent button is pressed cannot be edited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message once the sent button is pressed cannot be deleted</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Another user must have no control of a user chat aka they cannot make any modification in who is allowed to see the chat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user that is not a friend of the user cannot be allowed in the chat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For two different users to chat they must be solid pod friends</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It must be supported for a user to have up to 50 friends</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It must be supported for a groupchat to have up to 20 members</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Links and emojis must be supported to be sent in the groupchat</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up to 140 character must be supported to be sent in a single text in the chat.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A user must login to be able to use the chat</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>|Requirement</p>
+<div style="page-break-after: always;"></div>
 </div>
-<div class="paragraph">
-<p>|Build a decentralized application.</p>
 </div>
-<div class="paragraph">
-<p>|Every user needs a to have a solid pod.</p>
-</div>
-<div class="paragraph">
-<p>|The solid pod must be use to login in and identify a user.</p>
-</div>
-<div class="paragraph">
-<p>|A user can be friends with other users</p>
-</div>
-<div class="paragraph">
-<p>|The friends are made in the solid pod</p>
-</div>
-<div class="paragraph">
-<p>|All the data is stored in the users solid pod</p>
-</div>
-<div class="paragraph">
-<p>|Files of up to 1MB can be sent in the chats</p>
-</div>
-<div class="paragraph">
-<p>|Image files of .jpeg .png .jpg and .gif extension are supported to be sent</p>
-</div>
-<div class="paragraph">
-<p>|Video files of .mp4 .mov and .flv extension are supported to be sent</p>
-</div>
-<div class="paragraph">
-<p>|Text files are also supported to be sent of .txt extension</p>
-</div>
-<div class="paragraph">
-<p>|A chat can be initiated in the users pod</p>
-</div>
-<div class="paragraph">
-<p>|Group chats are supported</p>
-</div>
-<div class="paragraph">
-<p>|A message once the sent button is pressed cannot be edited</p>
-</div>
-<div class="paragraph">
-<p>|A message once the sent button is pressed cannot be deleted</p>
-</div>
-<div class="paragraph">
-<p>|Another user must have no control of a user chat aka they cannot make any modification in who is allowed to see the chat</p>
-</div>
-<div class="paragraph">
-<p>|A user that is not a friend of the user cannot be allowed in the chat</p>
-</div>
-<div class="paragraph">
-<p>|For two different users to chat they must be solid pod friends</p>
-</div>
-<div class="paragraph">
-<p>|It must be supported for a user to have up to 50 friends</p>
-</div>
-<div class="paragraph">
-<p>|It must be supported for a groupchat to have up to 20 members</p>
-</div>
-<div class="paragraph">
-<p>|Links and emojis must be supported to be sent in the groupchat</p>
-</div>
-<div class="paragraph">
-<p>|Up to 140 character must be supported to be sent in a single text in the chat.</p>
-</div>
-<div class="paragraph">
-<p>|A user must login to be able to use the chat</p>
-</div>
+<div class="sect1">
+<h2 id="future-improvements">14. Future Improvements</h2>
+<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 100%;">
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;&lt;&lt;&lt;
-<a id="future-improvements"></a>
-== Future Improvements</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Future improvements</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add end-to-end encryprition to messages.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Desktop notifications</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Being able to to video calls</p></td>
 </tr>
 </tbody>
 </table>
+<div style="page-break-after: always;"></div>
 <div class="paragraph">
-<p>|Future improvements</p>
+<p><strong>About arc42</strong></p>
 </div>
-<div class="paragraph">
-<p>|Add end-to-end encryprition to messages.</p>
-</div>
-<div class="paragraph">
-<p>| Desktop notifications</p>
-</div>
-<div class="paragraph">
-<p>| Being able to to video calls</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 100%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;&lt;&lt;&lt;
-:homepage: <a href="http://arc42.org" class="bare">http://arc42.org</a></p>
-<p class="tableblock">:keywords: software-architecture, documentation, template, arc42</p>
-<p class="tableblock">:numbered!:
-<strong>About arc42</strong></p>
-<p class="tableblock">[role="lead"]
-arc42, the Template for documentation of
+<div class="paragraph lead">
+<p>arc42, the Template for documentation of
 software and system architecture.</p>
-<p class="tableblock">By Dr. Gernot Starke, Dr. Peter Hruschka and contributors.</p>
-<p class="tableblock">Template Revision: 7.0 EN (based on asciidoc), January 2017</p>
-<p class="tableblock">&#169;
+</div>
+<div class="paragraph">
+<p>By Dr. Gernot Starke, Dr. Peter Hruschka and contributors.</p>
+</div>
+<div class="paragraph">
+<p>Template Revision: 7.0 EN (based on asciidoc), January 2017</p>
+</div>
+<div class="paragraph">
+<p>&#169;
 We acknowledge that this document uses material from the
 arc 42 architecture template, <a href="http://www.arc42.de" class="bare">http://www.arc42.de</a>.
-Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p></td>
-</tr>
-</tbody>
-</table>
+Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
 </div>
 </div>
 </div>

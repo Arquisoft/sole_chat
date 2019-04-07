@@ -3,7 +3,9 @@
 Here we state the more important design decisions that have been taken in this project.
 
 |===
+
 |*Design Desicions*|*Description*
+
 |Programming Language | The team will use JavaScript as the programming language for building the application.
 
 |Framework | Due to the amount of resources from the Solid Developers page relying on the use of Angular for the operations, we have decided to use this framework.
@@ -13,4 +15,3 @@ Here we state the more important design decisions that have been taken in this p
 |Interface| Using a desing using a yellow color palette
 
 |===
-
