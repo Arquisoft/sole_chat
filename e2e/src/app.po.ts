@@ -1,36 +1,40 @@
 import {browser, by, element} from 'protractor';
 
 export class AppPage {
+
     navigateToLogin() {
-        this.sleep(3000);
+        this.sleep(1000);
         return browser.get('/login');
     }
 
 
     navigateToRegister() {
-        this.sleep(3000);
+        this.sleep(1000);
         return browser.get('/register');
     }
 
+
+
     navigateToCard() {
-        this.sleep(3000);
+        this.sleep(1000);
         return browser.get('/card');
     }
 
     navigateToUserList() {
-        this.sleep(3000);
+        this.sleep(1000);
         return browser.get('/userList');
     }
 
 
+
     navigateToChat() {
-        this.sleep(3000);
+        this.sleep(1000);
         return browser.get('/chat');
     }
 
 
     getCardTitleText() {
-        this.sleep(3000);
+        this.sleep(1000);
         return $('h1').getText();
     }
 
@@ -47,18 +51,22 @@ export class AppPage {
     getParagraphRegister2() {
         return element(by.id('paragraphRegister2')).getText();
     }
+    
 
     getUserListTitle() {
         return element(by.id('userListTitle')).getText();
     }
 
+
     clickOnRegisterButton() {
         return element(by.id('registerButton')).click();
     }
 
+
     clickOnSaveButton() {
         return element(by.id('saveButton')).click();
     }
+
 
     clickOnCreateNewChat() {
         return element(by.id('newChatButton')).click();
