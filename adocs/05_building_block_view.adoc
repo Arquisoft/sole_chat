@@ -17,7 +17,7 @@ Inside this POD we can login our own POD, there are models, services, there’s 
 Diagram:
 
 === Building Block View Diagram 
-image::images/BuildingBlockView.png[Building Block View]
+image::https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/BuildingBlockView.png[Building Block View]
 
 
 
