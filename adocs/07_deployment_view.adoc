@@ -3,18 +3,15 @@
 
 == Deployment View
 
-TODO: the technical infrastructure used to execute the system
-
-TODO: mapping of (software) building blocks to that infrastructure elements
+As it is a decentralized chat, we are basically focused on the interaction between the user and The Solid platform.
+Users interact with the platform by the POD and every user has a unique one where it's data is stored.
+So, a user that is using the chat, is interacting with Solid and this is taking the data from the corresponding PODs in order to make the chat work in an efficient way. 
 
 === Infrastructure Level 1
 
-TODO: describe the first infrastructure level
+//diagram
 
-TODO: overview diagram
 
-=== Infrastructure Level 2
 
-TODO: internal structure of (some) infrastructure elements from level 1.
 
-MORE INFO: helpForDocumentation/deploymentView
+
