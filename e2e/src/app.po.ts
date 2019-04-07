@@ -17,6 +17,10 @@ export class AppPage {
         return browser.get('/card');
     }
 
+    navigateToUserList() {
+        this.sleep(3000);
+        return browser.get('/userList');
+    }
 
 
     navigateToChat() {
@@ -35,15 +39,17 @@ export class AppPage {
     }
 
 
-
     getParagraphRegister1() {
         return element(by.id('paragraphRegister1')).getText();
     }
 
 
-
     getParagraphRegister2() {
         return element(by.id('paragraphRegister2')).getText();
+    }
+
+    getUserListTitle() {
+        return element(by.id('userListTitle')).getText();
     }
 
     clickOnRegisterButton() {
@@ -62,7 +68,6 @@ export class AppPage {
     clickOnNewChat() {
         return element(by.id('newChatButton2')).click();
     }
-
 
 
     // This function is used to reduce the speed of the test

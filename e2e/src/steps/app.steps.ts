@@ -97,5 +97,11 @@ Then(/^I click on new chat$/, async () => {
 });
 
 
-
+// Go to the userList page - Display the title
+Given(/^I am on the userList page$/, async () => {
+    await page.navigateToUserList();
+});
+Then(/^I should see the userList title$/, async () => {
+    await page.getUserListTitle();
+});
 
