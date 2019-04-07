@@ -5,7 +5,7 @@
 === Quality Tree
 
 .Quality Tree
-image::images/qualityAttributesTree.png[Quality Tree]
+image:https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/images/qualityAttributesTree.png[Quality Tree]
 
 === Quality Scenarios
 For architects, two kinds of scenarios are important:
