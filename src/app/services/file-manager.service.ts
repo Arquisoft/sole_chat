@@ -70,7 +70,8 @@ export class FileManagerService {
     }
 
     async addChatToIndex(chat, webId) {
-        await fileManager.readFile(webId).then(
+        const chatIndex = webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl';
+        await fileManager.readFile(chatIndex).then(
             (body) => {
                 this.updateChatIndex(chat, webId);
             },
@@ -85,7 +86,7 @@ export class FileManagerService {
     }
 
     async updateChatIndex(chat, webId) {
-        await this.rdf.updateChatIndex(chat, webId);
+        this.rdf.updateChatIndex(chat, webId);
     }
 
     async sendMessage(message, direction, messages) {
@@ -98,65 +99,23 @@ export class FileManagerService {
                 this.updateFile(direction, message, messages);
             },
             (err) => {
-                if (err.includes('Not Found')) {
-                    this.createFile(direction, message, messages);
-                } else {
-                    console.log(err);
-                }
+                console.log(err);
             }
         );
     }
 
-    async getDirection(friendId) {
-        let webId;
-        await fileManager.popupLogin().then((id) => {
-            console.log('Logged in as ' + id);
-            webId = id;
-        });
-
-        let myFriend = (friendId.split('://')[1]).split('.')[0];
-        let myPublicFolder = webId.split('/profile')[0] + '/public/Sole/Chat_' + myFriend;
-        let direction;
-
-        await fileManager.readFolder(myPublicFolder).then(folder => {
-            console.log('Read ' + folder.name + ', it has ' + folder.files.length + ' files.');
-            direction = myPublicFolder;
-        }, (err) => {
+    async createFolder(webId, folder, friends, photo) {
+        await fileManager.readFolder(folder).then(folder => {
+        }, async err => {
             if (err.includes('Not Found')) {
-                direction = this.lookInFriendsFolder(webId, friendId, myPublicFolder);
+                await fileManager.createFolder(folder).then(success => {
+                    this.createACLChat(webId, folder, friends);
+                    this.createFile(folder + '/index.ttl', photo);
+                }, err => console.log(err));
             } else {
                 console.log(err);
             }
         });
-
-        return direction;
-    }
-
-    async lookInFriendsFolder(webId, friendId, myPublicFolder) {
-        let myName = (webId.split('://')[1]).split('.')[0];
-        let friendsPublicFolder = friendId.split('/profile')[0] + '/public/Sole/Chat_' + myName;
-        let direction;
-
-        await fileManager.readFolder(friendsPublicFolder).then(folder => {
-            console.log('Read ' + folder.name + ', it has ' + folder.files.length + ' files.');
-            direction = friendsPublicFolder;
-        }, (err) => {
-            if (err.includes('Not Found')) {
-                this.createFolder(webId, myPublicFolder, friendId);
-                direction = myPublicFolder;
-            } else {
-                console.log(err);
-            }
-        });
-
-        return direction;
-    }
-
-    async createFolder(webId, folder, friends) {
-        await fileManager.createFolder(folder).then(success => {
-            console.log(`Created folder ${folder}.`);
-        }, err => console.log(err));
-        this.createACLChat(webId, folder, friends);
     }
 
     async createACLChat(webId, folder, friends) {
@@ -166,7 +125,7 @@ export class FileManagerService {
             'a acl:Authorization; \n' +
             'acl:agent <' + webId + '>; \n';
         for (let i = 0; i < friends.length; i++) {
-            content += 'acl:agent <' + friends[i].webId + '>; \n';
+            content += 'acl:agent <' + friends[i].id + '>; \n';
         }
         content +=
             'acl:accessTo <' + folder + '/>; \n' +
@@ -179,38 +138,21 @@ export class FileManagerService {
             });
     }
 
-    async createFile(direction, message, messages) {
+    async createFile(direction, photo) {
         var baseContent = '@prefix : <#>.\n';
-        let permissions = direction + '.acl';
-
-        await fileManager.createFile(permissions, '').then(
-            (fileCreated) => {
-                console.log(`Created file ${fileCreated}.`);
-            }
-        );
 
         await fileManager.createFile(direction, baseContent).then(
             (fileCreated) => {
-                console.log(`Created file ${fileCreated}.`);
-                this.rdf.generateBaseChat(direction);
+                this.rdf.generateBaseChat(direction, photo);
             });
-
-        await fileManager.readFile(direction).then(
-            (body) => {
-                this.updateFile(direction, message, messages);
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
     }
 
     async updateFile(direction, message, messages) {
         await this.rdf.createMessage(message, messages, direction);
     }
 
-    async getMessages(displayedMessages, friendID) {
-        let direction = await this.getDirection(friendID) + '/index.ttl';
+    async getMessages(displayedMessages, chatDirection) {
+        let direction = chatDirection + '/index.ttl';
 
         await fileManager.popupLogin().then((webId) => {
             this.rdf.getMessages(displayedMessages, direction);
@@ -223,8 +165,8 @@ export class FileManagerService {
         });
     }
 
-    async getLastMessage(displayedMessages, friendID) {
-        let direction = await this.getDirection(friendID) + '/index.ttl';
+    async getLastMessage(displayedMessages, chatDirection) {
+        let direction = chatDirection + '/index.ttl';
 
         await fileManager.popupLogin().then((webId) => {
             this.rdf.getLastMessage(displayedMessages, direction);
@@ -234,11 +176,24 @@ export class FileManagerService {
     async createChat(users: any, name: any) {
         await fileManager.popupLogin().then((id) => {
             const direction = id.split('/profile')[0] + '/public/Sole/Chat_' + name;
-            this.createFolder(id, direction, users);
-            for (let i = 0; i < users.length; i++) {
-                this.addChatToIndex(direction + '/index.ttl', users[i].id);
+            let photo = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+
+            if (users.length == 1) {
+                photo = users[0].img;
             }
+
+            this.createFolder(id, direction, users, photo);
+            this.addChatToIndex(direction, id);
+            for (let i = 0; i < users.length; i++) {
+                console.log('Updating chat index for ' + users[i].username);
+                this.addChatToIndex(direction, users[i].id);
+            }
+
         });
+    }
+
+    async getActiveChats(chats) {
+        this.rdf.getActiveChats(chats);
     }
 }
 

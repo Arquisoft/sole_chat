@@ -6,5 +6,5 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class ChangeChatService {
 
-  public user = new BehaviorSubject(null);
+  public chat = new BehaviorSubject(null);
 }

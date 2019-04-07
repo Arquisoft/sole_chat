@@ -37,8 +37,11 @@
     "angular": "^1.7.8",
     "babel": "^6.23.0",
     "bootstrap": "^4.3.1",
+    "caniuse-lite": "^1.0.30000957",
+    "chai": "latest",
     "core-js": "^2.5.4",
     "crypto-js": "^3.1.9-1",
+    "cucumber": "latest",
     "gulp": "^4.0.0",
     "http": "^0.0.0",
     "isomorphic-fetch": "^2.2.1",
@@ -61,9 +64,7 @@
     "uri-js": "^3.0.2",
     "webcrypto": "^0.1.1",
     "whatwg-url": "^7.0.0",
-    "zone.js": "^0.8.26",
-    "cucumber": "latest",
-    "chai": "latest"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.6",
@@ -75,7 +76,9 @@
     "@types/cucumber": "^4.0.5",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
+    "@types/jquery": "^3.3.29",
     "@types/node": "~8.9.4",
+    "angular-cli-ghpages": "^0.5.3",
     "chai-as-promised": "^7.1.1",
     "codelyzer": "^4.4.4",
     "cucumber": "^5.1.0",

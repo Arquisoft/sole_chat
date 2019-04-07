@@ -1,3 +1,6 @@
+.userItem:hover {
+    opacity: 0.75;
+}
 
 .chatCard {
     display: flex;

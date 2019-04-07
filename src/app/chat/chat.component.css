@@ -118,10 +118,12 @@ h3 {
     text-align: left;
     overflow-wrap: break-word;
     word-wrap: break-word;
+    display:flex;
+    flex-direction: column;
 }
 
 .messageContent {
-    margin-bottom: 0.5em;
+    margin: 0.5em 0;
 }
 
 .messageTime {
@@ -146,6 +148,38 @@ h3 {
     margin: 2em 3em 0;
 }
 
+.modal-content {
+    border: none;
+    padding: 0 1.3em;
+}
+
+.modal-content * {
+    border: none;
+}
+
+.modal-title {
+    font-family: Circular;
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.chooserItem img{
+    margin: 0 1em;
+    height: 2.5em;
+    width: 2.5em;
+}
+
+.btn-primary {
+    border-radius: 30px;
+    background-color: #FDC02F;
+}
+
+.btn-secondary {
+    border-radius: 30px;
+    background-color: #555555;
+}
+
+
 #inputMessage {
     height: 2em;
     border: 1px solid rgb(233, 233, 233);
@@ -154,6 +188,11 @@ h3 {
     flex-grow: 1;
     margin-right: 2em;
     padding: 0.5em 1.5em;
+}
+
+#inputMessage:focus, #inputMessage:hover {
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(54, 54, 54, 0.25);
 }
 
 #submitMessage {
@@ -166,6 +205,12 @@ h3 {
     border: none;
     background-image: url(/assets/images/sendMessage.svg);
     background-repeat: no-repeat;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+}
+
+#submitMessage:hover {
+    opacity: 0.85;
 }
 
 #friendSelector{
@@ -181,6 +226,10 @@ h3 {
     border: none;
     background-image: url(/assets/images/newChat.svg);
     background-repeat: no-repeat;
+}
+
+#newChatButton:hover {
+    opacity: 0.85;
 }
 
  @media(max-width: 800px) {

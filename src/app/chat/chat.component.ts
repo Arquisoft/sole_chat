@@ -6,9 +6,7 @@ import {Subject} from 'rxjs';
 import {RdfService} from '../services/rdf.service';
 import {WindowService} from '@ng-select/ng-select/ng-select/window.service';
 
-
-//Methods defined in js files
-declare function createFolder(path, folder): any;
+declare var $: any;
 
 @Component({
     selector: 'app-chat',
@@ -16,31 +14,31 @@ declare function createFolder(path, folder): any;
     styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-    user: any;
-    public messages: Subject<null>;
+    chat: any;
+    newGroupName: String;
     userListPopup;
 
     @ViewChild('f') chatForm: NgForm;
     @ViewChild('scroller') scrollPane: ElementRef;
+    tempSelected;
 
-    constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
-                private rdf: RdfService) {
+    constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService) {
 
     }
 
-    ngOnInit() {
-        this.loadUserList();
-        this.changeFriend.user.subscribe(async res => {
-            this.user = res;
-            if (this.user != null) {
-                this.loadMessages();
-                this.addListener(this.user, this.fileManager);
+    async ngOnInit() {
+        this.changeFriend.chat.subscribe(async res => {
+            this.chat = res;
+            if (this.chat != null) {
+                await this.loadMessages();
+                this.addListener(this.chat, this.fileManager);
             }
         });
+        await this.loadFriends();
     }
 
-    async addListener(user, fm) {
-        let direction = await this.fileManager.getDirection(this.user.id) + '/index.ttl';
+    async addListener(chat, fm) {
+        let direction = chat.direction + '/index.ttl';
         let directionForSocket = 'wss' + direction.split('https')[1];
 
         let socket = new WebSocket(directionForSocket);
@@ -51,34 +49,33 @@ export class ChatComponent implements OnInit {
 
         socket.onmessage = function (msg) {
             if (msg.data && msg.data.slice(0, 3) === 'pub') {
-                fm.getLastMessage(user.messages, user.id);
+                fm.getLastMessage(chat.messages, chat.direction);
             }
         };
     }
 
     async onSubmit() {
-        if (this.user != null) {
+        if (this.chat != null) {
             var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
-            let direction = await this.fileManager.getDirection(this.user.id) + '/index.ttl';
-            await this.fileManager.sendMessage(message, direction, this.user.messages).then(e => {
+            let direction = this.chat.direction + '/index.ttl';
+            await this.fileManager.sendMessage(message, direction, this.chat.messages).then(e => {
                 (<HTMLInputElement>document.getElementById('inputMessage')).value = '';
             });
 
         }
     }
 
-    async loadUserList() {
+    async loadFriends() {
         this.userListPopup = [];
         await this.fileManager.getFriends(this.userListPopup);
     }
 
     private async loadMessages() {
-        this.user.messages = [];
-        await this.fileManager.getMessages(this.user.messages, this.user.id);
+        this.chat.messages = [];
+        await this.fileManager.getMessages(this.chat.messages, this.chat.direction);
     }
 
     createNewChat() {
-        console.log('Creando chat');
         var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
         //console.log(this.dummyusers);
         var selected = [];
@@ -99,23 +96,31 @@ export class ChatComponent implements OnInit {
         if (selected.length == 0) {
             console.log('Cerrando, no se han seleccionado usuarios');
         } else if (selected.length < 2) {
+            $('#groupNameDialog').modal('hide');
+
             this.createSingleUserChat(selected);
         } else {
-            this.createGroupChat(selected, 'Nuevo Grupo');
+            $('#groupNameDialog').modal('show');
+            this.tempSelected = selected;
         }
-
-
     }
 
     createGroupChat(users, name): any {
-        console.log('Ana crea el grupo para:');
-        console.log(users);
         this.fileManager.createChat(users, name);
     }
 
+
     createSingleUserChat(users): any {
-        console.log('Ana crea el chat para:');
-        console.log(users);
-        this.fileManager.createChat(users, users[0].username);
+        let name = users[0].id.split('://')[1].split('.')[0];
+        this.fileManager.createChat(users, name);
+    }
+
+    addGroupName() {
+        var field = $('#groupNameField');
+
+        var name = field[0].value;
+        field.value = '';
+        this.createGroupChat(this.tempSelected, name);
     }
 }
+
