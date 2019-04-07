@@ -66,6 +66,14 @@ Then(/^I should see the second paragraph$/, async () => {
         'You control who has access to it.');
 });
 
+// Go to the chat page - Click on the "create a new" chat button
+Given(/^I am on the chat page$/, async () => {
+    await page.navigateToChat();
+});
+When(/^I click on create a new chat$/, async () => {
+    await page.clickOnNewChat();
+});
+
 
 
 

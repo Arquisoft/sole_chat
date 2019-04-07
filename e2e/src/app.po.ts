@@ -16,6 +16,12 @@ export class AppPage {
         return browser.get('/card');
     }
 
+    navigateToChat() {
+        this.sleep(3000);
+        return browser.get('/chat');
+    }
+
+
     getCardTitleText() {
         this.sleep(3000);
         return element(by.css('h1')).getText();
@@ -39,6 +45,10 @@ export class AppPage {
 
     clickOnSaveButton() {
         return element(by.id('saveButton')).click();
+    }
+
+    clickOnNewChat() {
+        return element(by.id('newChatButton')).click();
     }
 
     // This function is used to reduce the speed of the test
