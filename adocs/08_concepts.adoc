@@ -4,12 +4,19 @@
 Cross-cutting concepts in aspect-oriented software development, are aspects of a program that affect other concerns. When an application has different components some of these may rely in others these cannot be categorized in a existing section either in the design or implementation aspect. These concepts rely too much in other parts to be its own category. In pur application these concepts are:
 
 
-=== _Domain Model_
-//include and explain UML diagram
+
 
 === _Domain Concept_
 
   -The message is a piece of text that is send from one user to other, the users must be friends in order to send the message to the other user.
+
+  -The pod is where the data is stored, it is provide by the Solid Platform and thanks to this pod it is posible to have the descentralized chat. Only one pod for each user.
+
+  -The client is the person who will use the chat, it will be able to send messages and use the app, it will have also a unique pod.
+  
+  
+
+=== _Communication_
 
 And this is how our messages work of our system:
 
@@ -18,19 +25,19 @@ In each POD inside public folder, and inside sole folder there's a ChatIndex.ttl
 Then, in /chatEmi folder is where the elements of the chat with Emi user are. 
 And inside this folder, there's index.ttl that contains the messages of the chat with Emi.
 
-  -The pod is where the data is stored, it is provide by the Solid Platform and thanks to this pod it is posible to have the descentralized chat. Only one pod for each user.
 
-  -The client is the person who will use the chat, it will be able to send messages and use the app, it will have also a unique pod.
-
-=== _Communication_
-Explain how messaging works between components //to do
 
 === _User Interface_ 
 Our interface in order to be intuitive and easy to use, it has different colors (also prepared for blind-color people), as a first view everything seems to be clean and easy to understand. It also has a good contrast, the chat is familiar and confortable for the person who is using it.
 It has internal coherence and a clear hierarchy, is efficiency, giving more priority to the most important things.
 
+
+
 === _Persistency_ 
 Persistence refers to the characteristic of state that outlives the process that created it, our proyect relies on the Solid Platform so the persistence is provided by Solid.
+
+
+
 
 === _Structure and function_
 The way in which an object or living thing is shaped and its substructure determine many of its properties and functions. 

@@ -9,7 +9,7 @@ So, a user that is using the chat, is interacting with Solid and this is taking 
 
 === Infrastructure Level 1
 
-image::https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/images/DeploymentView.png[Deployment View]
+image::https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/DeploymentView.png[Deployment View]
 
 |===
 |Object |Description
@@ -23,7 +23,7 @@ image::https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/images/Deploym
 |User X | Represents a user that is using the application.
 
 
-
+|===
 
 
 

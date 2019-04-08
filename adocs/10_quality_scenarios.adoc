@@ -4,8 +4,8 @@
 
 === Quality Tree
 
-.Quality Tree
-image:https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/images/qualityAttributesTree.png[Quality Tree]
+
+image:https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/qualityAttributesTree.png[Quality Tree]
 
 === Quality Scenarios
 For architects, two kinds of scenarios are important:
@@ -16,8 +16,10 @@ Change scenarios describe a modification of the system or of its immediate envir
 |===
 |*ref*|*quality attribute*|*quality scenario*| priority
 |1|performance |a user must receive a message in less than 30 seconds |high
-
+|2|scalability|If the number of users increased, the system must be available and the perfomance mustn’t be affected|medium
 |2|scalability|the application must support up to 10 users concurrently|medium
 |3|availability|a user can search up to 100 last messages |medium
 |4|compatibility|the application must function with the solid platform|high
+|3|avaliability|The system must be available/accessible at 90%|high
+
 |===
