@@ -11,7 +11,15 @@
 
 | Desktop notifications 
 
-| Being able to to video calls
+| Being able to do video calls
+
+| Button for emojis
+
+| Find friends search bar when starting a chat
+
+| Adding friends from Sole directly without depending on the POD
+
+
 
 
 
