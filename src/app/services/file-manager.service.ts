@@ -110,7 +110,7 @@ export class FileManagerService {
             if (err.includes('Not Found')) {
                 await fileManager.createFolder(folder).then(success => {
                     this.createACLChat(webId, folder, friends);
-                    this.createFile(folder + '/index.ttl', friends, chatName);
+                    this.createFileForChat(folder + '/index.ttl', friends, chatName);
                 }, err => console.log(err));
             } else {
                 console.log(err);
@@ -138,7 +138,7 @@ export class FileManagerService {
             });
     }
 
-    async createFile(direction, friends, chatName) {
+    async createFileForChat(direction, friends, chatName) {
         var baseContent = '@prefix : <#>.\n';
 
         await fileManager.createFile(direction, baseContent).then(
@@ -188,6 +188,10 @@ export class FileManagerService {
 
     async getActiveChats(chats) {
         this.rdf.getActiveChats(chats);
+    }
+
+    async addFriend(friendId) {
+        this.rdf.addFriend(friendId);
     }
 }
 

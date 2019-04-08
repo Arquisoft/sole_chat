@@ -689,7 +689,25 @@ export class RdfService {
                 });
             }
         });
+    }
 
+    public addFriend(friendId) {
+        let insertions = [];
+        let deletions = [];
+
+        const doc = $rdf.sym(this.session.webId.split('#')[0]);
+        let subject = $rdf.sym(this.session.webId);
+
+        let predicate = $rdf.sym(FOAF('knows'));
+        let object = $rdf.sym(friendId);
+        let statement = $rdf.st(subject, predicate, object, doc);
+        insertions.push(statement);
+
+        this.updateManager.update(deletions, insertions, (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
+            }
+        });
     }
 
 }
