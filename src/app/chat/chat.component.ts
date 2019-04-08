@@ -16,6 +16,7 @@ declare var $: any;
 export class ChatComponent implements OnInit {
     chat: any;
     newGroupName: String;
+    userListSearching;
     userListPopup;
 
     @ViewChild('f') chatForm: NgForm;
@@ -35,6 +36,41 @@ export class ChatComponent implements OnInit {
             }
         });
         await this.loadFriends();
+        this.searchField();
+        
+    }
+    clearSearch(){
+      
+        var searchBox=  $("#searchBox")
+        searchBox.value="";
+
+    }
+    searchField() {
+        
+        var searchBox=  $("#searchBox")
+        var chat=this;
+       
+       this.clearSearch();
+      
+        this.userListSearching=this.userListPopup;
+        searchBox.keyup(function() {
+            var dInput :string= this.value;
+            if( dInput === null || dInput.match(/^ *$/) !== null){
+                chat.userListSearching=chat.userListPopup;
+
+            }else{
+                chat.userListSearching=[];
+                
+                for(var i=0;i<chat.userListPopup.length;i++){
+                    var name:string=chat.userListPopup[i].username;
+                 
+                    if(name.toLowerCase().includes(dInput.toLowerCase())){
+                        chat.userListSearching.push(chat.userListPopup[i]);
+                    }
+                }
+            }
+            
+        });
     }
 
     async addListener(chat, fm) {
@@ -64,6 +100,8 @@ export class ChatComponent implements OnInit {
 
         }
     }
+
+    
 
     async loadFriends() {
         this.userListPopup = [];
