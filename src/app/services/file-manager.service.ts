@@ -104,13 +104,13 @@ export class FileManagerService {
         );
     }
 
-    async createFolder(webId, folder, friends, photo) {
+    async createFolderForChat(webId, folder, friends, chatName) {
         await fileManager.readFolder(folder).then(folder => {
         }, async err => {
             if (err.includes('Not Found')) {
                 await fileManager.createFolder(folder).then(success => {
                     this.createACLChat(webId, folder, friends);
-                    this.createFile(folder + '/index.ttl', photo);
+                    this.createFileForChat(folder + '/index.ttl', friends, chatName);
                 }, err => console.log(err));
             } else {
                 console.log(err);
@@ -138,12 +138,12 @@ export class FileManagerService {
             });
     }
 
-    async createFile(direction, photo) {
+    async createFileForChat(direction, friends, chatName) {
         var baseContent = '@prefix : <#>.\n';
 
         await fileManager.createFile(direction, baseContent).then(
             (fileCreated) => {
-                this.rdf.generateBaseChat(direction, photo);
+                this.rdf.generateBaseChat(direction, friends, chatName);
             });
     }
 
@@ -175,14 +175,8 @@ export class FileManagerService {
 
     async createChat(users: any, name: any) {
         await fileManager.popupLogin().then((id) => {
-            const direction = id.split('/profile')[0] + '/public/Sole/Chat_' + name;
-            let photo = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
-
-            if (users.length == 1) {
-                photo = users[0].img;
-            }
-
-            this.createFolder(id, direction, users, photo);
+            const direction = id.split('/profile')[0] + '/public/Sole/Chat' + Date.now();
+            this.createFolderForChat(id, direction, users, name);
             this.addChatToIndex(direction, id);
             for (let i = 0; i < users.length; i++) {
                 console.log('Updating chat index for ' + users[i].username);
@@ -194,6 +188,10 @@ export class FileManagerService {
 
     async getActiveChats(chats) {
         this.rdf.getActiveChats(chats);
+    }
+
+    async addFriend(friendId) {
+        this.rdf.addFriend(friendId);
     }
 }
 

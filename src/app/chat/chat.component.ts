@@ -122,5 +122,13 @@ export class ChatComponent implements OnInit {
         field.value = '';
         this.createGroupChat(this.tempSelected, name);
     }
+
+    addFriend() {
+        var field = $('#newFriendField');
+        var friendId = field[0].value;
+        field.value = '';
+        this.fileManager.addFriend(friendId);
+        this.loadFriends();
+    }
 }
 
