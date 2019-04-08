@@ -1,9 +1,9 @@
-= dechat_en2b
+= sole_chat
 
-image:https://travis-ci.org/Arquisoft/dechat_en2b.svg?branch=master["Build Status", link="https://travis-ci.org/Arquisoft/dechat_en2b"]
-image:https://codecov.io/gh/Arquisoft/dechat_en2b/branch/master/graph/badge.svg["Codecov",link="https://codecov.io/gh/Arquisoft/dechat_en2b"]
-image:https://coveralls.io/repos/github/Arquisoft/dechat_en2b/badge.svg["Coverage",link="https://coveralls.io/github/Arquisoft/dechat_en2b"]
-image:https://api.codacy.com/project/badge/Grade/fc7dc1da60ee4e9fb67ccff782625794["Codacy code quality", link="https://www.codacy.com/app/jelabra/dechat_en2b?utm_source=github.com&utm_medium=referral&utm_content=Arquisoft/dechat_en2b&utm_campaign=Badge_Grade"]
+image:https://travis-ci.org/Arquisoft/dechat_en2b.svg?branch=master["Build Status", link="https://travis-ci.org/Arquisoft/sole_chat"]
+image:https://codecov.io/gh/Arquisoft/sole_chat/branch/master/graph/badge.svg["Codecov",link="https://codecov.io/gh/Arquisoft/sole_chat"]
+image:https://coveralls.io/repos/github/Arquisoft/sole_chat/badge.svg["Coverage",link="https://coveralls.io/github/Arquisoft/sole_chat"]
+image:https://api.codacy.com/project/badge/Grade/fc7dc1da60ee4e9fb67ccff782625794["Codacy code quality", link="https://www.codacy.com/app/jelabra/sole_chat?utm_source=github.com&utm_medium=referral&utm_content=Arquisoft/sole_chat&utm_campaign=Badge_Grade"]
 
 == Contributors
 * Astrid Gamoneda
@@ -18,7 +18,7 @@ image:https://api.codacy.com/project/badge/Grade/fc7dc1da60ee4e9fb67ccff78262579
 The documentation is done in http://asciidoc.org/[AsciiDoc]
 using the https://arc42.org/[arc42] templates.
 The source documents are located at
- https://github.com/Arquisoft/dechat_en2b/tree/master/src/docs[src/docs].
+ https://github.com/Arquisoft/sole_chat/tree/master/adocs[/adocs].
 
 Using Angular and the
 https://asciidoctor.org/[AsciiDoctor plugin] it is possible to generate
@@ -40,13 +40,13 @@ Once executed, the application should be available at: http://localhost:4200
 
 == Testing
 
-There are some simple Unit tests at:
- https://github.com/Arquisoft/dechat_en2b/tree/master/src/test[src/test].
+The acceptance tests are at:
+ https://github.com/Arquisoft/sole_chat/tree/master/e2e[/e2e].
 
 There are also some
  https://cucumber.io/[Cucumber based tests]
  with a simple user story defined at:
- https://github.com/Arquisoft/dechat_en2b/tree/master/src/test/resources/features[src/test/resources/features].
+ https://github.com/Arquisoft/sole_chat/tree/master/src/test/resources/features[src/test/resources/features].
 
 To run tests execute:
 
@@ -56,7 +56,7 @@ ng e2e
 
 == Site documentation
 
-The https://arquisoft.github.io/dechat_en2b/docs[documentation] is available here
+The https://arquisoft.github.io/sole_chat/about_documentation/docs.html[documentation] is available here
 
 
 
