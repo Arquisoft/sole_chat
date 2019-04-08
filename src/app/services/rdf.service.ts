@@ -53,7 +53,7 @@ export class RdfService {
         this.getSession();
     }
 
-    async generateBaseChat(direction, photo) {
+    async generateBaseChat(direction, friends, chatName) {
         let insertions = [];
         let deletions = [];
 
@@ -80,14 +80,16 @@ export class RdfService {
 
         //Title
         predicate = $rdf.sym(N1('title'));
-        statement = $rdf.st(subject, predicate, 'Chat', doc);
+        statement = $rdf.st(subject, predicate, 'Chat_' + chatName, doc);
         insertions.push(statement);
 
-        //Photo
-        predicate = $rdf.sym(VCARD('hasPhoto'));
-        object = $rdf.sym(photo);
-        statement = $rdf.st(subject, predicate, object, doc);
-        insertions.push(statement);
+        //Participants
+        predicate = $rdf.sym(FLOW('participation'));
+        for (let i = 0; i < friends.length; i++) {
+            object = $rdf.sym(friends[i].id);
+            statement = $rdf.st(subject, predicate, object, doc);
+            insertions.push(statement);
+        }
 
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) {
@@ -566,13 +568,17 @@ export class RdfService {
 
     // Returns a list with the user friends
     async getActiveChats(chatList) {
+        if (!this.session) {
+            await this.getSession();
+        }
+
         try {
             var store = $rdf.graph();
             var timeout = 5000; // 5000 ms timeout
             var fetcher = new $rdf.Fetcher(store, timeout);
 
             const url = this.session.webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl#this';
-            const myName = (this.session.webId.split("://")[1]).split(".")[0];
+            const myId = this.session.webId;
             const rdfMan = this;
             fetcher.nowOrWhenFetched(url, async function (ok, body, xhr) {
                 if (!ok) {
@@ -583,13 +589,26 @@ export class RdfService {
                     await chatsNodes.forEach(async (chat) => {
                         await fetcher.load(chat);
                         const chatDirection = chat.value;
-                        const name = chatDirection.split("Chat_")[1];
-
-                        if (name == myName) {
-                            await rdfMan.setDataForChatMaker(chatDirection, chatList);
-                        } else {
-                            await rdfMan.setData(chatDirection, chatList, name);
-                        }
+                        const urlChat = chatDirection + '/index.ttl#this';
+                        fetcher.nowOrWhenFetched(urlChat, async function (ok, body, xhr) {
+                            const subject = $rdf.sym(urlChat);
+                            const participants = await store.each(subject, FLOW('participation'));
+                            if (participants != undefined) {
+                                if (participants.length == 1) {
+                                    let friendId = participants[0].value;
+                                    if (myId == friendId) {
+                                        await rdfMan.setDataForChatMaker(chatDirection, chatList);
+                                    } else {
+                                        await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
+                                    }
+                                } else {
+                                    const nameNode = await store.any(subject, N1('title'));
+                                    const name = nameNode.value.split("Chat_")[1];
+                                    const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+                                    chatList.push({ direction: chatDirection, name: name, img: image, messages: [] });
+                                }
+                            }       
+                        });
                     });
                 }
             });
@@ -598,27 +617,35 @@ export class RdfService {
         }
     };
 
-    async setData(direction, chatList, name) {
+    async setDataIndividualChat(chatDirection, chatList, friendId) {
         try {
             var store = $rdf.graph();
             var timeout = 5000; // 5000 ms timeout
             var fetcher = new $rdf.Fetcher(store, timeout);
 
-            let url = direction + '/index.ttl#this';
-            await fetcher.nowOrWhenFetched(url, async function (ok, body, xhr) {
+            await fetcher.nowOrWhenFetched(friendId, async function (ok, body, xhr) {
                 if (!ok) {
                     console.log('Oops, something happened and couldn\'t fetch data');
                 } else {
-                    const subject = $rdf.sym(url);
-                    const imageNode = await store.any(subject, VCARD('hasPhoto'));
+                    const subject = $rdf.sym(friendId);
+                    const nameNode = await store.any(subject, FOAF('name'));
+                    let fullName = "";
+                    if (nameNode == null || typeof (nameNode) === "undefined") {
+                        fullName = (friendId.split("://")[1]).split(".")[0];
+                    } else {
+                        fullName = nameNode.value;
+                    }
+
+                    let imageNode = await store.any(subject, VCARD('hasPhoto'));
                     let image;
-                    if (imageNode == null || typeof (imageNode) === "undefined") {
+
+                    if (imageNode == undefined) {
                         image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
                     } else {
                         image = imageNode.value;
                     }
 
-                    chatList.push({ direction: direction, name: name, img: image, messages: [] });
+                    chatList.push({ direction: chatDirection, name: fullName, img: image, messages: [] });
                 }
             });
         } catch (error) {
