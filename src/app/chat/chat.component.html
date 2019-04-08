@@ -27,7 +27,7 @@
 
     <div class="recentChatsWrapper">
       <app-chatlist></app-chatlist>
-      <button id="newChatButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#newChatDialog">
+      <button id="newChatButton"  (click)="clearSearch()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#newChatDialog">
 
       </button>
 
@@ -83,7 +83,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="chooserItem" *ngFor="let user of userListPopup">
+       <input type="text" id="searchBox">
+        <div class="chooserItem" *ngFor="let user of userListSearching">
           <input type="checkbox" class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
           <img [src]="user.img" alt={{user.id}} width="50px">
           <label>{{user.username}}</label>
