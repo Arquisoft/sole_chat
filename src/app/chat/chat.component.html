@@ -84,10 +84,10 @@
       </div>
       <div class="modal-body">
        <input type="text" id="searchBox">
-        <div class="chooserItem" *ngFor="let user of userListSearching">
-          <input type="checkbox" class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
+        <div (click)="checkboxClick($event)" class="chooserItem" *ngFor="let user of userListPopup">
+          <input type="checkbox"  class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
           <img [src]="user.img" alt={{user.id}} width="50px">
-          <label>{{user.username}}</label>
+          <label class="userLabel">{{user.username}}</label>
         </div>
       </div>
       <div class="modal-footer">
