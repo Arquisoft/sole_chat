@@ -1,172 +1,191 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {FileManagerService} from '../services/file-manager.service';
-import {ChangeChatService} from '../services/change-chat.service';
-import {Subject} from 'rxjs';
-import {RdfService} from '../services/rdf.service';
-import {WindowService} from '@ng-select/ng-select/ng-select/window.service';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { FileManagerService } from '../services/file-manager.service';
+import { ChangeChatService } from '../services/change-chat.service';
+import { Subject } from 'rxjs';
+import { RdfService } from '../services/rdf.service';
+import { WindowService } from '@ng-select/ng-select/ng-select/window.service';
 
 declare var $: any;
 
 @Component({
-    selector: 'app-chat',
-    templateUrl: './chat.component.html',
-    styleUrls: ['./chat.component.css']
+	selector: 'app-chat',
+	templateUrl: './chat.component.html',
+	styleUrls: [ './chat.component.css' ]
 })
 export class ChatComponent implements OnInit {
-    chat: any;
-    newGroupName: String;
-    userListSearching;
-    userListPopup;
+	chat: any;
+	newGroupName: String;
+	userListPopup;
 
-    @ViewChild('f') chatForm: NgForm;
-    @ViewChild('scroller') scrollPane: ElementRef;
-    tempSelected;
+	@ViewChild('f') chatForm: NgForm;
+	@ViewChild('scroller') scrollPane: ElementRef;
+	tempSelected;
 
-    constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService) {
+	constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService) {}
 
-    }
+	async ngOnInit() {
+		this.changeFriend.chat.subscribe(async (res) => {
+			this.chat = res;
+			if (this.chat != null) {
+				await this.loadMessages();
+				this.addListener(this.chat, this.fileManager);
+			}
+		});
+		await this.loadFriends();
+		this.searchField();
+	}
+	clearSearch() {
+	
+		var searchBox = $('#searchBox')[0];
+		searchBox.value = '';
 
-    async ngOnInit() {
-        this.changeFriend.chat.subscribe(async res => {
-            this.chat = res;
-            if (this.chat != null) {
-                await this.loadMessages();
-                this.addListener(this.chat, this.fileManager);
-            }
-        });
-        await this.loadFriends();
-        this.searchField();
-        
-    }
-    clearSearch(){
-      
-        var searchBox=  $("#searchBox")
-        searchBox.value="";
+		var elements = $('.userLabel');
 
-    }
-    searchField() {
-        
-        var searchBox=  $("#searchBox")
-        var chat=this;
-       
-       this.clearSearch();
-      
-        this.userListSearching=this.userListPopup;
-        searchBox.keyup(function() {
-            var dInput :string= this.value;
-            if( dInput === null || dInput.match(/^ *$/) !== null){
-                chat.userListSearching=chat.userListPopup;
+		for (var i = 0; i < elements.length; i++) {
+			var parent: HTMLDivElement = elements[i].parentElement;
+			parent.hidden = false;
+			if (parent.classList.contains('checked')) {
+				parent.classList.remove('checked');
+				parent.getElementsByTagName('input')[0].checked = false;
+			}
+		}
+	
+	}
+	checkboxClick(event) {
+		var element: HTMLElement = event.target;
 
-            }else{
-                chat.userListSearching=[];
-                
-                for(var i=0;i<chat.userListPopup.length;i++){
-                    var name:string=chat.userListPopup[i].username;
-                 
-                    if(name.toLowerCase().includes(dInput.toLowerCase())){
-                        chat.userListSearching.push(chat.userListPopup[i]);
-                    }
-                }
-            }
-            
-        });
-    }
+		if (element.tagName != 'DIV') {
+			element = element.parentElement;
+		}
 
-    async addListener(chat, fm) {
-        let direction = chat.direction + '/index.ttl';
-        let directionForSocket = 'wss' + direction.split('https')[1];
+		if (element.classList.contains('chooserItem')) {
+			if (element.classList.contains('checked')) {
+				element.classList.remove('checked');
+				element.getElementsByTagName('input')[0].checked = false;
+			} else {
+				element.classList.add('checked');
+				element.getElementsByTagName('input')[0].checked = true;
+			}
+		}
+	}
+	searchField() {
+		var searchBox = $('#searchBox');
+		var chat = this;
 
-        let socket = new WebSocket(directionForSocket);
+		this.clearSearch();
 
-        socket.onopen = function () {
-            this.send('sub ' + direction);
-        };
+		searchBox.keyup(function() {
+			var dInput: string = this.value;
 
-        socket.onmessage = function (msg) {
-            if (msg.data && msg.data.slice(0, 3) === 'pub') {
-                fm.getLastMessage(chat.messages, chat.direction);
-            }
-        };
-    }
+			if (dInput === null || dInput.match(/^ *$/) !== null) {
+				var elements = $('.userLabel');
 
-    async onSubmit() {
-        if (this.chat != null) {
-            var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
-            let direction = this.chat.direction + '/index.ttl';
-            await this.fileManager.sendMessage(message, direction, this.chat.messages).then(e => {
-                (<HTMLInputElement>document.getElementById('inputMessage')).value = '';
-            });
+				for (var i = 0; i < elements.length; i++) {
+					elements[i].parentElement.hidden = false;
+				}
+			} else {
+				var elements = $('label');
+				for (var i = 0; i < elements.length; i++) {
+					var el: HTMLLabelElement = elements[i];
+					if (el.textContent.toLowerCase().includes(dInput.toLowerCase())) {
+						el.parentElement.hidden = false;
+					} else {
+						el.parentElement.hidden = true;
+					}
+				}
+			}
+		});
+	}
 
-        }
-    }
+	async addListener(chat, fm) {
+		let direction = chat.direction + '/index.ttl';
+		let directionForSocket = 'wss' + direction.split('https')[1];
 
-    
+		let socket = new WebSocket(directionForSocket);
 
-    async loadFriends() {
-        this.userListPopup = [];
-        await this.fileManager.getFriends(this.userListPopup);
-    }
+		socket.onopen = function() {
+			this.send('sub ' + direction);
+		};
 
-    private async loadMessages() {
-        this.chat.messages = [];
-        await this.fileManager.getMessages(this.chat.messages, this.chat.direction);
-    }
+		socket.onmessage = function(msg) {
+			if (msg.data && msg.data.slice(0, 3) === 'pub') {
+				fm.getLastMessage(chat.messages, chat.direction);
+			}
+		};
+	}
 
-    createNewChat() {
-        var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
-        //console.log(this.dummyusers);
-        var selected = [];
-        for (var i = 0; i < checkBoxes.length; i++) {
-            var id = checkBoxes[i].id;
-            for (var j = 0; j < this.userListPopup.length; j++) {
-                if (this.userListPopup[j].id == id) {
-                    selected.push(this.userListPopup[j]);
-                }
-            }
+	async onSubmit() {
+		if (this.chat != null) {
+			var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
+			let direction = this.chat.direction + '/index.ttl';
+			await this.fileManager.sendMessage(message, direction, this.chat.messages).then((e) => {
+				(<HTMLInputElement>document.getElementById('inputMessage')).value = '';
+			});
+		}
+	}
 
-            //Reset checkboxes for the next time appear unchecked
-            (<HTMLInputElement><any>checkBoxes[i]).checked = false;
-            // filemanager.addChatToIndex(chat, webId)
-        }
+	async loadFriends() {
+		this.userListPopup = [];
+		await this.fileManager.getFriends(this.userListPopup);
+	}
 
+	private async loadMessages() {
+		this.chat.messages = [];
+		await this.fileManager.getMessages(this.chat.messages, this.chat.direction);
+	}
 
-        if (selected.length == 0) {
-            console.log('Cerrando, no se han seleccionado usuarios');
-        } else if (selected.length < 2) {
-            $('#groupNameDialog').modal('hide');
+	createNewChat() {
+		var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
+		//console.log(this.dummyusers);
+		var selected = [];
+		for (var i = 0; i < checkBoxes.length; i++) {
+			var id = checkBoxes[i].id;
+			for (var j = 0; j < this.userListPopup.length; j++) {
+				if (this.userListPopup[j].id == id) {
+					selected.push(this.userListPopup[j]);
+				}
+			}
 
-            this.createSingleUserChat(selected);
-        } else {
-            $('#groupNameDialog').modal('show');
-            this.tempSelected = selected;
-        }
-    }
+			//Reset checkboxes for the next time appear unchecked
+			(<HTMLInputElement>(<any>checkBoxes[i])).checked = false;
+			// filemanager.addChatToIndex(chat, webId)
+		}
 
-    createGroupChat(users, name): any {
-        this.fileManager.createChat(users, name);
-    }
+		if (selected.length == 0) {
+			console.log('Cerrando, no se han seleccionado usuarios');
+		} else if (selected.length < 2) {
+			$('#groupNameDialog').modal('hide');
 
+			this.createSingleUserChat(selected);
+		} else {
+			$('#groupNameDialog').modal('show');
+			this.tempSelected = selected;
+		}
+	}
 
-    createSingleUserChat(users): any {
-        let name = users[0].id.split('://')[1].split('.')[0];
-        this.fileManager.createChat(users, name);
-    }
+	createGroupChat(users, name): any {
+		this.fileManager.createChat(users, name);
+	}
 
-    addGroupName() {
-        var field = $('#groupNameField');
+	createSingleUserChat(users): any {
+		let name = users[0].id.split('://')[1].split('.')[0];
+		this.fileManager.createChat(users, name);
+	}
 
-        var name = field[0].value;
-        field.value = '';
-        this.createGroupChat(this.tempSelected, name);
-    }
+	addGroupName() {
+		var field = $('#groupNameField');
 
-    addFriend() {
-        var field = $('#newFriendField');
-        var friendId = field[0].value;
-        field.value = '';
-        this.fileManager.addFriend(friendId);
-        this.loadFriends();
-    }
+		var name = field[0].value;
+		field.value = '';
+		this.createGroupChat(this.tempSelected, name);
+	}
+
+	addFriend() {
+		var field = $('#newFriendField');
+		var friendId = field[0].value;
+		field.value = '';
+		this.fileManager.addFriend(friendId);
+		this.loadFriends();
+	}
 }
-

@@ -226,6 +226,10 @@ h3 {
     background-repeat: no-repeat;
 }
 
+.checked{
+    background-color: #FDC02F;
+}
+
 #newChatButton:hover {
     opacity: 0.85;
 }
