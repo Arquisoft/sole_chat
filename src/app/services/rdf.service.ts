@@ -17,6 +17,7 @@ const MEE = $rdf.Namespace('http://www.w3.org/ns/pim/meeting#'); // mee
 const N1 = $rdf.Namespace('http://purl.org/dc/elements/1.1/'); // n1
 const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); // flow
 const XML = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
+const PROV = $rdf.Namespace('https://www.w3.org/ns/prov');
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -703,6 +704,29 @@ export class RdfService {
         let statement = $rdf.st(subject, predicate, object, doc);
         insertions.push(statement);
 
+        this.updateManager.update(deletions, insertions, (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
+            }
+        });
+    }
+
+    public addChatNotification(direction, chatDirection, friendId, webId) {
+        let insertions = [];
+        let deletions = [];
+
+        const doc = $rdf.sym(direction);
+        let subject = $rdf.sym(direction + '#this');
+        let predicate = $rdf.sym(PROV('Create'));
+        let object = $rdf.sym(chatDirection);
+        let st = $rdf.st(subject, predicate, object, doc);
+        insertions.push(st);
+
+        predicate = $rdf.sym(PROV('Creator'));
+        object = $rdf.sym(webId);
+        st = $rdf.st(subject, predicate, object, doc);
+        insertions.push(st);
+        
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) {
                 console.log('Error: ' + message);
