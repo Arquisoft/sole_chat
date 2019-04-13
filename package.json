@@ -39,6 +39,7 @@
     "bootstrap": "^4.3.1",
     "caniuse-lite": "^1.0.30000957",
     "chai": "latest",
+    "codecov.io": "^0.1.6",
     "core-js": "^2.5.4",
     "crypto-js": "^3.1.9-1",
     "cucumber": "latest",
@@ -46,6 +47,8 @@
     "http": "^0.0.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.3.1",
+    "karma-coverage": "^1.1.2",
+    "karma-coveralls": "^2.1.0",
     "n3": "^0.4.5",
     "ngx-toastr": "^9.0.2",
     "node-fetch": "^2.2.0",
@@ -67,7 +70,7 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.13.6",
+    "@angular-devkit/build-angular": "^0.13.8",
     "@angular/cli": "^6.2.9",
     "@angular/compiler-cli": "^7.2.9",
     "@angular/language-service": "^6.0.3",
