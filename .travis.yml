@@ -16,9 +16,6 @@ cache:
   directories:
     - $HOME/.npm
 
-before_install:
-  -npm install --user codecov
-
 install:
   - npm ci
  
