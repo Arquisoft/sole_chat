@@ -2,9 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FileManagerService } from '../services/file-manager.service';
 import { ChangeChatService } from '../services/change-chat.service';
-import { Subject } from 'rxjs';
 import { RdfService } from '../services/rdf.service';
-import { WindowService } from '@ng-select/ng-select/ng-select/window.service';
 
 declare var $: any;
 
@@ -22,7 +20,8 @@ export class ChatComponent implements OnInit {
 	@ViewChild('scroller') scrollPane: ElementRef;
 	tempSelected;
 
-	constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService) {}
+	constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService, 
+		private rdf: RdfService) {}
 
 	async ngOnInit() {
 		this.changeFriend.chat.subscribe(async (res) => {
@@ -34,9 +33,10 @@ export class ChatComponent implements OnInit {
 		});
 		await this.loadFriends();
 		this.searchField();
+		this.addNotificationsListener();
 	}
+
 	clearSearch() {
-	
 		var searchBox = $('#searchBox')[0];
 		searchBox.value = '';
 
@@ -50,8 +50,8 @@ export class ChatComponent implements OnInit {
 				parent.getElementsByTagName('input')[0].checked = false;
 			}
 		}
-	
 	}
+
 	checkboxClick(event) {
 		var element: HTMLElement = event.target;
 
@@ -137,7 +137,6 @@ export class ChatComponent implements OnInit {
 
 	createNewChat() {
 		var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
-		//console.log(this.dummyusers);
 		var selected = [];
 		for (var i = 0; i < checkBoxes.length; i++) {
 			var id = checkBoxes[i].id;
@@ -149,7 +148,6 @@ export class ChatComponent implements OnInit {
 
 			//Reset checkboxes for the next time appear unchecked
 			(<HTMLInputElement>(<any>checkBoxes[i])).checked = false;
-			// filemanager.addChatToIndex(chat, webId)
 		}
 
 		if (selected.length == 0) {
@@ -187,5 +185,29 @@ export class ChatComponent implements OnInit {
 		field.value = '';
 		this.fileManager.addFriend(friendId);
 		this.loadFriends();
+	}
+
+	async readNotifications() {
+		await this.fileManager.getChatNotifications();
+	}
+
+	async addNotificationsListener() {
+		const webId = await this.rdf.getWebID();
+		const direction = webId.split("/profile")[0] + '/inbox/';
+		const directionForSocket = 'wss' + direction.split('https')[1];
+
+		const socket = new WebSocket(directionForSocket);
+        let fm = this.fileManager;
+
+		socket.onopen = function() {
+			this.send('sub ' + direction);
+			console.log("Listening for "+ direction)
+		};
+
+		socket.onmessage = function(msg) {
+			if (msg.data && msg.data.slice(0, 3) === 'pub') {
+				fm.getChatNotifications();
+			}
+		};
 	}
 }

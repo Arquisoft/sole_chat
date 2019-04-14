@@ -3,6 +3,7 @@ import { SolidSession } from '../models/solid-session.model';
 // TODO: Remove any UI interaction from this service
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { FileManagerService } from './file-manager.service';
 
 declare let solid: any;
 // import * as $rdf from 'rdflib'
@@ -17,6 +18,7 @@ const MEE = $rdf.Namespace('http://www.w3.org/ns/pim/meeting#'); // mee
 const N1 = $rdf.Namespace('http://purl.org/dc/elements/1.1/'); // n1
 const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); // flow
 const XML = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
+const PROV = $rdf.Namespace('https://www.w3.org/ns/prov#');
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -706,6 +708,41 @@ export class RdfService {
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) {
                 console.log('Error: ' + message);
+            }
+        });
+    }
+
+    async getChatNotifications(names, fileManager: FileManagerService) {
+        const baseDirection = this.session.webId.split("/profile")[0] + "/inbox/";
+        let direction;
+        for(let i = 0; i < names.length; i++) {
+            direction = baseDirection + names[i];
+            this.showNotification(direction, fileManager);
+        }
+    }
+
+    async showNotification(direction, fileManager) {
+        var store = $rdf.graph();
+        var timeout = 5000; // 5000 ms timeout
+        var fetcher = new $rdf.Fetcher(store, timeout);
+        const rdfManager = this;
+
+        await fetcher.nowOrWhenFetched(direction + "#this", async function (ok, body, xhr) {
+            if (!ok) {
+                console.log('Oops, something happened and couldn\'t fetch data');
+            } else {
+                const subject = $rdf.sym(direction + "#this");
+                const creatorNode = await store.any(subject, PROV("Creator"));
+                let maker = creatorNode.value;
+                const  chatNode = await store.any(subject, PROV("Create"));
+                let chat = chatNode.value
+
+                rdfManager.toastr.info(
+                    'You have a new chat (' + chat + ') from webId ' + maker,
+                    'New chat'
+                );
+
+                fileManager.deleteFile(direction);
             }
         });
     }

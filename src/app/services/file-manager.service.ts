@@ -15,12 +15,13 @@ export class FileManagerService {
         await fileManager.popupLogin().then((webId) => {
             console.log('Logged in as ' + webId);
             this.createSoleFolder(webId);
+            this.createNotificationsFile(webId);
         });
     }
 
     async createSoleFolder(webId) {
         let direction = webId.split('/profile')[0] + '/public/Sole';
-        await fileManager.readFile(direction).then((body) => {
+        await fileManager.readFolder(direction).then((body) => {
                 console.log('Reading Sole folder');
             },
             async (err) => {
@@ -33,7 +34,23 @@ export class FileManagerService {
                 } else {
                     console.log(err);
                 }
-            });
+            });            
+    }
+
+    async createNotificationsFile(webId) {
+        let notificationsDirection = webId.split('/profile')[0] + '/inbox/sole_notifications.ttl';
+        await fileManager.readFile(notificationsDirection).then((body) => {},
+        async (err) => {
+            if (err.includes('Not Found')) {
+                let content = '@prefix : <#>.\n';
+                await fileManager.createFile(notificationsDirection, content).then(
+                    (fileCreated) => {
+                        console.log(`Created file ${fileCreated}.`);
+                });
+            } else {
+                console.log(err);
+            }
+        });
     }
 
     async createACLSole(direction, webId) {
@@ -67,6 +84,17 @@ export class FileManagerService {
             (fileCreated) => {
                 console.log(`Created file ${fileCreated}.`);
             });
+    }
+
+    async addChatNotification(chatDirection, friendId, webId) {
+        let direction = friendId.split('/profile')[0] + '/inbox/soleChatNot' + Date.now() + '.ttl';
+        let content = '@prefix : <#>.\n' +
+        '@prefix prov: <https://www.w3.org/ns/prov#>.\n' +
+        ':this prov:Create <' + chatDirection + '>; \n' + 
+        'prov:Creator <' + webId + '>.';
+        
+        await fileManager.createFile(direction, content).then(
+            (fileCreated) => { });      
     }
 
     async addChatToIndex(chat, webId) {
@@ -181,8 +209,8 @@ export class FileManagerService {
             for (let i = 0; i < users.length; i++) {
                 console.log('Updating chat index for ' + users[i].username);
                 this.addChatToIndex(direction, users[i].id);
+                this.addChatNotification(direction, users[i].id, id);
             }
-
         });
     }
 
@@ -192,6 +220,31 @@ export class FileManagerService {
 
     async addFriend(friendId) {
         this.rdf.addFriend(friendId);
+    }
+
+    async getChatNotifications() {
+        let direction; 
+        let names = [];
+        await fileManager.popupLogin().then((id) => { 
+            direction = id.split('/profile')[0] + '/inbox';
+        }, (err) => { console.log(err)});
+
+        await fileManager.readFolder(direction).then(folder => {
+            for(let i = 0; i < folder.files.length; i++) {
+                let name = folder.files[i].name;
+                if (name.startsWith("soleChatNot")) {
+                    names.push(name);    
+                }
+            }
+            this.rdf.getChatNotifications(names, this);
+        }, err => console.log(err) );
+        
+    }
+
+    async deleteFile(direction) {
+        fileManager.deleteFile(direction).then(success => {
+            console.log(`Deleted ${direction}.`);
+        }, err => console.log(err) );
     }
 }
 
