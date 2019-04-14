@@ -87,13 +87,14 @@ export class FileManagerService {
     }
 
     async addChatNotification(chatDirection, friendId, webId) {
-        let direction = webId.split('/profile')[0] + '/inbox/soleNot' + Date.now() + '.ttl';
-        let content = '@prefix : <#>.\n';
+        let direction = friendId.split('/profile')[0] + '/inbox/soleChatNot' + Date.now() + '.ttl';
+        let content = '@prefix : <#>.\n' +
+        '@prefix prov: <https://www.w3.org/ns/prov#>.\n' +
+        ':this prov:Create <' + chatDirection + '>; \n' + 
+        'prov:Creator <' + webId + '>.';
+        
         await fileManager.createFile(direction, content).then(
-            (fileCreated) => {
-                console.log("adding notifications");
-                this.rdf.addChatNotification(direction, chatDirection, friendId, webId);
-        });      
+            (fileCreated) => { });      
     }
 
     async addChatToIndex(chat, webId) {
@@ -219,6 +220,31 @@ export class FileManagerService {
 
     async addFriend(friendId) {
         this.rdf.addFriend(friendId);
+    }
+
+    async getChatNotifications() {
+        let direction; 
+        let names = [];
+        await fileManager.popupLogin().then((id) => { 
+            direction = id.split('/profile')[0] + '/inbox';
+        }, (err) => { console.log(err)});
+
+        await fileManager.readFolder(direction).then(folder => {
+            for(let i = 0; i < folder.files.length; i++) {
+                let name = folder.files[i].name;
+                if (name.startsWith("soleChatNot")) {
+                    names.push(name);    
+                }
+            }
+            this.rdf.getChatNotifications(names, this);
+        }, err => console.log(err) );
+        
+    }
+
+    async deleteFile(direction) {
+        fileManager.deleteFile(direction).then(success => {
+            console.log(`Deleted ${direction}.`);
+        }, err => console.log(err) );
     }
 }
 
