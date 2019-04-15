@@ -25,6 +25,7 @@ import { UseritemComponent } from './useritem/useritem.component';
 import { UserlistComponent } from './userlist/userlist.component';
 import { ChatitemComponent } from './chatitem/chatitem.component';
 import { ChatlistComponent } from './chatlist/chatlist.component';
+import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 
 
 const routes: Routes = [
@@ -76,7 +77,7 @@ const routes: Routes = [
     CardComponent,
     RegisterComponent,
     ChatComponent,    
-    AboutComponent, NavComponent, UseritemComponent, UserlistComponent, ChatitemComponent, ChatlistComponent
+    AboutComponent, NavComponent, UseritemComponent, UserlistComponent, ChatitemComponent, ChatlistComponent, EmojiPickerComponent
   ],
   imports: [
     BrowserModule,
