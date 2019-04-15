@@ -184,7 +184,7 @@ h3 {
     box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
     border-radius: 9999px;
     flex-grow: 1;
-    margin-right: 2em;
+    margin: 0 2em;
     padding: 0.5em 1.5em;
 }
 
@@ -205,6 +205,7 @@ h3 {
     background-repeat: no-repeat;
     border-radius: 50%;
     box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    align-self: center;
 }
 
 #submitMessage:hover {
