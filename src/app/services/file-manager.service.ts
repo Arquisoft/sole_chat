@@ -246,6 +246,10 @@ export class FileManagerService {
             console.log(`Deleted ${direction}.`);
         }, err => console.log(err) );
     }
+
+    async addParticipant(direction, friendId) {
+        this.rdf.addParticipant(direction, friendId);
+    }
 }
 
 

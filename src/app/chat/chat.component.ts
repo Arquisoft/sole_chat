@@ -15,6 +15,8 @@ export class ChatComponent implements OnInit {
     chat: any;
     newGroupName: String;
     userListPopup;
+    participants = [];
+    participantsString = "";
 
     @ViewChild('f') chatForm: NgForm;
     @ViewChild('scroller') scrollPane: ElementRef;
@@ -30,6 +32,9 @@ export class ChatComponent implements OnInit {
             if (this.chat != null) {
                 await this.loadMessages();
                 this.addListener(this.chat, this.fileManager);
+                if (this.chat.isGroup) {
+                    await this.loadParticipants();
+                }
             }
         });
         await this.loadFriends();
@@ -137,6 +142,11 @@ export class ChatComponent implements OnInit {
         await this.fileManager.getMessages(this.chat.messages, this.chat.direction);
     }
 
+    private async loadParticipants() {
+        this.participants = [];
+        await this.rdf.loadParticipants(this.chat.direction, this.participants);
+    }
+
     createNewChat() {
         var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
         var selected = [];
@@ -211,5 +221,13 @@ export class ChatComponent implements OnInit {
                 fm.getChatNotifications();
             }
         };
+    }
+
+    async addParticipant() {
+        var field = $('#addParticipantField');
+        var friendId = field[0].value;
+        field.value = '';
+        await this.fileManager.addParticipant(this.chat.direction, friendId);
+        await this.loadParticipants();
     }
 }

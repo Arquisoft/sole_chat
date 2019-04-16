@@ -41,8 +41,13 @@
                 <img *ngIf="chat == null" src="assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
                 <img *ngIf="chat != null" [src]="chat.img" alt="" class="currentChatImage">
             </div>
-            <div class="currentChatHeaderTitle">
-                <h3 *ngIf="chat != null">{{ chat.name }}</h3>
+            <div *ngIf="chat != null" class="currentChatHeaderTitle">
+                <h3>{{ chat.name }}</h3>
+                <p *ngIf="chat.isGroup">
+                    <span *ngFor="let p of participants"> {{ p }}, </span>
+                </p>
+                <button id="addParticipantBtn" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#addParticipantDialog" *ngIf="chat.isGroup">Add participant</button>
             </div>
         </div>
 
@@ -123,6 +128,31 @@
                     <button type="button" class="btn btn-primary" (click)="addGroupName()" data-dismiss="modal">Create
                         group
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal add participant -->
+    <div class="modal fade" id="addParticipantDialog" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Id of the new participant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Add a new participant to the group!</p>
+                    <input type="text" class="standardTextInput" id="addParticipantField" required
+                       placeholder="👤 Enter the participant's webId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="addParticipant()" 
+                    data-dismiss="modal">Add participant</button>
                 </div>
             </div>
         </div>
