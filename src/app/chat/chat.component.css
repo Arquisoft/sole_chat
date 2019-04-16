@@ -195,12 +195,24 @@ h3 {
     flex-direction: column;
 }
 
+.modal-body p {
+    color: #A9A9A9;
+    text-align: left;
+    margin-left: 1.7em;
+}
+
+.addMoreFriendsBanner {
+    margin-top: 1.2em;
+}
+
+
 .chooserItem {
     border-radius: 9999px;
     padding: 0.3em 1.2em;
     margin: 0.5em;
     cursor: pointer;
 }
+
 
 .chooserItem * {
     cursor: pointer;
@@ -254,6 +266,16 @@ h3 {
     align-self: flex-end;
     border: none;
     background-image: url(/assets/images/newChat.svg);
+    background-repeat: no-repeat;
+}
+
+#newFriendButton {
+    width: 2.2em;
+    height: 2.2em;
+    background: none;
+    margin: 0 2em 1.5em;
+    border: none;
+    background-image: url(/assets/images/newFriend.svg);
     background-repeat: no-repeat;
 }
 

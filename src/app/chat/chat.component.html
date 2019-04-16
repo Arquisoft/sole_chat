@@ -10,6 +10,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <p>Add more friends so you can start chats with them!</p>
                 <input type="text" class="standardTextInput" id="newFriendField" required
                        placeholder="👤 Enter your friend's webId">
             </div>
@@ -77,6 +78,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <p>Select from the list the friends you want to chat with</p>
                     <input type="text" class="standardTextInput" id="searchBox" placeholder="🔎 Search friends">
                     <div (click)="checkboxClick($event)" class="chooserItem" *ngFor="let user of userListPopup">
                         <input type="checkbox" class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
@@ -84,9 +86,9 @@
                              width="50px">
                         <label class="userLabel">{{user.username}}</label>
                     </div>
-                    <button id="newFriendButton" type="button" class="btn btn-primary" data-toggle="modal"
+                    <p class="addMoreFriendsBanner">Add more friends:</p>
+                    <button id="newFriendButton" type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
                             data-target="#newFriendDialog">
-                        Add new friend
                     </button>
                 </div>
                 <div class="modal-footer">
