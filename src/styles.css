@@ -1,4 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+.standardTextInput {
+  height: 2em;
+  border: 1px solid rgb(233, 233, 233) !important;
+  box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+  border-radius: 9999px;
+  margin: 1em;
+  padding: 0.5em 1.5em;
+}
+
 .sb-navbar .navbar-brand img {
   height: 3.5em;
   margin-right: 1em;
@@ -108,6 +118,8 @@ input[type=text].wide-text {
 .ng-select.login-select .ng-arrow:after {
 
 }
+
+
 
 @font-face {
   font-family: "Circular";

@@ -10,7 +10,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="text" id="newFriendField" required>
+                <input type="text" class="standardTextInput" id="newFriendField" required
+                       placeholder="👤 Enter your friend's webId">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -26,16 +27,10 @@
     <div class="recentChatsWrapper">
         <h3 id="userListTitle">Recent Chats</h3>
         <div class="chatList ">
-        <app-chatlist></app-chatlist>
+            <app-chatlist></app-chatlist>
         </div>
         <button id="newChatButton" (click)="clearSearch()" type="button" class="btn btn-primary" data-toggle="modal"
                 data-target="#newChatDialog">
-
-        </button>
-
-        <button id="newFriendButton" type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#newFriendDialog">
-            Add new friend
         </button>
     </div>
 
@@ -82,12 +77,17 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="searchBox">
+                    <input type="text" class="standardTextInput" id="searchBox" placeholder="🔎 Search friends">
                     <div (click)="checkboxClick($event)" class="chooserItem" *ngFor="let user of userListPopup">
                         <input type="checkbox" class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
-                        <img [src]="user.img" alt={{user.id}} width="50px">
+                        <img [src]="user.img==null? 'assets/images/portraits/emilio.svg' : user.img " alt={{user.id}}
+                             width="50px">
                         <label class="userLabel">{{user.username}}</label>
                     </div>
+                    <button id="newFriendButton" type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#newFriendDialog">
+                        Add new friend
+                    </button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -113,7 +113,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="groupNameField" required>
+                    <input type="text" class="standardTextInput" id="groupNameField" required
+                           placeholder="💬 Enter a name for the group">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
