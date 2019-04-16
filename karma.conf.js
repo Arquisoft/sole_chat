@@ -18,7 +18,7 @@ module.exports = function (config) {
       reports: ["html", "lcovonly"],
       fixWebpackSourcePaths: true
     },
-    reporters: ["progress", "coverage"],
+    reporters: ["progress", "coverage", "coveralls"],
     preprocessors: {
       'src/app/**/*.js': ['coverage']
       },
