@@ -1,125 +1,126 @@
 <!-- Modal add new friend -->
 <div class="modal fade" id="newFriendDialog" role="dialog" aria-labelledby="exampleModalCenterTitle"
      aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Id of your friend</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="text" id="newFriendField" required>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="addFriend()" data-dismiss="modal">Add friend</button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Id of your friend</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="newFriendField" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="addFriend()" data-dismiss="modal">Add friend
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 
-<div class="bodyWrapper ">
-  <div class="userListWrapper">
-    <!-- Button trigger modal -->
-
+<div class="bodyWrapper">
     <div class="recentChatsWrapper">
-      <app-chatlist></app-chatlist>
-      <button id="newChatButton"  (click)="clearSearch()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#newChatDialog">
-
-      </button>
-
-      <button id="newFriendButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#newFriendDialog">
-      Add new friend
-      </button>
-    </div>
-  </div>
-
-  <div class="currentChat text-right">
-    <div class="currentChatHeader">
-      <div class="currentChatImageWrapper">
-        <img *ngIf="chat == null" src="assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
-        <img *ngIf="chat != null" [src]="chat.img" alt="" class="currentChatImage">
-      </div>
-      <div class="currentChatHeaderTitle">
-        <h3 *ngIf="chat != null">{{ chat.name }}</h3>
-      </div>
-    </div>
-
-    <div *ngIf="chat != null" class="currentChatContent" #scroller [scrollTop]="scroller.scrollHeight">
-
-      <div *ngFor="let mess of chat.messages" class="message"
-           [className]="mess.received ? 'message received' : 'message sent'">
-        <div class="messageSender">{{mess.maker}}:</div>
-        <div class="messageContent" name="message dummy">
-          {{mess.content}}
+        <h3 id="userListTitle">Recent Chats</h3>
+        <div class="chatList ">
+        <app-chatlist></app-chatlist>
         </div>
-        <div class="messageTime">{{mess.date}}</div>
-      </div>
+        <button id="newChatButton" (click)="clearSearch()" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#newChatDialog">
+
+        </button>
+
+        <button id="newFriendButton" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#newFriendDialog">
+            Add new friend
+        </button>
     </div>
 
-    <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
-      <app-emoji-picker></app-emoji-picker>
-      <input type="text" id="inputMessage" name="message" autocomplete="off"/>
-      <input type="submit" value="︎︎" id="submitMessage" />
-    </form>
-  </div>
-
-</div>
-
-
-
-
-<!-- Modal create new chat-->
-<div class="modal fade" id="newChatDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Start new chat</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-       <input type="text" id="searchBox">
-        <div (click)="checkboxClick($event)" class="chooserItem" *ngFor="let user of userListPopup">
-          <input type="checkbox"  class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
-          <img [src]="user.img" alt={{user.id}} width="50px">
-          <label class="userLabel">{{user.username}}</label>
+    <div class="currentChat text-right">
+        <div class="currentChatHeader">
+            <div class="currentChatImageWrapper">
+                <img *ngIf="chat == null" src="assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
+                <img *ngIf="chat != null" [src]="chat.img" alt="" class="currentChatImage">
+            </div>
+            <div class="currentChatHeaderTitle">
+                <h3 *ngIf="chat != null">{{ chat.name }}</h3>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="newChatButton2" type="button" id="buttonCreateChat" class="btn btn-primary" (click)="createNewChat()" data-dismiss="modal"
-        >Create chat</button>
-      </div>
+
+        <div *ngIf="chat != null" class="currentChatContent" #scroller [scrollTop]="scroller.scrollHeight">
+
+            <div *ngFor="let mess of chat.messages" class="message"
+                 [className]="mess.received ? 'message received' : 'message sent'">
+                <div class="messageSender">{{mess.maker}}:</div>
+                <div class="messageContent" name="message dummy">
+                    {{mess.content}}
+                </div>
+                <div class="messageTime">{{mess.date}}</div>
+            </div>
+        </div>
+
+        <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
+            <app-emoji-picker></app-emoji-picker>
+            <input type="text" id="inputMessage" name="message" autocomplete="off"/>
+            <input type="submit" value="︎︎" id="submitMessage"/>
+        </form>
     </div>
-  </div>
-</div>
 
 
-
-<!-- Modal group name-->
-<div class="modal fade" id="groupNameDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Group name</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="text" id="groupNameField" required>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="addGroupName()" data-dismiss="modal">Create group</button>
-      </div>
+    <!-- Modal create new chat-->
+    <div class="modal fade" id="newChatDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Start new chat</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="searchBox">
+                    <div (click)="checkboxClick($event)" class="chooserItem" *ngFor="let user of userListPopup">
+                        <input type="checkbox" class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
+                        <img [src]="user.img" alt={{user.id}} width="50px">
+                        <label class="userLabel">{{user.username}}</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="newChatButton2" type="button" id="buttonCreateChat" class="btn btn-primary"
+                            (click)="createNewChat()" data-dismiss="modal"
+                    >Create chat
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+
+
+    <!-- Modal group name-->
+    <div class="modal fade" id="groupNameDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Group name</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="groupNameField" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="addGroupName()" data-dismiss="modal">Create
+                        group
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

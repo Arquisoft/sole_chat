@@ -1,16 +1,12 @@
-<div class="userList" >
-  <h3 id="userListTitle" >Recent Chats</h3>
-  <div class="recentChats">
-
+<div class="recentChats">
     <app-chatitem
             [chat]=chat *ngFor="let chat of chatList">
     </app-chatitem>
 
     <div *ngIf="chatList.length == 0" class="newChatBanner">
-      <img id="newChatBannerImg" src="assets/images/newChatBanner.svg" alt="">
-      <p>Press the button below to create a new chat.</p>
+        <img id="newChatBannerImg" src="assets/images/newChatBanner.svg" alt="">
+        <p>Press the button below to create a new chat.</p>
     </div>
 
-  </div>
-
 </div>
+
