@@ -582,6 +582,7 @@ export class RdfService {
             const url = this.session.webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl#this';
             const myId = this.session.webId;
             const rdfMan = this;
+
             fetcher.nowOrWhenFetched(url, async function (ok, body, xhr) {
                 if (!ok) {
                     console.log('Oops, something happened and couldn\'t fetch data');
@@ -589,27 +590,30 @@ export class RdfService {
                     const subject = $rdf.sym(url);
                     const chatsNodes = await store.each(subject, FLOW('participation'));
                     await chatsNodes.forEach(async (chat) => {
-                        await fetcher.load(chat);
                         const chatDirection = chat.value;
                         const urlChat = chatDirection + '/index.ttl#this';
-                        fetcher.nowOrWhenFetched(urlChat, async function (ok, body, xhr) {
-                            const subject = $rdf.sym(urlChat);
-                            const participants = await store.each(subject, FLOW('participation'));
-                            if (participants != undefined) {
-                                if (participants.length == 1) {
-                                    let friendId = participants[0].value;
-                                    if (myId == friendId) {
-                                        await rdfMan.setDataForChatMaker(chatDirection, chatList);
+                        await solid.auth.fetch(urlChat).then(function (response) {
+                            response.text().then(async function (text) {
+                                console.log(text);
+                                $rdf.parse(text, store, urlChat, 'text/turtle');  // pass base URI
+                                const subject = $rdf.sym(urlChat);
+                                const participants = await store.each(subject, FLOW('participation'));
+                                if (participants != undefined) {
+                                    if (participants.length == 1) {
+                                        let friendId = participants[0].value;
+                                        if (myId == friendId) {
+                                            await rdfMan.setDataForChatMaker(chatDirection, chatList);
+                                        } else {
+                                            await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
+                                        }
                                     } else {
-                                        await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
+                                        const nameNode = await store.any(subject, N1('title'));
+                                        const name = nameNode.value.split("Chat_")[1];
+                                        const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+                                        chatList.push({ direction: chatDirection, name: name, img: image, messages: [] });
                                     }
-                                } else {
-                                    const nameNode = await store.any(subject, N1('title'));
-                                    const name = nameNode.value.split("Chat_")[1];
-                                    const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
-                                    chatList.push({ direction: chatDirection, name: name, img: image, messages: [] });
                                 }
-                            }
+                            });
                         });
                     });
                 }
