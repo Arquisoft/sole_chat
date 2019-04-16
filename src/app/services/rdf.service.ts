@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { SolidSession } from '../models/solid-session.model';
+import {Injectable} from '@angular/core';
+import {SolidSession} from '../models/solid-session.model';
 // TODO: Remove any UI interaction from this service
-import { NgForm } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { FileManagerService } from './file-manager.service';
+import {NgForm} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {FileManagerService} from './file-manager.service';
 
 declare let solid: any;
 // import * as $rdf from 'rdflib'
@@ -134,6 +134,7 @@ export class RdfService {
         let statement = $rdf.st(subject, predicate, object, doc);
         insertions.push(statement);
 
+        messages.push(message);
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) {
                 console.log('Error: ' + message);
@@ -458,9 +459,9 @@ export class RdfService {
                         await fetcher.load(friend);
                         const webId = friend.value;
                         const nameNode = await store.any(friend, FOAF('name'));
-                        let fullName = "";
-                        if (nameNode == null || typeof (nameNode) === "undefined") {
-                            fullName = (webId.split("://")[1]).split(".")[0];
+                        let fullName = '';
+                        if (nameNode == null || typeof (nameNode) === 'undefined') {
+                            fullName = (webId.split('://')[1]).split('.')[0];
                         } else {
                             fullName = nameNode.value;
                         }
@@ -474,7 +475,7 @@ export class RdfService {
                             image = imageNode.value;
                         }
 
-                        await list.push({ username: fullName + '', img: image, id: webId });
+                        await list.push({username: fullName + '', img: image, id: webId});
                     });
                 }
             });
@@ -544,7 +545,9 @@ export class RdfService {
                 if (messagesNodes.length >= 1) {
                     let messageNode = messagesNodes[messagesNodes.length - 1];
                     let message = rdfServ.parseMessageNode(messageNode, store, id);
-                    messages.push(message);
+                    if (message.id != messages[messages.length - 1].id) {
+                        messages.push(message);
+                    }
                 }
             }
         });
@@ -561,9 +564,9 @@ export class RdfService {
 
         let dateFormatted = timeFormatted[0] + ':' + timeFormatted[1]; // We can also add the year month and day
         let maker = store.any(messageNode, FOAF('maker')).value;
-        const makerName = (maker.split("://")[1]).split(".")[0];
+        const makerName = (maker.split('://')[1]).split('.')[0];
         let isMessageReceived = (id != maker);
-        let message = { id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, maker: makerName };
+        let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, maker: makerName};
 
         return message;
     }
@@ -608,9 +611,9 @@ export class RdfService {
                                         }
                                     } else {
                                         const nameNode = await store.any(subject, N1('title'));
-                                        const name = nameNode.value.split("Chat_")[1];
+                                        const name = nameNode.value.split('Chat_')[1];
                                         const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
-                                        chatList.push({ direction: chatDirection, name: name, img: image, messages: [] });
+                                        chatList.push({direction: chatDirection, name: name, img: image, messages: []});
                                     }
                                 }
                             });
@@ -635,9 +638,9 @@ export class RdfService {
                 } else {
                     const subject = $rdf.sym(friendId);
                     const nameNode = await store.any(subject, FOAF('name'));
-                    let fullName = "";
-                    if (nameNode == null || typeof (nameNode) === "undefined") {
-                        fullName = (friendId.split("://")[1]).split(".")[0];
+                    let fullName = '';
+                    if (nameNode == null || typeof (nameNode) === 'undefined') {
+                        fullName = (friendId.split('://')[1]).split('.')[0];
                     } else {
                         fullName = nameNode.value;
                     }
@@ -651,7 +654,7 @@ export class RdfService {
                         image = imageNode.value;
                     }
 
-                    chatList.push({ direction: chatDirection, name: fullName, img: image, messages: [] });
+                    chatList.push({direction: chatDirection, name: fullName, img: image, messages: []});
                 }
             });
         } catch (error) {
@@ -674,7 +677,7 @@ export class RdfService {
                 const subject = $rdf.sym(urlChat);
                 const authorNode = await store.any(subject, N1('author'));
                 maker = authorNode.value;
-                name = (maker.split("://")[1]).split(".")[0];
+                name = (maker.split('://')[1]).split('.')[0];
 
                 await fetcher.nowOrWhenFetched(maker, async function (ok, body, xhr) {
                     if (!ok) {
@@ -684,13 +687,13 @@ export class RdfService {
 
                         const imageNode = await store.any(subject, VCARD('hasPhoto'));
                         let image;
-                        if (imageNode == null || typeof (imageNode) === "undefined") {
+                        if (imageNode == null || typeof (imageNode) === 'undefined') {
                             image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
                         } else {
                             image = imageNode.value;
                         }
 
-                        chatList.push({ direction: direction, name: name, img: image, messages: [] });
+                        chatList.push({direction: direction, name: name, img: image, messages: []});
                     }
                 });
             }
@@ -717,9 +720,9 @@ export class RdfService {
     }
 
     async getChatNotifications(names, fileManager: FileManagerService) {
-        const baseDirection = this.session.webId.split("/profile")[0] + "/inbox/";
+        const baseDirection = this.session.webId.split('/profile')[0] + '/inbox/';
         let direction;
-        for(let i = 0; i < names.length; i++) {
+        for (let i = 0; i < names.length; i++) {
             direction = baseDirection + names[i];
             this.showNotification(direction, fileManager);
         }
@@ -731,15 +734,15 @@ export class RdfService {
         var fetcher = new $rdf.Fetcher(store, timeout);
         const rdfManager = this;
 
-        await fetcher.nowOrWhenFetched(direction + "#this", async function (ok, body, xhr) {
+        await fetcher.nowOrWhenFetched(direction + '#this', async function (ok, body, xhr) {
             if (!ok) {
                 console.log('Oops, something happened and couldn\'t fetch data');
             } else {
-                const subject = $rdf.sym(direction + "#this");
-                const creatorNode = await store.any(subject, PROV("Creator"));
+                const subject = $rdf.sym(direction + '#this');
+                const creatorNode = await store.any(subject, PROV('Creator'));
                 let maker = creatorNode.value;
-                const  chatNode = await store.any(subject, PROV("Create"));
-                let chat = chatNode.value
+                const chatNode = await store.any(subject, PROV('Create'));
+                let chat = chatNode.value;
 
                 rdfManager.toastr.info(
                     'You have a new chat (' + chat + ') from webId ' + maker,
