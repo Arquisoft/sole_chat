@@ -1,4 +1,4 @@
-<div class="recentChats">
+<div [className]="chatList.length == 0 ? 'recentChats empty' : 'recentChats'" >
     <app-chatitem
             [chat]=chat *ngFor="let chat of chatList">
     </app-chatitem>

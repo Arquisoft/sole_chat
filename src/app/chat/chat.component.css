@@ -28,8 +28,7 @@ html {
 .bodyWrapper {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap-reverse;
-    align-items: flex-end;
+    flex-wrap: wrap;
     margin: 3em 2em 0;
     justify-content: center;
 }
@@ -41,7 +40,7 @@ h3 {
 
 #userListTitle {
     font-family: "Circular";
-    padding: 1em 2em 1em;
+    padding: 0.7em 0.5em 0.7em;
     text-align: center;
 }
 
@@ -54,11 +53,11 @@ h3 {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
-    margin-right: 2em;
-    margin-bottom: 2em;
+    margin: 0 2em;
     display: flex;
     flex-direction: column;
     max-height: 80vh;
+    max-width: 50em;
 }
 
 .chatList {
@@ -262,7 +261,7 @@ h3 {
     width: 2.2em;
     height: 2.2em;
     background: none;
-    margin: 0 2em 1.5em;
+    margin: 0.5em 2em 1em;
     align-self: flex-end;
     border: none;
     background-image: url(/assets/images/newChat.svg);
@@ -287,9 +286,9 @@ h3 {
     opacity: 0.85;
 }
 
- @media(max-width: 800px) {
+ @media(max-width: 1200px) {
      .bodyWrapper {
-         margin: 3em 0;
+         margin: 0;
      }
 
      .currentChatHeader {
@@ -298,8 +297,15 @@ h3 {
 
      .currentChat, .recentChatsWrapper{
          width: 100%;
-         border-radius: 0;
          padding: 0 1em;
+         margin-bottom: 1em;
+     }
+     .currentChat {
+         border-radius: 0;
+     }
+
+     .recentChatsWrapper{
+         margin: 1em;
      }
 
      .currentChatContent {
