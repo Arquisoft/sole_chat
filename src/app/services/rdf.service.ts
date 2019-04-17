@@ -105,7 +105,7 @@ export class RdfService {
         });
     }
 
-    async createMessage(message, messages, direction) {
+    async createMessage(message, direction) {
         let insertions = [];
         let deletions = [];
 
@@ -126,7 +126,7 @@ export class RdfService {
         let msgSt = $rdf.st(subject, predicateMessage, message, doc);
         insertions.push(msgSt);
 
-        // Generate statement for the content of the message
+        // Generate statement for the maker of the message
         let predicateMaker = $rdf.sym(FOAF('maker'));
         let makerSt = $rdf.sym(this.session.webId); //Web id of the maker
         let makerStatement = $rdf.st(subject, predicateMaker, makerSt, doc);
@@ -139,7 +139,48 @@ export class RdfService {
         let statement = $rdf.st(subject, predicate, object, doc);
         insertions.push(statement);
 
-        messages.push(message);
+        this.updateManager.update(deletions, insertions, (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
+            }
+        });
+    }
+
+    async createMessageForImage(imageDirection, direction) {
+        let insertions = [];
+        let deletions = [];
+
+        let newId = 'Msg' + Date.now();
+        const doc = $rdf.sym(direction);
+        let subject = $rdf.sym(direction + '#' + newId);
+
+        // Generate statement for the date of creation
+        let predicateDate = $rdf.sym(TERMS('created'));
+        let date = new Date();
+        let dateFormatted = date.toISOString();
+        let contentDate = $rdf.literal(dateFormatted, undefined, XML('dateTime'));
+        let dateSt = $rdf.st(subject, predicateDate, contentDate, doc);
+        insertions.push(dateSt);
+
+        // Generate statement for the content of the message
+        let predicateMessage = $rdf.sym(CONT('content'));
+        let objectMessage = $rdf.sym(imageDirection);
+        let msgSt = $rdf.st(subject, predicateMessage, objectMessage, doc);
+        insertions.push(msgSt);
+
+        // Generate statement for the maker of the message
+        let predicateMaker = $rdf.sym(FOAF('maker'));
+        let makerSt = $rdf.sym(this.session.webId); //Web id of the maker
+        let makerStatement = $rdf.st(subject, predicateMaker, makerSt, doc);
+        insertions.push(makerStatement);
+
+        // Add to flow
+        subject = $rdf.sym(direction + '#this');
+        let predicate = $rdf.sym(FLOW('message'));
+        let object = $rdf.sym(direction + '#' + newId);
+        let statement = $rdf.st(subject, predicate, object, doc);
+        insertions.push(statement);
+
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) {
                 console.log('Error: ' + message);
@@ -550,17 +591,26 @@ export class RdfService {
                 if (messagesNodes.length >= 1) {
                     let messageNode = messagesNodes[messagesNodes.length - 1];
                     let message = rdfServ.parseMessageNode(messageNode, store, id);
-                    if (message.id != messages[messages.length - 1].id) {
+                    if (messages.length > 0) {
+                        if (message.id != messages[messages.length - 1].id) {
+                            messages.push(message);
+                        }
+                    } else {
                         messages.push(message);
-                    }
+                    }                    
                 }
             }
         });
     }
 
     public parseMessageNode(messageNode, store, id) {
+        let isImage = false;
         let nodeContent = store.any(messageNode, CONT('content'));
+        if (nodeContent.termType == "NamedNode") {
+            isImage = true;
+        }
         let contentText = nodeContent.value;
+
         let dateUTC = store.any(messageNode, TERMS('created')).value;
 
         let time = new Date(dateUTC).toLocaleTimeString();
@@ -571,7 +621,7 @@ export class RdfService {
         let maker = store.any(messageNode, FOAF('maker')).value;
         const makerName = (maker.split('://')[1]).split('.')[0];
         let isMessageReceived = (id != maker);
-        let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, maker: makerName};
+        let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, maker: makerName, isImage: isImage};
 
         return message;
     }

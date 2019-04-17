@@ -57,8 +57,11 @@
             <div *ngFor="let mess of chat.messages" class="message"
                  [className]="mess.received ? 'message received' : 'message sent'">
                 <div class="messageSender">{{mess.maker}}:</div>
-                <div class="messageContent" name="message dummy">
+                <div *ngIf="!mess.isImage" class="messageContent" name="message dummy">
                     {{mess.content}}
+                </div>
+                <div *ngIf="mess.isImage" class="messageContent" name="message photo">
+                    <img [src]="mess.content" alt=""/>
                 </div>
                 <div class="messageTime">{{mess.date}}</div>
             </div>
@@ -69,6 +72,11 @@
             <input type="text" id="inputMessage" name="message" autocomplete="off" placeholder="Write here your message"/>
             <input type="submit" value="︎︎" id="submitMessage"/>
         </form>
+
+        <div *ngIf="chat != null">
+            <input type="file" multiple id="sendImages" name="sendImages" accept="image/*"/>
+            <button (click)="sendImages()">Send images</button>
+        </div>
     </div>
 
 

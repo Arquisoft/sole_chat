@@ -126,7 +126,7 @@ export class ChatComponent implements OnInit {
         if (this.chat != null) {
             var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
             let direction = this.chat.direction + '/index.ttl';
-            await this.fileManager.sendMessage(message, direction, this.chat.messages).then((e) => {
+            await this.fileManager.sendMessage(message, direction).then((e) => {
                 (<HTMLInputElement>document.getElementById('inputMessage')).value = '';
             });
         }
@@ -241,5 +241,11 @@ export class ChatComponent implements OnInit {
         if (selected.length != 0) {
             this.rdf.addParticipants(this.chat.direction, selected);
         } 
+    }
+
+    async sendImages() {
+        const fileInput = <HTMLInputElement>document.getElementById('sendImages');
+        const files = fileInput.files;
+        this.fileManager.sendImages(this.chat.direction, files);
     }
 }

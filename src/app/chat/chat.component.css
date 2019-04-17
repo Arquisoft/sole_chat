@@ -3,6 +3,11 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 0.3em;
