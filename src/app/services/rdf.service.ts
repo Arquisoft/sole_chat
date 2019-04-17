@@ -19,6 +19,7 @@ const N1 = $rdf.Namespace('http://purl.org/dc/elements/1.1/'); // n1
 const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); // flow
 const XML = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
 const PROV = $rdf.Namespace('https://www.w3.org/ns/prov#');
+const ACL = $rdf.Namespace('http://www.w3.org/ns/auth/acl#');
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -771,23 +772,44 @@ export class RdfService {
                 for (let i = 0; i < participantsRDF.length; i++) {
                     let webId = participantsRDF[i].value;
                     let name = (webId.split("://")[1]).split(".")[0];
-                    participants.push(name);
+                    participants.push({id: webId, name: name});
                 }
             });
         });
     }
 
-    async addParticipant(chatDirection, friendId) {
+    async addParticipants(chatDirection, friends) {
         let insertions = [];
         let deletions = [];
-
-        const doc = $rdf.sym(chatDirection + '/index.ttl');
+        let doc = $rdf.sym(chatDirection + '/index.ttl');
         let subject = $rdf.sym(chatDirection + '/index.ttl#this');
-
         let predicate = $rdf.sym(FLOW('participation'));
-        let object = $rdf.sym(friendId);
-        let statement = $rdf.st(subject, predicate, object, doc);
-        insertions.push(statement);
+        let object, statement;
+
+        for (let i = 0; i < friends.length; i++) {
+            object = $rdf.sym(friends[i].id);
+            statement = $rdf.st(subject, predicate, object, doc);
+            insertions.push(statement);
+        }
+
+        this.updateManager.update(deletions, insertions, (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
+            }
+        });
+
+        insertions = [];
+        deletions = [];
+
+        //Permissions
+        doc = $rdf.sym(chatDirection + '/.acl');
+        subject = $rdf.sym(chatDirection + '/.acl#ControlReadWrite');
+        predicate = $rdf.sym(ACL('agent'));
+        for (let i = 0; i < friends.length; i++) {
+            object = $rdf.sym(friends[i].id);
+            statement = $rdf.st(subject, predicate, object, doc);
+            insertions.push(statement);
+        }
 
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) {

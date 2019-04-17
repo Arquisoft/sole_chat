@@ -247,9 +247,6 @@ export class FileManagerService {
         }, err => console.log(err) );
     }
 
-    async addParticipant(direction, friendId) {
-        this.rdf.addParticipant(direction, friendId);
-    }
 }
 
 

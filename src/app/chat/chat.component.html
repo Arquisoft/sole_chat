@@ -43,11 +43,12 @@
             </div>
             <div *ngIf="chat != null" class="currentChatHeaderTitle">
                 <h3>{{ chat.name }}</h3>
-                <p *ngIf="chat.isGroup">
-                    <span *ngFor="let p of participants"> {{ p }}, </span>
-                </p>
-                <button id="addParticipantBtn" type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#addParticipantDialog" *ngIf="chat.isGroup">Add participant</button>
+                <div *ngIf="chat.isGroup">
+                    <p><span *ngFor="let p of participants"> {{ p.name }}, </span></p>
+                    <button id="addParticipantBtn" type="button" class="btn btn-primary" data-toggle="modal"
+                    data-target="#addParticipantDialog">Add participant</button>
+                </div>
+                
             </div>
         </div>
 
@@ -133,26 +134,36 @@
         </div>
     </div>
 
-    <!-- Modal add participant -->
-    <div class="modal fade" id="addParticipantDialog" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    <!-- Modal add participants-->
+    <div class="modal fade" id="addParticipantDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Id of the new participant</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add participants to a group</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Add a new participant to the group!</p>
-                    <input type="text" class="standardTextInput" id="addParticipantField" required
-                       placeholder="👤 Enter the participant's webId">
+                    <p>Select from the list the friends you want to add to the group</p>
+                    <input type="text" class="standardTextInput" id="searchBoxParticipant" placeholder="🔎 Search friends">
+                    <div (click)="checkboxClick($event)" class="chooserItem" *ngFor="let user of userListPopup">
+                        <input type="checkbox" class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
+                        <img [src]="user.img==null? 'assets/images/portraits/emilio.svg' : user.img " alt={{user.id}}
+                             width="50px">
+                        <label class="userLabel">{{user.username}}</label>
+                    </div>
+                    <p class="addMoreFriendsBanner">Add more friends:</p>
+                    <button id="newFriendButton" type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+                            data-target="#newFriendDialog">
+                    </button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" (click)="addParticipant()" 
-                    data-dismiss="modal">Add participant</button>
+                    <button id="newChatButton2" type="button" id="buttonCreateChat" class="btn btn-primary"
+                            (click)="addParticipants()" data-dismiss="modal"
+                    >Add to group</button>
                 </div>
             </div>
         </div>

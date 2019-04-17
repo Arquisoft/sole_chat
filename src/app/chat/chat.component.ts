@@ -16,7 +16,6 @@ export class ChatComponent implements OnInit {
     newGroupName: String;
     userListPopup;
     participants = [];
-    participantsString = "";
 
     @ViewChild('f') chatForm: NgForm;
     @ViewChild('scroller') scrollPane: ElementRef;
@@ -27,6 +26,12 @@ export class ChatComponent implements OnInit {
     }
 
     async ngOnInit() {
+        await this.loadFriends();
+        this.searchField('#searchBox');
+        this.searchField('#searchBoxParticipant');
+
+        this.addNotificationsListener();
+
         this.changeFriend.chat.subscribe(async (res) => {
             this.chat = res;
             if (this.chat != null) {
@@ -37,13 +42,10 @@ export class ChatComponent implements OnInit {
                 }
             }
         });
-        await this.loadFriends();
-        this.searchField();
-        this.addNotificationsListener();
     }
 
-    clearSearch() {
-        var searchBox = $('#searchBox')[0];
+    clearSearch(id) {
+        var searchBox = $(id)[0];
         searchBox.value = '';
 
         var elements = $('.userLabel');
@@ -76,11 +78,9 @@ export class ChatComponent implements OnInit {
         }
     }
 
-    searchField() {
-        var searchBox = $('#searchBox');
-        var chat = this;
-
-        this.clearSearch();
+    searchField(id) {
+        var searchBox = $(id);
+        this.clearSearch(id);
 
         searchBox.keyup(function () {
             var dInput: string = this.value;
@@ -223,11 +223,23 @@ export class ChatComponent implements OnInit {
         };
     }
 
-    async addParticipant() {
-        var field = $('#addParticipantField');
-        var friendId = field[0].value;
-        field.value = '';
-        await this.fileManager.addParticipant(this.chat.direction, friendId);
-        await this.loadParticipants();
+    async addParticipants() {
+        var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
+        var selected = [];
+        for (var i = 0; i < checkBoxes.length; i++) {
+            var id = checkBoxes[i].id;
+            for (var j = 0; j < this.userListPopup.length; j++) {
+                if (this.userListPopup[j].id == id) {
+                    selected.push(this.userListPopup[j]);
+                }
+            }
+
+            //Reset checkboxes for the next time appear unchecked
+            (<HTMLInputElement>(<any>checkBoxes[i])).checked = false;
+        }
+
+        if (selected.length != 0) {
+            this.rdf.addParticipants(this.chat.direction, selected);
+        } 
     }
 }
