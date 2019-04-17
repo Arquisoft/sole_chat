@@ -117,14 +117,14 @@ export class FileManagerService {
         this.rdf.updateChatIndex(chat, webId);
     }
 
-    async sendMessage(message, direction, messages) {
+    async sendMessage(message, direction) {
         await fileManager.popupLogin().then((webId) => {
             console.log('Logged in as ' + webId);
         });
 
         await fileManager.readFile(direction).then(
             (body) => {
-                this.updateFile(direction, message, messages);
+                this.rdf.createMessage(message, direction);            
             },
             (err) => {
                 console.log(err);
@@ -175,9 +175,7 @@ export class FileManagerService {
             });
     }
 
-    async updateFile(direction, message, messages) {
-        await this.rdf.createMessage(message, messages, direction);
-    }
+    
 
     async getMessages(displayedMessages, chatDirection) {
         let direction = chatDirection + '/index.ttl';
@@ -253,7 +251,7 @@ export class FileManagerService {
                 let URI = direction + '/' + files[i].name;
                 let content = files[i];
                 fileManager.updateFile(URI, content).then( res=> {
-                    console.log(res);
+                    this.rdf.createMessageForImage(URI, direction + '/index.ttl');
                 }, err=>{console.log("upload error : "+err)});
             }
         }, err=>{console.log("login error : "+err)});
