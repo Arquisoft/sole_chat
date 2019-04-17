@@ -246,6 +246,7 @@ export class FileManagerService {
             console.log(`Deleted ${direction}.`);
         }, err => console.log(err) );
     }
+
 }
 
 

@@ -19,6 +19,7 @@ const N1 = $rdf.Namespace('http://purl.org/dc/elements/1.1/'); // n1
 const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); // flow
 const XML = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
 const PROV = $rdf.Namespace('https://www.w3.org/ns/prov#');
+const ACL = $rdf.Namespace('http://www.w3.org/ns/auth/acl#');
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -92,6 +93,10 @@ export class RdfService {
             statement = $rdf.st(subject, predicate, object, doc);
             insertions.push(statement);
         }
+
+        object = $rdf.sym(this.session.webId);
+        statement = $rdf.st(subject, predicate, object, doc);
+        insertions.push(statement);
 
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) {
@@ -597,7 +602,6 @@ export class RdfService {
                         const urlChat = chatDirection + '/index.ttl#this';
                         await solid.auth.fetch(urlChat).then(function (response) {
                             response.text().then(async function (text) {
-                                console.log(text);
                                 $rdf.parse(text, store, urlChat, 'text/turtle');  // pass base URI
                                 const subject = $rdf.sym(urlChat);
                                 const participants = await store.each(subject, FLOW('participation'));
@@ -613,7 +617,7 @@ export class RdfService {
                                         const nameNode = await store.any(subject, N1('title'));
                                         const name = nameNode.value.split('Chat_')[1];
                                         const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
-                                        chatList.push({direction: chatDirection, name: name, img: image, messages: []});
+                                        chatList.push({direction: chatDirection, name: name, img: image, isGroup:true, messages: []});
                                     }
                                 }
                             });
@@ -654,7 +658,7 @@ export class RdfService {
                         image = imageNode.value;
                     }
 
-                    chatList.push({direction: chatDirection, name: fullName, img: image, messages: []});
+                    chatList.push({direction: chatDirection, name: fullName, img: image, isGroup:false,  messages: []});
                 }
             });
         } catch (error) {
@@ -693,7 +697,7 @@ export class RdfService {
                             image = imageNode.value;
                         }
 
-                        chatList.push({direction: direction, name: name, img: image, messages: []});
+                        chatList.push({direction: direction, name: name, img: image, isGroup:false, messages: []});
                     }
                 });
             }
@@ -750,6 +754,66 @@ export class RdfService {
                 );
 
                 fileManager.deleteFile(direction);
+            }
+        });
+
+    }
+
+    async loadParticipants(chatDirection, participants) {
+        var store = $rdf.graph();
+        let urlChat = chatDirection + '/index.ttl#this';
+
+        await solid.auth.fetch(urlChat).then(function (response) {
+            response.text().then(async function (text) {
+                $rdf.parse(text, store, urlChat, 'text/turtle');  // pass base URI
+                const subject = $rdf.sym(urlChat);
+                let participantsRDF = await store.each(subject, FLOW('participation'));
+                
+                for (let i = 0; i < participantsRDF.length; i++) {
+                    let webId = participantsRDF[i].value;
+                    let name = (webId.split("://")[1]).split(".")[0];
+                    participants.push({id: webId, name: name});
+                }
+            });
+        });
+    }
+
+    async addParticipants(chatDirection, friends) {
+        let insertions = [];
+        let deletions = [];
+        let doc = $rdf.sym(chatDirection + '/index.ttl');
+        let subject = $rdf.sym(chatDirection + '/index.ttl#this');
+        let predicate = $rdf.sym(FLOW('participation'));
+        let object, statement;
+
+        for (let i = 0; i < friends.length; i++) {
+            object = $rdf.sym(friends[i].id);
+            statement = $rdf.st(subject, predicate, object, doc);
+            insertions.push(statement);
+        }
+
+        this.updateManager.update(deletions, insertions, (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
+            }
+        });
+
+        insertions = [];
+        deletions = [];
+
+        //Permissions
+        doc = $rdf.sym(chatDirection + '/.acl');
+        subject = $rdf.sym(chatDirection + '/.acl#ControlReadWrite');
+        predicate = $rdf.sym(ACL('agent'));
+        for (let i = 0; i < friends.length; i++) {
+            object = $rdf.sym(friends[i].id);
+            statement = $rdf.st(subject, predicate, object, doc);
+            insertions.push(statement);
+        }
+
+        this.updateManager.update(deletions, insertions, (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
             }
         });
     }
