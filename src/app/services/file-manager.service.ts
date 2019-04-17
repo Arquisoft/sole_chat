@@ -247,6 +247,18 @@ export class FileManagerService {
         }, err => console.log(err) );
     }
 
+    async sendImages(direction, files) {
+        fileManager.popupLogin().then( ()=>{            
+            for(let i=0; i<files.length; i++){
+                let URI = direction + '/' + files[i].name;
+                let content = files[i];
+                fileManager.updateFile(URI, content).then( res=> {
+                    console.log(res);
+                }, err=>{console.log("upload error : "+err)});
+            }
+        }, err=>{console.log("login error : "+err)});
+    }
+
 }
 
 

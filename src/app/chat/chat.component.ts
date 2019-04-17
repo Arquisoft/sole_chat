@@ -242,4 +242,10 @@ export class ChatComponent implements OnInit {
             this.rdf.addParticipants(this.chat.direction, selected);
         } 
     }
+
+    async sendImages() {
+        const fileInput = <HTMLInputElement>document.getElementById('sendImages');
+        const files = fileInput.files;
+        this.fileManager.sendImages(this.chat.direction, files);
+    }
 }

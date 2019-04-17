@@ -69,6 +69,11 @@
             <input type="text" id="inputMessage" name="message" autocomplete="off" placeholder="Write here your message"/>
             <input type="submit" value="︎︎" id="submitMessage"/>
         </form>
+
+        <div *ngIf="chat != null">
+            <input type="file" multiple id="sendImages" name="sendImages" accept="image/*"/>
+            <button (click)="sendImages()">Send images</button>
+        </div>
     </div>
 
 
