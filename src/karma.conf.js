@@ -18,8 +18,11 @@ module.exports = function (config) {
       reports: ["html", "lcovonly"],
       fixWebpackSourcePaths: true
     },
-    reporters: ["progress", "kjhtml" , "coverage-istanbul","coverage"],
-        
+    reporters: ["progress", "coverage", "coveralls"],
+    preprocessors: {
+      'src/app/**/*.js': ['coverage']
+      },
+      
     coverageReporter: {
       type : 'lcov',
       dir : 'coverage/'

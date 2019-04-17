@@ -12,6 +12,8 @@ import {LoginComponent} from './login/login.component';
 import { CardComponent } from './card/card.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+
+
 // Services
 import { AuthService } from './services/solid.auth.service';
 import { AuthGuard } from './services/auth.guard.service';
@@ -25,10 +27,11 @@ import { UseritemComponent } from './useritem/useritem.component';
 import { UserlistComponent } from './userlist/userlist.component';
 import { ChatitemComponent } from './chatitem/chatitem.component';
 import { ChatlistComponent } from './chatlist/chatlist.component';
+import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 
 
 const routes: Routes = [
-  
+
   {
     path:'chat',
     component: ChatComponent
@@ -50,7 +53,7 @@ const routes: Routes = [
     path: 'login-popup',
     component: LoginPopupComponent
   },
-  
+
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -75,8 +78,8 @@ const routes: Routes = [
     DashboardComponent,
     CardComponent,
     RegisterComponent,
-    ChatComponent,    
-    AboutComponent, NavComponent, UseritemComponent, UserlistComponent, ChatitemComponent, ChatlistComponent
+    ChatComponent,
+    AboutComponent, NavComponent, UseritemComponent, UserlistComponent, ChatitemComponent, ChatlistComponent, EmojiPickerComponent
   ],
   imports: [
     BrowserModule,

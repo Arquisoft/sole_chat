@@ -33,22 +33,23 @@
     overflow: hidden;
 }
 
-/* @media(max-width: 800px) {
-    html {
-        overflow-y: scroll;
-    }
+ @media(max-width: 1200px) {
+     .chatCard {
+         flex-direction: column;
+         margin: 0 1.4em 0.5em;
+     }
+     .userName {
+         max-width: 8em;
+         margin-top: 0.3em;
+         text-align: center;
+     }
+     .chatImage {
+         margin-right: 0;
+     }
 
-    .bodyWrapper {
-        flex-direction: column;
-        margin: 5em 2em;
-    }
-
-    .recentChats {
-        padding: 0 2em 2em;
-        height: 7em;
-        overflow-x: scroll;
-        overflow-y: scroll;
-        display: flex;
-        flex-direction: row;
-    }
-} */
+ .chatInfo{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+ }
+}

@@ -3,6 +3,11 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 0.3em;
@@ -28,8 +33,7 @@ html {
 .bodyWrapper {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap-reverse;
-    align-items: flex-end;
+    flex-wrap: wrap;
     margin: 3em 2em 0;
     justify-content: center;
 }
@@ -37,6 +41,12 @@ html {
 h3 {
     font-family: "Circular";
     margin: 0;
+}
+
+#userListTitle {
+    font-family: "Circular";
+    padding: 0.7em 0.5em 0.7em;
+    text-align: center;
 }
 
 .deleteConversation {
@@ -48,13 +58,17 @@ h3 {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
-    margin-right: 2em;
-    margin-bottom: 2em;
-    flex-grow: 1;
+    margin: 0 2em;
     display: flex;
     flex-direction: column;
+    max-height: 80vh;
+    max-width: 50em;
 }
 
+.chatList {
+    lex-shrink: 5;
+    overflow-y: scroll;
+}
 
 .chatName {
     font-family: "Circular";
@@ -144,6 +158,7 @@ h3 {
     flex-direction: row;
     align-items: center;
     margin: 2em 3em 0;
+    justify-content: center;
 }
 
 .modal-content {
@@ -165,6 +180,9 @@ h3 {
     margin: 0 1em;
     height: 2.5em;
     width: 2.5em;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
 }
 
 .btn-primary {
@@ -177,6 +195,35 @@ h3 {
     background-color: #555555;
 }
 
+.modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-body p {
+    color: #A9A9A9;
+    text-align: left;
+    margin-left: 1.7em;
+}
+
+.addMoreFriendsBanner {
+    margin-top: 1.2em;
+}
+
+
+.chooserItem {
+    border-radius: 9999px;
+    padding: 0.3em 1.2em;
+    margin: 0.5em;
+    cursor: pointer;
+}
+
+
+.chooserItem * {
+    cursor: pointer;
+}
+
+
 
 #inputMessage {
     height: 2em;
@@ -184,8 +231,9 @@ h3 {
     box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
     border-radius: 9999px;
     flex-grow: 1;
-    margin-right: 2em;
+    margin: 0 2em;
     padding: 0.5em 1.5em;
+    max-width: 30em;
 }
 
 #inputMessage:focus, #inputMessage:hover {
@@ -205,6 +253,8 @@ h3 {
     background-repeat: no-repeat;
     border-radius: 50%;
     box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    align-self: center;
+    min-width: 2em;
 }
 
 #submitMessage:hover {
@@ -219,10 +269,20 @@ h3 {
     width: 2.2em;
     height: 2.2em;
     background: none;
-    margin: 0 2em 1.5em;
+    margin: 0.5em 2em 1em;
     align-self: flex-end;
     border: none;
     background-image: url(/assets/images/newChat.svg);
+    background-repeat: no-repeat;
+}
+
+#newFriendButton {
+    width: 2.2em;
+    height: 2.2em;
+    background: none;
+    margin: 0 2em 1.5em;
+    border: none;
+    background-image: url(/assets/images/newFriend.svg);
     background-repeat: no-repeat;
 }
 
@@ -234,9 +294,9 @@ h3 {
     opacity: 0.85;
 }
 
- @media(max-width: 800px) {
+ @media(max-width: 1200px) {
      .bodyWrapper {
-         margin: 3em 0;
+         margin: 0;
      }
 
      .currentChatHeader {
@@ -245,8 +305,15 @@ h3 {
 
      .currentChat, .recentChatsWrapper{
          width: 100%;
-         border-radius: 0;
          padding: 0 1em;
+         margin-bottom: 1em;
+     }
+     .currentChat {
+         border-radius: 0;
+     }
+
+     .recentChatsWrapper{
+         margin: 1em;
      }
 
      .currentChatContent {
@@ -256,4 +323,12 @@ h3 {
      .currentChatInput{
          margin: 2em 0.3em;
      }
+}
+
+@media(max-width: 420px) {
+
+    #inputMessage {
+        margin: 0 0.5em 0 0;
+        max-width: 70vw;
+    }
 }

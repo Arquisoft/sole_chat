@@ -1,213 +1,251 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { FileManagerService } from '../services/file-manager.service';
-import { ChangeChatService } from '../services/change-chat.service';
-import { RdfService } from '../services/rdf.service';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {FileManagerService} from '../services/file-manager.service';
+import {ChangeChatService} from '../services/change-chat.service';
+import {RdfService} from '../services/rdf.service';
 
 declare var $: any;
 
 @Component({
-	selector: 'app-chat',
-	templateUrl: './chat.component.html',
-	styleUrls: [ './chat.component.css' ]
+    selector: 'app-chat',
+    templateUrl: './chat.component.html',
+    styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-	chat: any;
-	newGroupName: String;
-	userListPopup;
+    chat: any;
+    newGroupName: String;
+    userListPopup;
+    participants = [];
 
-	@ViewChild('f') chatForm: NgForm;
-	@ViewChild('scroller') scrollPane: ElementRef;
-	tempSelected;
+    @ViewChild('f') chatForm: NgForm;
+    @ViewChild('scroller') scrollPane: ElementRef;
+    tempSelected;
 
-	constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService, 
-		private rdf: RdfService) {}
+    constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
+                private rdf: RdfService) {
+    }
 
-	async ngOnInit() {
-		this.changeFriend.chat.subscribe(async (res) => {
-			this.chat = res;
-			if (this.chat != null) {
-				await this.loadMessages();
-				this.addListener(this.chat, this.fileManager);
-			}
-		});
-		await this.loadFriends();
-		this.searchField();
-		this.addNotificationsListener();
-	}
+    async ngOnInit() {
+        await this.loadFriends();
+        this.searchField('#searchBox');
+        this.searchField('#searchBoxParticipant');
 
-	clearSearch() {
-		var searchBox = $('#searchBox')[0];
-		searchBox.value = '';
+        this.addNotificationsListener();
 
-		var elements = $('.userLabel');
+        this.changeFriend.chat.subscribe(async (res) => {
+            this.chat = res;
+            if (this.chat != null) {
+                await this.loadMessages();
+                this.addListener(this.chat, this.fileManager);
+                if (this.chat.isGroup) {
+                    await this.loadParticipants();
+                }
+            }
+        });
+    }
 
-		for (var i = 0; i < elements.length; i++) {
-			var parent: HTMLDivElement = elements[i].parentElement;
-			parent.hidden = false;
-			if (parent.classList.contains('checked')) {
-				parent.classList.remove('checked');
-				parent.getElementsByTagName('input')[0].checked = false;
-			}
-		}
-	}
+    clearSearch(id) {
+        var searchBox = $(id)[0];
+        searchBox.value = '';
 
-	checkboxClick(event) {
-		var element: HTMLElement = event.target;
+        var elements = $('.userLabel');
 
-		if (element.tagName != 'DIV') {
-			element = element.parentElement;
-		}
+        for (var i = 0; i < elements.length; i++) {
+            var parent: HTMLDivElement = elements[i].parentElement;
+            parent.hidden = false;
+            if (parent.classList.contains('checked')) {
+                parent.classList.remove('checked');
+                parent.getElementsByTagName('input')[0].checked = false;
+            }
+        }
+    }
 
-		if (element.classList.contains('chooserItem')) {
-			if (element.classList.contains('checked')) {
-				element.classList.remove('checked');
-				element.getElementsByTagName('input')[0].checked = false;
-			} else {
-				element.classList.add('checked');
-				element.getElementsByTagName('input')[0].checked = true;
-			}
-		}
-	}
-	searchField() {
-		var searchBox = $('#searchBox');
-		var chat = this;
+    checkboxClick(event) {
+        var element: HTMLElement = event.target;
 
-		this.clearSearch();
+        if (element.tagName != 'DIV') {
+            element = element.parentElement;
+        }
 
-		searchBox.keyup(function() {
-			var dInput: string = this.value;
+        if (element.classList.contains('chooserItem')) {
+            if (element.classList.contains('checked')) {
+                element.classList.remove('checked');
+                element.getElementsByTagName('input')[0].checked = false;
+            } else {
+                element.classList.add('checked');
+                element.getElementsByTagName('input')[0].checked = true;
+            }
+        }
+    }
 
-			if (dInput === null || dInput.match(/^ *$/) !== null) {
-				var elements = $('.userLabel');
+    searchField(id) {
+        var searchBox = $(id);
+        this.clearSearch(id);
 
-				for (var i = 0; i < elements.length; i++) {
-					elements[i].parentElement.hidden = false;
-				}
-			} else {
-				var elements = $('label');
-				for (var i = 0; i < elements.length; i++) {
-					var el: HTMLLabelElement = elements[i];
-					if (el.textContent.toLowerCase().includes(dInput.toLowerCase())) {
-						el.parentElement.hidden = false;
-					} else {
-						el.parentElement.hidden = true;
-					}
-				}
-			}
-		});
-	}
+        searchBox.keyup(function () {
+            var dInput: string = this.value;
 
-	async addListener(chat, fm) {
-		let direction = chat.direction + '/index.ttl';
-		let directionForSocket = 'wss' + direction.split('https')[1];
+            if (dInput === null || dInput.match(/^ *$/) !== null) {
+                var elements = $('.userLabel');
 
-		let socket = new WebSocket(directionForSocket);
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].parentElement.hidden = false;
+                }
+            } else {
+                var elements = $('label');
+                for (var i = 0; i < elements.length; i++) {
+                    var el: HTMLLabelElement = elements[i];
+                    if (el.textContent.toLowerCase().includes(dInput.toLowerCase())) {
+                        el.parentElement.hidden = false;
+                    } else {
+                        el.parentElement.hidden = true;
+                    }
+                }
+            }
+        });
+    }
 
-		socket.onopen = function() {
-			this.send('sub ' + direction);
-		};
+    async addListener(chat, fm) {
+        let direction = chat.direction + '/index.ttl';
+        let directionForSocket = 'wss' + direction.split('https')[1];
 
-		socket.onmessage = function(msg) {
-			if (msg.data && msg.data.slice(0, 3) === 'pub') {
-				fm.getLastMessage(chat.messages, chat.direction);
-			}
-		};
-	}
+        let socket = new WebSocket(directionForSocket);
 
-	async onSubmit() {
-		if (this.chat != null) {
-			var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
-			let direction = this.chat.direction + '/index.ttl';
-			await this.fileManager.sendMessage(message, direction, this.chat.messages).then((e) => {
-				(<HTMLInputElement>document.getElementById('inputMessage')).value = '';
-			});
-		}
-	}
+        socket.onopen = function () {
+            this.send('sub ' + direction);
+        };
 
-	async loadFriends() {
-		this.userListPopup = [];
-		await this.fileManager.getFriends(this.userListPopup);
-	}
+        socket.onmessage = function (msg) {
+            if (msg.data && msg.data.slice(0, 3) === 'pub') {
+                fm.getLastMessage(chat.messages, chat.direction);
+            }
+        };
+    }
 
-	private async loadMessages() {
-		this.chat.messages = [];
-		await this.fileManager.getMessages(this.chat.messages, this.chat.direction);
-	}
+    async onSubmit() {
+        if (this.chat != null) {
+            var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
+            let direction = this.chat.direction + '/index.ttl';
+            await this.fileManager.sendMessage(message, direction).then((e) => {
+                (<HTMLInputElement>document.getElementById('inputMessage')).value = '';
+            });
+        }
+    }
 
-	createNewChat() {
-		var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
-		var selected = [];
-		for (var i = 0; i < checkBoxes.length; i++) {
-			var id = checkBoxes[i].id;
-			for (var j = 0; j < this.userListPopup.length; j++) {
-				if (this.userListPopup[j].id == id) {
-					selected.push(this.userListPopup[j]);
-				}
-			}
+    async loadFriends() {
+        this.userListPopup = [];
+        await this.fileManager.getFriends(this.userListPopup);
+    }
 
-			//Reset checkboxes for the next time appear unchecked
-			(<HTMLInputElement>(<any>checkBoxes[i])).checked = false;
-		}
+    private async loadMessages() {
+        this.chat.messages = [];
+        await this.fileManager.getMessages(this.chat.messages, this.chat.direction);
+    }
 
-		if (selected.length == 0) {
-			console.log('Cerrando, no se han seleccionado usuarios');
-		} else if (selected.length < 2) {
-			$('#groupNameDialog').modal('hide');
+    private async loadParticipants() {
+        this.participants = [];
+        await this.rdf.loadParticipants(this.chat.direction, this.participants);
+    }
 
-			this.createSingleUserChat(selected);
-		} else {
-			$('#groupNameDialog').modal('show');
-			this.tempSelected = selected;
-		}
-	}
+    createNewChat() {
+        var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
+        var selected = [];
+        for (var i = 0; i < checkBoxes.length; i++) {
+            var id = checkBoxes[i].id;
+            for (var j = 0; j < this.userListPopup.length; j++) {
+                if (this.userListPopup[j].id == id) {
+                    selected.push(this.userListPopup[j]);
+                }
+            }
 
-	createGroupChat(users, name): any {
-		this.fileManager.createChat(users, name);
-	}
+            //Reset checkboxes for the next time appear unchecked
+            (<HTMLInputElement>(<any>checkBoxes[i])).checked = false;
+        }
 
-	createSingleUserChat(users): any {
-		let name = users[0].id.split('://')[1].split('.')[0];
-		this.fileManager.createChat(users, name);
-	}
+        if (selected.length == 0) {
+            console.log('Cerrando, no se han seleccionado usuarios');
+        } else if (selected.length < 2) {
+            $('#groupNameDialog').modal('hide');
 
-	addGroupName() {
-		var field = $('#groupNameField');
+            this.createSingleUserChat(selected);
+        } else {
+            $('#groupNameDialog').modal('show');
+            this.tempSelected = selected;
+        }
+    }
 
-		var name = field[0].value;
-		field.value = '';
-		this.createGroupChat(this.tempSelected, name);
-	}
+    createGroupChat(users, name): any {
+        this.fileManager.createChat(users, name);
+    }
 
-	addFriend() {
-		var field = $('#newFriendField');
-		var friendId = field[0].value;
-		field.value = '';
-		this.fileManager.addFriend(friendId);
-		this.loadFriends();
-	}
+    createSingleUserChat(users): any {
+        let name = users[0].id.split('://')[1].split('.')[0];
+        this.fileManager.createChat(users, name);
+    }
 
-	async readNotifications() {
-		await this.fileManager.getChatNotifications();
-	}
+    addGroupName() {
+        var field = $('#groupNameField');
 
-	async addNotificationsListener() {
-		const webId = await this.rdf.getWebID();
-		const direction = webId.split("/profile")[0] + '/inbox/';
-		const directionForSocket = 'wss' + direction.split('https')[1];
+        var name = field[0].value;
+        field.value = '';
+        this.createGroupChat(this.tempSelected, name);
+    }
 
-		const socket = new WebSocket(directionForSocket);
+    addFriend() {
+        var field = $('#newFriendField');
+        var friendId = field[0].value;
+        field.value = '';
+        this.fileManager.addFriend(friendId);
+        this.loadFriends();
+    }
+
+    async readNotifications() {
+        await this.fileManager.getChatNotifications();
+    }
+
+    async addNotificationsListener() {
+        const webId = await this.rdf.getWebID();
+        const direction = webId.split('/profile')[0] + '/inbox/';
+        const directionForSocket = 'wss' + direction.split('https')[1];
+
+        const socket = new WebSocket(directionForSocket);
         let fm = this.fileManager;
 
-		socket.onopen = function() {
-			this.send('sub ' + direction);
-			console.log("Listening for "+ direction)
-		};
+        socket.onopen = function () {
+            this.send('sub ' + direction);
+            console.log('Listening for ' + direction);
+        };
 
-		socket.onmessage = function(msg) {
-			if (msg.data && msg.data.slice(0, 3) === 'pub') {
-				fm.getChatNotifications();
-			}
-		};
-	}
+        socket.onmessage = function (msg) {
+            if (msg.data && msg.data.slice(0, 3) === 'pub') {
+                fm.getChatNotifications();
+            }
+        };
+    }
+
+    async addParticipants() {
+        var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
+        var selected = [];
+        for (var i = 0; i < checkBoxes.length; i++) {
+            var id = checkBoxes[i].id;
+            for (var j = 0; j < this.userListPopup.length; j++) {
+                if (this.userListPopup[j].id == id) {
+                    selected.push(this.userListPopup[j]);
+                }
+            }
+
+            //Reset checkboxes for the next time appear unchecked
+            (<HTMLInputElement>(<any>checkBoxes[i])).checked = false;
+        }
+
+        if (selected.length != 0) {
+            this.rdf.addParticipants(this.chat.direction, selected);
+        } 
+    }
+
+    async sendImages() {
+        const fileInput = <HTMLInputElement>document.getElementById('sendImages');
+        const files = fileInput.files;
+        this.fileManager.sendImages(this.chat.direction, files);
+    }
 }
