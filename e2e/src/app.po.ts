@@ -75,6 +75,14 @@ export class AppPage {
     clickOnNewChat() {
         return element(by.id('newChatButton2')).click();
     }
+    clickOnLoginSelectMenu() {
+        return element(by.id('login-select-menu')).click();
+    }
+
+    clickOnSolidCommunity() {
+        return element(by.css('a[innertext=\'Solid Community\']')).click();
+
+    }
 
 
     // This function is used to reduce the speed of the test
