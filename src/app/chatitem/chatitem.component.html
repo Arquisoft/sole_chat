@@ -11,6 +11,7 @@
 
       </div>
       <div class="chatPreview">{{chat.direction}}</div>
+      <div class="lastMessag"  *ngIf="lastMessage!=null">{{lastMessage}}<span class="badge badge-pill badge-warning">{{newMessagesCount}}</span></div>
     </div>
 
   </div>
