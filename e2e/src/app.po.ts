@@ -3,38 +3,38 @@ import {browser, by, element} from 'protractor';
 export class AppPage {
 
     navigateToLogin() {
-        this.sleep(1000);
+        this.sleep(3000);
         return browser.get('/login');
     }
 
 
     navigateToRegister() {
-        this.sleep(1000);
+        this.sleep(3000);
         return browser.get('/register');
     }
 
 
 
     navigateToCard() {
-        this.sleep(1000);
+        this.sleep(3000);
         return browser.get('/card');
     }
 
     navigateToUserList() {
-        this.sleep(1000);
+        this.sleep(3000);
         return browser.get('/userList');
     }
 
 
 
     navigateToChat() {
-        this.sleep(1000);
+        this.sleep(3000);
         return browser.get('/chat');
     }
 
 
     getCardTitleText() {
-        this.sleep(1000);
+        this.sleep(3000);
         return $('h1').getText();
     }
 
@@ -51,7 +51,6 @@ export class AppPage {
     getParagraphRegister2() {
         return element(by.id('paragraphRegister2')).getText();
     }
-    
 
     getUserListTitle() {
         return element(by.id('userListTitle')).getText();
