@@ -80,8 +80,8 @@ export class AppPage {
     }
 
     clickOnSolidCommunity() {
-        return element(by.css('a[innertext=\'Solid Community\']')).click();
-
+        this.sleep(3000);
+        return element(by.partialLinkText('Solid Community')).click();
     }
 
 
