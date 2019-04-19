@@ -14,7 +14,6 @@ export class AppPage {
     }
 
 
-
     navigateToCard() {
         this.sleep(3000);
         return browser.get('/card');
@@ -73,7 +72,7 @@ export class AppPage {
 
 
     clickOnNewChat() {
-        return element(by.id('newChatButton2')).click();
+        return element(by.cssContainingText('div',  'Create Chat')).click();
     }
     clickOnLoginSelectMenu() {
         this.sleep(3000);
