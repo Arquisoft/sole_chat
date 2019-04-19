@@ -18,7 +18,7 @@ install:
 script:
   - npm run setup:install
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
-  - npm run e2e --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+   
   
   
 after_success:
