@@ -5,11 +5,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test --watch false",
+    "test": "ng test --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "node patch.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "cat ./coverage/lcov.info | coveralls",
     "setup:install": "npm install && npm install -g @angular/cli && npm install coveralls nyc --save-dev"
   },
   "browser": {
@@ -60,6 +60,7 @@
     "solid-auth-client": "^2.3.0",
     "solid-file-client": "^0.4.9",
     "stdio": "^0.2.7",
+    "systemjs": "^3.1.2",
     "text-encoding": "^0.6.4",
     "uri-js": "^3.0.2",
     "webcrypto": "^0.1.1",
