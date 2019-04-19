@@ -17,7 +17,7 @@ Inside this POD we can login our own POD, there are models, services, there’s 
 Diagram:
 
 === Building Block View Diagram 
-image::https://raw.githubusercontent.com/Arquisoft/chat_sole/master/adocs/images/BlockView.png[Building Block View]
+image::https://raw.githubusercontent.com/Arquisoft/sole_chat/master/adocs/images/BlockView.png[Building Block View]
 
 
 
@@ -55,7 +55,9 @@ image::https://raw.githubusercontent.com/Arquisoft/chat_sole/master/adocs/images
 
 In this level we have The Solid Platform that is the foundation of the project, it provides the PODs and each user has a unique one. The chat is accessed by the user using this PODs  to communicate between them. We also have external libraries that are written in the package.json they are the dependencies and we can also update them with command “npm install”. Testing our applications is also in this level.
 
-In the next level we can see zoom in Chat and Tests
+We can see the two users that want to chat using Sole, so they have to communicate with the chat using their own pods.
+
+In the next level we can see zoom in Chat.
 
 
 === Level 3
