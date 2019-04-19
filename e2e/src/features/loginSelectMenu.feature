@@ -5,5 +5,5 @@ Feature: Click on login select menu
   @loginSelectMenu-scenario
   Scenario: Login Page
     Given I am on the login page
-    When I click on the login select menu
+    When I login
     Then It should happen anything

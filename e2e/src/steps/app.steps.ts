@@ -105,9 +105,10 @@ Then(/^I should see the userList title$/, async () => {
 
 
 // Login select menu
-When(/^I click on the login select menu$/, async () => {
+When(/^I login$/, async () => {
     await page.clickOnLoginSelectMenu();
     await page.clickOnSolidCommunity();
+    await page.clickOnButtonGo();
 });
 
 // Clicking on Solid Community

@@ -80,10 +80,14 @@ export class AppPage {
     }
 
     clickOnSolidCommunity() {
-        this.sleep(3000);
-        return element(by.partialLinkText('Solid Community')).click();
+         this.sleep(3000);
+         element(by.cssContainingText('div',  'Solid Community')).click();
     }
 
+    clickOnButtonGo() {
+        this.sleep(3000);
+        element(by.id('buttonGo')).click();
+    }
 
     // This function is used to reduce the speed of the test
     // in order to avoid errors when running the tests
