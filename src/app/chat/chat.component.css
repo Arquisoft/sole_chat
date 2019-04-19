@@ -134,6 +134,15 @@ h3 {
     word-wrap: break-word;
 }
 
+.messageContent a img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.messageContent a img:hover {
+    opacity: 0.7;
+}
+
 .messageContent {
     margin: 0.5em 0;
 }

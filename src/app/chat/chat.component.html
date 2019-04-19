@@ -61,7 +61,7 @@
                     {{mess.content}}
                 </div>
                 <div *ngIf="mess.isImage" class="messageContent" name="message photo">
-                    <img [src]="mess.content" alt=""/>
+                    <a href="{{mess.content}}"><img [src]="mess.content" alt=""/></a>
                 </div>
                 <div class="messageTime">{{mess.date}}</div>
             </div>
