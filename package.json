@@ -9,8 +9,12 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "node patch.js",
-    "coverage": "cat ./coverage/lcov.info | coveralls",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "setup:install": "npm install && npm install -g @angular/cli && npm install coveralls nyc --save-dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arquisoft/sole_chat"
   },
   "browser": {
     "crypto": false,
