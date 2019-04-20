@@ -72,7 +72,8 @@ export class AppPage {
 
 
     clickOnNewChat() {
-        return element(by.cssContainingText('div',  'Create Chat')).click();
+        this.sleep(3000);
+        return element(by.id('exampleModalLongTitle'));
     }
     clickOnLoginSelectMenu() {
         this.sleep(3000);
