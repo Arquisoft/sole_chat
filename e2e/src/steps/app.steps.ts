@@ -86,9 +86,6 @@ When(/^I click on create a new chat$/, async () => {
     await page.clickOnCreateNewChat();
 });
 
-
-
-
 // Go to the chat page - Create a new chat
 Then(/^I click on new chat$/, async () => {
     await page.clickOnNewChat();
@@ -105,7 +102,7 @@ Then(/^I should see the userList title$/, async () => {
 
 
 // Login select menu
-When(/^I login$/, async () => {
+When(/^I login$/,  { timeout: 5 * 1000 }, async () => {
     await page.clickOnLoginSelectMenu();
     await page.clickOnSolidCommunity();
     await page.clickOnButtonGo();

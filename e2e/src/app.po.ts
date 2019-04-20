@@ -86,8 +86,8 @@ export class AppPage {
     }
 
     clickOnButtonGo() {
-        this.sleep(3000);
-        return element(by.id('buttonGo')).click();
+        this.sleep(7000);
+        return element(by.className('wide-button')).click();
     }
 
     // This function is used to reduce the speed of the test
