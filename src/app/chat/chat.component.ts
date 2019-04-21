@@ -251,12 +251,14 @@ export class ChatComponent implements OnInit {
         const fileInput = <HTMLInputElement>document.getElementById('sendImages');
         const files = fileInput.files;
         this.fileManager.sendMultimedia(this.chat.direction, files);
+        $('#attachFilesDialog').modal('hide');
     }
 
     async sendVideos() {
         const fileInput = <HTMLInputElement>document.getElementById('sendVideos');
         const files = fileInput.files;
         this.fileManager.sendMultimedia(this.chat.direction, files);
+        $('#attachFilesDialog').modal('hide');
     }
 
     toggleVideo(event: any) {
@@ -267,5 +269,6 @@ export class ChatComponent implements OnInit {
         const fileInput = <HTMLInputElement>document.getElementById('sendDocs');
         const files = fileInput.files;
         this.fileManager.sendMultimedia(this.chat.direction, files);
+        $('#attachFilesDialog').modal('hide');
     }    
 }
