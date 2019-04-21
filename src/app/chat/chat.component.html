@@ -63,6 +63,11 @@
                 <div *ngIf="mess.isImage" class="messageContent" name="message photo">
                     <a href="{{mess.content}}"><img [src]="mess.content" alt=""/></a>
                 </div>
+                <div *ngIf="mess.isVideo" class="messageContent" name="message video">
+                    <video controls (click)="toggleVideo()" #videoPlayer>
+                        <source [src]="mess.content"/>
+                    </video>
+                </div>
                 <div class="messageTime">{{mess.date}}</div>
             </div>
         </div>
@@ -74,8 +79,10 @@
         </form>
 
         <div *ngIf="chat != null">
-            <input type="file" multiple id="sendImages" name="sendImages" accept="image/*"/>
-            <button (click)="sendImages()">Send images</button>
+            <label for="sendImages" class="btn btn-primary">Send images</label>
+            <input type="file" style="visibility:hidden;" multiple id="sendImages" accept="image/*" (change)="sendImages()"/>
+            <label for="sendVideos" class="btn btn-primary">Send Videos</label>
+            <input type="file" style="visibility:hidden;" multiple id="sendVideos" accept="video/mp4,video/ogg,video/webm" (change)="sendVideos()"/>
         </div>
     </div>
 

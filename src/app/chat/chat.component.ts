@@ -19,6 +19,8 @@ export class ChatComponent implements OnInit {
 
     @ViewChild('f') chatForm: NgForm;
     @ViewChild('scroller') scrollPane: ElementRef;
+    @ViewChild('videoPlayer') videoplayer: ElementRef;
+
     tempSelected;
 
     constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
@@ -246,6 +248,17 @@ export class ChatComponent implements OnInit {
     async sendImages() {
         const fileInput = <HTMLInputElement>document.getElementById('sendImages');
         const files = fileInput.files;
-        this.fileManager.sendImages(this.chat.direction, files);
+        this.fileManager.sendMultimedia(this.chat.direction, files);
+    }
+
+    async sendVideos() {
+        const fileInput = <HTMLInputElement>document.getElementById('sendVideos');
+        const files = fileInput.files;
+        console.log(files);
+        this.fileManager.sendMultimedia(this.chat.direction, files);
+    }
+
+    toggleVideo(event: any) {
+        this.videoplayer.nativeElement.play();
     }
 }

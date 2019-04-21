@@ -245,13 +245,13 @@ export class FileManagerService {
         }, err => console.log(err) );
     }
 
-    async sendImages(direction, files) {
+    async sendMultimedia(direction, files) {
         fileManager.popupLogin().then( ()=>{            
             for(let i=0; i<files.length; i++){
                 let URI = direction + '/' + files[i].name;
                 let content = files[i];
                 fileManager.updateFile(URI, content).then( res=> {
-                    this.rdf.createMessageForImage(URI, direction + '/index.ttl');
+                    this.rdf.createMessageForMultimedia(URI, direction + '/index.ttl');
                 }, err=>{console.log("upload error : "+err)});
             }
         }, err=>{console.log("login error : "+err)});

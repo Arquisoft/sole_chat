@@ -146,7 +146,8 @@ export class RdfService {
         });
     }
 
-    async createMessageForImage(imageDirection, direction) {
+    async createMessageForMultimedia(mediaDirection, direction) {
+        console.log("Creating message");
         let insertions = [];
         let deletions = [];
 
@@ -164,7 +165,7 @@ export class RdfService {
 
         // Generate statement for the content of the message
         let predicateMessage = $rdf.sym(CONT('content'));
-        let objectMessage = $rdf.sym(imageDirection);
+        let objectMessage = $rdf.sym(mediaDirection);
         let msgSt = $rdf.st(subject, predicateMessage, objectMessage, doc);
         insertions.push(msgSt);
 
@@ -605,11 +606,19 @@ export class RdfService {
 
     public parseMessageNode(messageNode, store, id) {
         let isImage = false;
+        let isVideo = false;
+
         let nodeContent = store.any(messageNode, CONT('content'));
-        if (nodeContent.termType == "NamedNode") {
-            isImage = true;
-        }
         let contentText = nodeContent.value;
+        if (nodeContent.termType == "NamedNode") {
+            if (contentText.endsWith(".gif") || contentText.endsWith(".jpeg") || contentText.endsWith(".jpg") 
+                || contentText.endsWith(".png") || contentText.endsWith(".bmp")) {
+                    isImage = true;
+            } else if (contentText.endsWith(".mp4") || contentText.endsWith(".webm") || contentText.endsWith(".ogg")) {
+                isVideo = true;
+            }
+            
+        }
 
         let dateUTC = store.any(messageNode, TERMS('created')).value;
 
@@ -621,7 +630,8 @@ export class RdfService {
         let maker = store.any(messageNode, FOAF('maker')).value;
         const makerName = (maker.split('://')[1]).split('.')[0];
         let isMessageReceived = (id != maker);
-        let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, maker: makerName, isImage: isImage};
+        let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, 
+            maker: makerName, isImage: isImage, isVideo: isVideo};
 
         return message;
     }
