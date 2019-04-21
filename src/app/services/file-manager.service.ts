@@ -205,7 +205,6 @@ export class FileManagerService {
             this.createFolderForChat(id, direction, users, name);
             this.addChatToIndex(direction, id);
             for (let i = 0; i < users.length; i++) {
-                console.log('Updating chat index for ' + users[i].username);
                 this.addChatToIndex(direction, users[i].id);
                 this.addChatNotification(direction, users[i].id, id);
             }
@@ -246,12 +245,13 @@ export class FileManagerService {
     }
 
     async sendMultimedia(direction, files) {
-        fileManager.popupLogin().then( ()=>{            
+        fileManager.popupLogin().then( async ()=>{         
             for(let i=0; i<files.length; i++){
                 let name = files[i].name.replace(" ", "_");
+                console.log(name);
                 let URI = direction + '/' + name;
                 let content = files[i];
-                fileManager.updateFile(URI, content).then( res=> {
+                await fileManager.updateFile(URI, content).then( res=> {
                     this.rdf.createMessageForMultimedia(URI, direction + '/index.ttl');
                 }, err=>{console.log("upload error : "+err)});
             }

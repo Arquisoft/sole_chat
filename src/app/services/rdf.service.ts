@@ -685,7 +685,6 @@ export class RdfService {
                                             friendId == participants[1].value;
                                             await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
                                         } else {
-                                            console.log(friendId);
                                             await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
                                         }
                                     } else {
