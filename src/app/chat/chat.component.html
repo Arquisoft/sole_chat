@@ -57,8 +57,9 @@
             <div *ngFor="let mess of chat.messages" class="message"
                  [className]="mess.received ? 'message received' : 'message sent'">
                 <div class="messageSender">{{mess.maker}}:</div>
-                <div *ngIf="!mess.isImage" class="messageContent" name="message dummy">
-                    {{mess.content}}
+
+                <div *ngIf="!mess.isImage && !mess.isVideo && !mess.isDocument" class="messageContent" name="message dummy">
+                        {{mess.content}}
                 </div>
                 <div *ngIf="mess.isImage" class="messageContent" name="message photo">
                     <a href="{{mess.content}}"><img [src]="mess.content" alt=""/></a>
@@ -68,6 +69,13 @@
                         <source [src]="mess.content"/>
                     </video>
                 </div>
+                <div *ngIf="mess.isDocument">
+                        <a href="{{mess.content}}">
+                            <img src="assets/images/document.svg" alt=""/>
+                            {{mess.content}}
+                        </a>
+                </div>
+                
                 <div class="messageTime">{{mess.date}}</div>
             </div>
         </div>
