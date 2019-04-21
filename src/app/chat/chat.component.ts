@@ -251,16 +251,24 @@ export class ChatComponent implements OnInit {
         const fileInput = <HTMLInputElement>document.getElementById('sendImages');
         const files = fileInput.files;
         this.fileManager.sendMultimedia(this.chat.direction, files);
+        $('#attachFilesDialog').modal('hide');
     }
 
     async sendVideos() {
         const fileInput = <HTMLInputElement>document.getElementById('sendVideos');
         const files = fileInput.files;
-        console.log(files);
         this.fileManager.sendMultimedia(this.chat.direction, files);
+        $('#attachFilesDialog').modal('hide');
     }
 
     toggleVideo(event: any) {
         this.videoplayer.nativeElement.play();
     }
+
+    async sendDocs() {
+        const fileInput = <HTMLInputElement>document.getElementById('sendDocs');
+        const files = fileInput.files;
+        this.fileManager.sendMultimedia(this.chat.direction, files);
+        $('#attachFilesDialog').modal('hide');
+    }    
 }

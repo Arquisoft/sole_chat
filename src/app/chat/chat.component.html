@@ -1,6 +1,5 @@
 <!-- Modal add new friend -->
-<div class="modal fade" id="newFriendDialog" role="dialog" aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true">
+<div class="modal fade" id="newFriendDialog" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,7 +11,7 @@
             <div class="modal-body">
                 <p>Add more friends so you can start chats with them!</p>
                 <input type="text" class="standardTextInput" id="newFriendField" required
-                       placeholder="👤 Enter your friend's webId">
+                    placeholder="👤 Enter your friend's webId">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -31,7 +30,7 @@
             <app-chatlist></app-chatlist>
         </div>
         <button id="newChatButton" (click)="clearSearch()" type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#newChatDialog">
+            data-target="#newChatDialog">
         </button>
     </div>
 
@@ -46,50 +45,84 @@
                 <div *ngIf="chat.isGroup">
                     <p><span *ngFor="let p of participants"> {{ p.name }}, </span></p>
                     <button id="addParticipantBtn" type="button" class="btn btn-primary" data-toggle="modal"
-                    data-target="#addParticipantDialog">Add participant</button>
+                        data-target="#addParticipantDialog">Add participant</button>
                 </div>
-                
+
             </div>
         </div>
 
         <div *ngIf="chat != null" class="currentChatContent" #scroller [scrollTop]="scroller.scrollHeight">
 
             <div *ngFor="let mess of chat.messages" class="message"
-                 [className]="mess.received ? 'message received' : 'message sent'">
+                [className]="mess.received ? 'message received' : 'message sent'">
                 <div class="messageSender">{{mess.maker}}:</div>
-                <div *ngIf="!mess.isImage" class="messageContent" name="message dummy">
+
+                <div *ngIf="!mess.isImage && !mess.isVideo && !mess.isDocument" class="messageContent"
+                    name="message dummy">
                     {{mess.content}}
                 </div>
                 <div *ngIf="mess.isImage" class="messageContent" name="message photo">
-                    <a href="{{mess.content}}"><img [src]="mess.content" alt=""/></a>
+                    <a href="{{mess.content}}"><img [src]="mess.content" alt="" /></a>
                 </div>
                 <div *ngIf="mess.isVideo" class="messageContent" name="message video">
                     <video controls (click)="toggleVideo()" #videoPlayer>
-                        <source [src]="mess.content"/>
+                        <source [src]="mess.content" />
                     </video>
                 </div>
+                <div *ngIf="mess.isDocument">
+                    <a href="{{mess.content}}">
+                        <img src="assets/images/document.svg" alt="" />
+                        {{mess.content}}
+                    </a>
+                </div>
+
                 <div class="messageTime">{{mess.date}}</div>
             </div>
         </div>
 
-        <form action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
+        <form *ngIf="chat != null" action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
             <!--<app-emoji-picker></app-emoji-picker>-->
-            <input type="text" id="inputMessage" name="message" autocomplete="off" placeholder="Write here your message"/>
-            <input type="submit" value="︎︎" id="submitMessage"/>
+            <input type="text" id="inputMessage" name="message" autocomplete="off"
+                placeholder="Write here your message" />
+            <input type="submit" value="︎︎" id="submitMessage" />
+            <button value="︎︎" id="attachFile" data-toggle="modal"
+                data-target="#attachFilesDialog"></button>
         </form>
+    </div>
 
-        <div *ngIf="chat != null">
-            <label for="sendImages" class="btn btn-primary">Send images</label>
-            <input type="file" style="visibility:hidden;" multiple id="sendImages" accept="image/*" (change)="sendImages()"/>
-            <label for="sendVideos" class="btn btn-primary">Send Videos</label>
-            <input type="file" style="visibility:hidden;" multiple id="sendVideos" accept="video/mp4,video/ogg,video/webm" (change)="sendVideos()"/>
+    <!-- Modal attach files-->
+    <div class="modal fade" id="attachFilesDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Attach files</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="sendImages" class="btn btn-primary">Send images</label>
+                    <input type="file" style="visibility:hidden;" multiple id="sendImages" accept="image/*"
+                        (change)="sendImages()" />
+                    <label for="sendVideos" class="btn btn-primary">Send videos</label>
+                    <input type="file" style="visibility:hidden;" multiple id="sendVideos"
+                        accept="video/mp4,video/ogg,video/webm" (change)="sendVideos()" />
+                    <label for="sendDocs" class="btn btn-primary">Send documents</label>
+                    <input type="file" style="visibility:hidden;" multiple id="sendDocs" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                            text/plain, application/pdf" (change)="sendDocs()" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
         </div>
     </div>
 
-
     <!-- Modal create new chat-->
     <div class="modal fade" id="newChatDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -104,19 +137,18 @@
                     <div (click)="checkboxClick($event)" class="chooserItem" *ngFor="let user of userListPopup">
                         <input type="checkbox" class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
                         <img [src]="user.img==null? 'assets/images/portraits/emilio.svg' : user.img " alt={{user.id}}
-                             width="50px">
+                            width="50px">
                         <label class="userLabel">{{user.username}}</label>
                     </div>
                     <p class="addMoreFriendsBanner">Add more friends:</p>
-                    <button id="newFriendButton" type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-                            data-target="#newFriendDialog">
+                    <button id="newFriendButton" type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-toggle="modal" data-target="#newFriendDialog">
                     </button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button id="newChatButton2" type="button" id="buttonCreateChat" class="btn btn-primary"
-                            (click)="createNewChat()" data-dismiss="modal"
-                    >Create chat
+                        (click)="createNewChat()" data-dismiss="modal">Create chat
                     </button>
                 </div>
             </div>
@@ -126,7 +158,7 @@
 
     <!-- Modal group name-->
     <div class="modal fade" id="groupNameDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -137,7 +169,7 @@
                 </div>
                 <div class="modal-body">
                     <input type="text" class="standardTextInput" id="groupNameField" required
-                           placeholder="💬 Enter a name for the group">
+                        placeholder="💬 Enter a name for the group">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -150,8 +182,8 @@
     </div>
 
     <!-- Modal add participants-->
-    <div class="modal fade" id="addParticipantDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
+    <div class="modal fade" id="addParticipantDialog" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -162,23 +194,23 @@
                 </div>
                 <div class="modal-body">
                     <p>Select from the list the friends you want to add to the group</p>
-                    <input type="text" class="standardTextInput" id="searchBoxParticipant" placeholder="🔎 Search friends">
+                    <input type="text" class="standardTextInput" id="searchBoxParticipant"
+                        placeholder="🔎 Search friends">
                     <div (click)="checkboxClick($event)" class="chooserItem" *ngFor="let user of userListPopup">
                         <input type="checkbox" class="new-chat-chk" id={{user.id}} name={{user.id}} unchecked>
                         <img [src]="user.img==null? 'assets/images/portraits/emilio.svg' : user.img " alt={{user.id}}
-                             width="50px">
+                            width="50px">
                         <label class="userLabel">{{user.username}}</label>
                     </div>
                     <p class="addMoreFriendsBanner">Add more friends:</p>
-                    <button id="newFriendButton" type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
-                            data-target="#newFriendDialog">
+                    <button id="newFriendButton" type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-toggle="modal" data-target="#newFriendDialog">
                     </button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button id="newChatButton2" type="button" id="buttonCreateChat" class="btn btn-primary"
-                            (click)="addParticipants()" data-dismiss="modal"
-                    >Add to group</button>
+                        (click)="addParticipants()" data-dismiss="modal">Add to group</button>
                 </div>
             </div>
         </div>
