@@ -290,6 +290,26 @@ h3 {
     background-repeat: no-repeat;
 }
 
+#attachFile {
+    border: none;
+    height:  2em;
+    width: 2em;
+    background: none;
+    margin: 0.5em;
+    align-self: flex-end;
+    border: none;
+    background-image: url(/assets/images/attachment.svg);
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    align-self: center;
+    min-width: 2em;
+}
+
+#attachFile:hover {
+    opacity: 0.85;
+}
+
 #newFriendButton {
     width: 2.2em;
     height: 2.2em;
