@@ -128,9 +128,11 @@ export class ChatComponent implements OnInit {
         if (this.chat != null) {
             var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
             let direction = this.chat.direction + '/index.ttl';
-            await this.fileManager.sendMessage(message, direction).then((e) => {
-                (<HTMLInputElement>document.getElementById('inputMessage')).value = '';
-            });
+            if (message != "") {
+                await this.fileManager.sendMessage(message, direction).then((e) => {
+                    (<HTMLInputElement>document.getElementById('inputMessage')).value = '';
+                });
+            }         
         }
     }
 
