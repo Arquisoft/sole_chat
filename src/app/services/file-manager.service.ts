@@ -248,7 +248,8 @@ export class FileManagerService {
     async sendMultimedia(direction, files) {
         fileManager.popupLogin().then( ()=>{            
             for(let i=0; i<files.length; i++){
-                let URI = direction + '/' + files[i].name;
+                let name = files[i].name.replace(" ", "_");
+                let URI = direction + '/' + name;
                 let content = files[i];
                 fileManager.updateFile(URI, content).then( res=> {
                     this.rdf.createMessageForMultimedia(URI, direction + '/index.ttl');
