@@ -89,6 +89,11 @@ export class AppPage {
         this.sleep(7000);
         return element(by.className('wide-button')).click();
     }
+    writeMessage(message: string) {
+        this.sleep(3000);
+        browser.driver.findElement(by.id('inputMessage')).click();
+        return browser.driver.findElement(by.id('inputMessage')).sendKeys(message);
+    }
 
     // This function is used to reduce the speed of the test
     // in order to avoid errors when running the tests

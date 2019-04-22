@@ -102,7 +102,7 @@ Then(/^I should see the userList title$/, async () => {
 
 
 // Login select menu
-When(/^I login$/,  { timeout: 5 * 1000 }, async () => {
+When(/^I login$/,  { timeout: 8 * 1000 }, async () => {
     await page.clickOnLoginSelectMenu();
     await page.clickOnSolidCommunity();
     await page.clickOnButtonGo();
@@ -111,4 +111,9 @@ When(/^I login$/,  { timeout: 5 * 1000 }, async () => {
 // Clicking on Solid Community
 When(/^I click on Solid Community$/, async () => {
     await page.clickOnSolidCommunity();
+});
+
+// Sending a message
+Then(/^I write a message$/, async () => {
+    await page.writeMessage();
 });
