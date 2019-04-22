@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {SolidSession} from '../models/solid-session.model';
+import { Injectable } from '@angular/core';
+import { SolidSession } from '../models/solid-session.model';
 // TODO: Remove any UI interaction from this service
-import {NgForm} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
-import {FileManagerService} from './file-manager.service';
+import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { FileManagerService } from './file-manager.service';
 
 declare let solid: any;
 // import * as $rdf from 'rdflib'
@@ -524,7 +524,7 @@ export class RdfService {
                             image = imageNode.value;
                         }
 
-                        await list.push({username: fullName + '', img: image, id: webId});
+                        await list.push({ username: fullName + '', img: image, id: webId });
                     });
                 }
             });
@@ -574,6 +574,32 @@ export class RdfService {
         });
     }
 
+    public getLastMessageValue(funcCallbk,direction,chatitem){
+        var store = $rdf.graph();
+        var timeout = 5000; // 5000 ms timeout
+        var fetcher = new $rdf.Fetcher(store, timeout);
+
+        let url = direction;
+        let id = this.session.webId;
+        let rdfServ = this;
+
+        fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
+            if (!ok) {
+                console.log('Oops, something happened and couldn\'t fetch data');
+            } else {
+                const subject = $rdf.sym(url + '#this');
+                const nameMessage = FLOW('message');
+                const messagesNodes = store.each(subject, nameMessage);
+                if (messagesNodes.length >= 1) {
+                    let messageNode = messagesNodes[messagesNodes.length - 1];
+                    let message = rdfServ.parseMessageNode(messageNode, store, id);
+                    funcCallbk(chatitem  ,message);
+                                     
+                }
+            }
+        });
+    }
+
 
     public getLastMessage(messages, direction) {
         var store = $rdf.graph();
@@ -600,8 +626,8 @@ export class RdfService {
                         }
                     } else {
                         messages.push(message);
-                    }                    
-                } 
+                    }
+                }
             }
         });
     }
@@ -630,7 +656,7 @@ export class RdfService {
                 if (!isVideo) {
                     isDocument = true;
                 }
-            }         
+            }
         }
 
         let dateUTC = store.any(messageNode, TERMS('created')).value;
@@ -643,8 +669,10 @@ export class RdfService {
         let maker = store.any(messageNode, FOAF('maker')).value;
         const makerName = (maker.split('://')[1]).split('.')[0];
         let isMessageReceived = (id != maker);
-        let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, 
-            maker: makerName, isImage: isImage, isVideo: isVideo, isDocument: isDocument};
+        let message = {
+            id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived,
+            maker: makerName, isImage: isImage, isVideo: isVideo, isDocument: isDocument
+        };
 
         return message;
     }
@@ -682,7 +710,7 @@ export class RdfService {
                                     if (participants.length == 2) { //Chat individual
                                         let friendId = participants[0].value;
                                         if (friendId == myId) {
-                                            friendId == participants[1].value;
+                                            friendId = participants[1].value;
                                             await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
                                         } else {
                                             await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
@@ -691,7 +719,7 @@ export class RdfService {
                                         const nameNode = await store.any(subject, N1('title'));
                                         const name = nameNode.value.split('Chat_')[1];
                                         const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
-                                        chatList.push({direction: chatDirection, name: name, img: image, isGroup:true, messages: []});
+                                        chatList.push({ direction: chatDirection, name: name, img: image, isGroup: true, messages: [] });
                                     }
                                 }
                             });
@@ -731,7 +759,7 @@ export class RdfService {
                     } else {
                         image = imageNode.value;
                     }
-                    chatList.push({direction: chatDirection, name: fullName, img: image, isGroup:false,  messages: []});
+                    chatList.push({ direction: chatDirection, name: fullName, img: image, isGroup: false, messages: [] });
                 }
             });
         } catch (error) {
@@ -770,7 +798,7 @@ export class RdfService {
                             image = imageNode.value;
                         }
 
-                        chatList.push({direction: direction, name: name, img: image, isGroup:false, messages: []});
+                        chatList.push({ direction: direction, name: name, img: image, isGroup: false, messages: [] });
                     }
                 });
             }
@@ -841,11 +869,11 @@ export class RdfService {
                 $rdf.parse(text, store, urlChat, 'text/turtle');  // pass base URI
                 const subject = $rdf.sym(urlChat);
                 let participantsRDF = await store.each(subject, FLOW('participation'));
-                
+
                 for (let i = 0; i < participantsRDF.length; i++) {
                     let webId = participantsRDF[i].value;
                     let name = (webId.split("://")[1]).split(".")[0];
-                    participants.push({id: webId, name: name});
+                    participants.push({ id: webId, name: name });
                 }
             });
         });
@@ -891,4 +919,44 @@ export class RdfService {
         });
     }
 
+    lookForChat(friendId, funcCallback) {
+        var store = $rdf.graph();
+        var timeout = 5000; // 5000 ms timeout
+        var fetcher = new $rdf.Fetcher(store, timeout);
+
+        const url = this.session.webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl#this';
+
+        fetcher.nowOrWhenFetched(url, async function (ok, body, xhr) {
+            if (!ok) {
+                console.log('Oops, something happened and couldn\'t fetch data');
+            } else {
+                const subject = $rdf.sym(url);
+                const chatsNodes = await store.each(subject, FLOW('participation'));
+                let exists = false;
+                var myFunc = function (callbk, index, lista, exists) {
+                    if (index < lista.length) {
+                        const chatDirection = lista[index].value;
+                        const urlChat = chatDirection + '/index.ttl#this';
+                        fetcher.nowOrWhenFetched(urlChat, async function (ok, body, xhr) {
+                            const subject = $rdf.sym(urlChat);
+                            const participants = await store.each(subject, FLOW('participation'));
+
+                            if (participants != undefined) {
+                                if (participants.length == 2) { //Chat individual
+                                    if (participants[0].value == friendId || participants[1].value == friendId) {
+                                        exists = true;
+                                    }
+                                }
+                            }
+                            callbk(callbk, index + 1, lista, exists);
+                        });
+                    } else {
+                        funcCallback(exists);
+                    }
+                }
+
+                myFunc(myFunc, 0, chatsNodes, exists);
+            }
+        });
+    }
 }

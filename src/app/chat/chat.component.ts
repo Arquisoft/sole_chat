@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 import {FileManagerService} from '../services/file-manager.service';
 import {ChangeChatService} from '../services/change-chat.service';
 import {RdfService} from '../services/rdf.service';
+import {ToastrService} from 'ngx-toastr';
 
 declare var $: any;
 
@@ -24,7 +25,7 @@ export class ChatComponent implements OnInit {
     tempSelected;
 
     constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
-                private rdf: RdfService) {
+                private rdf: RdfService, private toastr: ToastrService) {
     }
 
     async ngOnInit() {
@@ -119,6 +120,7 @@ export class ChatComponent implements OnInit {
 
         socket.onmessage = function (msg) {
             if (msg.data && msg.data.slice(0, 3) === 'pub') {
+				
                 fm.getLastMessage(chat.messages, chat.direction);
             }
         };
@@ -182,9 +184,21 @@ export class ChatComponent implements OnInit {
         this.fileManager.createChat(users, name);
     }
 
-    createSingleUserChat(users): any {
+    async createSingleUserChat(users) {
         let name = users[0].id.split('://')[1].split('.')[0];
-        this.fileManager.createChat(users, name);
+        let exists = false;
+        await this.rdf.lookForChat(users[0].id, (exists) => {
+            if (exists){
+                this.toastr.error(
+                    'You already have a one-to-one chat with ' + users[0].id
+                );        
+            } else {
+                this.toastr.info(
+                    'You have created a new chat with ' + users[0].id
+                );    
+                this.fileManager.createChat(users, name);
+            }
+        });
     }
 
     addGroupName() {
@@ -222,6 +236,8 @@ export class ChatComponent implements OnInit {
 
         socket.onmessage = function (msg) {
             if (msg.data && msg.data.slice(0, 3) === 'pub') {
+
+				
                 fm.getChatNotifications();
             }
         };
