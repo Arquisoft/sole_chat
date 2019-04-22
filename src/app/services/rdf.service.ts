@@ -601,7 +601,7 @@ export class RdfService {
                     } else {
                         messages.push(message);
                     }                    
-                }
+                } 
             }
         });
     }
