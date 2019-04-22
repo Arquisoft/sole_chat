@@ -41,27 +41,25 @@ export class ChatitemComponent implements OnInit {
 
 		socket.onmessage = async function(msg) {
 			if (msg.data && msg.data.slice(0, 3) === 'pub') {
-				console.log(chatitem.changeChat.chat.getValue()!=null)
-				console.log(chatitem.changeChat.chat.getValue())
-				if (chatitem.changeChat.chat.getValue()!=null) {
-					
+				if (chatitem.changeChat.chat.getValue() != null) {
 					if (chatitem.changeChat.chat.getValue().direction != chatitem.chat.direction) {
-					
 						await chatitem.updateLastMessage();
 					} //else estas en el mismo chat
 				} else {
-					
 					await chatitem.updateLastMessage();
-					
 				}
 			}
 		};
 	}
 
 	updateLastMessage() {
-		var mess = this.chat.messages;
-		console.log(mess.length);
-		this.lastMessage = 'HOLAAAA';
-		this.newMessagesCount++;
+		var updateLast = function(chatitem,mess) {
+			//console.log(mess);
+			chatitem.lastMessage = mess.content;
+			chatitem.newMessagesCount++;
+		};
+		this.rdf.getLastMessageValue(updateLast, this.chat.direction + '/index.ttl',this);
+		/*this.lastMessage = 'New messages: ';
+		this.newMessagesCount++;*/
 	}
 }
