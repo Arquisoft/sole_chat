@@ -30,6 +30,7 @@ export class ChatlistComponent implements OnInit {
 
     socket.onopen = function () {
         this.send('sub ' + direction);
+        console.log("listening for " + directionForSocket);
     };
 
     socket.onmessage = function (msg) {
