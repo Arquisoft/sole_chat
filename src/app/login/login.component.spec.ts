@@ -23,7 +23,7 @@ describe('LoginComponent', () => {
   it('can load instance', () => {
     expect(component).toBeTruthy();
   });
-  describe('ngOnInit', () => {
+ /* describe('ngOnInit', () => {
     it('makes expected calls', () => {
       const routerStub: Router = fixture.debugElement.injector.get(Router);
       const authServiceStub: AuthService = fixture.debugElement.injector.get(
@@ -35,7 +35,7 @@ describe('LoginComponent', () => {
       expect(routerStub.navigateByUrl).toHaveBeenCalled();
       expect(authServiceStub.getIdentityProviders).toHaveBeenCalled();
     });
-  });
+  });*/
   describe('goToRegistration', () => {
     it('makes expected calls', () => {
       const routerStub: Router = fixture.debugElement.injector.get(Router);
