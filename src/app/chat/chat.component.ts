@@ -120,6 +120,7 @@ export class ChatComponent implements OnInit {
 
         socket.onmessage = function (msg) {
             if (msg.data && msg.data.slice(0, 3) === 'pub') {
+				
                 fm.getLastMessage(chat.messages, chat.direction);
             }
         };
@@ -235,6 +236,8 @@ export class ChatComponent implements OnInit {
 
         socket.onmessage = function (msg) {
             if (msg.data && msg.data.slice(0, 3) === 'pub') {
+
+				
                 fm.getChatNotifications();
             }
         };

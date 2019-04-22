@@ -574,6 +574,32 @@ export class RdfService {
         });
     }
 
+    public getLastMessageValue(funcCallbk,direction,chatitem){
+        var store = $rdf.graph();
+        var timeout = 5000; // 5000 ms timeout
+        var fetcher = new $rdf.Fetcher(store, timeout);
+
+        let url = direction;
+        let id = this.session.webId;
+        let rdfServ = this;
+
+        fetcher.nowOrWhenFetched(url, function (ok, body, xhr) {
+            if (!ok) {
+                console.log('Oops, something happened and couldn\'t fetch data');
+            } else {
+                const subject = $rdf.sym(url + '#this');
+                const nameMessage = FLOW('message');
+                const messagesNodes = store.each(subject, nameMessage);
+                if (messagesNodes.length >= 1) {
+                    let messageNode = messagesNodes[messagesNodes.length - 1];
+                    let message = rdfServ.parseMessageNode(messageNode, store, id);
+                    funcCallbk(chatitem  ,message);
+                                     
+                }
+            }
+        });
+    }
+
 
     public getLastMessage(messages, direction) {
         var store = $rdf.graph();
