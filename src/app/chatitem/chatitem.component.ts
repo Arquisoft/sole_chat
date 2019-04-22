@@ -41,13 +41,19 @@ export class ChatitemComponent implements OnInit {
 
 		socket.onmessage = async function(msg) {
 			if (msg.data && msg.data.slice(0, 3) === 'pub') {
-				
-				//aqui seria mejor controlar que no este el chat abierto para añadir el nuevo mensaje
-				await chatitem.fileManager.getLastMessage(
-					chatitem.chat.messages,
-					chatitem.chat.direction
-				);
-				await chatitem.updateLastMessage();
+				console.log(chatitem.changeChat.chat.getValue()!=null)
+				console.log(chatitem.changeChat.chat.getValue())
+				if (chatitem.changeChat.chat.getValue()!=null) {
+					
+					if (chatitem.changeChat.chat.getValue().direction != chatitem.chat.direction) {
+					
+						await chatitem.updateLastMessage();
+					} //else estas en el mismo chat
+				} else {
+					
+					await chatitem.updateLastMessage();
+					
+				}
 			}
 		};
 	}
