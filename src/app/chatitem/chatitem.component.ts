@@ -39,13 +39,23 @@ export class ChatitemComponent implements OnInit {
 		};
 		var chatitem = this;
 
-		socket.onmessage = function(msg) {
+		socket.onmessage = async function(msg) {
 			if (msg.data && msg.data.slice(0, 3) === 'pub') {
+				
 				//aqui seria mejor controlar que no este el chat abierto para añadir el nuevo mensaje
-
-				chatitem.lastMessage = 'New messages';
-				chatitem.newMessagesCount++;
+				await chatitem.fileManager.getLastMessage(
+					chatitem.chat.messages,
+					chatitem.chat.direction
+				);
+				await chatitem.updateLastMessage();
 			}
 		};
+	}
+
+	updateLastMessage() {
+		var mess = this.chat.messages;
+		console.log(mess.length);
+		this.lastMessage = 'HOLAAAA';
+		this.newMessagesCount++;
 	}
 }
