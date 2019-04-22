@@ -1,16 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule , CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { NavComponent } from './nav/nav.component';
+import { UserlistComponent } from './userlist/userlist.component';
+import { UseritemComponent } from './useritem/useritem.component';
+
+import { ChatitemComponent } from './chatitem/chatitem.component';
+import { ChatlistComponent } from './chatlist/chatlist.component';
 import { ChatComponent } from './chat/chat.component';
 import { AboutComponent } from './about/about.component';
-
-
 import { AppComponent } from './app.component';
 import {LoginPopupComponent} from './login-popup/login-popup.component';
 import {LoginComponent} from './login/login.component';
 import { CardComponent } from './card/card.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 
 
 
@@ -22,12 +27,6 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavComponent } from './nav/nav.component';
-import { UseritemComponent } from './useritem/useritem.component';
-import { UserlistComponent } from './userlist/userlist.component';
-import { ChatitemComponent } from './chatitem/chatitem.component';
-import { ChatlistComponent } from './chatlist/chatlist.component';
-import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 
 
 const routes: Routes = [
@@ -84,12 +83,14 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    RouterModule,  
     RouterModule.forRoot(routes),
     NgSelectModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule //required for toastr
   ],
   providers: [AuthService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ NO_ERRORS_SCHEMA]
 })
 export class AppModule { }
