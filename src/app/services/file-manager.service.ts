@@ -195,7 +195,7 @@ export class FileManagerService {
         let direction = chatDirection + '/index.ttl';
 
         await fileManager.popupLogin().then((webId) => {
-            this.rdf.getLastMessage(displayedMessages, direction);
+            this.rdf.getLastMessage(displayedMessages, direction);            
         });
     }
 
