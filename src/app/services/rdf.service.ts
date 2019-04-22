@@ -20,6 +20,8 @@ const FLOW = $rdf.Namespace('http://www.w3.org/2005/01/wf/flow#'); // flow
 const XML = $rdf.Namespace('http://www.w3.org/2001/XMLSchema#');
 const PROV = $rdf.Namespace('https://www.w3.org/ns/prov#');
 const ACL = $rdf.Namespace('http://www.w3.org/ns/auth/acl#');
+const imageSufixes = ['gif', '.jpg', '.jpeg', '.png', '.bmp'];
+const videoSufixes = ['.mp4', '.webm', '.ogg'];
 
 /**
  * A service layer for RDF data manipulation using rdflib.js
@@ -146,7 +148,8 @@ export class RdfService {
         });
     }
 
-    async createMessageForImage(imageDirection, direction) {
+    async createMessageForMultimedia(mediaDirection, direction) {
+        console.log("Creating message");
         let insertions = [];
         let deletions = [];
 
@@ -164,7 +167,7 @@ export class RdfService {
 
         // Generate statement for the content of the message
         let predicateMessage = $rdf.sym(CONT('content'));
-        let objectMessage = $rdf.sym(imageDirection);
+        let objectMessage = $rdf.sym(mediaDirection);
         let msgSt = $rdf.st(subject, predicateMessage, objectMessage, doc);
         insertions.push(msgSt);
 
@@ -605,11 +608,30 @@ export class RdfService {
 
     public parseMessageNode(messageNode, store, id) {
         let isImage = false;
+        let isVideo = false;
+        let isDocument = false;
+
         let nodeContent = store.any(messageNode, CONT('content'));
-        if (nodeContent.termType == "NamedNode") {
-            isImage = true;
-        }
         let contentText = nodeContent.value;
+        if (nodeContent.termType == "NamedNode") {
+            for (let i = 0; i < imageSufixes.length; i++) {
+                if (contentText.endsWith(imageSufixes[i])) {
+                    isImage = true;
+                    break;
+                }
+            }
+            if (!isImage) {
+                for (let i = 0; i < videoSufixes.length; i++) {
+                    if (contentText.endsWith(videoSufixes[i])) {
+                        isVideo = true;
+                        break;
+                    }
+                }
+                if (!isVideo) {
+                    isDocument = true;
+                }
+            }         
+        }
 
         let dateUTC = store.any(messageNode, TERMS('created')).value;
 
@@ -621,7 +643,8 @@ export class RdfService {
         let maker = store.any(messageNode, FOAF('maker')).value;
         const makerName = (maker.split('://')[1]).split('.')[0];
         let isMessageReceived = (id != maker);
-        let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, maker: makerName, isImage: isImage};
+        let message = {id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived, 
+            maker: makerName, isImage: isImage, isVideo: isVideo, isDocument: isDocument};
 
         return message;
     }
@@ -656,10 +679,11 @@ export class RdfService {
                                 const subject = $rdf.sym(urlChat);
                                 const participants = await store.each(subject, FLOW('participation'));
                                 if (participants != undefined) {
-                                    if (participants.length == 1) {
+                                    if (participants.length == 2) { //Chat individual
                                         let friendId = participants[0].value;
-                                        if (myId == friendId) {
-                                            await rdfMan.setDataForChatMaker(chatDirection, chatList);
+                                        if (friendId == myId) {
+                                            friendId == participants[1].value;
+                                            await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
                                         } else {
                                             await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
                                         }
@@ -707,7 +731,6 @@ export class RdfService {
                     } else {
                         image = imageNode.value;
                     }
-
                     chatList.push({direction: chatDirection, name: fullName, img: image, isGroup:false,  messages: []});
                 }
             });

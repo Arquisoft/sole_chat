@@ -14,7 +14,6 @@ export class AppPage {
     }
 
 
-
     navigateToCard() {
         this.sleep(3000);
         return browser.get('/card');
@@ -73,9 +72,28 @@ export class AppPage {
 
 
     clickOnNewChat() {
-        return element(by.id('newChatButton2')).click();
+        this.sleep(3000);
+        return element(by.id('exampleModalLongTitle'));
+    }
+    clickOnLoginSelectMenu() {
+        this.sleep(3000);
+        return element(by.id('login-select-menu')).click();
     }
 
+    clickOnSolidCommunity() {
+         this.sleep(3000);
+        return element(by.cssContainingText('div',  'Solid Community')).click();
+    }
+
+    clickOnButtonGo() {
+        this.sleep(7000);
+        return element(by.className('wide-button')).click();
+    }
+    writeMessage(message: string) {
+        this.sleep(3000);
+        browser.driver.findElement(by.id('inputMessage')).click();
+        return browser.driver.findElement(by.id('inputMessage')).sendKeys(message);
+    }
 
     // This function is used to reduce the speed of the test
     // in order to avoid errors when running the tests

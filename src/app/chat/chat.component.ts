@@ -19,6 +19,8 @@ export class ChatComponent implements OnInit {
 
     @ViewChild('f') chatForm: NgForm;
     @ViewChild('scroller') scrollPane: ElementRef;
+    @ViewChild('videoPlayer') videoplayer: ElementRef;
+
     tempSelected;
 
     constructor(private fileManager: FileManagerService, private changeFriend: ChangeChatService,
@@ -127,9 +129,11 @@ export class ChatComponent implements OnInit {
         if (this.chat != null) {
             var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
             let direction = this.chat.direction + '/index.ttl';
-            await this.fileManager.sendMessage(message, direction).then((e) => {
-                (<HTMLInputElement>document.getElementById('inputMessage')).value = '';
-            });
+            if (message != "") {
+                await this.fileManager.sendMessage(message, direction).then((e) => {
+                    (<HTMLInputElement>document.getElementById('inputMessage')).value = '';
+                });
+            }         
         }
     }
 
@@ -249,6 +253,25 @@ export class ChatComponent implements OnInit {
     async sendImages() {
         const fileInput = <HTMLInputElement>document.getElementById('sendImages');
         const files = fileInput.files;
-        this.fileManager.sendImages(this.chat.direction, files);
+        this.fileManager.sendMultimedia(this.chat.direction, files);
+        $('#attachFilesDialog').modal('hide');
     }
+
+    async sendVideos() {
+        const fileInput = <HTMLInputElement>document.getElementById('sendVideos');
+        const files = fileInput.files;
+        this.fileManager.sendMultimedia(this.chat.direction, files);
+        $('#attachFilesDialog').modal('hide');
+    }
+
+    toggleVideo(event: any) {
+        this.videoplayer.nativeElement.play();
+    }
+
+    async sendDocs() {
+        const fileInput = <HTMLInputElement>document.getElementById('sendDocs');
+        const files = fileInput.files;
+        this.fileManager.sendMultimedia(this.chat.direction, files);
+        $('#attachFilesDialog').modal('hide');
+    }    
 }

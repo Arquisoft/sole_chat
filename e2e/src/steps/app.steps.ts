@@ -86,9 +86,6 @@ When(/^I click on create a new chat$/, async () => {
     await page.clickOnCreateNewChat();
 });
 
-
-
-
 // Go to the chat page - Create a new chat
 Then(/^I click on new chat$/, async () => {
     await page.clickOnNewChat();
@@ -103,3 +100,20 @@ Then(/^I should see the userList title$/, async () => {
     await page.getUserListTitle();
 });
 
+
+// Login select menu
+When(/^I login$/,  { timeout: 8 * 1000 }, async () => {
+    await page.clickOnLoginSelectMenu();
+    await page.clickOnSolidCommunity();
+    await page.clickOnButtonGo();
+});
+
+// Clicking on Solid Community
+When(/^I click on Solid Community$/, async () => {
+    await page.clickOnSolidCommunity();
+});
+
+// Sending a message
+Then(/^I write a message$/, async () => {
+    await page.writeMessage();
+});

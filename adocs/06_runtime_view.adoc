@@ -10,4 +10,4 @@ For showing the messages, we have a method that load the messages of the file (t
 
 We also need to update the messages file and we do this by using webSockets that notify when a message changes and when this notification appears in the system, the function getLastMessage() is called and the messages will be updated.
 
-image::https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/RuntimeView.png[Runtime View Diagram]
+image::https://raw.githubusercontent.com/Arquisoft/sole_chat/master/adocs/images/RuntimeView.png[Runtime View Diagram]
