@@ -34,7 +34,7 @@
         </button>
     </div>
 
-    <div class="currentChat text-right">
+    <div *ngIf="chat != null" class="currentChat text-right">
         <div class="currentChatHeader">
             <div class="currentChatImageWrapper">
                 <img *ngIf="chat == null" src="assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
