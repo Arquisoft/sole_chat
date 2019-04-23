@@ -3,6 +3,10 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+input[type="submit"]{
+    -webkit-appearance: none;
+}
+
 img {
     max-width: 100%;
     max-height: 100%;
@@ -107,8 +111,10 @@ h3 {
     flex-direction: row;
     align-items: center;
     padding-bottom: 2em;
-    height: auto;
+    margin-top: 1.3em;
 }
+
+
 
 .currentChatHeader img {
     object-fit: cover;
@@ -117,6 +123,18 @@ h3 {
     border-radius: 50%;
     box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
     margin-right: 2em;
+}
+
+.groupInfo {
+    color: #666666;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+}
+
+.groupInfo p {
+    margin: 0;
 }
 
 .currentChatContent {
@@ -237,6 +255,22 @@ h3 {
     cursor: pointer;
 }
 
+.sendFilesLabel {
+    width: 100%;
+    padding: 1em;
+    cursor: pointer;
+}
+
+.sendFilesLabel:hover {
+    background-color: #f7f7f7;
+}
+
+.sendFilesLabel img{
+    width: 1em;
+    height: 1em;
+    min-width: 1em;
+    min-height: 1em;
+}
 
 
 #inputMessage {
@@ -264,6 +298,7 @@ h3 {
     align-self: flex-end;
     border: none;
     background-image: url(/assets/images/sendMessage.svg);
+    -webkit-appearance: none;
     background-repeat: no-repeat;
     border-radius: 50%;
     box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
@@ -301,7 +336,7 @@ h3 {
     background-image: url(/assets/images/attachment.svg);
     background-repeat: no-repeat;
     border-radius: 50%;
-    box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
+    /*box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);*/
     align-self: center;
     min-width: 2em;
 }
@@ -320,6 +355,19 @@ h3 {
     background-repeat: no-repeat;
 }
 
+#addParticipantBtn {
+    width: 1.2em;
+    height: 1.2em;
+    min-height: 1.2em;
+    min-width: 1.2em;
+    background: none;
+    margin: 0.6em;
+    border: none;
+    background-image: url(/assets/images/editGroup.svg);
+    background-repeat: no-repeat;
+    border-radius: 0;
+}
+
 .checked{
     background-color: #FDC02F;
 }
@@ -335,6 +383,18 @@ h3 {
 
      .currentChatHeader {
          padding: 2em 5vw;
+     }
+
+     #chatName {
+     text-overflow: ellipsis;
+     overflow: hidden;
+         text-align: left;
+     }
+
+     .groupParticipants {
+         text-align: left;
+         text-overflow: ellipsis;
+         overflow: hidden;
      }
 
      .currentChat, .recentChatsWrapper{

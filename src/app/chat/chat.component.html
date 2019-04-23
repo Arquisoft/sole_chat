@@ -41,11 +41,11 @@
                 <img *ngIf="chat != null" [src]="chat.img" alt="" class="currentChatImage">
             </div>
             <div *ngIf="chat != null" class="currentChatHeaderTitle">
-                <h3>{{ chat.name }}</h3>
-                <div *ngIf="chat.isGroup">
-                    <p><span *ngFor="let p of participants"> {{ p.name }}, </span></p>
+                <h3 id="chatName">{{ chat.name }}</h3>
+                <div *ngIf="chat.isGroup" class="groupInfo">
                     <button id="addParticipantBtn" type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#addParticipantDialog">Add participant</button>
+                            data-target="#addParticipantDialog"></button>
+                    <p class="groupParticipants"><span *ngFor="let p of participants"> {{ p.name }} </span></p>
                 </div>
 
             </div>
@@ -82,11 +82,25 @@
 
         <form *ngIf="chat != null" action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
             <!--<app-emoji-picker></app-emoji-picker>-->
+            <div class="dropdown">
+                <button type="button" id="attachFile" data-toggle="dropdown">
+                </button>
+                <div class="dropdown-menu">
+                    <label for="sendImages" class="sendFilesLabel"> <img src="/assets/images/image.svg"/> Send images</label>
+                    <input type="file" style="display:none;" multiple id="sendImages" accept="image/*"
+                           (change)="sendImages()" />
+                    <label for="sendVideos" class="sendFilesLabel"><img src="/assets/images/video.svg"/> Send videos</label>
+                    <input type="file" style="display:none;" multiple id="sendVideos"
+                           accept="video/mp4,video/ogg,video/webm" (change)="sendVideos()" />
+                    <label for="sendDocs" class="sendFilesLabel"> <img src="/assets/images/send_document.svg"/> Send documents</label>
+                    <input type="file" style="display:none;" multiple id="sendDocs" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                            text/plain, application/pdf" (change)="sendDocs()" />
+                </div>
+            </div>
             <input type="text" id="inputMessage" name="message" autocomplete="off"
                 placeholder="Write here your message" />
-            <input type="submit" value="︎︎" id="submitMessage" />
-            <button value="︎︎" id="attachFile" data-toggle="modal"
-                data-target="#attachFilesDialog"></button>
+            <input type="submit" value="" id="submitMessage" />
+
         </form>
     </div>
 
