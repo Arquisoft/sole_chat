@@ -10,8 +10,12 @@
         </span>
 
       </div>
-      <div class="chatPreview">{{chat.direction}}</div>
-      <div class="lastMessag"  *ngIf="lastMessage!=null">{{lastMessage}}<span class="badge badge-pill badge-warning">{{newMessagesCount}}</span></div>
+      
+      <div class="lastMessag"  >
+        <span *ngIf="ownLastMessage"><img width="10px" src="../../assets/icons/checked.svg"></span>
+        {{lastMessage}}
+        <span  *ngIf="newMessagesCount>0" class="badge badge-pill badge-warning">{{newMessagesCount}}</span>
+      </div>
     </div>
 
   </div>
