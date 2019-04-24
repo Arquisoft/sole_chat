@@ -21,6 +21,7 @@ import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 
 // Services
 import { AuthService } from './services/solid.auth.service';
+import { RdfService } from './services/rdf.service';
 import { AuthGuard } from './services/auth.guard.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -71,14 +72,17 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent,  
     LoginComponent,
     LoginPopupComponent,
     DashboardComponent,
     CardComponent,
     RegisterComponent,
     ChatComponent,
-    AboutComponent, NavComponent, UseritemComponent, UserlistComponent, ChatitemComponent, ChatlistComponent, EmojiPickerComponent
+    AboutComponent,
+     NavComponent, UseritemComponent, 
+     UserlistComponent, ChatitemComponent, 
+     ChatlistComponent, EmojiPickerComponent
   ],
   imports: [
     BrowserModule,
@@ -94,3 +98,4 @@ const routes: Routes = [
   schemas: [ NO_ERRORS_SCHEMA]
 })
 export class AppModule { }
+ 
