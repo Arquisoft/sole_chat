@@ -87,12 +87,13 @@ describe('AppComponent', () => {
                 RegisterComponent,
                 ChatComponent,
                 AboutComponent,
-                NavComponent, UseritemComponent, 
+                NavComponent,
+                UseritemComponent, 
                 UserlistComponent, ChatitemComponent, 
                 ChatlistComponent, EmojiPickerComponent
               ],
               imports: [
-                BrowserModule,
+                BrowserModule, 
                 FormsModule,
                 RouterModule,  
                 RouterModule.forRoot(routes),

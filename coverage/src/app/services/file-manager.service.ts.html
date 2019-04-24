@@ -30,9 +30,9 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.03% </span>
+        <span class="strong">3.13% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/33</span>
+        <span class='fraction'>1/32</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">22.58% </span>
@@ -306,10 +306,7 @@
 <a name='L258'></a><a href='#L258'>258</a>
 <a name='L259'></a><a href='#L259'>259</a>
 <a name='L260'></a><a href='#L260'>260</a>
-<a name='L261'></a><a href='#L261'>261</a>
-<a name='L262'></a><a href='#L262'>262</a>
-<a name='L263'></a><a href='#L263'>263</a>
-<a name='L264'></a><a href='#L264'>264</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L261'></a><a href='#L261'>261</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -531,7 +528,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -541,12 +537,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -794,22 +788,19 @@ export class FileManagerService {
     }
 &nbsp;
     async getChatNotifications() {
-        let direction; 
-        let <span class="cstat-no" title="statement not covered" >names = [];</span>
-<span class="cstat-no" title="statement not covered" >        await fileManager.popupLogin().then(<span class="fstat-no" title="function not covered" >(i</span>d) =&gt; { </span>
-<span class="cstat-no" title="statement not covered" >            direction = id.split('/profile')[0] + '/inbox';</span>
-        }, <span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; { <span class="cstat-no" title="statement not covered" >console.log(err)})</span>;
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        await fileManager.readFolder(direction).then(<span class="fstat-no" title="function not covered" >folder </span>=&gt; {</span>
-            for(let i = 0; i &lt; folder.files.length; i++) {
-                let name = <span class="cstat-no" title="statement not covered" >folder.files[i].name;</span>
-                if (name.startsWith("soleChatNot")) {
-<span class="cstat-no" title="statement not covered" >                    names.push(name);    </span>
+<span class="cstat-no" title="statement not covered" >        await fileManager.popupLogin().then(async (id) =&gt; {  </span>
+            let <span class="cstat-no" title="statement not covered" >names = [];</span>
+            let <span class="cstat-no" title="statement not covered" >direction = id.split('/profile')[0] + '/inbox';</span>
+<span class="cstat-no" title="statement not covered" >            await fileManager.readFolder(direction).then(<span class="fstat-no" title="function not covered" >folder </span>=&gt; {</span>
+                for(let i = 0; i &lt; folder.files.length; i++) {
+                    let name = <span class="cstat-no" title="statement not covered" >folder.files[i].name;</span>
+                    if (name.startsWith("soleChatNot")) {
+<span class="cstat-no" title="statement not covered" >                        names.push(name);    </span>
+                    }
                 }
-            }
-<span class="cstat-no" title="statement not covered" >            this.rdf.getChatNotifications(names, this);</span>
-        }, <span class="fstat-no" title="function not covered" >err </span>=&gt; <span class="cstat-no" title="statement not covered" >console.log(err) );</span>
-        
+<span class="cstat-no" title="statement not covered" >                this.rdf.getChatNotifications(names, this);</span>
+            }, <span class="fstat-no" title="function not covered" >err </span>=&gt; <span class="cstat-no" title="statement not covered" >console.log(err) );</span>
+        }, <span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; { <span class="cstat-no" title="statement not covered" >console.log(err)})</span>;        
     }
 &nbsp;
     async deleteFile(direction) {
@@ -841,7 +832,7 @@ export class FileManagerService {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Apr 24 2019 17:46:33 GMT+0200 (GMT+02:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Apr 24 2019 18:41:59 GMT+0200 (GMT+02:00)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>
