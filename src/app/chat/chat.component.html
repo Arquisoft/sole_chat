@@ -26,7 +26,7 @@
 <div class="bodyWrapper">
     <div class="recentChatsWrapper">
         <h3 id="userListTitle">Recent Chats</h3>
-      
+
         <input type="text" class="standardTextInput" id="searchBoxRecentChats" placeholder="🔎 Search chats">
         <div class="chatList ">
             <app-chatlist #chatList></app-chatlist>
@@ -36,7 +36,7 @@
         </button>
     </div>
 
-    <div *ngIf="chat != null"  id="currentChat" class="currentChat text-right">
+    <div *ngIf="chat != null" id="currentChat" class="currentChat text-right">
         <div class="currentChatHeader">
             <div class="currentChatImageWrapper">
                 <img *ngIf="chat == null" src="assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
@@ -45,8 +45,21 @@
             <div *ngIf="chat != null" class="currentChatHeaderTitle">
                 <h3 id="chatName">{{ chat.name }}</h3>
                 <div *ngIf="chat.isGroup" class="groupInfo">
-                    <button id="addParticipantBtn" type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#addParticipantDialog"></button>
+                    <div class="dropdown">
+                        <button type="button" id="editGroup" data-toggle="dropdown">
+                        </button>
+                        <div class="dropdown-menu">
+                            <label for="addParticipantBtn" class="sendFilesLabel"><img
+                                    src="/assets/images/newFriend.svg" />Add participants</label>
+                            <button id="addParticipantBtn" type="button" style="display:none;" data-toggle="modal"
+                                data-target="#addParticipantDialog"></button>
+                            <label for="changeNameBtn" class="sendFilesLabel"><img
+                                    src="/assets/images/editGroup.svg" />Change name</label>
+                            <button id="changeNameBtn" type="button" style="display:none;" data-toggle="modal"
+                                data-target="#changeNameDialog"></button>
+                        </div>
+                    </div>
+
                     <p class="groupParticipants"><span *ngFor="let p of participants"> {{ p.name }} </span></p>
                 </div>
 
@@ -88,18 +101,23 @@
                 <button type="button" id="attachFile" data-toggle="dropdown">
                 </button>
                 <div class="dropdown-menu">
-                    <label for="sendImages" class="sendFilesLabel"> <img src="/assets/images/image.svg" /> Send images</label>
-                    <input type="file" style="display:none;" multiple id="sendImages" accept="image/*" (change)="sendImages()" />
-                    <label for="sendVideos" class="sendFilesLabel"><img src="/assets/images/video.svg" /> Send videos</label>
-                    <input type="file" style="display:none;" multiple id="sendVideos" accept="video/mp4,video/ogg,video/webm"
-                        (change)="sendVideos()" />
-                    <label for="sendDocs" class="sendFilesLabel"> <img src="/assets/images/send_document.svg" /> Send documents</label>
+                    <label for="sendImages" class="sendFilesLabel"> <img src="/assets/images/image.svg" /> Send
+                        images</label>
+                    <input type="file" style="display:none;" multiple id="sendImages" accept="image/*"
+                        (change)="sendImages()" />
+                    <label for="sendVideos" class="sendFilesLabel"><img src="/assets/images/video.svg" /> Send
+                        videos</label>
+                    <input type="file" style="display:none;" multiple id="sendVideos"
+                        accept="video/mp4,video/ogg,video/webm" (change)="sendVideos()" />
+                    <label for="sendDocs" class="sendFilesLabel"> <img src="/assets/images/send_document.svg" /> Send
+                        documents</label>
                     <input type="file" style="display:none;" multiple id="sendDocs" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
                                             text/plain, application/pdf" (change)="sendDocs()" />
-                
-                
-                    <label for="sendBuzz"  (click)="sendBuzz()" class="sendFilesLabel"> <img src="/assets/images/send_document.svg"  /> Send buzz</label>
-                    
+
+
+                    <label for="sendBuzz" (click)="sendBuzz()" class="sendFilesLabel"> <img
+                            src="/assets/images/send_document.svg" /> Send buzz</label>
+
                 </div>
             </div>
             <input type="text" id="inputMessage" name="message" autocomplete="off"
@@ -194,6 +212,30 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" (click)="addGroupName()" data-dismiss="modal">Create
                         group
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal change group name-->
+    <div class="modal fade" id="changeNameDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Group name</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="standardTextInput" id="changeNameField" required
+                        placeholder="💬 Enter a new name for the group">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="changeGroupName()" data-dismiss="modal">Change name
                     </button>
                 </div>
             </div>

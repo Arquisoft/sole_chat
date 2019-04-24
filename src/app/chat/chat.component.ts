@@ -260,7 +260,11 @@ export class ChatComponent implements OnInit {
 
 		var name = field[0].value;
 		field.value = '';
-		this.createGroupChat(this.tempSelected, name);
+		if (name != "") {
+			this.createGroupChat(this.tempSelected, name);
+		} else {
+			this.toastr.error("The name of the group must not be empty", "Incorrect input");
+		}		
 	}
 
 	addFriend() {
@@ -338,5 +342,18 @@ export class ChatComponent implements OnInit {
 		const files = fileInput.files;
 		this.fileManager.sendMultimedia(this.chat.direction, files);
 		$('#attachFilesDialog').modal('hide');
+	}
+
+	changeGroupName() {
+		var field = $('#changeNameField');
+
+		var name = field[0].value;
+		field.value = '';
+		if (name != "") {
+			//this.createGroupChat(this.tempSelected, name);
+		} else {
+			this.toastr.error("The name of the group must not be empty", "Incorrect input");
+		}	
+		
 	}
 }
