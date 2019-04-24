@@ -98,7 +98,8 @@ export class AppPage {
     introduceCredentials() {
         this.sleep(3000);
         // return element(by.className('form-control')).click();
-         return element(by.id('username')).click();
+         // return element(by.id('username')).click();
+        return element(by.cssContainingText('div',  'Logout'));
     }
 
     // This function is used to reduce the speed of the test
