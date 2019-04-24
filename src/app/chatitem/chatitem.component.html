@@ -1,4 +1,4 @@
-<div class="userItem">
+<div [ngClass]="{'buzzing': buzzing==true}" class="userItem">
   <div class="chatCard" (click)="changeUser()">
     <div class="chatImage">
       <img [src]="chat.img" alt="">

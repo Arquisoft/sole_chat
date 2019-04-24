@@ -36,7 +36,7 @@
         </button>
     </div>
 
-    <div *ngIf="chat != null" class="currentChat text-right">
+    <div *ngIf="chat != null"  id="currentChat" class="currentChat text-right">
         <div class="currentChatHeader">
             <div class="currentChatImageWrapper">
                 <img *ngIf="chat == null" src="assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
@@ -88,15 +88,18 @@
                 <button type="button" id="attachFile" data-toggle="dropdown">
                 </button>
                 <div class="dropdown-menu">
-                    <label for="sendImages" class="sendFilesLabel"> <img src="/assets/images/image.svg"/> Send images</label>
-                    <input type="file" style="display:none;" multiple id="sendImages" accept="image/*"
-                           (change)="sendImages()" />
-                    <label for="sendVideos" class="sendFilesLabel"><img src="/assets/images/video.svg"/> Send videos</label>
-                    <input type="file" style="display:none;" multiple id="sendVideos"
-                           accept="video/mp4,video/ogg,video/webm" (change)="sendVideos()" />
-                    <label for="sendDocs" class="sendFilesLabel"> <img src="/assets/images/send_document.svg"/> Send documents</label>
+                    <label for="sendImages" class="sendFilesLabel"> <img src="/assets/images/image.svg" /> Send images</label>
+                    <input type="file" style="display:none;" multiple id="sendImages" accept="image/*" (change)="sendImages()" />
+                    <label for="sendVideos" class="sendFilesLabel"><img src="/assets/images/video.svg" /> Send videos</label>
+                    <input type="file" style="display:none;" multiple id="sendVideos" accept="video/mp4,video/ogg,video/webm"
+                        (change)="sendVideos()" />
+                    <label for="sendDocs" class="sendFilesLabel"> <img src="/assets/images/send_document.svg" /> Send documents</label>
                     <input type="file" style="display:none;" multiple id="sendDocs" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                            text/plain, application/pdf" (change)="sendDocs()" />
+                                            text/plain, application/pdf" (change)="sendDocs()" />
+                
+                
+                    <label for="sendBuzz"  (click)="sendBuzz()" class="sendFilesLabel"> <img src="/assets/images/send_document.svg"  /> Send buzz</label>
+                    
                 </div>
             </div>
             <input type="text" id="inputMessage" name="message" autocomplete="off"

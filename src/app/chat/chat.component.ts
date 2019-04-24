@@ -148,23 +148,49 @@ export class ChatComponent implements OnInit {
 			this.send('sub ' + direction);
 		};
 
+		var chatComp=this;
 		socket.onmessage = function(msg) {
 			if (msg.data && msg.data.slice(0, 3) === 'pub') {
 				fm.getLastMessage(chat.messages, chat.direction);
+				chatComp.checkBuzz();
 			}
 		};
+	}
+	checkBuzz() {
+		var updateLast = function(chatComp, mess) {
+			if(mess.content==="BUZZZZZ"){
+				if(mess.received){
+					var chat:HTMLDivElement=$("#currentChat")[0];			
+					chat.classList.add("buzzing");				
+					setTimeout(function() {
+						chat.classList.remove("buzzing");
+					}, 2000);
+				}
+			}
+		};
+		this.rdf.getLastMessageValue(updateLast, this.chat.direction + '/index.ttl', this);
 	}
 
 	async onSubmit() {
 		if (this.chat != null) {
 			var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
 			let direction = this.chat.direction + '/index.ttl';
+			
 			if (message != '') {
 				await this.fileManager.sendMessage(message, direction).then((e) => {
+					
 					(<HTMLInputElement>document.getElementById('inputMessage')).value = '';
+					
 				});
 			}
 		}
+	}
+
+	async sendBuzz(){
+		
+		var message="BUZZZZZ";
+		let direction= this.chat.direction+"/index.ttl";
+		await this.fileManager.sendMessage(message,direction);
 	}
 
 	async loadFriends() {
@@ -198,7 +224,7 @@ export class ChatComponent implements OnInit {
 		}
 
 		if (selected.length == 0) {
-			console.log('Cerrando, no se han seleccionado usuarios');
+			//console.log('Cerrando, no se han seleccionado usuarios');
 		} else if (selected.length < 2) {
 			$('#groupNameDialog').modal('hide');
 
@@ -256,7 +282,7 @@ export class ChatComponent implements OnInit {
 
 		socket.onopen = function() {
 			this.send('sub ' + direction);
-			console.log('Listening for ' + direction);
+			//console.log('Listening for ' + direction);
 		};
 
 		socket.onmessage = function(msg) {
