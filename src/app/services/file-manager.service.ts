@@ -220,22 +220,19 @@ export class FileManagerService {
     }
 
     async getChatNotifications() {
-        let direction; 
-        let names = [];
-        await fileManager.popupLogin().then((id) => { 
-            direction = id.split('/profile')[0] + '/inbox';
-        }, (err) => { console.log(err)});
-
-        await fileManager.readFolder(direction).then(folder => {
-            for(let i = 0; i < folder.files.length; i++) {
-                let name = folder.files[i].name;
-                if (name.startsWith("soleChatNot")) {
-                    names.push(name);    
+        await fileManager.popupLogin().then(async (id) => {  
+            let names = [];
+            let direction = id.split('/profile')[0] + '/inbox';
+            await fileManager.readFolder(direction).then(folder => {
+                for(let i = 0; i < folder.files.length; i++) {
+                    let name = folder.files[i].name;
+                    if (name.startsWith("soleChatNot")) {
+                        names.push(name);    
+                    }
                 }
-            }
-            this.rdf.getChatNotifications(names, this);
-        }, err => console.log(err) );
-        
+                this.rdf.getChatNotifications(names, this);
+            }, err => console.log(err) );
+        }, (err) => { console.log(err)});        
     }
 
     async deleteFile(direction) {

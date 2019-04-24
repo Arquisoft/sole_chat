@@ -4,6 +4,7 @@ import { FileManagerService } from '../services/file-manager.service';
 import { ChangeChatService } from '../services/change-chat.service';
 import { RdfService } from '../services/rdf.service';
 import { ToastrService } from 'ngx-toastr';
+import { ChatlistComponent } from '../chatlist/chatlist.component';
 
 declare var $: any;
 
@@ -21,6 +22,7 @@ export class ChatComponent implements OnInit {
 	@ViewChild('f') chatForm: NgForm;
 	@ViewChild('scroller') scrollPane: ElementRef;
 	@ViewChild('videoPlayer') videoplayer: ElementRef;
+	@ViewChild('chatList') chatList: ChatlistComponent;
 
 	tempSelected;
 
@@ -38,6 +40,7 @@ export class ChatComponent implements OnInit {
 		this.searchChat();
 
 		this.addNotificationsListener();
+		this.chatList.addListener();
 
 		this.changeFriend.chat.subscribe(async (res) => {
 			this.chat = res;
