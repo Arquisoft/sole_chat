@@ -2,6 +2,7 @@ import {browser, by, element} from 'protractor';
 
 export class AppPage {
 
+
     navigateToLogin() {
         this.sleep(3000);
         return browser.get('/login');
@@ -23,7 +24,6 @@ export class AppPage {
         this.sleep(3000);
         return browser.get('/userList');
     }
-
 
 
     navigateToChat() {
@@ -75,20 +75,22 @@ export class AppPage {
         this.sleep(3000);
         return element(by.id('exampleModalLongTitle'));
     }
+
     clickOnLoginSelectMenu() {
         this.sleep(3000);
         return element(by.id('login-select-menu')).click();
     }
 
     clickOnSolidCommunity() {
-         this.sleep(3000);
-        return element(by.cssContainingText('div',  'Solid Community')).click();
+        this.sleep(3000);
+        return element(by.cssContainingText('div', 'Solid Community')).click();
     }
 
     clickOnButtonGo() {
         this.sleep(7000);
         return element(by.className('wide-button')).click();
     }
+
     writeMessage(message: string) {
         this.sleep(3000);
         browser.driver.findElement(by.id('inputMessage')).click();
@@ -98,8 +100,9 @@ export class AppPage {
     introduceCredentials() {
         this.sleep(3000);
         // return element(by.className('form-control')).click();
-         // return element(by.id('username')).click();
-        return element(by.cssContainingText('div',  'Logout'));
+        // return element(by.id('username')).click();
+        // return element(by.cssContainingText('a',  'Logout')).click();
+        return element(by.linkText('Logout')).click();
     }
 
     // This function is used to reduce the speed of the test
