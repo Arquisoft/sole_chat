@@ -11,7 +11,7 @@ declare var $: any;
 	selector: 'app-chat',
 	templateUrl: './chat.component.html',
 	styleUrls: [ './chat.component.css' ]
-})
+}) 
 export class ChatComponent implements OnInit {
 	chat: any;
 	newGroupName: String;
