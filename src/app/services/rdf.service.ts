@@ -838,6 +838,7 @@ export class RdfService {
         var timeout = 5000; // 5000 ms timeout
         var fetcher = new $rdf.Fetcher(store, timeout);
         const rdfManager = this;
+        const myName = this.session.webId.split("://")[1].split(".")[0];
 
         await fetcher.nowOrWhenFetched(direction + '#this', async function (ok, body, xhr) {
             if (!ok) {
@@ -848,13 +849,29 @@ export class RdfService {
                 let maker = creatorNode.value;
                 const chatNode = await store.any(subject, PROV('Create'));
                 let chat = chatNode.value;
-
-                rdfManager.toastr.info(
-                    'You have a new chat (' + chat + ') from webId ' + maker,
-                    'New chat'
-                );
-
-                fileManager.deleteFile(direction);
+                let urlChat = chat + "/index.ttl#this";
+                await fetcher.nowOrWhenFetched(urlChat, async function(ok, body, xhr) {
+                    const subject = $rdf.sym(urlChat);
+                    const nameNode = await store.any(subject, N1('title'));
+                    let name = nameNode.value.split('Chat_')[1];
+                
+                    if (name == myName) {
+                        name = maker.split("://")[1].split(".")[0];
+                        rdfManager.toastr.info(
+                            'You have a new chat: ' + name,
+                            'New chat'
+                        );
+        
+                        fileManager.deleteFile(direction);
+                    } else {
+                        rdfManager.toastr.info(
+                            'You have a new chat: ' + name,
+                            'New chat'
+                        );
+        
+                        fileManager.deleteFile(direction);
+                    }
+                });
             }
         });
 
