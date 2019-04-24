@@ -20,31 +20,31 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">48% </span>
+        <span class="strong">80% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>12/25</span>
+        <span class='fraction'>20/25</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">25% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>1/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>3/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">45.45% </span>
+        <span class="strong">77.27% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/22</span>
+        <span class='fraction'>17/22</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,13 +95,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -109,17 +114,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -134,19 +134,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-<span class="cstat-no" title="statement not covered" >  profileImage = '/assets/images/profile.png';</span>
+  profileImage = '/assets/images/profile.png';
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor(</span>
-    private <span class="cstat-no" title="statement not covered" >auth: A</span>uthService,
-    private <span class="cstat-no" title="statement not covered" >rdf: R</span>dfService,
-    private <span class="cstat-no" title="statement not covered" >router : R</span>outer) { }
+  constructor(
+    private auth: AuthService,
+    private rdf: RdfService,
+    private router : Router) { }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  ngOnInit(</span>) {
-<span class="cstat-no" title="statement not covered" >    this.loadProfile();</span>
+  ngOnInit() {
+    this.loadProfile();
   }
 &nbsp;
   async loadProfile(){
-    const <span class="cstat-no" title="statement not covered" >profile=  <span class="cstat-no" title="statement not covered" >await this.rdf.getProfile();</span></span>
+    const profile=  await this.rdf.getProfile();
 <span class="cstat-no" title="statement not covered" >    this.profileImage=profile?profile.image:'/assets/images/profile.png';</span>
   }
 &nbsp;
@@ -157,9 +157,9 @@ export class NavComponent implements OnInit {
 <span class="cstat-no" title="statement not covered" >    console.log("deslogueado")</span>
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  showNav(</span>) {
-<span class="cstat-no" title="statement not covered" >    return this.router.url != "/" &amp;&amp;</span>
-           this.router.url != "/login";
+  showNav() {
+    return this.router.url != "/" &amp;&amp;
+<span class="branch-1 cbranch-no" title="branch not covered" >           this.router.url != "/login";</span>
   }
 &nbsp;
 }
@@ -169,7 +169,7 @@ export class NavComponent implements OnInit {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Apr 22 2019 21:10:39 GMT+0200 (GMT+02:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Apr 24 2019 17:46:33 GMT+0200 (GMT+02:00)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>

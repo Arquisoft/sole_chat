@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/app/userlist/userlist.component.ts</title>
+    <title>Code coverage report for src/app/register/register.component.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="..\..\..\prettify.css" />
     <link rel="stylesheet" href="..\..\..\base.css" />
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="..\..\..\index.html">All files</a> / <a href="index.html">src/app/userlist</a> userlist.component.ts
+      <a href="..\..\..\index.html">All files</a> / <a href="index.html">src/app/register</a> register.component.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.43% </span>
+        <span class="strong">63.64% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>10/14</span>
+        <span class='fraction'>7/11</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/1</span>
+        <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">62.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/12</span>
+        <span class='fraction'>5/8</span>
       </div>
     </div>
     <p class="quiet">
@@ -65,21 +65,7 @@
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -87,57 +73,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {Component, OnInit, OnChanges, Input} from '@angular/core';
-import {RdfService} from '../services/rdf.service';
-import {FileManagerService} from '../services/file-manager.service';
-import { NgModule , NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/solid.auth.service';
 &nbsp;
 @Component({
-    selector: 'app-userlist',
-    templateUrl: './userlist.component.html',
-    styleUrls: ['./userlist.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-@NgModule({
-    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
-})
+export class RegisterComponent implements OnInit {
+  availableProviders: any[];
 &nbsp;
-export class UserlistComponent implements OnInit {
-    @Input()  user;
-    dummyusers;
-    
-<span class="fstat-no" title="function not covered" >    constructor(private <span class="cstat-no" title="statement not covered" >f</span>ileManager: F</span>ileManagerService) {
+<span class="fstat-no" title="function not covered" >  constructor(private <span class="cstat-no" title="statement not covered" >a</span>uth: A</span>uthService) { }
 &nbsp;
-    }
+<span class="fstat-no" title="function not covered" >  ngOnInit(</span>) {
+<span class="cstat-no" title="statement not covered" >    this.availableProviders = this.auth.getIdentityProviders();</span>
+<span class="cstat-no" title="statement not covered" >    this.availableProviders = this.availableProviders.filter(<span class="fstat-no" title="function not covered" >idp </span>=&gt; <span class="cstat-no" title="statement not covered" >idp.providerLoginUrl !== null);</span></span>
+  }
 &nbsp;
-    async ngOnInit() {
-<span class="cstat-no" title="statement not covered" >        await this.getUserList();</span>
-    }
-&nbsp;
-    async getUserList() {
-<span class="cstat-no" title="statement not covered" >        this.dummyusers = [];</span>
-<span class="cstat-no" title="statement not covered" >        await this.fileManager.getFriends(this.dummyusers);</span>
-    }
 }
 &nbsp;</pre></td></tr>
 </table></pre>
