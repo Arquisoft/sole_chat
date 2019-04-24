@@ -1,18 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ChangeChatService } from '../services/change-chat.service';
 import { RdfService } from '../services/rdf.service';
 import { FileManagerService } from '../services/file-manager.service';
 
+declare var $: any;
 @Component({
 	selector: 'app-chatitem',
 	templateUrl: './chatitem.component.html',
 	styleUrls: [ './chatitem.component.css' ]
 })
 export class ChatitemComponent implements OnInit {
+	@ViewChild("app-chatitem") el:ElementRef;
 	@Input() chat;
 	lastMessage: string = null;
 	newMessagesCount: number = 0;
 	ownLastMessage:boolean=true;
+	buzzing:boolean=false;
 	constructor(
 		private changeChat: ChangeChatService,
 		private rdf: RdfService,
@@ -30,7 +33,7 @@ export class ChatitemComponent implements OnInit {
 	}
 
 	async addNotificationsListener() {
-		this.updateLastMessage();
+		this.updateLastMessage(true);
 		let direction = this.chat.direction + '/index.ttl';
 		let directionForSocket = 'wss' + direction.split('https')[1];
 
@@ -59,9 +62,13 @@ export class ChatitemComponent implements OnInit {
 		};
 	}
 
-	updateLastMessage() {
+	updateLastMessage(firstUpdate:boolean=false) {
+	
 		var updateLast = function(chatitem, mess) {
 			//console.log(mess);
+
+			
+
 			const maxLength = 14;
 			if (mess.content.length > maxLength) {
 				chatitem.lastMessage = mess.content.substring(0, maxLength);
@@ -72,7 +79,7 @@ export class ChatitemComponent implements OnInit {
 
 			chatitem.ownLastMessage=!mess.received;
 
-			console.log(mess)
+		
 			if(mess.isImage){
 				chatitem.lastMessage="Image"
 			}
@@ -83,8 +90,25 @@ export class ChatitemComponent implements OnInit {
 				chatitem.lastMessage="Document"
 				
 			}
+
+
+			if(!firstUpdate){
+			if(mess.content==="BUZZZZZ"){
+				
+				if(mess.received){
+					
+					chatitem.buzzing=true;
+								
+					setTimeout(function() {
+						chatitem.buzzing=false;
+					}, 2000);
+				}
+			}}
 		};
 		this.rdf.getLastMessageValue(updateLast, this.chat.direction + '/index.ttl', this);
+
+
+		
 		/*this.lastMessage = 'New messages: ';
 		this.newMessagesCount++;*/
 	}

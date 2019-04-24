@@ -4,6 +4,7 @@ import { FileManagerService } from '../services/file-manager.service';
 import { ChangeChatService } from '../services/change-chat.service';
 import { RdfService } from '../services/rdf.service';
 import { ToastrService } from 'ngx-toastr';
+import { ChatlistComponent } from '../chatlist/chatlist.component';
 
 declare var $: any;
 
@@ -21,6 +22,7 @@ export class ChatComponent implements OnInit {
 	@ViewChild('f') chatForm: NgForm;
 	@ViewChild('scroller') scrollPane: ElementRef;
 	@ViewChild('videoPlayer') videoplayer: ElementRef;
+	@ViewChild('chatList') chatList: ChatlistComponent;
 
 	tempSelected;
 
@@ -38,6 +40,7 @@ export class ChatComponent implements OnInit {
 		this.searchChat();
 
 		this.addNotificationsListener();
+		this.chatList.addListener();
 
 		this.changeFriend.chat.subscribe(async (res) => {
 			this.chat = res;
@@ -148,23 +151,49 @@ export class ChatComponent implements OnInit {
 			this.send('sub ' + direction);
 		};
 
+		var chatComp=this;
 		socket.onmessage = function(msg) {
 			if (msg.data && msg.data.slice(0, 3) === 'pub') {
 				fm.getLastMessage(chat.messages, chat.direction);
+				chatComp.checkBuzz();
 			}
 		};
+	}
+	checkBuzz() {
+		var updateLast = function(chatComp, mess) {
+			if(mess.content==="BUZZZZZ"){
+				if(mess.received){
+					var chat:HTMLDivElement=$("#currentChat")[0];			
+					chat.classList.add("buzzing");				
+					setTimeout(function() {
+						chat.classList.remove("buzzing");
+					}, 2000);
+				}
+			}
+		};
+		this.rdf.getLastMessageValue(updateLast, this.chat.direction + '/index.ttl', this);
 	}
 
 	async onSubmit() {
 		if (this.chat != null) {
 			var message = (<HTMLInputElement>document.getElementById('inputMessage')).value;
 			let direction = this.chat.direction + '/index.ttl';
+			
 			if (message != '') {
 				await this.fileManager.sendMessage(message, direction).then((e) => {
+					
 					(<HTMLInputElement>document.getElementById('inputMessage')).value = '';
+					
 				});
 			}
 		}
+	}
+
+	async sendBuzz(){
+		
+		var message="BUZZZZZ";
+		let direction= this.chat.direction+"/index.ttl";
+		await this.fileManager.sendMessage(message,direction);
 	}
 
 	async loadFriends() {
@@ -198,7 +227,7 @@ export class ChatComponent implements OnInit {
 		}
 
 		if (selected.length == 0) {
-			console.log('Cerrando, no se han seleccionado usuarios');
+			//console.log('Cerrando, no se han seleccionado usuarios');
 		} else if (selected.length < 2) {
 			$('#groupNameDialog').modal('hide');
 
@@ -231,7 +260,11 @@ export class ChatComponent implements OnInit {
 
 		var name = field[0].value;
 		field.value = '';
-		this.createGroupChat(this.tempSelected, name);
+		if (name != "") {
+			this.createGroupChat(this.tempSelected, name);
+		} else {
+			this.toastr.error("The name of the group must not be empty", "Incorrect input");
+		}		
 	}
 
 	addFriend() {
@@ -256,7 +289,7 @@ export class ChatComponent implements OnInit {
 
 		socket.onopen = function() {
 			this.send('sub ' + direction);
-			console.log('Listening for ' + direction);
+			//console.log('Listening for ' + direction);
 		};
 
 		socket.onmessage = function(msg) {
@@ -309,5 +342,18 @@ export class ChatComponent implements OnInit {
 		const files = fileInput.files;
 		this.fileManager.sendMultimedia(this.chat.direction, files);
 		$('#attachFilesDialog').modal('hide');
+	}
+
+	changeGroupName() {
+		var field = $('#changeNameField');
+
+		var name = field[0].value;
+		field.value = '';
+		if (name != "") {
+			//this.createGroupChat(this.tempSelected, name);
+		} else {
+			this.toastr.error("The name of the group must not be empty", "Incorrect input");
+		}	
+		
 	}
 }

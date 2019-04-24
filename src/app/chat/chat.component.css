@@ -341,6 +341,22 @@ h3 {
     min-width: 2em;
 }
 
+#editGroup {
+    border: none;
+    height: 1em;
+    width: 1em;
+    background: none;
+    margin: 0.5em;
+    align-self: flex-end;
+    border: none;
+    background-image: url(/assets/images/editGroup.svg);
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    /*box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);*/
+    align-self: center;
+    min-width: 2em;
+}
+
 #attachFile:hover {
     opacity: 0.85;
 }
@@ -353,19 +369,6 @@ h3 {
     border: none;
     background-image: url(/assets/images/newFriend.svg);
     background-repeat: no-repeat;
-}
-
-#addParticipantBtn {
-    width: 1.2em;
-    height: 1.2em;
-    min-height: 1.2em;
-    min-width: 1.2em;
-    background: none;
-    margin: 0.6em;
-    border: none;
-    background-image: url(/assets/images/editGroup.svg);
-    background-repeat: no-repeat;
-    border-radius: 0;
 }
 
 .checked{
@@ -426,3 +429,27 @@ h3 {
         max-width: 70vw;
     }
 }
+
+.buzzing{
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+
+  
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
