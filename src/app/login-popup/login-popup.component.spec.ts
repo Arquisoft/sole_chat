@@ -15,7 +15,7 @@ describe('LoginPopupComponent', () => {
     fixture = TestBed.createComponent(LoginPopupComponent);
     component = fixture.componentInstance;
   });
-  it('can load instance', () => {
+  it('can load instance', () => { 
     expect(component).toBeTruthy(); 
   });
 })
