@@ -149,7 +149,6 @@ export class RdfService {
     }
 
     async createMessageForMultimedia(mediaDirection, direction) {
-        console.log("Creating message");
         let insertions = [];
         let deletions = [];
 
@@ -999,6 +998,43 @@ export class RdfService {
                         console.log('Error: ' + message);
                     }
                 });
+            }
+        });
+    }
+
+    async addPhotoToChat(mediaDirection, direction) {
+        var store = $rdf.graph();
+        var timeout = 5000; // 5000 ms timeout
+        var fetcher = new $rdf.Fetcher(store, timeout);
+        const chatURL = direction + "#this";
+        const doc = $rdf.sym(direction);
+
+        const subject = $rdf.sym(chatURL);    
+        let predicate = $rdf.sym(VCARD('hasPhoto'));
+        let object = $rdf.sym(mediaDirection);
+        let ins = $rdf.st(subject, predicate, object, doc);
+
+        const rdfManager = this;
+
+        fetcher.nowOrWhenFetched(chatURL, async function (ok, body, xhr) {
+            if (!ok) {
+                console.log('Oops, something happened and couldn\'t fetch data');
+            } else {
+                let objectDel = await store.any(subject, VCARD('hasPhoto'));
+                let del = $rdf.st(subject, predicate, objectDel, doc);
+                if (objectDel != undefined) {
+                    rdfManager.updateManager.update(del, ins, (uri, ok, message) => {
+                        if (!ok) {
+                            console.log('Error: ' + message);
+                        }
+                    });
+                } else {
+                    rdfManager.updateManager.update([], ins, (uri, ok, message) => {
+                        if (!ok) {
+                            console.log('Error: ' + message);
+                        }
+                    });
+                }                
             }
         });
     }

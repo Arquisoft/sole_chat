@@ -322,14 +322,12 @@ export class ChatComponent implements OnInit {
 		const fileInput = <HTMLInputElement>document.getElementById('sendImages');
 		const files = fileInput.files;
 		this.fileManager.sendMultimedia(this.chat.direction, files);
-		$('#attachFilesDialog').modal('hide');
 	}
 
 	async sendVideos() {
 		const fileInput = <HTMLInputElement>document.getElementById('sendVideos');
 		const files = fileInput.files;
 		this.fileManager.sendMultimedia(this.chat.direction, files);
-		$('#attachFilesDialog').modal('hide');
 	}
 
 	toggleVideo(event: any) {
@@ -340,7 +338,6 @@ export class ChatComponent implements OnInit {
 		const fileInput = <HTMLInputElement>document.getElementById('sendDocs');
 		const files = fileInput.files;
 		this.fileManager.sendMultimedia(this.chat.direction, files);
-		$('#attachFilesDialog').modal('hide');
 	}
 
 	changeGroupName() {
@@ -354,7 +351,12 @@ export class ChatComponent implements OnInit {
 			this.toastr.info("The name of the group has been changed successfully", "Name changed");
 		} else {
 			this.toastr.error("The name of the group must not be empty", "Incorrect input");
-		}	
-		
+		}		
+	}
+
+	changeGroupImage() {
+		const fileInput = <HTMLInputElement>document.getElementById('groupImage');
+		const file = fileInput.files[0];
+		this.fileManager.addGroupPhoto(this.chat.direction, file);
 	}
 }
