@@ -358,5 +358,7 @@ export class ChatComponent implements OnInit {
 		const fileInput = <HTMLInputElement>document.getElementById('groupImage');
 		const file = fileInput.files[0];
 		this.fileManager.addGroupPhoto(this.chat.direction, file);
+		//this.chatList.getChatList();
+		this.toastr.info("The photo of the group has been changed successfully", "Photo changed");
 	}
 }

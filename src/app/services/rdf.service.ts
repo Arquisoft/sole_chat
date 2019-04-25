@@ -714,11 +714,18 @@ export class RdfService {
                                         } else {
                                             await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
                                         }
-                                    } else {
+                                    } else {                                        
                                         const nameNode = await store.any(subject, N1('title'));
                                         const name = nameNode.value.split('Chat_')[1];
-                                        const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
-                                        chatList.push({ direction: chatDirection, name: name, img: image, isGroup: true, messages: [] });
+                                        const imageNode = await store.any(subject, VCARD('hasPhoto'));
+                                        let image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+
+                                        if (imageNode != undefined) {
+                                            image = imageNode.value;
+                                            chatList.push({ direction: chatDirection, name: name, img: image, isGroup: true, messages: [] });
+                                        } else {
+                                            chatList.push({ direction: chatDirection, name: name, img: image, isGroup: true, messages: [] });
+                                        }
                                     }
                                 }
                             });
