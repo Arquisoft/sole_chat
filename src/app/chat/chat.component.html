@@ -37,10 +37,10 @@
     </div>
 
     <div *ngIf="chat != null" id="currentChat" class="currentChat text-right">
-        <div class="currentChatHeader">
+        <div class="currentChatHeader" id="chatHeader">
             <div class="currentChatImageWrapper">
                 <img *ngIf="chat == null" src="assets/images/portraits/emilio.svg" alt="" class="currentChatImage">
-                <img *ngIf="chat != null" id="profileImage" [src]="chat.img" alt="" class="currentChatImage">
+                <img *ngIf="chat != null" [src]="chat.img" alt="" class="currentChatImage">
             </div>
             <div *ngIf="chat != null" class="currentChatHeaderTitle">
                 <h3 id="chatName">{{ chat.name }}</h3>

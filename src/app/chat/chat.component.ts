@@ -350,6 +350,7 @@ export class ChatComponent implements OnInit {
 			this.rdf.updateChatName(this.chat.direction, name, (success) => {
 				if (success) {
 					this.chatList.getChatList();
+					this.chat = null;
 					this.toastr.info("The name of the group has been changed successfully", "Name changed");
 				} else {
 					this.toastr.error("The name of the group could not be changed", "Error");
@@ -367,6 +368,7 @@ export class ChatComponent implements OnInit {
 		this.fileManager.addGroupPhoto(this.chat.direction, file, (success) => {
 			if (success) {
 				this.chatList.getChatList();
+				this.chat = null;
 				this.toastr.info("The photo of the group has been changed successfully", "Photo changed");
 			} else {
 				this.toastr.error("The photo of the group could not be changed", "Error");
