@@ -976,4 +976,30 @@ export class RdfService {
             }
         });
     }
+
+    async updateChatName(chatDirection, name) {
+        var store = $rdf.graph();
+        var timeout = 5000; // 5000 ms timeout
+        var fetcher = new $rdf.Fetcher(store, timeout);
+        const chatURL = chatDirection + "/index.ttl#this";
+        const doc = $rdf.sym(chatDirection + "/index.ttl");
+        const subject = $rdf.sym(chatURL);        
+        let predicate = $rdf.sym(N1('title'));
+        let ins = $rdf.st(subject, predicate, 'Chat_' + name, doc);
+        const rdfManager = this;
+
+        fetcher.nowOrWhenFetched(chatURL, async function (ok, body, xhr) {
+            if (!ok) {
+                console.log('Oops, something happened and couldn\'t fetch data');
+            } else {
+                let content = await store.any(subject, N1('title'));
+                let del = $rdf.st(subject, predicate, content, doc);
+                rdfManager.updateManager.update(del, ins, (uri, ok, message) => {
+                    if (!ok) {
+                        console.log('Error: ' + message);
+                    }
+                });
+            }
+        });
+    }
 }

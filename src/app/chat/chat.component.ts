@@ -189,8 +189,7 @@ export class ChatComponent implements OnInit {
 		}
 	}
 
-	async sendBuzz(){
-		
+	async sendBuzz(){		
 		var message="BUZZZZZ";
 		let direction= this.chat.direction+"/index.ttl";
 		await this.fileManager.sendMessage(message,direction);
@@ -350,7 +349,9 @@ export class ChatComponent implements OnInit {
 		var name = field[0].value;
 		field.value = '';
 		if (name != "") {
-			//this.createGroupChat(this.tempSelected, name);
+			this.rdf.updateChatName(this.chat.direction, name);
+			this.chatList.getChatList();
+			this.toastr.info("The name of the group has been changed successfully", "Name changed");
 		} else {
 			this.toastr.error("The name of the group must not be empty", "Incorrect input");
 		}	

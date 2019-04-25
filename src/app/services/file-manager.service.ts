@@ -255,6 +255,11 @@ export class FileManagerService {
         }, err=>{console.log("login error : "+err)});
     }
 
+    async updateGroupName(chatDirection, name) {
+        fileManager.popupLogin().then( ()=>{   
+            this.rdf.updateChatName(chatDirection, name);
+        });   
+    }
 }
 
 
