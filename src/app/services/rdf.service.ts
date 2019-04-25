@@ -149,7 +149,6 @@ export class RdfService {
     }
 
     async createMessageForMultimedia(mediaDirection, direction) {
-        console.log("Creating message");
         let insertions = [];
         let deletions = [];
 
@@ -715,11 +714,18 @@ export class RdfService {
                                         } else {
                                             await rdfMan.setDataIndividualChat(chatDirection, chatList, friendId);
                                         }
-                                    } else {
+                                    } else {                                        
                                         const nameNode = await store.any(subject, N1('title'));
                                         const name = nameNode.value.split('Chat_')[1];
-                                        const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
-                                        chatList.push({ direction: chatDirection, name: name, img: image, isGroup: true, messages: [] });
+                                        const imageNode = await store.any(subject, VCARD('hasPhoto'));
+                                        let image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
+
+                                        if (imageNode != undefined) {
+                                            image = imageNode.value;
+                                            chatList.push({ direction: chatDirection, name: name, img: image, isGroup: true, messages: [] });
+                                        } else {
+                                            chatList.push({ direction: chatDirection, name: name, img: image, isGroup: true, messages: [] });
+                                        }
                                     }
                                 }
                             });
@@ -973,6 +979,69 @@ export class RdfService {
                 }
 
                 myFunc(myFunc, 0, chatsNodes, exists);
+            }
+        });
+    }
+
+    async updateChatName(chatDirection, name) {
+        var store = $rdf.graph();
+        var timeout = 5000; // 5000 ms timeout
+        var fetcher = new $rdf.Fetcher(store, timeout);
+        const chatURL = chatDirection + "/index.ttl#this";
+        const doc = $rdf.sym(chatDirection + "/index.ttl");
+        const subject = $rdf.sym(chatURL);        
+        let predicate = $rdf.sym(N1('title'));
+        let ins = $rdf.st(subject, predicate, 'Chat_' + name, doc);
+        const rdfManager = this;
+
+        fetcher.nowOrWhenFetched(chatURL, async function (ok, body, xhr) {
+            if (!ok) {
+                console.log('Oops, something happened and couldn\'t fetch data');
+            } else {
+                let content = await store.any(subject, N1('title'));
+                let del = $rdf.st(subject, predicate, content, doc);
+                rdfManager.updateManager.update(del, ins, (uri, ok, message) => {
+                    if (!ok) {
+                        console.log('Error: ' + message);
+                    }
+                });
+            }
+        });
+    }
+
+    async addPhotoToChat(mediaDirection, direction) {
+        var store = $rdf.graph();
+        var timeout = 5000; // 5000 ms timeout
+        var fetcher = new $rdf.Fetcher(store, timeout);
+        const chatURL = direction + "#this";
+        const doc = $rdf.sym(direction);
+
+        const subject = $rdf.sym(chatURL);    
+        let predicate = $rdf.sym(VCARD('hasPhoto'));
+        let object = $rdf.sym(mediaDirection);
+        let ins = $rdf.st(subject, predicate, object, doc);
+
+        const rdfManager = this;
+
+        fetcher.nowOrWhenFetched(chatURL, async function (ok, body, xhr) {
+            if (!ok) {
+                console.log('Oops, something happened and couldn\'t fetch data');
+            } else {
+                let objectDel = await store.any(subject, VCARD('hasPhoto'));
+                let del = $rdf.st(subject, predicate, objectDel, doc);
+                if (objectDel != undefined) {
+                    rdfManager.updateManager.update(del, ins, (uri, ok, message) => {
+                        if (!ok) {
+                            console.log('Error: ' + message);
+                        }
+                    });
+                } else {
+                    rdfManager.updateManager.update([], ins, (uri, ok, message) => {
+                        if (!ok) {
+                            console.log('Error: ' + message);
+                        }
+                    });
+                }                
             }
         });
     }

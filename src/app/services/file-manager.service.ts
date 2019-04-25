@@ -245,7 +245,6 @@ export class FileManagerService {
         fileManager.popupLogin().then( async ()=>{         
             for(let i=0; i<files.length; i++){
                 let name = files[i].name.replace(" ", "_");
-                console.log(name);
                 let URI = direction + '/' + name;
                 let content = files[i];
                 await fileManager.updateFile(URI, content).then( res=> {
@@ -255,6 +254,22 @@ export class FileManagerService {
         }, err=>{console.log("login error : "+err)});
     }
 
+    async updateGroupName(chatDirection, name) {
+        fileManager.popupLogin().then( ()=>{   
+            this.rdf.updateChatName(chatDirection, name);
+        });   
+    }
+
+    async addGroupPhoto(direction, file) {
+        fileManager.popupLogin().then( async ()=>{         
+            let name = file.name.replace(" ", "_");
+            let URI = direction + '/' + name;
+            await fileManager.updateFile(URI, file).then( res=> {
+                this.rdf.addPhotoToChat(URI, direction + '/index.ttl');
+            }, err=>{console.log("upload error : "+err)});
+            
+        }, err=>{console.log("login error : "+err)});
+    }
 }
 
 
