@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FileManagerService } from '../services/file-manager.service';
 import { ChangeChatService } from '../services/change-chat.service';
@@ -30,7 +30,7 @@ export class ChatComponent implements OnInit {
 		private fileManager: FileManagerService,
 		private changeFriend: ChangeChatService,
 		private rdf: RdfService,
-		private toastr: ToastrService
+		private toastr: ToastrService,
 	) {}
 
 	async ngOnInit() {
@@ -53,6 +53,7 @@ export class ChatComponent implements OnInit {
 			}
 		});
 	}
+
 	searchChat() {
 		var searchBox = $('#searchBoxRecentChats');
 	
@@ -346,9 +347,16 @@ export class ChatComponent implements OnInit {
 		var name = field[0].value;
 		field.value = '';
 		if (name != "") {
-			this.rdf.updateChatName(this.chat.direction, name);
-			this.chatList.getChatList();
-			this.toastr.info("The name of the group has been changed successfully", "Name changed");
+			this.rdf.updateChatName(this.chat.direction, name, (success) => {
+				if (success) {
+					this.chatList.getChatList();
+					this.chat = null;
+					this.toastr.info("The name of the group has been changed successfully", "Name changed");
+				} else {
+					this.toastr.error("The name of the group could not be changed", "Error");
+				}
+			});
+			
 		} else {
 			this.toastr.error("The name of the group must not be empty", "Incorrect input");
 		}		
@@ -357,8 +365,15 @@ export class ChatComponent implements OnInit {
 	changeGroupImage() {
 		const fileInput = <HTMLInputElement>document.getElementById('groupImage');
 		const file = fileInput.files[0];
-		this.fileManager.addGroupPhoto(this.chat.direction, file);
-		//this.chatList.getChatList();
-		this.toastr.info("The photo of the group has been changed successfully", "Photo changed");
+		this.fileManager.addGroupPhoto(this.chat.direction, file, (success) => {
+			if (success) {
+				this.chatList.getChatList();
+				this.chat = null;
+				this.toastr.info("The photo of the group has been changed successfully", "Photo changed");
+			} else {
+				this.toastr.error("The photo of the group could not be changed", "Error");
+			}
+		});
+		
 	}
 }
