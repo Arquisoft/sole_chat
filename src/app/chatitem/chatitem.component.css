@@ -34,24 +34,37 @@
 }
 
 @media (max-width: 1200px) {
-	.chatCard {
-		flex-direction: column;
-		margin: 0 1.4em 0.5em;
-	}
-	.userName {
-		max-width: 8em;
-		margin-top: 0.3em;
-		text-align: center;
-	}
-	.chatImage {
-		margin-right: 0;
-	}
+    .chatCard {
+        flex-direction: column;
+        margin: 0 1.4em 0.5em;
+    }
 
-	.chatInfo {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+    .chatName {
+        overflow: hidden;
+        max-height: 3em;
+        min-width: 6em;
+    }
+
+    .chatPreview {
+        overflow: hidden;
+        max-height: 3em;
+    }
+
+    .userName {
+        max-width: 8em;
+        margin-top: 0.3em;
+        text-align: center;
+    }
+
+    .chatImage {
+        margin-right: 0;
+    }
+
+    .chatInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 .buzzing {

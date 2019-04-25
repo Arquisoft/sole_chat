@@ -68,10 +68,16 @@
 
         <div *ngIf="chat != null" class="currentChatContent" #scroller [scrollTop]="scroller.scrollHeight">
 
-            <div *ngFor="let mess of chat.messages" class="message"
-                [className]="mess.received ? 'message received' : 'message sent'">
-                <div class="messageSender">{{mess.maker}}:</div>
-
+            <div *ngFor="let mess of chat.messages" [ngClass]="{
+                    dateMarker: mess.isDateMarker,
+                    message: !mess.isDateMarker,
+                    received: mess.received==true,
+                    sent: mess.received==false
+                    }">
+                <div *ngIf="!mess.isDateMarker" class="messageSender">{{mess.maker}}:</div>
+                <div *ngIf="mess.isDateMarker" class="dateMarker">
+                    {{mess.dateMarker}}
+                </div>
                 <div *ngIf="!mess.isImage && !mess.isVideo && !mess.isDocument" class="messageContent"
                     name="message dummy">
                     {{mess.content}}

@@ -272,6 +272,15 @@ h3 {
     min-height: 1em;
 }
 
+.dateMarker {
+    align-self: center;
+    color: #a6a6a6;
+}
+
+#searchBoxRecentChats {
+    align-self: center;
+}
+
 
 #inputMessage {
     height: 2em;

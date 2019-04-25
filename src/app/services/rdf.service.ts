@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { SolidSession } from '../models/solid-session.model';
+import {Injectable} from '@angular/core';
+import {SolidSession} from '../models/solid-session.model';
 // TODO: Remove any UI interaction from this service
-import { NgForm } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { FileManagerService } from './file-manager.service';
+import {NgForm} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {FileManagerService} from './file-manager.service';
 
 declare let solid: any;
 // import * as $rdf from 'rdflib'
@@ -149,7 +149,7 @@ export class RdfService {
     }
 
     async createMessageForMultimedia(mediaDirection, direction) {
-        console.log("Creating message");
+        console.log('Creating message');
         let insertions = [];
         let deletions = [];
 
@@ -524,7 +524,7 @@ export class RdfService {
                             image = imageNode.value;
                         }
 
-                        await list.push({ username: fullName + '', img: image, id: webId });
+                        await list.push({username: fullName + '', img: image, id: webId});
                     });
                 }
             });
@@ -569,12 +569,40 @@ export class RdfService {
                     let messageNode = messagesNodes[i];
                     let message = rdfServ.parseMessageNode(messageNode, store, id);
                     messages.push(message);
+                    rdfServ.insertDateMarkers(messages);
                 }
             }
         });
     }
 
-    public getLastMessageValue(funcCallbk,direction,chatitem){
+    public insertDateMarkers(messages) {
+        let i = messages.length-1;
+        if (messages[i - 1] != null && messages[i] != null) {
+            let date1 = messages[i - 1].longDate;
+            date1.setHours(0, 0, 0, 0);
+            let date2 = messages[i].longDate;
+            date2.setHours(0, 0, 0, 0);
+            if (date1 != null && date2 != null) {
+                if (date1.getTime() != date2.getTime()) {
+                    let temp = messages[i];
+                    let dateMarker = date2.toString().split(' ');
+                    dateMarker = dateMarker[0] + ' ' + dateMarker[1] + ' ' + dateMarker[2] + ' ' + dateMarker[3];
+                    messages[i] = {isDateMarker: true, dateMarker: dateMarker};
+                    messages.push(temp);
+                }
+            }
+        }
+        if (messages[i - 1] == null && messages[i] != null && messages[i].longDate != null) {
+            let date2 = messages[i].longDate;
+            let temp = messages[i];
+            let dateMarker = date2.toString().split(' ');
+            dateMarker = dateMarker[0] + ' ' + dateMarker[1] + ' ' + dateMarker[2] + ' ' + dateMarker[3];
+            messages[i] = {isDateMarker: true, dateMarker: dateMarker};
+            messages.push(temp);
+        }
+    }
+
+    public getLastMessageValue(funcCallbk, direction, chatitem) {
         var store = $rdf.graph();
         var timeout = 5000; // 5000 ms timeout
         var fetcher = new $rdf.Fetcher(store, timeout);
@@ -593,8 +621,7 @@ export class RdfService {
                 if (messagesNodes.length >= 1) {
                     let messageNode = messagesNodes[messagesNodes.length - 1];
                     let message = rdfServ.parseMessageNode(messageNode, store, id);
-                    funcCallbk(chatitem  ,message);
-                                     
+                    funcCallbk(chatitem, message);
                 }
             }
         });
@@ -623,9 +650,11 @@ export class RdfService {
                     if (messages.length > 0) {
                         if (message.id != messages[messages.length - 1].id) {
                             messages.push(message);
+                            //rdfServ.insertDateMarkers(messages, messages.length - 1);
                         }
                     } else {
                         messages.push(message);
+                        //rdfServ.insertDateMarkers(messages, messages.length - 1);
                     }
                 }
             }
@@ -639,7 +668,7 @@ export class RdfService {
 
         let nodeContent = store.any(messageNode, CONT('content'));
         let contentText = nodeContent.value;
-        if (nodeContent.termType == "NamedNode") {
+        if (nodeContent.termType == 'NamedNode') {
             for (let i = 0; i < imageSufixes.length; i++) {
                 if (contentText.endsWith(imageSufixes[i])) {
                     isImage = true;
@@ -671,7 +700,7 @@ export class RdfService {
         let isMessageReceived = (id != maker);
         let message = {
             id: messageNode.value, content: contentText, date: dateFormatted, received: isMessageReceived,
-            maker: makerName, isImage: isImage, isVideo: isVideo, isDocument: isDocument
+            maker: makerName, isImage: isImage, isVideo: isVideo, isDocument: isDocument, longDate: new Date(dateUTC), isDateMarker: false
         };
 
         return message;
@@ -719,7 +748,7 @@ export class RdfService {
                                         const nameNode = await store.any(subject, N1('title'));
                                         const name = nameNode.value.split('Chat_')[1];
                                         const image = 'https://avatars.servers.getgo.com/2205256774854474505_medium.jpg';
-                                        chatList.push({ direction: chatDirection, name: name, img: image, isGroup: true, messages: [] });
+                                        chatList.push({direction: chatDirection, name: name, img: image, isGroup: true, messages: []});
                                     }
                                 }
                             });
@@ -759,7 +788,7 @@ export class RdfService {
                     } else {
                         image = imageNode.value;
                     }
-                    chatList.push({ direction: chatDirection, name: fullName, img: image, isGroup: false, messages: [] });
+                    chatList.push({direction: chatDirection, name: fullName, img: image, isGroup: false, messages: []});
                 }
             });
         } catch (error) {
@@ -798,7 +827,7 @@ export class RdfService {
                             image = imageNode.value;
                         }
 
-                        chatList.push({ direction: direction, name: name, img: image, isGroup: false, messages: [] });
+                        chatList.push({direction: direction, name: name, img: image, isGroup: false, messages: []});
                     }
                 });
             }
@@ -838,7 +867,7 @@ export class RdfService {
         var timeout = 5000; // 5000 ms timeout
         var fetcher = new $rdf.Fetcher(store, timeout);
         const rdfManager = this;
-        const myName = this.session.webId.split("://")[1].split(".")[0];
+        const myName = this.session.webId.split('://')[1].split('.')[0];
 
         await fetcher.nowOrWhenFetched(direction + '#this', async function (ok, body, xhr) {
             if (!ok) {
@@ -849,26 +878,26 @@ export class RdfService {
                 let maker = creatorNode.value;
                 const chatNode = await store.any(subject, PROV('Create'));
                 let chat = chatNode.value;
-                let urlChat = chat + "/index.ttl#this";
-                await fetcher.nowOrWhenFetched(urlChat, async function(ok, body, xhr) {
+                let urlChat = chat + '/index.ttl#this';
+                await fetcher.nowOrWhenFetched(urlChat, async function (ok, body, xhr) {
                     const subject = $rdf.sym(urlChat);
                     const nameNode = await store.any(subject, N1('title'));
                     let name = nameNode.value.split('Chat_')[1];
-                
+
                     if (name == myName) {
-                        name = maker.split("://")[1].split(".")[0];
+                        name = maker.split('://')[1].split('.')[0];
                         rdfManager.toastr.info(
                             'You have a new chat: ' + name,
                             'New chat'
                         );
-        
+
                         fileManager.deleteFile(direction);
                     } else {
                         rdfManager.toastr.info(
                             'You have a new chat: ' + name,
                             'New chat'
                         );
-        
+
                         fileManager.deleteFile(direction);
                     }
                 });
@@ -889,8 +918,8 @@ export class RdfService {
 
                 for (let i = 0; i < participantsRDF.length; i++) {
                     let webId = participantsRDF[i].value;
-                    let name = (webId.split("://")[1]).split(".")[0];
-                    participants.push({ id: webId, name: name });
+                    let name = (webId.split('://')[1]).split('.')[0];
+                    participants.push({id: webId, name: name});
                 }
             });
         });
@@ -970,7 +999,7 @@ export class RdfService {
                     } else {
                         funcCallback(exists);
                     }
-                }
+                };
 
                 myFunc(myFunc, 0, chatsNodes, exists);
             }
