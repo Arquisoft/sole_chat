@@ -254,18 +254,12 @@ export class FileManagerService {
         }, err=>{console.log("login error : "+err)});
     }
 
-    async updateGroupName(chatDirection, name) {
-        fileManager.popupLogin().then( ()=>{   
-            this.rdf.updateChatName(chatDirection, name);
-        });   
-    }
-
-    async addGroupPhoto(direction, file) {
+    async addGroupPhoto(direction, file, funcCallback) {
         fileManager.popupLogin().then( async ()=>{         
             let name = file.name.replace(" ", "_");
             let URI = direction + '/' + name;
             await fileManager.updateFile(URI, file).then( res=> {
-                this.rdf.addPhotoToChat(URI, direction + '/index.ttl');
+                this.rdf.addPhotoToChat(URI, direction + '/index.ttl', funcCallback);
             }, err=>{console.log("upload error : "+err)});
             
         }, err=>{console.log("login error : "+err)});
