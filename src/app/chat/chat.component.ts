@@ -189,8 +189,7 @@ export class ChatComponent implements OnInit {
 		}
 	}
 
-	async sendBuzz(){
-		
+	async sendBuzz(){		
 		var message="BUZZZZZ";
 		let direction= this.chat.direction+"/index.ttl";
 		await this.fileManager.sendMessage(message,direction);
@@ -323,14 +322,12 @@ export class ChatComponent implements OnInit {
 		const fileInput = <HTMLInputElement>document.getElementById('sendImages');
 		const files = fileInput.files;
 		this.fileManager.sendMultimedia(this.chat.direction, files);
-		$('#attachFilesDialog').modal('hide');
 	}
 
 	async sendVideos() {
 		const fileInput = <HTMLInputElement>document.getElementById('sendVideos');
 		const files = fileInput.files;
 		this.fileManager.sendMultimedia(this.chat.direction, files);
-		$('#attachFilesDialog').modal('hide');
 	}
 
 	toggleVideo(event: any) {
@@ -341,7 +338,6 @@ export class ChatComponent implements OnInit {
 		const fileInput = <HTMLInputElement>document.getElementById('sendDocs');
 		const files = fileInput.files;
 		this.fileManager.sendMultimedia(this.chat.direction, files);
-		$('#attachFilesDialog').modal('hide');
 	}
 
 	changeGroupName() {
@@ -350,10 +346,19 @@ export class ChatComponent implements OnInit {
 		var name = field[0].value;
 		field.value = '';
 		if (name != "") {
-			//this.createGroupChat(this.tempSelected, name);
+			this.rdf.updateChatName(this.chat.direction, name);
+			this.chatList.getChatList();
+			this.toastr.info("The name of the group has been changed successfully", "Name changed");
 		} else {
 			this.toastr.error("The name of the group must not be empty", "Incorrect input");
-		}	
-		
+		}		
+	}
+
+	changeGroupImage() {
+		const fileInput = <HTMLInputElement>document.getElementById('groupImage');
+		const file = fileInput.files[0];
+		this.fileManager.addGroupPhoto(this.chat.direction, file);
+		//this.chatList.getChatList();
+		this.toastr.info("The photo of the group has been changed successfully", "Photo changed");
 	}
 }

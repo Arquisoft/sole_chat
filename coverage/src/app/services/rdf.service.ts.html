@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.31% </span>
+        <span class="strong">13.03% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>64/481</span>
+        <span class='fraction'>64/491</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/34</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.02% </span>
+        <span class="strong">12.77% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>60/461</span>
+        <span class='fraction'>60/470</span>
       </div>
     </div>
     <p class="quiet">
@@ -1008,7 +1008,24 @@
 <a name='L960'></a><a href='#L960'>960</a>
 <a name='L961'></a><a href='#L961'>961</a>
 <a name='L962'></a><a href='#L962'>962</a>
-<a name='L963'></a><a href='#L963'>963</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L963'></a><a href='#L963'>963</a>
+<a name='L964'></a><a href='#L964'>964</a>
+<a name='L965'></a><a href='#L965'>965</a>
+<a name='L966'></a><a href='#L966'>966</a>
+<a name='L967'></a><a href='#L967'>967</a>
+<a name='L968'></a><a href='#L968'>968</a>
+<a name='L969'></a><a href='#L969'>969</a>
+<a name='L970'></a><a href='#L970'>970</a>
+<a name='L971'></a><a href='#L971'>971</a>
+<a name='L972'></a><a href='#L972'>972</a>
+<a name='L973'></a><a href='#L973'>973</a>
+<a name='L974'></a><a href='#L974'>974</a>
+<a name='L975'></a><a href='#L975'>975</a>
+<a name='L976'></a><a href='#L976'>976</a>
+<a name='L977'></a><a href='#L977'>977</a>
+<a name='L978'></a><a href='#L978'>978</a>
+<a name='L979'></a><a href='#L979'>979</a>
+<a name='L980'></a><a href='#L980'>980</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1848,23 +1865,40 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2810,6 +2844,7 @@ export class RdfService {
         var <span class="cstat-no" title="statement not covered" >timeout = 5000; </span>// 5000 ms timeout
         var <span class="cstat-no" title="statement not covered" >fetcher = new $rdf.Fetcher(store, timeout);</span>
         const <span class="cstat-no" title="statement not covered" >rdfManager = this;</span>
+        const <span class="cstat-no" title="statement not covered" >myName = this.session.webId.split("://")[1].split(".")[0];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        await fetcher.nowOrWhenFetched(direction + '#this', async function (ok, body, xhr) {</span>
             if (<span class="cstat-no" title="statement not covered" >!o</span>k) {
@@ -2820,13 +2855,29 @@ export class RdfService {
                 let <span class="cstat-no" title="statement not covered" >maker = creatorNode.value;</span>
                 const <span class="cstat-no" title="statement not covered" >chatNode = <span class="cstat-no" title="statement not covered" >await store.any(subject, PROV('Create'));</span></span>
                 let <span class="cstat-no" title="statement not covered" >chat = chatNode.value;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                rdfManager.toastr.info(</span>
-                    'You have a new chat (' + chat + ') from webId ' + maker,
-                    'New chat'
-                );
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                fileManager.deleteFile(direction);</span>
+                let <span class="cstat-no" title="statement not covered" >urlChat = chat + "/index.ttl#this";</span>
+<span class="cstat-no" title="statement not covered" >                await fetcher.nowOrWhenFetched(urlChat, async function(ok, body, xhr) {</span>
+                    const <span class="cstat-no" title="statement not covered" >subject = $rdf.sym(urlChat);</span>
+                    const <span class="cstat-no" title="statement not covered" >nameNode = <span class="cstat-no" title="statement not covered" >await store.any(subject, N1('title'));</span></span>
+                    let <span class="cstat-no" title="statement not covered" >name = nameNode.value.split('Chat_')[1];</span>
+                
+                    if (name == myName) {
+<span class="cstat-no" title="statement not covered" >                        name = maker.split("://")[1].split(".")[0];</span>
+<span class="cstat-no" title="statement not covered" >                        rdfManager.toastr.info(</span>
+                            'You have a new chat: ' + name,
+                            'New chat'
+                        );
+        
+<span class="cstat-no" title="statement not covered" >                        fileManager.deleteFile(direction);</span>
+                    } else {
+<span class="cstat-no" title="statement not covered" >                        rdfManager.toastr.info(</span>
+                            'You have a new chat: ' + name,
+                            'New chat'
+                        );
+        
+<span class="cstat-no" title="statement not covered" >                        fileManager.deleteFile(direction);</span>
+                    }
+                });
             }
         });
 &nbsp;
@@ -2938,7 +2989,7 @@ export class RdfService {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Apr 24 2019 17:46:33 GMT+0200 (GMT+02:00)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Apr 24 2019 18:41:59 GMT+0200 (GMT+02:00)
 </div>
 </div>
 <script src="..\..\..\prettify.js"></script>
