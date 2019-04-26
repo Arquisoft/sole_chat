@@ -111,7 +111,7 @@ h3 {
     flex-direction: row;
     align-items: center;
     padding-bottom: 2em;
-    margin-top: 1.3em;
+    /*margin-top: 1.3em;*/
 }
 
 
@@ -259,6 +259,14 @@ h3 {
     width: 100%;
     padding: 1em;
     cursor: pointer;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.sendFilesLabel img {
+    box-shadow: none;
+    border-radius: 0;
+    margin-right: 0.4em;
 }
 
 .sendFilesLabel:hover {
@@ -275,6 +283,10 @@ h3 {
 .dateMarker {
     align-self: center;
     color: #a6a6a6;
+}
+
+.currentChatHeaderTitle h3 {
+    text-align: left;
 }
 
 #searchBoxRecentChats {
@@ -360,7 +372,6 @@ h3 {
     border: none;
     background-image: url(/assets/images/editGroup.svg);
     background-repeat: no-repeat;
-    border-radius: 50%;
     /*box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);*/
     align-self: center;
     min-width: 2em;
