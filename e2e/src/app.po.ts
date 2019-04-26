@@ -21,7 +21,7 @@ export class AppPage {
     }
 
     navigateToUserList() {
-        this.sleep(3000);
+       this.sleep(3000);
         return browser.get('/userList');
     }
 
@@ -88,7 +88,9 @@ export class AppPage {
 
     clickOnButtonGo() {
         this.sleep(7000);
-        return element(by.className('wide-button')).click();
+       // return element(by.buttonText('Go')).click();
+        element(by.cssContainingText('.btn', 'Go')).click();
+        element.sendkeys();
     }
 
     writeMessage(message: string) {
@@ -98,11 +100,12 @@ export class AppPage {
     }
 
     introduceCredentials() {
-        this.sleep(3000);
+       // this.sleep(3000);
         // return element(by.className('form-control')).click();
         // return element(by.id('username')).click();
         // return element(by.cssContainingText('a',  'Logout')).click();
-        return element(by.linkText('Logout')).click();
+        // return element(by.linkText('Logout')).click();
+        return element(by.css('h2')).getText();
     }
 
     // This function is used to reduce the speed of the test

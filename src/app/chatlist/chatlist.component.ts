@@ -35,7 +35,9 @@ export class ChatlistComponent implements OnInit {
 
     socket.onmessage = function (msg) {
         if (msg.data && msg.data.slice(0, 3) === 'pub') {
-           comp.getChatList();
+          setTimeout(function () {
+            comp.getChatList();
+          }, 3000);
         }
     };
   }

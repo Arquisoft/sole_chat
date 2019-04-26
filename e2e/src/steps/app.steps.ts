@@ -122,5 +122,5 @@ Then(/^I write a message$/, async () => {
 
 // Introducing credentials to login
 Then(/^I introduce my credentials$/, async () => {
-    await page.introduceCredentials();
+    expect(await page.introduceCredentials()).to.equal('Login with Solid Identity');
 });
