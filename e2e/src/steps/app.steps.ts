@@ -122,3 +122,8 @@ Then(/^I write a message$/, async () => {
 Then(/^I introduce my credentials$/, async () => {
     expect(await page.introduceCredentials()).to.equal('Inrupt');
 });
+
+// Searching friends
+Then(/^I click on search box$/, async () => {
+    await page.clickOnSearchBox();
+});

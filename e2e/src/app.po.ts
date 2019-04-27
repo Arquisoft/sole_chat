@@ -109,6 +109,11 @@ export class AppPage {
         return element(by.css('h2')).getText();
     }
 
+    clickOnSearchBox() {
+        this.sleep(3000);
+        return element(by.id('searchBox')).click();
+    }
+
     // This function is used to reduce the speed of the test
     // in order to avoid errors when running the tests
     private sleep(milliseconds: number): void {
