@@ -29,6 +29,10 @@
 
 |RDF | Stands for Resource Description Framework and is a standard for data interchange, developed and agreed upon by W3C.
 
+|TDD | Stands for Test Driven Development. Is a software development process that relies on the repetition of a very short development cycle.
+
+|BDD | Stands for Behavior Driven Development. Evolution of TDD that combines the general techniques and principles of TDD with ideas from domain-driven design and object-oriented analysis and design.
+
 |Selenium | Open source tool which is used for automating the tests carried out on web browsers. 
 
 |Cucumber | Tool that supports Behavior Driven Development (BDD). It offers a way to write tests that anybody can understand, regardless of their technical knowledge.

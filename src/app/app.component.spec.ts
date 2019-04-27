@@ -23,7 +23,7 @@ import { EmojiPickerComponent } from './emoji-picker/emoji-picker.component';
 
 // Services
 import { AuthService } from './services/solid.auth.service';
- import { AuthGuard } from './services/auth.guard.service';
+import { AuthGuard } from './services/auth.guard.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
@@ -115,9 +115,9 @@ describe('AppComponent', () => {
         fixture.detectChanges();
     });
  
-   /*it('should create', () => {
+   it('should create', () => {
         expect(component).toBeTruthy();
-    });*/
+    });
      
     
 });
