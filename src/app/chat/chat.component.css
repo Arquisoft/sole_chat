@@ -230,7 +230,7 @@ h3 {
 
 .btn-secondary {
     border-radius: 30px;
-    background-color: #555555;
+    background-color: #7F7F7F;
 }
 
 .modal-body {
@@ -297,6 +297,7 @@ h3 {
 
 #searchBoxRecentChats {
     align-self: center;
+    margin: 1em 2em;
 }
 
 

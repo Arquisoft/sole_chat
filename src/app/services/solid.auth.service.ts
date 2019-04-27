@@ -50,7 +50,7 @@ export class AuthService {
             await this.isSessionActive();
 
             // popupLogin success redirect to profile
-            this.router.navigate(['/card']);
+            this.router.navigate(['/chat']);
         } catch (error) {
             console.log(`Error: ${error}`);
         }
@@ -90,7 +90,7 @@ export class AuthService {
   */
     solidLogin = async (idp: string) => {
         await solid.auth.login(idp, {
-            callbackUri: `${window.location.href}card`,
+            callbackUri: `${window.location.href}chat`,
             storage: localStorage
         });
     };
@@ -103,19 +103,19 @@ export class AuthService {
     getIdentityProviders(): SolidProvider[] {
         const inruptProvider: SolidProvider = {
             name: 'Inrupt',
-            image: '/assets/images/Inrupt.png',
+            image: '/sole_chat/assets/images/Inrupt.png',
             loginUrl: 'https://inrupt.net/auth',
             desc: 'Inrupt Inc. provider'
         };
         const solidCommunityProvider: SolidProvider = {
             name: 'Solid Community',
-            image: '/assets/images/Solid.png',
+            image: '/sole_chat/assets/images/Solid.png',
             loginUrl: 'https://solid.community',
             desc: 'A provider maintained by the Solid Community'
         };
         const otherProvider: SolidProvider = {
             name: 'Other (Enter WebID)',
-            image: '/assets/images/Generic.png',
+            image: '/sole_chat/assets/images/Generic.png',
             loginUrl: null,
             desc: 'Generic provider'
         };
