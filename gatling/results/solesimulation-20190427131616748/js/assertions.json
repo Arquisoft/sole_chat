@@ -1,0 +1,10 @@
+{
+  "simulation": "sole.solesimulation",
+  "simulationId": "solesimulation",
+  "start": 1556370976748,
+  "description": "",
+  "scenarios": ["solesimulation"],
+  "assertions": [
+
+  ]
+}

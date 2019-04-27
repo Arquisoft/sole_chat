@@ -1,0 +1,1 @@
+{"issuer":"https://solid.community","grant_types":["implicit"],"redirect_uris":["https://arquisoft.github.io/sole_chat/card"],"response_types":["id_token token"],"scope":"openid profile"}
