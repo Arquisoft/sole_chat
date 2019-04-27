@@ -76,8 +76,6 @@ Then(/^I should see the second paragraph$/, async () => {
 });
 
 
-
-
 // Go to the chat page - Click on the "create a new" chat button
 Given(/^I am on the chat page$/, async () => {
     await page.navigateToChat();
@@ -122,5 +120,5 @@ Then(/^I write a message$/, async () => {
 
 // Introducing credentials to login
 Then(/^I introduce my credentials$/, async () => {
-    expect(await page.introduceCredentials()).to.equal('Login with Solid Identity');
+    expect(await page.introduceCredentials()).to.equal('Inrupt');
 });

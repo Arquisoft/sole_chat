@@ -88,9 +88,10 @@ export class AppPage {
 
     clickOnButtonGo() {
         this.sleep(7000);
+        return element(by.className('wide-button')).click();
+        // return element(by.id('buttonGo')).click();
        // return element(by.buttonText('Go')).click();
-        element(by.cssContainingText('.btn', 'Go')).click();
-        element.sendkeys();
+       // element(by.cssContainingText('.btn', 'Go')).click();
     }
 
     writeMessage(message: string) {
