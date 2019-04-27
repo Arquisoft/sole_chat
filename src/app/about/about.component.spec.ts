@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AboutComponent } from './about.component';
+import {AboutComponent} from './about.component';
 
 describe('AboutComponent', () => {
     let component: AboutComponent;
@@ -11,7 +11,7 @@ describe('AboutComponent', () => {
             declarations: [AboutComponent]
         })
             .compileComponents();
-    })); 
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(AboutComponent);
