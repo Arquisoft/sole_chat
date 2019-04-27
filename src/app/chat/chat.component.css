@@ -306,7 +306,7 @@ h3 {
     box-shadow: 0px 0px 6px rgba(54, 54, 54, 0.185);
     border-radius: 9999px;
     flex-grow: 1;
-    margin: 0 2em;
+    margin: 0 1.4em;
     padding: 0.5em 1.5em;
     max-width: 30em;
 }
