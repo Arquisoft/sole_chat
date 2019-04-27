@@ -226,7 +226,7 @@
 .intercom-composer-popover.active{
     visibility: visible;
     opacity:1;
-    bottom: 70px;
+    bottom: 14%;
 }
 .intercom-emoji-picker {
     width: 330px;
@@ -291,6 +291,12 @@
     transition: transform 60ms ease-out,-webkit-transform 60ms ease-out;
     transition-delay: 60ms;
     font-family: Apple Color Emoji,Segoe UI Emoji,NotoColorEmoji,Segoe UI Symbol,Android Emoji,EmojiSymbols;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
 }
 .intercom-emoji-picker-emoji:hover {
     transition-delay: 0ms;
@@ -314,10 +320,13 @@
     cursor: pointer;
     border:none;
     border-radius: 50%;
-    height:  2em;
-    width: 2em;
+    height:  1.5em;
+    width: 1.5em;
     margin: 0;
     background: #afafaf url(/assets/images/sendEmoji.svg) no-repeat;
-    box-shadow: 0 0 6px rgba(54, 54, 54, 0.185);
     align-self: center;
+}
+
+.chat-input-tool:hover {
+    opacity: 0.6;
 }

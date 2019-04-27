@@ -79,7 +79,6 @@
         </div>
 
         <form *ngIf="chat != null" action="" class="currentChatInput" #f="ngForm" (submit)="onSubmit()">
-            <!--<app-emoji-picker></app-emoji-picker>-->
             <div class="dropdown">
                 <button type="button" id="attachFile" data-toggle="dropdown">
                 </button>
@@ -100,6 +99,7 @@
                             src="/assets/images/buzz.svg"/> Send buzz</label>
                 </div>
             </div>
+            <app-emoji-picker></app-emoji-picker>
             <input type="text" id="inputMessage" name="message" autocomplete="off"
                    placeholder="Write here your message"/>
             <input type="submit" value="" id="submitMessage"/>
