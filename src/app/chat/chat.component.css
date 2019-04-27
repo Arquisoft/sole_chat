@@ -3,7 +3,7 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-input[type="submit"]{
+input[type="submit"] {
     -webkit-appearance: none;
 }
 
@@ -34,10 +34,15 @@ video {
     background: rgb(211, 211, 211);
     -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.048);
 }
+
 ::-webkit-scrollbar-thumb:window-inactive {
     background: rgb(211, 211, 211);;
 }
 
+.dropdown-menu.sole-dropdown {
+    box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
+    border: none;
+}
 
 .bodyWrapper {
     display: flex;
@@ -63,7 +68,7 @@ h3 {
     padding: 0.5em 1em;
 }
 
-.recentChatsWrapper{
+.recentChatsWrapper {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
@@ -106,14 +111,15 @@ h3 {
     max-width: 50em;
     margin-bottom: 2em;
 }
-.currentChatHeader{
+
+.currentChatHeader {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding-bottom: 2em;
+    padding-top: 0.3em;
     /*margin-top: 1.3em;*/
 }
-
 
 
 .currentChatHeader img {
@@ -185,7 +191,7 @@ h3 {
 }
 
 
-.currentChatInput{
+.currentChatInput {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -208,7 +214,7 @@ h3 {
     text-align: center;
 }
 
-.chooserItem img{
+.chooserItem img {
     margin: 0 1em;
     height: 2.5em;
     width: 2.5em;
@@ -273,7 +279,7 @@ h3 {
     background-color: #f7f7f7;
 }
 
-.sendFilesLabel img{
+.sendFilesLabel img {
     width: 1em;
     height: 1em;
     min-width: 1em;
@@ -312,7 +318,7 @@ h3 {
 
 #submitMessage {
     border: none;
-    height:  2em;
+    height: 2em;
     width: 2em;
     background: none;
     margin: 0;
@@ -331,7 +337,7 @@ h3 {
     opacity: 0.85;
 }
 
-#friendSelector{
+#friendSelector {
     width: 100px;
 }
 
@@ -348,7 +354,7 @@ h3 {
 
 #attachFile {
     border: none;
-    height:  2em;
+    height: 2em;
     width: 2em;
     background: none;
     margin: 0.5em;
@@ -391,7 +397,7 @@ h3 {
     background-repeat: no-repeat;
 }
 
-.checked{
+.checked {
     background-color: #FDC02F;
 }
 
@@ -399,50 +405,51 @@ h3 {
     opacity: 0.85;
 }
 
- @media(max-width: 1200px) {
-     .bodyWrapper {
-         margin: 0;
-     }
+@media (max-width: 1200px) {
+    .bodyWrapper {
+        margin: 0;
+    }
 
-     .currentChatHeader {
-         padding: 2em 5vw;
-     }
+    .currentChatHeader {
+        padding: 2em 5vw;
+    }
 
-     #chatName {
-     text-overflow: ellipsis;
-     overflow: hidden;
-         text-align: left;
-     }
+    #chatName {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-align: left;
+    }
 
-     .groupParticipants {
-         text-align: left;
-         text-overflow: ellipsis;
-         overflow: hidden;
-     }
+    .groupParticipants {
+        text-align: left;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 
-     .currentChat, .recentChatsWrapper{
-         width: 100%;
-         padding: 0 1em;
-         margin-bottom: 1em;
-     }
-     .currentChat {
-         border-radius: 0;
-     }
+    .currentChat, .recentChatsWrapper {
+        width: 100%;
+        padding: 0 1em;
+        margin-bottom: 1em;
+    }
 
-     .recentChatsWrapper{
-         margin: 1em;
-     }
+    .currentChat {
+        border-radius: 0;
+    }
 
-     .currentChatContent {
-         width: 100%;
-     }
+    .recentChatsWrapper {
+        margin: 1em;
+    }
 
-     .currentChatInput{
-         margin: 2em 0.3em;
-     }
+    .currentChatContent {
+        width: 100%;
+    }
+
+    .currentChatInput {
+        margin: 2em 0.3em;
+    }
 }
 
-@media(max-width: 420px) {
+@media (max-width: 420px) {
 
     #inputMessage {
         margin: 0 0.5em 0 0;
@@ -450,26 +457,25 @@ h3 {
     }
 }
 
-.buzzing{
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+.buzzing {
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
 }
 
 
-  
-  @keyframes shake {
+@keyframes shake {
     10%, 90% {
-      transform: translate3d(-1px, 0, 0);
+        transform: translate3d(-1px, 0, 0);
     }
-    
+
     20%, 80% {
-      transform: translate3d(2px, 0, 0);
+        transform: translate3d(2px, 0, 0);
     }
-  
+
     30%, 50%, 70% {
-      transform: translate3d(-4px, 0, 0);
+        transform: translate3d(-4px, 0, 0);
     }
-  
+
     40%, 60% {
-      transform: translate3d(4px, 0, 0);
+        transform: translate3d(4px, 0, 0);
     }
-  }
+}
