@@ -4,7 +4,6 @@ import {expect} from 'chai';
 import {AppPage} from '../app.po';
 
 let page: AppPage;
-friendName: string = 'Test2';
 
 
 Before(() => {
@@ -112,13 +111,6 @@ When(/^I login$/,  { timeout: 8 * 1000 }, async () => {
 When(/^I click on Solid Community$/, async () => {
     await page.clickOnSolidCommunity();
 });
-/*
-
-// Sending a message
-Then(/^I write a message$/, async () => {
-    await page.writeMessage();
-});
-*/
 
 // Introducing credentials to login
 Then(/^I introduce my credentials$/, async () => {
@@ -126,6 +118,16 @@ Then(/^I introduce my credentials$/, async () => {
 });
 
 // Searching friends
-Then(/^I click on search box$/, async () => {
-    await page.clickOnSearchBox();
+Then(/^I click on new friend button$/, async () => {
+    await page.clickOnNewFriendButton();
 });
+Then(/^I click on new friend field$/, async () => {
+    await page.clickOnNewFriendField();
+});
+Then(/^I introduce my friend's WebId$/, async () => {
+    await page.introduceFriendWebId();
+})
+Then(/^I send it by clicking Add friend$/, async () => {
+    await page.addFriend();
+});
+

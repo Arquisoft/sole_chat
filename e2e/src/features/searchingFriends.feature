@@ -6,5 +6,8 @@ Feature: Writing friend's name
   Scenario: Chat Page
     Given I am on the chat page
     When I click on create a new chat
-    Then I click on search box
+    Then I click on new friend button
+    Then I click on new friend field
+    Then I introduce my friend's WebId
+    Then I send it by clicking Add friend
     Then It should happen anything
