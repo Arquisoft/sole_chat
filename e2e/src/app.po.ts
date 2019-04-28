@@ -127,6 +127,11 @@ export class AppPage {
         return element(by.id('newFriendField')).sendKeys('https://Test2.solid.community/profile/card#me.');
     }
 
+    addFriend() {
+        this.sleep(3000);
+        return element(by.buttonText('Add friend')).click();
+    }
+
     // This function is used to reduce the speed of the test
     // in order to avoid errors when running the tests
     private sleep(milliseconds: number): void {

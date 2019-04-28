@@ -133,5 +133,8 @@ Then(/^I click on new friend field$/, async () => {
 });
 Then(/^I introduce my friend's WebId$/, async () => {
     await page.introduceFriendWebId();
+})
+Then(/^I send it by clicking Add friend$/, async () => {
+    await page.addFriend();
 });
 

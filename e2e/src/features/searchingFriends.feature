@@ -9,4 +9,5 @@ Feature: Writing friend's name
     Then I click on new friend button
     Then I click on new friend field
     Then I introduce my friend's WebId
+    Then I send it by clicking Add friend
     Then It should happen anything
