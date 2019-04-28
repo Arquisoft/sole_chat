@@ -25,14 +25,14 @@
                         </button>
                         <div class="dropdown-menu sole-dropdown">
                             <label for="addParticipantBtn" class="sendFilesLabel"><img
-                                    src="/assets/images/newFriend.svg"/>Add participants</label>
+                                    src="assets/images/newFriend.svg"/>Add participants</label>
                             <button id="addParticipantBtn" type="button" style="display:none;" data-toggle="modal"
                                     data-target="#addParticipantDialog"></button>
                             <label for="changeNameBtn" class="sendFilesLabel"><img
-                                    src="/assets/images/editGroup.svg"/>Change name</label>
+                                    src="assets/images/editGroup.svg"/>Change name</label>
                             <button id="changeNameBtn" type="button" style="display:none;" data-toggle="modal"
                                     data-target="#changeNameDialog"></button>
-                            <label for="groupImage" class="sendFilesLabel"> <img src="/assets/images/image.svg"/> Change
+                            <label for="groupImage" class="sendFilesLabel"> <img src="assets/images/image.svg"/> Change
                                 image</label>
                             <input type="file" style="display:none;" multiple id="groupImage" accept="image/*"
                                    (change)="changeGroupImage()"/>
@@ -83,20 +83,20 @@
                 <button type="button" id="attachFile" data-toggle="dropdown">
                 </button>
                 <div class="dropdown-menu sole-dropdown">
-                    <label for="sendImages" class="sendFilesLabel"> <img src="/assets/images/image.svg"/> Send
+                    <label for="sendImages" class="sendFilesLabel"> <img src="/images/image.svg"/> Send
                         images</label>
                     <input type="file" style="display:none;" multiple id="sendImages" accept="image/*"
                            (change)="sendImages()"/>
-                    <label for="sendVideos" class="sendFilesLabel"><img src="/assets/images/video.svg"/> Send
+                    <label for="sendVideos" class="sendFilesLabel"><img src="assets/images/video.svg"/> Send
                         videos</label>
                     <input type="file" style="display:none;" multiple id="sendVideos"
                            accept="video/mp4,video/ogg,video/webm" (change)="sendVideos()"/>
-                    <label for="sendDocs" class="sendFilesLabel"> <img src="/assets/images/send_document.svg"/> Send
+                    <label for="sendDocs" class="sendFilesLabel"> <img src="assets/images/send_document.svg"/> Send
                         documents</label>
                     <input type="file" style="display:none;" multiple id="sendDocs" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
                                             text/plain, application/pdf" (change)="sendDocs()"/>
                     <label for="sendBuzz" (click)="sendBuzz()" class="sendFilesLabel"> <img
-                            src="/assets/images/buzz.svg"/> Send buzz</label>
+                            src="assets/images/buzz.svg"/> Send buzz</label>
                 </div>
             </div>
             <app-emoji-picker></app-emoji-picker>
