@@ -4,7 +4,6 @@ import {expect} from 'chai';
 import {AppPage} from '../app.po';
 
 let page: AppPage;
-friendName: string = 'Test2';
 
 
 Before(() => {
@@ -126,6 +125,6 @@ Then(/^I introduce my credentials$/, async () => {
 });
 
 // Searching friends
-Then(/^I click on search box$/, async () => {
-    await page.clickOnSearchBox();
+Then(/^I click on new friend button$/, async () => {
+    await page.clickOnNewFriendButton();
 });

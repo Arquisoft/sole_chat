@@ -114,6 +114,11 @@ export class AppPage {
         return element(by.id('searchBox')).click();
     }
 
+    clickOnNewFriendButton () {
+        this.sleep(3000);
+        return element(by.id('newFriendButton')).click();
+    }
+
     // This function is used to reduce the speed of the test
     // in order to avoid errors when running the tests
     private sleep(milliseconds: number): void {
