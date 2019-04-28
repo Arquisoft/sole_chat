@@ -4,6 +4,8 @@ import {expect} from 'chai';
 import {AppPage} from '../app.po';
 
 let page: AppPage;
+friendName: string = 'Test2';
+
 
 Before(() => {
     page = new AppPage();
