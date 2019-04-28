@@ -111,13 +111,6 @@ When(/^I login$/,  { timeout: 8 * 1000 }, async () => {
 When(/^I click on Solid Community$/, async () => {
     await page.clickOnSolidCommunity();
 });
-/*
-
-// Sending a message
-Then(/^I write a message$/, async () => {
-    await page.writeMessage();
-});
-*/
 
 // Introducing credentials to login
 Then(/^I introduce my credentials$/, async () => {

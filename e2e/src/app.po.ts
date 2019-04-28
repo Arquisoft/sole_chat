@@ -94,26 +94,6 @@ export class AppPage {
        // element(by.cssContainingText('.btn', 'Go')).click();
     }
 
-    writeMessage(message: string) {
-        this.sleep(3000);
-        browser.driver.findElement(by.id('inputMessage')).click();
-        return browser.driver.findElement(by.id('inputMessage')).sendKeys(message);
-    }
-
-    introduceCredentials() {
-       // this.sleep(3000);
-        // return element(by.className('form-control')).click();
-        // return element(by.id('username')).click();
-        // return element(by.cssContainingText('a',  'Logout')).click();
-        // return element(by.linkText('Logout')).click();
-        return element(by.css('h2')).getText();
-    }
-
-    clickOnSearchBox() {
-        this.sleep(3000);
-        return element(by.id('searchBox')).click();
-    }
-
     clickOnNewFriendButton () {
         this.sleep(3000);
         return element(by.id('newFriendButton')).click();
