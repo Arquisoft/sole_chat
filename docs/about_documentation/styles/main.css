@@ -6,11 +6,26 @@ body {
 	line-height: 1.4;
 }
 
+div.sections {
+	padding: 1em 0;
+}
+
+.embed-responsive-item.centered.no-border-iframe {
+	border: none;
+	max-width: 768px;
+	max-height: 432px;
+	width: 80vw;
+	height: 45vw;
+	border-radius: 5px;
+	box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
+}
+
 /*
  * Remove text-shadow in selection highlight: h5bp.com/i
  * These selection rule sets have to be separate.
  * Customize the background color to match your design.
  */
+
 
 ::-moz-selection {
  background: #f2c2c9;
@@ -584,6 +599,7 @@ ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li
 .large-logo {
 	height: 6.5em;
 	background: inherit;
+	margin-bottom: 2em;
 }
 
 .block-lowpoly {
