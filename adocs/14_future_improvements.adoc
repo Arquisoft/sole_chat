@@ -7,15 +7,9 @@
 
 |Future improvements 
 
-|Add end-to-end encryprition to messages.
+|Add end-to-end encryprition to messages. 
 
-| Desktop notifications 
-
-| Being able to do video calls
-
-| Button for emojis
-
-| Find friends search bar when starting a chat
+| Being able to do video calls 
 
 | Adding friends from Sole directly without depending on the POD
 

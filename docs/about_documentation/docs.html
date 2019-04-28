@@ -580,7 +580,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </tbody>
 </table>
 <div class="paragraph">
-<p>A more complete list of the requirements can be found at: <a href="https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/13_requirement_document.adoc" class="bare">https://github.com/Arquisoft/dechat_en2b/blob/master/adocs/13_requirement_document.adoc</a>
+<p>A more complete list of the requirements can be found at: <a href="https://github.com/Arquisoft/sole_chat/blob/master/adocs/13_requirement_document.adoc" class="bare">https://github.com/Arquisoft/sole_chat/blob/master/adocs/13_requirement_document.adoc</a>
 === Quality Goals</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -600,7 +600,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application should work properly with at least 100 users working concurrently.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application should work properly with at least 10 users working concurrently.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
@@ -955,7 +955,7 @@ Mainly what Sole does is providing the users with a decentralized chat where the
 <h3 id="_building_block_view_diagram">5.2. Building Block View Diagram</h3>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/BuildingBlockView.png" alt="Building Block View">
+<img src="https://raw.githubusercontent.com/Arquisoft/sole_chat/master/adocs/images/BlockView.png" alt="Building Block View">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1027,7 +1027,10 @@ Mainly what Sole does is providing the users with a decentralized chat where the
 <p>In this level we have The Solid Platform that is the foundation of the project, it provides the PODs and each user has a unique one. The chat is accessed by the user using this PODs  to communicate between them. We also have external libraries that are written in the package.json they are the dependencies and we can also update them with command “npm install”. Testing our applications is also in this level.</p>
 </div>
 <div class="paragraph">
-<p>In the next level we can see zoom in Chat and Tests</p>
+<p>We can see the two users that want to chat using Sole, so they have to communicate with the chat using their own pods.</p>
+</div>
+<div class="paragraph">
+<p>In the next level we can see zoom in Chat.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1067,7 +1070,7 @@ That file will be stored in your POD and you and the participants of the group (
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/RuntimeView.png" alt="Runtime View Diagram">
+<img src="https://raw.githubusercontent.com/Arquisoft/sole_chat/master/adocs/images/RuntimeView.png" alt="Runtime View Diagram">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -1085,7 +1088,7 @@ So, a user that is using the chat, is interacting with Solid and this is taking 
 <h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/DeploymentView.png" alt="Deployment View">
+<img src="https://raw.githubusercontent.com/Arquisoft/sole_chat/master/adocs/images/DeploymentView2.png" alt="Deployment View">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1155,14 +1158,14 @@ So, a user that is using the chat, is interacting with Solid and this is taking 
 <p>In each POD inside public folder, and inside sole folder there&#8217;s a ChatIndex.ttl that contains a reference to active chats.</p>
 </div>
 <div class="paragraph">
-<p>Then, in /chatEmi folder is where the elements of the chat with Emi user are.
+<p>Then, in a folder with random name is where the elements of the chat with Emi user are.
 And inside this folder, there&#8217;s index.ttl that contains the messages of the chat with Emi.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_user_interface">8.3. <em>User Interface</em></h3>
 <div class="paragraph">
-<p>Our interface in order to be intuitive and easy to use, it has different colors (also prepared for blind-color people), as a first view everything seems to be clean and easy to understand. It also has a good contrast, the chat is familiar and confortable for the person who is using it.
+<p>Our interface in order to be intuitive and easy to use, it has different colors (also prepared for color-blinded people), as a first view everything seems to be clean and easy to understand. It also has a good contrast, the chat is familiar and confortable for the person who is using it.
 It has internal coherence and a clear hierarchy, is efficiency, giving more priority to the most important things.</p>
 </div>
 </div>
@@ -1234,7 +1237,7 @@ Its structure and function relies on the Solid pod that changes with every user,
 <div class="sect2">
 <h3 id="_quality_tree">10.1. Quality Tree</h3>
 <div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/Arquisoft/dechat_en2b/master/adocs/images/qualityAttributesTree.png" alt="Quality Tree"></span></p>
+<p><span class="image"><img src="https://raw.githubusercontent.com/Arquisoft/sole_chat/master/adocs/images/qualityAttributesTree.png" alt="Quality Tree"></span></p>
 </div>
 </div>
 <div class="sect2">
@@ -1429,6 +1432,14 @@ to work with such a big group</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stands for Resource Description Framework and is a standard for data interchange, developed and agreed upon by W3C.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TDD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stands for Test Driven Development. Is a software development process that relies on the repetition of a very short development cycle.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BDD</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stands for Behavior Driven Development. Evolution of TDD that combines the general techniques and principles of TDD with ideas from domain-driven design and object-oriented analysis and design.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Selenium</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Open source tool which is used for automating the tests carried out on web browsers.</p></td>
 </tr>
@@ -1577,10 +1588,10 @@ and defined clearly.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Add end-to-end encryprition to messages.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Desktop notifications</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Being able to do video calls</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Being able to to video calls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adding friends from Sole directly without depending on the POD</p></td>
 </tr>
 </tbody>
 </table>
