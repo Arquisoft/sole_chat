@@ -128,3 +128,10 @@ Then(/^I introduce my credentials$/, async () => {
 Then(/^I click on new friend button$/, async () => {
     await page.clickOnNewFriendButton();
 });
+Then(/^I click on new friend field$/, async () => {
+    await page.clickOnNewFriendField();
+});
+Then(/^I introduce my friend's WebId$/, async () => {
+    await page.introduceFriendWebId();
+});
+

@@ -118,6 +118,14 @@ export class AppPage {
         this.sleep(3000);
         return element(by.id('newFriendButton')).click();
     }
+    clickOnNewFriendField () {
+        this.sleep(3000);
+        return element(by.id('newFriendField')).click();
+    }
+    introduceFriendWebId () {
+        this.sleep(3000);
+        return element(by.id('newFriendField')).sendKeys('https://Test2.solid.community/profile/card#me.');
+    }
 
     // This function is used to reduce the speed of the test
     // in order to avoid errors when running the tests
