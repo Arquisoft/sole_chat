@@ -29,7 +29,7 @@ A more complete list of the requirements can be found at: https://github.com/Arq
 |===
 |Priority |Quality goal |Scenario
 
-|1 |Performance |The application should work properly with at least 100 users working concurrently.
+|1 |Performance |The application should work properly with at least 10 users working concurrently.
 
 |2 |Availability |The data that a user has shared with a friend should be always available when one of them wants to access them (altough the other has no connection)
 

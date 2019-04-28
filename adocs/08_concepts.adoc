@@ -22,7 +22,7 @@ And this is how our messages work of our system:
 
 In each POD inside public folder, and inside sole folder there's a ChatIndex.ttl that contains a reference to active chats. 
 
-Then, in /chatEmi folder is where the elements of the chat with Emi user are. 
+Then, in a folder with random name is where the elements of the chat with Emi user are. 
 And inside this folder, there's index.ttl that contains the messages of the chat with Emi.
 
 
