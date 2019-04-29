@@ -932,7 +932,8 @@ export class RdfService {
         });
     }
 
-    async addParticipants(chatDirection, friends) {
+    async addParticipants(chatDirection, friends, funcCallback) {
+        let errors = [];
         let insertions = [];
         let deletions = [];
         let doc = $rdf.sym(chatDirection + '/index.ttl');
@@ -949,6 +950,7 @@ export class RdfService {
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) {
                 console.log('Error: ' + message);
+                errors.push(message);
             }
         });
 
@@ -964,10 +966,18 @@ export class RdfService {
             statement = $rdf.st(subject, predicate, object, doc);
             insertions.push(statement);
         }
-
+        
         this.updateManager.update(deletions, insertions, (uri, ok, message) => {
             if (!ok) {
                 console.log('Error: ' + message);
+                errors.push(message);
+                funcCallback(false);
+            } else {
+                if (errors.length == 0) {
+                    funcCallback(true);
+                } else {
+                    funcCallback(false);
+                }
             }
         });
     }

@@ -158,7 +158,7 @@
                 </button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetCheckedElements()">Close</button>
                 <button id="newChatButton2" type="button" id="buttonCreateChat" class="btn btn-primary"
                         (click)="createNewChat()" data-dismiss="modal">Create chat
                 </button>
@@ -245,8 +245,8 @@
                 </button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="newChatButton2" type="button" id="buttonCreateChat" class="btn btn-primary"
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetCheckedElements()">Close</button>
+                <button type="button" id="buttonAddParticipant" class="btn btn-primary"
                         (click)="addParticipants()" data-dismiss="modal">Add to group
                 </button>
             </div>
