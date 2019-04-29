@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as fileManager from 'solid-file-client';
-import {componentNeedsResolution} from '@angular/core/src/metadata/resource_loading';
-import {RdfService} from './rdf.service';
+import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
+import { RdfService } from './rdf.service';
 
 @Injectable({
     providedIn: 'root'
@@ -22,8 +22,8 @@ export class FileManagerService {
     async createSoleFolder(webId) {
         let direction = webId.split('/profile')[0] + '/public/Sole';
         await fileManager.readFolder(direction).then((body) => {
-                console.log('Reading Sole folder');
-            },
+            console.log('Reading Sole folder');
+        },
             async (err) => {
                 if (err.includes('Not Found')) {
                     await fileManager.createFolder(direction).then(success => {
@@ -34,23 +34,23 @@ export class FileManagerService {
                 } else {
                     console.log(err);
                 }
-            });            
+            });
     }
 
     async createNotificationsFile(webId) {
         let notificationsDirection = webId.split('/profile')[0] + '/inbox/sole_notifications.ttl';
-        await fileManager.readFile(notificationsDirection).then((body) => {},
-        async (err) => {
-            if (err.includes('Not Found')) {
-                let content = '@prefix : <#>.\n';
-                await fileManager.createFile(notificationsDirection, content).then(
-                    (fileCreated) => {
-                        console.log(`Created file ${fileCreated}.`);
-                });
-            } else {
-                console.log(err);
-            }
-        });
+        await fileManager.readFile(notificationsDirection).then((body) => { },
+            async (err) => {
+                if (err.includes('Not Found')) {
+                    let content = '@prefix : <#>.\n';
+                    await fileManager.createFile(notificationsDirection, content).then(
+                        (fileCreated) => {
+                            console.log(`Created file ${fileCreated}.`);
+                        });
+                } else {
+                    console.log(err);
+                }
+            });
     }
 
     async createACLSole(direction, webId) {
@@ -86,15 +86,19 @@ export class FileManagerService {
             });
     }
 
-    async addChatNotification(chatDirection, friendId, webId) {
-        let direction = friendId.split('/profile')[0] + '/inbox/soleChatNot' + Date.now() + '.ttl';
-        let content = '@prefix : <#>.\n' +
-        '@prefix prov: <https://www.w3.org/ns/prov#>.\n' +
-        ':this prov:Create <' + chatDirection + '>; \n' + 
-        'prov:Creator <' + webId + '>.';
-        
-        await fileManager.createFile(direction, content).then(
-            (fileCreated) => { });      
+    async addChatNotification(chatDirection, friendId) {
+        await fileManager.popupLogin().then(async (webId) => {
+            if (friendId != webId) {
+                let direction = friendId.split('/profile')[0] + '/inbox/soleChatNot' + Date.now() + '.ttl';
+                let content = '@prefix : <#>.\n' +
+                    '@prefix prov: <https://www.w3.org/ns/prov#>.\n' +
+                    ':this prov:Create <' + chatDirection + '>; \n' +
+                    'prov:Creator <' + webId + '>.';
+
+                await fileManager.createFile(direction, content).then(
+                    (fileCreated) => { });
+            }
+        });
     }
 
     async addChatToIndex(chat, webId) {
@@ -124,7 +128,7 @@ export class FileManagerService {
 
         await fileManager.readFile(direction).then(
             (body) => {
-                this.rdf.createMessage(message, direction);            
+                this.rdf.createMessage(message, direction);
             },
             (err) => {
                 console.log(err);
@@ -175,7 +179,7 @@ export class FileManagerService {
             });
     }
 
-    
+
 
     async getMessages(displayedMessages, chatDirection) {
         let direction = chatDirection + '/index.ttl';
@@ -195,7 +199,7 @@ export class FileManagerService {
         let direction = chatDirection + '/index.ttl';
 
         await fileManager.popupLogin().then((webId) => {
-            this.rdf.getLastMessage(displayedMessages, direction);            
+            this.rdf.getLastMessage(displayedMessages, direction);
         });
     }
 
@@ -206,7 +210,7 @@ export class FileManagerService {
             this.addChatToIndex(direction, id);
             for (let i = 0; i < users.length; i++) {
                 this.addChatToIndex(direction, users[i].id);
-                this.addChatNotification(direction, users[i].id, id);
+                this.addChatNotification(direction, users[i].id);
             }
         });
     }
@@ -220,49 +224,68 @@ export class FileManagerService {
     }
 
     async getChatNotifications() {
-        await fileManager.popupLogin().then(async (id) => {  
+        await fileManager.popupLogin().then(async (id) => {
             let names = [];
             let direction = id.split('/profile')[0] + '/inbox';
             await fileManager.readFolder(direction).then(folder => {
-                for(let i = 0; i < folder.files.length; i++) {
+                for (let i = 0; i < folder.files.length; i++) {
                     let name = folder.files[i].name;
                     if (name.startsWith("soleChatNot")) {
-                        names.push(name);    
+                        names.push(name);
                     }
                 }
                 this.rdf.getChatNotifications(names, this);
-            }, err => console.log(err) );
-        }, (err) => { console.log(err)});        
+            }, err => console.log(err));
+        }, (err) => { console.log(err) });
     }
 
     async deleteFile(direction) {
         fileManager.deleteFile(direction).then(success => {
             console.log(`Deleted ${direction}.`);
-        }, err => console.log(err) );
+        }, err => console.log(err));
     }
 
     async sendMultimedia(direction, files) {
-        fileManager.popupLogin().then( async ()=>{         
-            for(let i=0; i<files.length; i++){
+        fileManager.popupLogin().then(async () => {
+            for (let i = 0; i < files.length; i++) {
                 let name = files[i].name.replace(" ", "_");
                 let URI = direction + '/' + name;
                 let content = files[i];
-                await fileManager.updateFile(URI, content).then( res=> {
+                await fileManager.updateFile(URI, content).then(res => {
                     this.rdf.createMessageForMultimedia(URI, direction + '/index.ttl');
-                }, err=>{console.log("upload error : "+err)});
+                }, err => { console.log("upload error : " + err) });
             }
-        }, err=>{console.log("login error : "+err)});
+        }, err => { console.log("login error : " + err) });
     }
 
     async addGroupPhoto(direction, file, funcCallback) {
-        fileManager.popupLogin().then( async ()=>{         
+        fileManager.popupLogin().then(async () => {
             let name = file.name.replace(" ", "_");
             let URI = direction + '/' + name;
-            await fileManager.updateFile(URI, file).then( res=> {
+            await fileManager.updateFile(URI, file).then(res => {
                 this.rdf.addPhotoToChat(URI, direction + '/index.ttl', funcCallback);
-            }, err=>{console.log("upload error : "+err)});
-            
-        }, err=>{console.log("login error : "+err)});
+            }, err => { console.log("upload error : " + err) });
+
+        }, err => { console.log("login error : " + err) });
+    }
+
+    async addParticipants(chatDirection, friends, funcCallback) { 
+        this.updateFriendsIndexes(chatDirection, friends);
+        this.rdf.addParticipants(chatDirection, friends, function(success) {
+            if (success) {
+                funcCallback(true);
+            } else {
+                funcCallback(false);
+            }
+        });
+    }
+
+    async updateFriendsIndexes(chatDirection, friends) {
+        console.log("Updating friends indexes");
+        for (let i = 0; i < friends.length; i++) {
+            this.addChatToIndex(chatDirection, friends[i].id);
+            this.addChatNotification(chatDirection, friends[i].id);
+        }
     }
 }
 

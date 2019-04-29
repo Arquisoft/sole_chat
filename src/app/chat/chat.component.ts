@@ -240,8 +240,25 @@ export class ChatComponent implements OnInit {
         }
     }
 
+    resetCheckedElements() {
+        let elements = document.getElementsByClassName('chooserItem checked');
+        console.log(elements);
+        for (let i = 0; i < elements.length; i++) {
+            let element = elements[i];
+            if (elements[i].tagName != 'DIV') {
+                element = elements[i].parentElement;
+            }
+            element.classList.remove('checked');
+        }
+        var checkBoxes = document.querySelectorAll('input[type=checkbox]:checked');
+        for (let i = 0; i < checkBoxes.length; i++) {
+            (<HTMLInputElement>(<any>checkBoxes[i])).checked = false;
+        }
+    }
+
     createGroupChat(users, name): any {
         this.fileManager.createChat(users, name);
+        this.toastr.info('You have created a new group chat: ' + name);
     }
 
     async createSingleUserChat(users) {
@@ -316,8 +333,18 @@ export class ChatComponent implements OnInit {
             (<HTMLInputElement>(<any>checkBoxes[i])).checked = false;
         }
 
+        let chatMan = this;
         if (selected.length != 0) {
-            this.rdf.addParticipants(this.chat.direction, selected);
+            this.rdf.addParticipants(this.chat.direction, selected, function(success) {
+                if (success) {
+                    chatMan.fileManager.updateFriendsIndexes(chatMan.chat.direction, selected);
+                    chatMan.chatList.getChatList();
+                    chatMan.chat = null;
+                    chatMan.toastr.info('The participants were added correctly', 'Participants added');
+                } else {
+                    chatMan.toastr.error('Could not add participants to the chat', 'Error');
+                }
+            });
         }
     }
 
