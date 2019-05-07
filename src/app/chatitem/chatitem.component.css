@@ -1,6 +1,17 @@
 .userItem:hover {
-    opacity: 0.75;
+    /* opacity: 0.75; */
+    background: rgb(247, 245, 245);
 }
+.userItem:hover #chatOptions{
+   
+    visibility: visible;
+}
+
+.userItem:hover .show{
+    opacity: 1;
+    cursor: pointer;
+}
+
 
 .chatCard {
     display: flex;
@@ -102,3 +113,8 @@
         transform: translate3d(4px, 0, 0);
     }
 }
+
+#chatOptions{
+   visibility: hidden;
+}
+

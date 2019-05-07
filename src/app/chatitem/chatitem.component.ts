@@ -24,6 +24,10 @@ export class ChatitemComponent implements OnInit {
 
 	ngOnInit() {
 		this.addNotificationsListener();
+		$(".userItem").mouseleave(function(){
+			$(".dropdown-menu").removeClass("show")//para que desaparezca el dropdown cuando se va el raton
+		
+		  });
 	}
 
 	changeUser() {
@@ -112,4 +116,15 @@ export class ChatitemComponent implements OnInit {
 		/*this.lastMessage = 'New messages: ';
 		this.newMessagesCount++;*/
 	}
+
+	deleteChat(event){
+		event.stopPropagation();
+		console.log("deleting chat")
+	}
+
+	deleteGroup(event){
+		event.stopPropagation();
+		console.log("deleting group")
+	}
+
 }

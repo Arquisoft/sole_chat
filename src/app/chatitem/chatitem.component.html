@@ -5,13 +5,42 @@
     </div>
     <div class="chatInfo">
       <div class="chatName">
-          {{chat.name}}
+        {{chat.name}}
+
+
       </div>
-      
-      <div class="lastMessag chatPreview"  >
+
+
+
+      <div class="lastMessag chatPreview">
         <span *ngIf="ownLastMessage"><img width="10px" src="assets/icons/checked.svg"></span>
         {{lastMessage}}
-        <span  *ngIf="newMessagesCount>0" class="badge badge-pill badge-warning">{{newMessagesCount}}</span>
+        <span *ngIf="newMessagesCount>0" class="badge badge-pill badge-warning">{{newMessagesCount}}</span>
+      </div>
+
+      <div class="sole-dropdown dropleft" id="chatOptions">
+        <button type="button" class="btn "  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+          <img src="assets/icons/icon-dropdown.svg" />
+        </button>
+        <div class="dropdown-menu sole-dropdown dropdown-menu-right">
+
+          <div *ngIf="chat.isGroup">
+
+            <label for="deleteGroup" class="sendFilesLabel" style="cursor: pointer">Delete group</label>
+
+            <button type="button" id="deleteGroup" style="display: none"  (click)="deleteGroup($event)"></button>
+
+          </div>
+          <div *ngIf="!chat.isGroup">
+
+            <label for="deleteChat" class="sendFilesLabel" style="cursor: pointer">Delete chat</label>
+
+            <button type="button" id="deleteChat" style="display: none" (click)="deleteChat($event)"></button>
+
+          </div>
+
+        </div>
+
       </div>
     </div>
 
