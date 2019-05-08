@@ -69,10 +69,6 @@ export class ChatitemComponent implements OnInit {
 	updateLastMessage(firstUpdate:boolean=false) {
 	
 		var updateLast = function(chatitem, mess) {
-			//console.log(mess);
-
-			
-
 			const maxLength = 14;
 			if (mess.content.length > maxLength) {
 				chatitem.lastMessage = mess.content.substring(0, maxLength);
@@ -122,9 +118,9 @@ export class ChatitemComponent implements OnInit {
 		console.log("deleting chat")
 	}
 
-	deleteGroup(event){
+	leaveGroup(event){
 		event.stopPropagation();
-		console.log("deleting group")
+		this.rdf.leaveGroup(this.chat.direction);
 	}
 
 }

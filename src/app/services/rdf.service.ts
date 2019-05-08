@@ -1096,4 +1096,39 @@ export class RdfService {
             }
         });
     }
+
+    async leaveGroup(chatDirection) {
+        this.removeMeFromChat(chatDirection);
+        this.removeFromChatIndex(chatDirection);
+    }
+
+    async removeMeFromChat(chatDirection) {
+        const chatURL = chatDirection + "/index.ttl";
+        const subject = $rdf.sym(chatURL + "#this");
+        const doc = $rdf.sym(chatURL);
+        const predicateParticipates = $rdf.sym(FLOW('participation'));
+        const object = $rdf.sym(this.session.webId);
+        const statement = $rdf.st(subject, predicateParticipates, object, doc);
+
+        this.updateManager.update(statement, [], (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
+            } 
+        });
+    }
+
+    async removeFromChatIndex(chatDirection) {
+        const chatIndex = this.session.webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl';
+        const doc = $rdf.sym(chatIndex);
+        const subject = $rdf.sym(chatIndex + '#this');
+        const predicateParticipates = $rdf.sym(FLOW('participation'));
+        const object = $rdf.sym(chatDirection);
+        const statement = $rdf.st(subject, predicateParticipates, object, doc);
+
+        this.updateManager.update(statement, [], (uri, ok, message) => {
+            if (!ok) {
+                console.log('Error: ' + message);
+            } 
+        });
+    }
 }

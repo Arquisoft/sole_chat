@@ -281,7 +281,6 @@ export class FileManagerService {
     }
 
     async updateFriendsIndexes(chatDirection, friends) {
-        console.log("Updating friends indexes");
         for (let i = 0; i < friends.length; i++) {
             this.addChatToIndex(chatDirection, friends[i].id);
             this.addChatNotification(chatDirection, friends[i].id);

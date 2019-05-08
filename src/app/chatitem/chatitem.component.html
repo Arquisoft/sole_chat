@@ -26,9 +26,9 @@
 
           <div *ngIf="chat.isGroup">
 
-            <label for="deleteGroup" class="sendFilesLabel" style="cursor: pointer">Delete group</label>
+            <label for="deleteGroup" class="sendFilesLabel" style="cursor: pointer">Leave group</label>
 
-            <button type="button" id="deleteGroup" style="display: none"  (click)="deleteGroup($event)"></button>
+            <button type="button" id="deleteGroup" style="display: none"  (click)="leaveGroup($event)"></button>
 
           </div>
           <div *ngIf="!chat.isGroup">
