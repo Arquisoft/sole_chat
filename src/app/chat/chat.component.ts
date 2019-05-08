@@ -257,19 +257,24 @@ export class ChatComponent implements OnInit {
     }
 
     createGroupChat(users, name): any {
-        this.fileManager.createChat(users, name);
+        this.fileManager.createChat(users, name, function() {
+            this.chatList.getChatList();
+            this.chat = null;
+        });
         this.toastr.info('You have created a new group chat: ' + name);
     }
 
     async createSingleUserChat(users) {
         let name = users[0].id.split('://')[1].split('.')[0];
-        let exists = false;
         await this.rdf.lookForChat(users[0].id, (exists) => {
             if (exists) {
                 this.toastr.error('You already have a one-to-one chat with ' + users[0].id);
             } else {
                 this.toastr.info('You have created a new chat with ' + users[0].id);
-                this.fileManager.createChat(users, name);
+                this.fileManager.createChat(users, name, function() {
+                    this.chatList.getChatList();
+                    this.chat = null;
+                });
             }
         });
     }

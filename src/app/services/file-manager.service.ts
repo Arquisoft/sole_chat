@@ -203,7 +203,7 @@ export class FileManagerService {
         });
     }
 
-    async createChat(users: any, name: any) {
+    async createChat(users: any, name: any, functionCallback) {
         await fileManager.popupLogin().then((id) => {
             const direction = id.split('/profile')[0] + '/public/Sole/Chat' + Date.now();
             this.createFolderForChat(id, direction, users, name);
@@ -213,6 +213,7 @@ export class FileManagerService {
                 this.addChatNotification(direction, users[i].id);
             }
         });
+        functionCallback();
     }
 
     async getActiveChats(chats) {
