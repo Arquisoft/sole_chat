@@ -22,7 +22,6 @@ export class DashboardComponent implements OnInit {
   constructor(private auth: AuthService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    console.log('hello');
     this.loadSession();
   }
 
