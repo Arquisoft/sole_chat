@@ -5,7 +5,6 @@ import { SolidProfile } from '../models/solid-profile.model';
 import { RdfService } from '../services/rdf.service';
 import { AuthService } from '../services/solid.auth.service';
 
-
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
