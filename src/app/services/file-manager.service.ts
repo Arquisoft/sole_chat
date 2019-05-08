@@ -253,9 +253,13 @@ export class FileManagerService {
                 let content = files[i];
                 await fileManager.updateFile(URI, content).then(res => {
                     this.rdf.createMessageForMultimedia(URI, direction + '/index.ttl');
-                }, err => { console.log("upload error : " + err) });
+                }, err => { 
+                    console.log("upload error : " + err);
+                });
             }
-        }, err => { console.log("login error : " + err) });
+        }, err => { 
+            console.log("login error : " + err);
+        });
     }
 
     async addGroupPhoto(direction, file, funcCallback) {

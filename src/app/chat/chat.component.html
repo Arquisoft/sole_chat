@@ -4,7 +4,7 @@
 
         <input type="text" class="standardTextInput" id="searchBoxRecentChats" placeholder="🔎 Search chats">
         <div class="chatList ">
-            <app-chatlist #chatList></app-chatlist>
+            <app-chatlist #chatList (chatListEvent)="update($event)"></app-chatlist>
         </div>
         <button id="newChatButton" (click)="clearSearch('searchBoxRecentChats')" type="button" class="btn btn-primary" data-toggle="modal"
                 data-target="#newChatDialog">

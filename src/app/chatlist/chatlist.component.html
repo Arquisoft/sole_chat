@@ -1,5 +1,5 @@
 <div [className]="chatList.length == 0 ? 'recentChats empty' : 'recentChats'" >
-    <app-chatitem
+    <app-chatitem (chatItemEvent)="update($event)"
             [chat]=chat *ngFor="let chat of chatList">
     </app-chatitem>
 

@@ -1097,38 +1097,58 @@ export class RdfService {
         });
     }
 
-    async leaveGroup(chatDirection) {
-        this.removeMeFromChat(chatDirection);
-        this.removeFromChatIndex(chatDirection);
+    async leaveGroup(chatDirection, functionCallback) {
+        let rdfMan = this;
+        this.removeMeFromChat(chatDirection, function(success) {
+            if (success) {
+                rdfMan.removeFromChatIndex(chatDirection, function(suc) {
+                    if (suc) {
+                        functionCallback(true);
+                    } else {
+                        functionCallback(false);
+                    }
+                });
+            } else {
+                functionCallback(false);
+            }
+        });      
     }
 
-    async removeMeFromChat(chatDirection) {
+    async removeMeFromChat(chatDirection, functionCallback) {
         const chatURL = chatDirection + "/index.ttl";
         const subject = $rdf.sym(chatURL + "#this");
         const doc = $rdf.sym(chatURL);
         const predicateParticipates = $rdf.sym(FLOW('participation'));
         const object = $rdf.sym(this.session.webId);
         const statement = $rdf.st(subject, predicateParticipates, object, doc);
+        console.log(statement);
 
         this.updateManager.update(statement, [], (uri, ok, message) => {
             if (!ok) {
                 console.log('Error: ' + message);
-            } 
+                functionCallback(false);
+            } else {
+                functionCallback(true);
+            }
         });
     }
 
-    async removeFromChatIndex(chatDirection) {
+    async removeFromChatIndex(chatDirection, functionCallback) {
         const chatIndex = this.session.webId.split('/profile')[0] + '/public/Sole/chatsIndex.ttl';
         const doc = $rdf.sym(chatIndex);
         const subject = $rdf.sym(chatIndex + '#this');
         const predicateParticipates = $rdf.sym(FLOW('participation'));
         const object = $rdf.sym(chatDirection);
         const statement = $rdf.st(subject, predicateParticipates, object, doc);
+        console.log(statement);
 
         this.updateManager.update(statement, [], (uri, ok, message) => {
             if (!ok) {
                 console.log('Error: ' + message);
-            } 
+                functionCallback(false);
+            } else {
+                functionCallback(true);
+            }
         });
     }
 }

@@ -403,6 +403,9 @@ export class ChatComponent implements OnInit {
                 this.toastr.error('The photo of the group could not be changed', 'Error');
             }
         });
+    }
 
+    update(event) {
+        this.chat = null;
     }
 }

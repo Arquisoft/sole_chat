@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {RdfService} from '../services/rdf.service';
 import {FileManagerService} from '../services/file-manager.service';
 
@@ -8,7 +8,7 @@ import {FileManagerService} from '../services/file-manager.service';
   styleUrls: ['./chatlist.component.css']
 })
 export class ChatlistComponent implements OnInit {
-
+  @Output() chatListEvent = new EventEmitter<string>();
   chatList;
 
   constructor(private fileManager: FileManagerService,  private rdf: RdfService) {
@@ -45,5 +45,10 @@ export class ChatlistComponent implements OnInit {
   async getChatList() {
     this.chatList = [];
     await this.fileManager.getActiveChats(this.chatList);
+  }
+
+  update(event) {
+    this.getChatList();
+    this.chatListEvent.emit('eventDesc');
   }
 }

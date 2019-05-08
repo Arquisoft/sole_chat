@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { ChangeChatService } from '../services/change-chat.service';
 import { RdfService } from '../services/rdf.service';
 import { FileManagerService } from '../services/file-manager.service';
+import {ToastrService} from 'ngx-toastr';
 
 declare var $: any;
 @Component({
@@ -12,13 +13,16 @@ declare var $: any;
 export class ChatitemComponent implements OnInit {
 	@ViewChild("app-chatitem") el:ElementRef;
 	@Input() chat;
+	@Output() chatItemEvent = new EventEmitter<string>();
 	lastMessage: string = null;
 	newMessagesCount: number = 0;
 	ownLastMessage:boolean=true;
 	buzzing:boolean=false;
+
 	constructor(
 		private changeChat: ChangeChatService,
 		private rdf: RdfService,
+		private toastr: ToastrService,
 		private fileManager: FileManagerService
 	) {}
 
@@ -120,7 +124,16 @@ export class ChatitemComponent implements OnInit {
 
 	leaveGroup(event){
 		event.stopPropagation();
-		this.rdf.leaveGroup(this.chat.direction);
-	}
+		let chatItem = this;		
+		let chatDirection = event.target.id.split("leaveGroup")[1];
 
+		this.rdf.leaveGroup(chatDirection, function(success) {
+			if (success) {
+				chatItem.chatItemEvent.emit('eventDesc');
+				chatItem.toastr.info("You have left the group successfully", "Group left");
+			} else {
+				chatItem.toastr.error("There was an error while leaving the chat", "Error");		
+			}
+		});
+	}
 }
