@@ -12,16 +12,14 @@ image:https://api.codacy.com/project/badge/Grade/fc7dc1da60ee4e9fb67ccff78262579
 * Emilio Cortina
 * Ana Junquera
 
-== Build documentation
 
-The documentation is done in http://asciidoc.org/[AsciiDoc]
-using the https://arc42.org/[arc42] templates.
-The source documents are located at
- https://github.com/Arquisoft/sole_chat/tree/master/adocs[/adocs].
+== What is Sole?
+We have created an informative website for the project to better explain what Sole Chat offers.
+This webpage can be accessed on this https://arquisoft.github.io/sole_chat/about_documentation/[link].
 
-Using Angular and the
-https://asciidoctor.org/[AsciiDoctor plugin] it is possible to generate
-the documentation running previously having installed the gulp plugin in angular:
+== Online application
+This application can be either download and deployed on your computer or run directly from your browser the already deployed version.
+If you choose the latter, the application can be accessed on this https://arquisoft.github.io/sole_chat/[link].
 
 ----
 gulp
@@ -29,7 +27,7 @@ gulp
 
 == Compile and run
 
-The project is a simple application which can be run as:
+The project is an Angular application which once downloaded can be run as:
 
 ----
  ng serve -o
@@ -52,6 +50,17 @@ To run tests execute:
 ----
 ng e2e
 ----
+
+== Build documentation
+
+The documentation is done in http://asciidoc.org/[AsciiDoc]
+using the https://arc42.org/[arc42] templates.
+The source documents are located at
+ https://github.com/Arquisoft/sole_chat/tree/master/adocs[/adocs].
+
+Using Angular and the
+https://asciidoctor.org/[AsciiDoctor plugin] it is possible to generate
+the documentation running previously having installed the gulp plugin in angular:
 
 == Site documentation
 
