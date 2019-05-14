@@ -1,6 +1,5 @@
-.userItem:hover {
-    /* opacity: 0.75; */
-    background: rgb(247, 245, 245);
+.userItem:hover .chatName{
+    text-decoration: underline;
 }
 .userItem:hover #chatOptions{
    
@@ -53,6 +52,16 @@
     overflow: hidden;
 }
 
+.dropdown-menu.sole-dropdown {
+    box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.185);
+    border: none;
+    padding-left: 1em;
+    justify-self: flex-end;
+}
+
+.dropdown-menu.sole-dropdown label:hover {
+    opacity: 0.8;
+}
 @media (max-width: 1200px) {
     .chatCard {
         flex-direction: column;
