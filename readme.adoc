@@ -18,7 +18,7 @@ We have created an informative website for the project to better explain what So
 This webpage can be accessed on this link: https://arquisoft.github.io/sole_chat/about_documentation/[website].
 
 == Online application
-This application can be either download and deployed on your computer or run directly from your browser the already deployed version.
+You can either download and deploy the application on your computer or run directly from your browser the already deployed version.
 If you choose the latter, the application can be accessed on this link: https://arquisoft.github.io/sole_chat/[application].
 
 == Compile and run
