@@ -15,15 +15,11 @@ image:https://api.codacy.com/project/badge/Grade/fc7dc1da60ee4e9fb67ccff78262579
 
 == What is Sole?
 We have created an informative website for the project to better explain what Sole Chat offers.
-This webpage can be accessed on this https://arquisoft.github.io/sole_chat/about_documentation/[link].
+This webpage can be accessed on this link: https://arquisoft.github.io/sole_chat/about_documentation/[website].
 
 == Online application
 This application can be either download and deployed on your computer or run directly from your browser the already deployed version.
-If you choose the latter, the application can be accessed on this https://arquisoft.github.io/sole_chat/[link].
-
-----
-gulp
-----
+If you choose the latter, the application can be accessed on this link: https://arquisoft.github.io/sole_chat/[application].
 
 == Compile and run
 
@@ -61,6 +57,10 @@ The source documents are located at
 Using Angular and the
 https://asciidoctor.org/[AsciiDoctor plugin] it is possible to generate
 the documentation running previously having installed the gulp plugin in angular:
+
+----
+gulp
+----
 
 == Site documentation
 
